@@ -55,26 +55,27 @@ jobs:
         shell: bash
         run: ./gradlew assembleDebug --stacktrace --console=plain
 
-      # The build runner never receives signing, decryption, or release secrets.
+      # Password-based encryption avoids local age key generation.
       - name: Encrypt APK for isolated publishing runner
         env:
-          AGE_RECIPIENT: ${{ vars.DREAMMEMORY_AGE_RECIPIENT }}
+          ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
         shell: bash
         run: |
           set -euo pipefail
-          test -n "${AGE_RECIPIENT:-}" || { echo "Missing repository variable DREAMMEMORY_AGE_RECIPIENT"; exit 1; }
+          test -n "${ARTIFACT_PASSWORD:-}" || { echo "Missing repository secret DREAMMEMORY_ARTIFACT_PASSWORD"; exit 1; }
           apk="app/build/outputs/apk/debug/app-debug.apk"
           test -f "$apk" || { echo "APK not found: $apk"; exit 1; }
-          sudo apt-get update
-          sudo apt-get install -y age
           mkdir -p "$RUNNER_TEMP/dreammemory-transfer"
-          age --recipient "$AGE_RECIPIENT" --output "$RUNNER_TEMP/dreammemory-transfer/dreammemory-apk.age" "$apk"
+          openssl enc -aes-256-cbc -pbkdf2 -salt \
+            -in "$apk" \
+            -out "$RUNNER_TEMP/dreammemory-transfer/dreammemory-apk.enc" \
+            -pass env:ARTIFACT_PASSWORD
 
       - name: Upload encrypted APK only
         uses: actions/upload-artifact@v6
         with:
           name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/dreammemory-transfer/dreammemory-apk.age
+          path: ${{ runner.temp }}/dreammemory-transfer/dreammemory-apk.enc
           if-no-files-found: error
           retention-days: 1
 
@@ -92,26 +93,17 @@ jobs:
           name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/encrypted
 
-      - name: Install age
-        shell: bash
-        run: |
-          set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install -y age
-
       - name: Decrypt APK on isolated publishing runner
         env:
-          DREAMMEMORY_AGE_IDENTITY: ${{ secrets.DREAMMEMORY_AGE_IDENTITY }}
+          ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
         shell: bash
         run: |
           set -euo pipefail
-          test -n "${DREAMMEMORY_AGE_IDENTITY:-}" || { echo "Missing repository secret DREAMMEMORY_AGE_IDENTITY"; exit 1; }
-          printf '%s\n' "$DREAMMEMORY_AGE_IDENTITY" > "$RUNNER_TEMP/age-identity.txt"
-          chmod 600 "$RUNNER_TEMP/age-identity.txt"
-          age --decrypt --identity "$RUNNER_TEMP/age-identity.txt" \
-            --output "$RUNNER_TEMP/app-debug.apk" \
-            "$RUNNER_TEMP/encrypted/dreammemory-apk.age"
-          rm -f "$RUNNER_TEMP/age-identity.txt"
+          test -n "${ARTIFACT_PASSWORD:-}" || { echo "Missing repository secret DREAMMEMORY_ARTIFACT_PASSWORD"; exit 1; }
+          openssl enc -d -aes-256-cbc -pbkdf2 -salt \
+            -in "$RUNNER_TEMP/encrypted/dreammemory-apk.enc" \
+            -out "$RUNNER_TEMP/app-debug.apk" \
+            -pass env:ARTIFACT_PASSWORD
           test -s "$RUNNER_TEMP/app-debug.apk"
 
       - name: Set up Android SDK tools
@@ -156,4 +148,4 @@ jobs:
             --repo maoni66/DreamMemory \
             --target "$SOURCE_SHA" \
             --title "DreamMemory build ${SOURCE_SHA:0:12} (run ${RUN_ID}.${RUN_ATTEMPT})" \
-            --notes "Automated private APK build from source commit ${SOURCE_SHA}. JVM unit tests passed; APK was encrypted during transfer, decrypted on an isolated runner, signed, and signature-verified. Private release for DreamMemory."
+            --notes "Automated private APK build from source commit ${SOURCE_SHA}. JVM unit tests passed; APK was password-encrypted during transfer, decrypted on an isolated runner, signed, and signature-verified. Private release for DreamMemory."
