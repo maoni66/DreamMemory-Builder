@@ -73,7 +73,7 @@ jobs:
       - name: Upload encrypted APK only
         uses: actions/upload-artifact@v6
         with:
-          name: encrypted-apk-${{ github.run_id }}
+          name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/dreammemory-transfer/dreammemory-apk.age
           if-no-files-found: error
           retention-days: 1
@@ -89,7 +89,7 @@ jobs:
       - name: Download encrypted APK
         uses: actions/download-artifact@v6
         with:
-          name: encrypted-apk-${{ github.run_id }}
+          name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/encrypted
 
       - name: Install age
@@ -144,15 +144,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PRIVATE_RELEASE_TOKEN }}
           SOURCE_SHA: ${{ needs.build.outputs.source_sha }}
-          RUN_NUMBER: ${{ github.run_number }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
         shell: bash
         run: |
           set -euo pipefail
           test -n "${GH_TOKEN:-}" || { echo "Missing repository secret PRIVATE_RELEASE_TOKEN"; exit 1; }
           test -s "$RUNNER_TEMP/app-debug.apk" || { echo "Signed APK not found"; exit 1; }
-          tag="build-${SOURCE_SHA:0:12}-${RUN_NUMBER}"
+          tag="build-${SOURCE_SHA:0:12}-${RUN_ID}-${RUN_ATTEMPT}"
           gh release create "$tag" "$RUNNER_TEMP/app-debug.apk" \
             --repo maoni66/DreamMemory \
             --target "$SOURCE_SHA" \
-            --title "DreamMemory build ${SOURCE_SHA:0:12} (#${RUN_NUMBER})" \
+            --title "DreamMemory build ${SOURCE_SHA:0:12} (run ${RUN_ID}.${RUN_ATTEMPT})" \
             --notes "Automated private APK build from source commit ${SOURCE_SHA}. JVM unit tests passed; APK was encrypted during transfer, decrypted on an isolated runner, signed, and signature-verified. Private release for DreamMemory."
