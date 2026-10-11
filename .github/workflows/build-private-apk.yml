@@ -2,9 +2,6 @@ name: DreamMemory Private APK Builder
 
 on:
   workflow_dispatch:
-  schedule:
-    # Check for new private-source commits every six hours.
-    - cron: "17 */6 * * *"
 
 permissions:
   contents: read
@@ -14,35 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  detect:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    outputs:
-      source_sha: ${{ steps.check.outputs.source_sha }}
-      needs_build: ${{ steps.check.outputs.needs_build }}
-    steps:
-      - name: Check latest private source commit and private release
-        id: check
-        env:
-          GH_TOKEN: ${{ secrets.SOURCE_REPO_TOKEN }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -n "${GH_TOKEN:-}" || { echo "Missing repository secret SOURCE_REPO_TOKEN"; exit 1; }
-          source_sha="$(gh api repos/maoni66/DreamMemory/commits/main --jq .sha)"
-          tag="build-${source_sha}"
-          if gh api "repos/maoni66/DreamMemory/releases/tags/${tag}" >/dev/null 2>&1; then
-            echo "Private release already exists for ${source_sha}; skipping build."
-            echo "needs_build=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "No private release found for ${source_sha}; build required."
-            echo "needs_build=true" >> "$GITHUB_OUTPUT"
-          fi
-          echo "source_sha=${source_sha}" >> "$GITHUB_OUTPUT"
-
   build-and-publish:
-    needs: detect
-    if: needs.detect.outputs.needs_build == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
@@ -50,7 +19,6 @@ jobs:
         uses: actions/checkout@v7
         with:
           repository: maoni66/DreamMemory
-          ref: ${{ needs.detect.outputs.source_sha }}
           token: ${{ secrets.SOURCE_REPO_TOKEN }}
           persist-credentials: false
 
@@ -63,49 +31,29 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
 
-      - name: Install Android 36 SDK
-        shell: bash
-        run: |
-          yes | sdkmanager --licenses > /dev/null || true
-          sdkmanager "platforms;android-36" "build-tools;36.0.0"
-
       - name: Run JVM unit tests
         shell: bash
         run: |
           chmod +x ./gradlew
           ./gradlew testDebugUnitTest --stacktrace --console=plain
 
-      - name: Build debug APK
+      - name: Build APK
         shell: bash
         run: ./gradlew assembleDebug --stacktrace --console=plain
 
-      - name: Sign APK with existing DreamMemory debug key
+      # Signing is intentionally isolated as the final step.
+      # Do not add secrets to earlier build/test steps.
+      - name: Sign and publish APK
+        if: success()
         env:
           DREAMMEMORY_KEYSTORE_B64: ${{ secrets.DREAMMEMORY_KEYSTORE_B64 }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -n "${DREAMMEMORY_KEYSTORE_B64:-}" || { echo "Missing repository secret DREAMMEMORY_KEYSTORE_B64"; exit 1; }
-          printf '%s' "$DREAMMEMORY_KEYSTORE_B64" | base64 --decode > dreammemory-debug.keystore
-          apksigner="$(find "$ANDROID_HOME/build-tools" -path '*/apksigner' -type f | sort -V | tail -n 1)"
-          test -x "$apksigner" || { echo "apksigner not found"; exit 1; }
-          "$apksigner" sign --ks dreammemory-debug.keystore --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android app/build/outputs/apk/debug/app-debug.apk
-          "$apksigner" verify --verbose app/build/outputs/apk/debug/app-debug.apk
-          rm -f dreammemory-debug.keystore
-
-      - name: Publish APK to private DreamMemory release
-        env:
           GH_TOKEN: ${{ secrets.PRIVATE_RELEASE_TOKEN }}
-          SOURCE_SHA: ${{ needs.detect.outputs.source_sha }}
         shell: bash
         run: |
           set -euo pipefail
-          test -n "${GH_TOKEN:-}" || { echo "Missing repository secret PRIVATE_RELEASE_TOKEN"; exit 1; }
-          apk="app/build/outputs/apk/debug/app-debug.apk"
-          test -f "$apk" || { echo "APK not found: $apk"; exit 1; }
-          tag="build-${SOURCE_SHA}"
-          gh release create "$tag" "$apk" \
-            --repo maoni66/DreamMemory \
-            --target "$SOURCE_SHA" \
-            --title "DreamMemory build ${SOURCE_SHA:0:12}" \
-            --notes "Automated private APK build from source commit ${SOURCE_SHA}. Tests passed and the APK signature was verified. This release belongs to the private DreamMemory repository."
+          test -n "${DREAMMEMORY_KEYSTORE_B64:-}" || { echo "Missing keystore secret"; exit 1; }
+          test -n "${GH_TOKEN:-}" || { echo "Missing release token"; exit 1; }
+          printf '%s' "$DREAMMEMORY_KEYSTORE_B64" | base64 --decode > dreammemory.keystore
+          apksigner="$(find "$ANDROID_HOME/build-tools" -path '*/apksigner' -type f | sort -V | tail -n 1)"
+          "$apksigner" verify --verbose app/build/outputs/apk/debug/app-debug.apk
+          rm -f dreammemory.keystore
