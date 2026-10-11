@@ -55,39 +55,104 @@ jobs:
         shell: bash
         run: ./gradlew assembleDebug --stacktrace --console=plain
 
-      # Keep signing material out of test and build steps.
-      - name: Sign APK with existing DreamMemory debug key
-        if: success()
+      # The build runner never receives signing, decryption, or release secrets.
+      - name: Encrypt APK for isolated publishing runner
+        env:
+          AGE_RECIPIENT: ${{ vars.DREAMMEMORY_AGE_RECIPIENT }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${AGE_RECIPIENT:-}" || { echo "Missing repository variable DREAMMEMORY_AGE_RECIPIENT"; exit 1; }
+          apk="app/build/outputs/apk/debug/app-debug.apk"
+          test -f "$apk" || { echo "APK not found: $apk"; exit 1; }
+          sudo apt-get update
+          sudo apt-get install -y age
+          mkdir -p "$RUNNER_TEMP/dreammemory-transfer"
+          age --recipient "$AGE_RECIPIENT" --output "$RUNNER_TEMP/dreammemory-transfer/dreammemory-apk.age" "$apk"
+
+      - name: Upload encrypted APK only
+        uses: actions/upload-artifact@v6
+        with:
+          name: encrypted-apk-${{ github.run_id }}
+          path: ${{ runner.temp }}/dreammemory-transfer/dreammemory-apk.age
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      # This is a fresh runner. It does not check out or execute project source code.
+      - name: Download encrypted APK
+        uses: actions/download-artifact@v6
+        with:
+          name: encrypted-apk-${{ github.run_id }}
+          path: ${{ runner.temp }}/encrypted
+
+      - name: Install age
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y age
+
+      - name: Decrypt APK on isolated publishing runner
+        env:
+          DREAMMEMORY_AGE_IDENTITY: ${{ secrets.DREAMMEMORY_AGE_IDENTITY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${DREAMMEMORY_AGE_IDENTITY:-}" || { echo "Missing repository secret DREAMMEMORY_AGE_IDENTITY"; exit 1; }
+          printf '%s\n' "$DREAMMEMORY_AGE_IDENTITY" > "$RUNNER_TEMP/age-identity.txt"
+          chmod 600 "$RUNNER_TEMP/age-identity.txt"
+          age --decrypt --identity "$RUNNER_TEMP/age-identity.txt" \
+            --output "$RUNNER_TEMP/app-debug.apk" \
+            "$RUNNER_TEMP/encrypted/dreammemory-apk.age"
+          rm -f "$RUNNER_TEMP/age-identity.txt"
+          test -s "$RUNNER_TEMP/app-debug.apk"
+
+      - name: Set up Android SDK tools
+        uses: android-actions/setup-android@v4
+
+      - name: Install Android build tools
+        shell: bash
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "build-tools;36.0.0"
+
+      # Signing material is exposed only to this step, after project build code is gone.
+      - name: Sign and verify APK
         env:
           DREAMMEMORY_KEYSTORE_B64: ${{ secrets.DREAMMEMORY_KEYSTORE_B64 }}
         shell: bash
         run: |
           set -euo pipefail
           test -n "${DREAMMEMORY_KEYSTORE_B64:-}" || { echo "Missing repository secret DREAMMEMORY_KEYSTORE_B64"; exit 1; }
-          apk="app/build/outputs/apk/debug/app-debug.apk"
-          test -f "$apk" || { echo "APK not found: $apk"; exit 1; }
           printf '%s' "$DREAMMEMORY_KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/dreammemory-debug.keystore"
-          apksigner="$(find "$ANDROID_HOME/build-tools" -path '*/apksigner' -type f | sort -V | tail -n 1)"
+          chmod 600 "$RUNNER_TEMP/dreammemory-debug.keystore"
+          apksigner="$ANDROID_HOME/build-tools/36.0.0/apksigner"
           test -x "$apksigner" || { echo "apksigner not found"; exit 1; }
-          "$apksigner" sign --ks "$RUNNER_TEMP/dreammemory-debug.keystore" --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android "$apk"
-          "$apksigner" verify --verbose "$apk"
+          "$apksigner" sign --ks "$RUNNER_TEMP/dreammemory-debug.keystore" --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android "$RUNNER_TEMP/app-debug.apk"
+          "$apksigner" verify --verbose "$RUNNER_TEMP/app-debug.apk"
           rm -f "$RUNNER_TEMP/dreammemory-debug.keystore"
 
-      # The write token is exposed only in this final publishing step.
+      # The release token is exposed only to the final publishing step.
       - name: Publish APK to private DreamMemory release
-        if: success()
         env:
           GH_TOKEN: ${{ secrets.PRIVATE_RELEASE_TOKEN }}
-          SOURCE_SHA: ${{ steps.source.outputs.source_sha }}
+          SOURCE_SHA: ${{ needs.build.outputs.source_sha }}
+          RUN_NUMBER: ${{ github.run_number }}
         shell: bash
         run: |
           set -euo pipefail
           test -n "${GH_TOKEN:-}" || { echo "Missing repository secret PRIVATE_RELEASE_TOKEN"; exit 1; }
-          apk="app/build/outputs/apk/debug/app-debug.apk"
-          test -f "$apk" || { echo "APK not found: $apk"; exit 1; }
-          tag="build-${SOURCE_SHA}"
-          gh release create "$tag" "$apk" \
+          test -s "$RUNNER_TEMP/app-debug.apk" || { echo "Signed APK not found"; exit 1; }
+          tag="build-${SOURCE_SHA:0:12}-${RUN_NUMBER}"
+          gh release create "$tag" "$RUNNER_TEMP/app-debug.apk" \
             --repo maoni66/DreamMemory \
             --target "$SOURCE_SHA" \
-            --title "DreamMemory build ${SOURCE_SHA:0:12}" \
-            --notes "Automated private APK build from source commit ${SOURCE_SHA}. Unit tests passed and APK signature verification succeeded. Private release for DreamMemory."
+            --title "DreamMemory build ${SOURCE_SHA:0:12} (#${RUN_NUMBER})" \
+            --notes "Automated private APK build from source commit ${SOURCE_SHA}. JVM unit tests passed; APK was encrypted during transfer, decrypted on an isolated runner, signed, and signature-verified. Private release for DreamMemory."
