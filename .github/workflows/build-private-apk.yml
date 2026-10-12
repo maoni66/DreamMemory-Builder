@@ -2,10 +2,6 @@ name: DreamMemory Private APK Builder
 
 on:
   workflow_dispatch:
-  # Poll the private source branch so every new commit is picked up without
-  # requiring a cross-repository dispatch token in the private repository.
-  schedule:
-    - cron: "*/15 * * * *"
 
 permissions:
   contents: read
