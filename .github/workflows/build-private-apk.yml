@@ -2,6 +2,11 @@ name: DreamMemory Private APK Builder
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'build-request.txt'
 
 permissions:
   contents: read
