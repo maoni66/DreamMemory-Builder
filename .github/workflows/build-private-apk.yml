@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 35
     outputs:
       source_sha: ${{ steps.source.outputs.source_sha }}
-      needs_build: ${{ steps.freshness.outputs.needs_build }}
+      needs_build: ${{ steps.request.outputs.needs_build }}
     steps:
       - name: Checkout private DreamMemory source
         uses: actions/checkout@v7
@@ -36,23 +36,13 @@ jobs:
         shell: bash
         run: echo "source_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      - name: Check whether this source revision already has a private release
-        id: freshness
-        env:
-          GH_TOKEN: ${{ secrets.PRIVATE_RELEASE_TOKEN }}
-          SOURCE_SHA: ${{ steps.source.outputs.source_sha }}
+      - name: Honor explicit build request
+        id: request
         shell: bash
         run: |
           set -euo pipefail
-          test -n "${GH_TOKEN:-}" || { echo "Missing repository secret PRIVATE_RELEASE_TOKEN"; exit 1; }
-          prefix="build-${SOURCE_SHA:0:12}-"
-          if gh api --paginate repos/maoni66/DreamMemory/releases --jq '.[].tag_name' | grep -Fq "$prefix"; then
-            echo "needs_build=false" >> "$GITHUB_OUTPUT"
-            echo "Source revision already has a private release; skipping duplicate build."
-          else
-            echo "needs_build=true" >> "$GITHUB_OUTPUT"
-            echo "New source revision detected; starting build."
-          fi
+          echo "needs_build=true" >> "$GITHUB_OUTPUT"
+          echo "Explicit build requested; always run tests and produce a fresh APK, even if this source SHA has a prior release."
 
       - name: Set up JDK 17
         if: steps.freshness.outputs.needs_build == 'true'
