@@ -2,6 +2,10 @@ name: DreamMemory Private APK Builder
 
 on:
   workflow_dispatch:
+  # Poll the private source branch so every new commit is picked up without
+  # requiring a cross-repository dispatch token in the private repository.
+  schedule:
+    - cron: "*/15 * * * *"
 
 permissions:
   contents: read
@@ -16,6 +20,7 @@ jobs:
     timeout-minutes: 35
     outputs:
       source_sha: ${{ steps.source.outputs.source_sha }}
+      needs_build: ${{ steps.freshness.outputs.needs_build }}
     steps:
       - name: Checkout private DreamMemory source
         uses: actions/checkout@v7
@@ -30,33 +35,57 @@ jobs:
         shell: bash
         run: echo "source_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
+      - name: Check whether this source revision already has a private release
+        id: freshness
+        env:
+          GH_TOKEN: ${{ secrets.PRIVATE_RELEASE_TOKEN }}
+          SOURCE_SHA: ${{ steps.source.outputs.source_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${GH_TOKEN:-}" || { echo "Missing repository secret PRIVATE_RELEASE_TOKEN"; exit 1; }
+          prefix="build-${SOURCE_SHA:0:12}-"
+          if gh api --paginate repos/maoni66/DreamMemory/releases --jq '.[].tag_name' | grep -Fq "$prefix"; then
+            echo "needs_build=false" >> "$GITHUB_OUTPUT"
+            echo "Source revision already has a private release; skipping duplicate build."
+          else
+            echo "needs_build=true" >> "$GITHUB_OUTPUT"
+            echo "New source revision detected; starting build."
+          fi
+
       - name: Set up JDK 17
+        if: steps.freshness.outputs.needs_build == 'true'
         uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "17"
 
       - name: Set up Android SDK
+        if: steps.freshness.outputs.needs_build == 'true'
         uses: android-actions/setup-android@v4
 
       - name: Install Android 36 SDK
+        if: steps.freshness.outputs.needs_build == 'true'
         shell: bash
         run: |
           yes | sdkmanager --licenses > /dev/null || true
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - name: Run JVM unit tests
+        if: steps.freshness.outputs.needs_build == 'true'
         shell: bash
         run: |
           chmod +x ./gradlew
           ./gradlew testDebugUnitTest --stacktrace --console=plain
 
       - name: Build debug APK
+        if: steps.freshness.outputs.needs_build == 'true'
         shell: bash
         run: ./gradlew assembleDebug --stacktrace --console=plain
 
       # Password-based encryption avoids local age key generation.
       - name: Encrypt APK for isolated publishing runner
+        if: steps.freshness.outputs.needs_build == 'true'
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
         shell: bash
@@ -72,6 +101,7 @@ jobs:
             -pass env:ARTIFACT_PASSWORD
 
       - name: Upload encrypted APK only
+        if: steps.freshness.outputs.needs_build == 'true'
         uses: actions/upload-artifact@v6
         with:
           name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
@@ -81,6 +111,7 @@ jobs:
 
   publish:
     needs: build
+    if: needs.build.outputs.needs_build == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
