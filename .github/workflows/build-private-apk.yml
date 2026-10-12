@@ -72,12 +72,14 @@ jobs:
       - name: Run Android Room migration instrumentation tests
         if: steps.request.outputs.needs_build == 'true'
         shell: bash
-        timeout-minutes: 18
+        timeout-minutes: 22
         run: |
           set -euo pipefail
-          sdkmanager "system-images;android-35;google_apis;x86_64"
+          sdkmanager "emulator" "system-images;android-35;google_apis;x86_64"
           echo "no" | avdmanager create avd --force --name dreammemory-ci --package "system-images;android-35;google_apis;x86_64" --device "pixel_2"
-          emulator -avd dreammemory-ci \
+          emulator_bin="$ANDROID_HOME/emulator/emulator"
+          test -x "$emulator_bin" || { echo "Android emulator binary missing: $emulator_bin"; exit 1; }
+          "$emulator_bin" -avd dreammemory-ci \
             -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim \
             -camera-back none -camera-front none -no-snapshot -wipe-data \
             -memory 2048 -cores 2 > "$RUNNER_TEMP/dreammemory-emulator.log" 2>&1 &
@@ -86,33 +88,40 @@ jobs:
             status=$?
             if [ "$status" -ne 0 ]; then
               echo "::group::Recent emulator logcat"
-              adb logcat -d -t 500 || true
+              timeout 15s adb -s emulator-5554 logcat -d -t 500 || true
               echo "::endgroup::"
               echo "::group::Emulator startup log"
               tail -n 200 "$RUNNER_TEMP/dreammemory-emulator.log" || true
               echo "::endgroup::"
             fi
-            adb emu kill >/dev/null 2>&1 || true
+            timeout 15s adb -s emulator-5554 emu kill >/dev/null 2>&1 || true
             kill "$emulator_pid" >/dev/null 2>&1 || true
             exit "$status"
           }
           trap cleanup EXIT
           adb start-server
-          adb wait-for-device
+          if ! timeout 90s adb -s emulator-5554 wait-for-device; then
+            echo "Android emulator did not connect to ADB within 90 seconds."
+            exit 1
+          fi
           booted=""
-          for attempt in $(seq 1 120); do
-            booted="$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
+          for attempt in $(seq 1 180); do
+            if ! kill -0 "$emulator_pid" 2>/dev/null; then
+              echo "Android emulator process exited before boot completed."
+              exit 1
+            fi
+            booted="$(timeout 15s adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
             if [ "$booted" = "1" ]; then
               break
             fi
             sleep 5
           done
           if [ "$booted" != "1" ]; then
-            echo "Android emulator did not finish booting within 10 minutes."
+            echo "Android emulator did not finish booting within 15 minutes."
             exit 1
           fi
-          adb shell getprop ro.build.version.release
-          adb shell getprop ro.build.version.sdk
+          timeout 15s adb -s emulator-5554 shell getprop ro.build.version.release
+          timeout 15s adb -s emulator-5554 shell getprop ro.build.version.sdk
           ./gradlew connectedDebugAndroidTest --stacktrace --console=plain
       - name: Build debug APK
         if: steps.request.outputs.needs_build == 'true'
