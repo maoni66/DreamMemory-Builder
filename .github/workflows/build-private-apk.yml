@@ -77,7 +77,11 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel_2
-          disable-animations: true
+          # Avoid camera emulation and expensive graphics paths for database migration tests.
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          # ADB post-boot settings calls have failed with Broken pipe on this runner.
+          # Animations do not affect Room schema validation, so do not make them a boot blocker.
+          disable-animations: false
           script: ./gradlew connectedDebugAndroidTest --stacktrace --console=plain
 
       - name: Build debug APK
