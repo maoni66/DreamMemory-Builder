@@ -3,3 +3,7 @@ Required: JVM unit tests, Android Room migration instrumentation tests including
 Requested by assistant on 2026-10-12.
 Retry after replacing emulator-runner's post-boot animation settings with explicit emulator lifecycle; confirm instrumentation tests actually execute before treating DB v52 repair as verified.
 Requested by assistant on 2026-10-12.
+
+Build request: DreamMemory private main, version 0.5.8 (versionCode 1006, Room DB v52).
+Required: JVM unit tests including ShareIntakePersistenceTest, Android Room migration instrumentation tests including ShelfMigration51To52Test, APK build, signing, signature verification, and private release. The source revision must include the shared-intake save-failure fix and must be recorded in the Release notes. Do not mark migration verified if the instrumentation test step never starts.
+Requested by assistant on 2026-10-12.
