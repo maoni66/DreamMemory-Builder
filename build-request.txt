@@ -1,3 +1,3 @@
 Build request: DreamMemory private main, version 0.5.7 (versionCode 1005, Room DB v52).
-Required: JVM unit tests, Android Room migration instrumentation tests including ShelfMigration51To52Test, APK build, signing, signature verification, and private release. Explicit build requests must run all steps even if a release exists for the same source SHA; skipped build/test steps are not success.
+Required: JVM unit tests, Android Room migration instrumentation tests including ShelfMigration51To52Test, APK build, signing, signature verification, and private release. Explicit build requests must run all steps even if a release exists for the same source SHA; skipped build/test steps are not success. Gradle wrapper download timeout was raised to 120 seconds after CI hit a 10-second download timeout.
 Requested by assistant on 2026-10-12.
