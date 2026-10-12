@@ -45,32 +45,32 @@ jobs:
           echo "Explicit build requested; always run tests and produce a fresh APK, even if this source SHA has a prior release."
 
       - name: Set up JDK 17
-        if: steps.freshness.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true'
         uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "17"
 
       - name: Set up Android SDK
-        if: steps.freshness.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true'
         uses: android-actions/setup-android@v4
 
       - name: Install Android 36 SDK
-        if: steps.freshness.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true'
         shell: bash
         run: |
           yes | sdkmanager --licenses > /dev/null || true
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - name: Run JVM unit tests
-        if: steps.freshness.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true'
         shell: bash
         run: |
           chmod +x ./gradlew
           ./gradlew testDebugUnitTest --stacktrace --console=plain
 
       - name: Run Android Room migration instrumentation tests
-        if: steps.freshness.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -81,13 +81,13 @@ jobs:
           script: ./gradlew connectedDebugAndroidTest --stacktrace --console=plain
 
       - name: Build debug APK
-        if: steps.freshness.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true'
         shell: bash
         run: ./gradlew assembleDebug --stacktrace --console=plain
 
       # Password-based encryption avoids local age key generation.
       - name: Encrypt APK for isolated publishing runner
-        if: steps.freshness.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true'
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
         shell: bash
@@ -103,7 +103,7 @@ jobs:
             -pass env:ARTIFACT_PASSWORD
 
       - name: Upload encrypted APK only
-        if: steps.freshness.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true'
         uses: actions/upload-artifact@v6
         with:
           name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
