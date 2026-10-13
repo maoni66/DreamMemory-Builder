@@ -78,6 +78,7 @@ jobs:
 
       - name: Run JVM unit tests
         if: steps.request.outputs.needs_build == 'true'
+        timeout-minutes: 10
         shell: bash
         run: |
           chmod +x ./gradlew
