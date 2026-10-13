@@ -20,3 +20,4 @@ Build request: fix Room migration test version lookup; verify 0.6.1 and schema i
 Build request: migration contract uses Room open validation for baseline; retry with isolated runner.
 Build request: DreamMemory 0.6.3 notebook editor stability and chat-mode regression tests.
 Build request: 0.6.3 final source snapshot including chat draft retention, notebook mode fix, home hierarchy, shelf focus, and unified card elevation.
+Build request: fix composable annotation regression and validate latest full source.
