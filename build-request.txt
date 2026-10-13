@@ -23,7 +23,8 @@ Build request: 0.6.3 final source snapshot including chat draft retention, noteb
 Build request: fix composable annotation regression and validate latest full source.
 Build request: latest corrected 0.6.3 source; cancel stale verification runs and validate all changes together.
 Build request: include final home hierarchy correction; verify latest committed 0.6.3 source.
-Build request: DreamMemory 0.6.3 stability verification after notebook Flow lifecycle fix.
-Source repository: maoni66/DreamMemory, branch main, required source SHA fdd70369048a7f641129c6f87532e2f928abf60c (versionCode 1010, Room schema v1).
-Required: run all JVM unit tests, enforce Room schema snapshot generation/presence, assembleDebug APK, sign the APK, verify the signature, and upload the resulting APK plus test/build logs as artifacts. Do not reuse or report an older artifact as this build. Do not treat a skipped step, queued job without a runner, or build-only success as complete validation. Record the exact source SHA and each check result. Device verification remains unconfirmed until a real device/emulator run is recorded.
+Build request: DreamMemory 0.6.3 full validation after wall/galaxy relationship correction.
+Source repository: maoni66/DreamMemory, branch main, required source SHA 3795a13c71c72497d9f6b17f30ffa85202b70ea8.
+Required: run all JVM unit tests, enforce Room schema snapshot generation/presence, assembleDebug APK, sign the APK, verify the signature, and publish a fresh private release tied to this exact source SHA. Do not reuse or report an older artifact as this build. Record exact source SHA and each check result. Device verification remains unconfirmed until a real device/emulator run is recorded.
+Scope note: this request validates the current source including the galaxy relationship change; it does not imply wall layout persistence or device-level acceptance.
 Requested on 2026-10-13.
