@@ -15,3 +15,4 @@ Requested on 2026-10-13.
 Build 0.6.0 with versioned Room schema snapshots; enforce schema presence before publishing.
 Build request: schema snapshot release gate verification.
 Build request: authenticated schema snapshot commit and release verification.
+Build request: DreamMemory 0.6.1 with migration-preservation contract test and schema immutability gate.
