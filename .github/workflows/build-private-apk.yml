@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: dreammemory-private-apk-builder
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
