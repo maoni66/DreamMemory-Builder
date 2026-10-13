@@ -22,3 +22,4 @@ Build request: DreamMemory 0.6.3 notebook editor stability and chat-mode regress
 Build request: 0.6.3 final source snapshot including chat draft retention, notebook mode fix, home hierarchy, shelf focus, and unified card elevation.
 Build request: fix composable annotation regression and validate latest full source.
 Build request: latest corrected 0.6.3 source; cancel stale verification runs and validate all changes together.
+Build request: include final home hierarchy correction; verify latest committed 0.6.3 source.
