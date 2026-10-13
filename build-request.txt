@@ -7,3 +7,8 @@ Requested by assistant on 2026-10-12.
 Build request: DreamMemory private main, version 0.5.8 (versionCode 1006, Room DB v52).
 Required: JVM unit tests including ShareIntakePersistenceTest, Android Room migration instrumentation tests including ShelfMigration51To52Test, APK build, signing, signature verification, and private release. The source revision must include the shared-intake save-failure fix and must be recorded in the Release notes. Do not mark migration verified if the instrumentation test step never starts.
 Requested by assistant on 2026-10-12.
+
+Build request: DreamMemory 0.6.0 clean baseline (versionCode 1007; Room schema v1; database file dreammemory_v1.db).
+Source revision must include the clean database baseline, backup/restore filename updates, corrected share-intake regexes, Room schema export configuration, and removal of obsolete migration tests.
+Required checks: JVM unit tests, KSP/Room schema generation, assembleDebug APK, signing, signature verification, and private Release publish. Do not run legacy emulator migration tests; those test obsolete v49/v51 migration paths and have been removed. Record actual source SHA and every check result.
+Requested on 2026-10-13.
