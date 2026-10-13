@@ -28,3 +28,10 @@ Source repository: maoni66/DreamMemory, branch main, required source SHA 01d343f
 Required: run all JVM unit tests, enforce Room schema snapshot generation/presence, assembleDebug APK, sign the APK, verify the signature, and publish a fresh private release tied to this exact source SHA. Do not reuse or report an older artifact as this build. Record exact source SHA and each check result. Device verification remains unconfirmed until a real device/emulator run is recorded.
 Scope note: validates explainable galaxy links, the actual-entity-field constraints, and the UI copy naming it relationship-based. Does not imply wall layout persistence or device-level acceptance.
 Requested on 2026-10-13.
+
+
+Build request: DreamMemory 0.6.3 full-app deduplication pass.
+Source repository: maoni66/DreamMemory, branch main, required source SHA 99b4683f9f1fcffdc58f354c15ca26d56a30fb59.
+Scope: remove the duplicate wall-list mode from the home display; rename the remaining view to relationship exploration; deep-link relation nodes to their owning record, shelf, life notebook/life item, or creation item; keep the full filtered result list accessible even though the graph canvas visualizes only the first 48 nodes; add unit tests for source-target mapping.
+Required checks: run all JVM unit tests, enforce Room schema snapshot generation/presence, assembleDebug APK, sign the APK, verify the signature, and publish a fresh private release tied to this exact source SHA. Do not reuse or report an older artifact as this build. Record exact source SHA and each check result. Device verification remains unconfirmed until a real device/emulator run is recorded.
+Requested on 2026-10-13.
