@@ -59,6 +59,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+          cache: gradle
+          cache-dependency-path: |
+            **/*.gradle*
+            **/gradle-wrapper.properties
+            gradle/libs.versions.toml
 
       - name: Set up Android SDK
         if: steps.request.outputs.needs_build == 'true'
