@@ -17,3 +17,4 @@ Build request: schema snapshot release gate verification.
 Build request: authenticated schema snapshot commit and release verification.
 Build request: DreamMemory 0.6.1 with migration-preservation contract test and schema immutability gate.
 Build request: fix Room migration test version lookup; verify 0.6.1 and schema immutability gate.
+Build request: migration contract uses Room open validation for baseline; retry with isolated runner.
