@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: dreammemory-private-apk-builder-v2
+  group: dreammemory-private-apk-builder
   cancel-in-progress: false
 
 jobs:
