@@ -76,8 +76,9 @@ jobs:
         shell: bash
         run: ./gradlew assembleDebug --stacktrace --console=plain
 
-      # Password-based encryption avoids local age key generation.
-      - name: Encrypt APK for isolated publishing runner
+      # Room's generated schema is part of the release contract. Carry it encrypted
+      # to the isolated publisher so it can be versioned in the private source repo.
+      - name: Encrypt APK and Room schema for isolated publishing runner
         if: steps.request.outputs.needs_build == 'true'
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
@@ -87,18 +88,20 @@ jobs:
           test -n "${ARTIFACT_PASSWORD:-}" || { echo "Missing repository secret DREAMMEMORY_ARTIFACT_PASSWORD"; exit 1; }
           apk="app/build/outputs/apk/debug/app-debug.apk"
           test -f "$apk" || { echo "APK not found: $apk"; exit 1; }
+          test -n "$(find app/schemas -type f -name '*.json' -print -quit)" || { echo "Room schema snapshot missing; refusing release without a versioned database contract."; exit 1; }
           mkdir -p "$RUNNER_TEMP/dreammemory-transfer"
+          tar -czf "$RUNNER_TEMP/dreammemory-transfer/dreammemory-package.tar.gz" "$apk" app/schemas
           openssl enc -aes-256-cbc -pbkdf2 -salt \
-            -in "$apk" \
-            -out "$RUNNER_TEMP/dreammemory-transfer/dreammemory-apk.enc" \
+            -in "$RUNNER_TEMP/dreammemory-transfer/dreammemory-package.tar.gz" \
+            -out "$RUNNER_TEMP/dreammemory-transfer/dreammemory-package.enc" \
             -pass env:ARTIFACT_PASSWORD
 
-      - name: Upload encrypted APK only
+      - name: Upload encrypted release package only
         if: steps.request.outputs.needs_build == 'true'
         uses: actions/upload-artifact@v6
         with:
           name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/dreammemory-transfer/dreammemory-apk.enc
+          path: ${{ runner.temp }}/dreammemory-transfer/dreammemory-package.enc
           if-no-files-found: error
           retention-days: 1
 
@@ -117,7 +120,7 @@ jobs:
           name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/encrypted
 
-      - name: Decrypt APK on isolated publishing runner
+      - name: Decrypt APK and Room schema on isolated publishing runner
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
         shell: bash
@@ -125,9 +128,17 @@ jobs:
           set -euo pipefail
           test -n "${ARTIFACT_PASSWORD:-}" || { echo "Missing repository secret DREAMMEMORY_ARTIFACT_PASSWORD"; exit 1; }
           openssl enc -d -aes-256-cbc -pbkdf2 -salt \
-            -in "$RUNNER_TEMP/encrypted/dreammemory-apk.enc" \
-            -out "$RUNNER_TEMP/app-debug.apk" \
+            -in "$RUNNER_TEMP/encrypted/dreammemory-package.enc" \
+            -out "$RUNNER_TEMP/dreammemory-package.tar.gz" \
             -pass env:ARTIFACT_PASSWORD
+          mkdir -p "$RUNNER_TEMP/package"
+          tar -xzf "$RUNNER_TEMP/dreammemory-package.tar.gz" -C "$RUNNER_TEMP/package"
+          apk_path="$(find "$RUNNER_TEMP/package" -type f -name app-debug.apk -print -quit)"
+          schema_path="$(find "$RUNNER_TEMP/package" -type d -path '*/app/schemas' -print -quit)"
+          test -n "$apk_path" && test -s "$apk_path" || { echo "APK missing from encrypted package"; exit 1; }
+          test -n "$schema_path" && test -n "$(find "$schema_path" -type f -name '*.json' -print -quit)" || { echo "Room schema missing from encrypted package"; exit 1; }
+          cp "$apk_path" "$RUNNER_TEMP/app-debug.apk"
+          cp -a "$schema_path" "$RUNNER_TEMP/room-schemas"
           test -s "$RUNNER_TEMP/app-debug.apk"
 
       - name: Set up Android SDK tools
@@ -167,6 +178,28 @@ jobs:
           set -euo pipefail
           test -n "${GH_TOKEN:-}" || { echo "Missing repository secret PRIVATE_RELEASE_TOKEN"; exit 1; }
           test -s "$RUNNER_TEMP/app-debug.apk" || { echo "Signed APK not found"; exit 1; }
+          test -n "$(find "$RUNNER_TEMP/room-schemas" -type f -name '*.json' -print -quit)" || { echo "Room schema snapshots missing"; exit 1; }
+
+          # The publisher runner never executes app build scripts. It only versions
+          # generated JSON schema and refuses to attach it to a newer source SHA.
+          gh repo clone maoni66/DreamMemory "$RUNNER_TEMP/source"
+          current_sha="$(git -C "$RUNNER_TEMP/source" rev-parse HEAD)"
+          if [ "$current_sha" != "$SOURCE_SHA" ]; then
+            echo "Source main advanced during build (built $SOURCE_SHA, current $current_sha); refusing to publish a mismatched schema."
+            exit 1
+          fi
+          mkdir -p "$RUNNER_TEMP/source/app/schemas"
+          cp -a "$RUNNER_TEMP/room-schemas/." "$RUNNER_TEMP/source/app/schemas/"
+          git -C "$RUNNER_TEMP/source" config user.name "github-actions[bot]"
+          git -C "$RUNNER_TEMP/source" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C "$RUNNER_TEMP/source" add app/schemas
+          if ! git -C "$RUNNER_TEMP/source" diff --cached --quiet; then
+            git -C "$RUNNER_TEMP/source" commit -m "chore(db): version Room schema for ${SOURCE_SHA:0:12} [skip ci]"
+            git -C "$RUNNER_TEMP/source" push origin HEAD:main
+          else
+            echo "Room schema snapshots are already current."
+          fi
+
           tag="build-${SOURCE_SHA:0:12}-${RUN_ID}-${RUN_ATTEMPT}"
           gh release create "$tag" "$RUNNER_TEMP/app-debug.apk" \
             --repo maoni66/DreamMemory \
