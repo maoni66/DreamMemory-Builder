@@ -12,3 +12,4 @@ Build request: DreamMemory 0.6.0 clean baseline (versionCode 1007; Room schema v
 Source revision must include the clean database baseline, backup/restore filename updates, corrected share-intake regexes, Room schema export configuration, and removal of obsolete migration tests.
 Required checks: JVM unit tests, KSP/Room schema generation, assembleDebug APK, signing, signature verification, and private Release publish. Do not run legacy emulator migration tests; those test obsolete v49/v51 migration paths and have been removed. Record actual source SHA and every check result.
 Requested on 2026-10-13.
+Build 0.6.0 with versioned Room schema snapshots; enforce schema presence before publishing.
