@@ -182,6 +182,7 @@ jobs:
 
           # The publisher runner never executes app build scripts. It only versions
           # generated JSON schema and refuses to attach it to a newer source SHA.
+          gh auth setup-git
           gh repo clone maoni66/DreamMemory "$RUNNER_TEMP/source"
           current_sha="$(git -C "$RUNNER_TEMP/source" rev-parse HEAD)"
           if [ "$current_sha" != "$SOURCE_SHA" ]; then
