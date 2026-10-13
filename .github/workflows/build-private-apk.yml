@@ -31,6 +31,15 @@ jobs:
           token: ${{ secrets.SOURCE_REPO_TOKEN }}
           persist-credentials: false
 
+      - name: Capture committed Room schema snapshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/committed-room-schemas"
+          if [ -d app/schemas ]; then
+            cp -a app/schemas/. "$RUNNER_TEMP/committed-room-schemas/"
+          fi
+
       - name: Record source revision
         id: source
         shell: bash
@@ -75,6 +84,42 @@ jobs:
         if: steps.request.outputs.needs_build == 'true'
         shell: bash
         run: ./gradlew assembleDebug --stacktrace --console=plain
+
+      - name: Enforce Room schema version discipline
+        if: steps.request.outputs.needs_build == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          schema_dir="app/schemas/com.dreammemory.app.data.local.DreamMemoryDatabase"
+          generated="$(find "$schema_dir" -maxdepth 1 -type f -name '*.json' -print | sort -V | tail -n 1)"
+          test -n "$generated" || { echo "Room schema JSON was not generated."; exit 1; }
+          version="$(basename "$generated" .json)"
+          committed_dir="$RUNNER_TEMP/committed-room-schemas/com.dreammemory.app.data.local.DreamMemoryDatabase"
+          committed_current="$committed_dir/$version.json"
+
+          if [ -f "$committed_current" ]; then
+            if ! cmp -s "$committed_current" "$generated"; then
+              echo "Room schema version $version changed without a version bump. Increase @Database.version and add/test a Migration; never rewrite an already released schema."
+              exit 1
+            fi
+            echo "Committed Room schema v$version is unchanged."
+          else
+            existing_count="$(find "$RUNNER_TEMP/committed-room-schemas" -type f -name '*.json' -print | wc -l)"
+            previous_version=$((version - 1))
+            previous_schema="$committed_dir/$previous_version.json"
+            if [ -f "$previous_schema" ]; then
+              test -f app/src/test/java/com/dreammemory/app/data/local/DreamMemoryMigrationTest.kt || {
+                echo "A new Room schema version requires DreamMemoryMigrationTest.kt to verify data-preserving upgrades."
+                exit 1
+              }
+              echo "New Room schema v$version detected; the migration contract test has passed."
+            elif [ "$existing_count" -eq 0 ]; then
+              echo "Bootstrapping the first committed Room schema v$version."
+            else
+              echo "Room schema version $version does not follow the latest committed schema. Add sequential migrations and schema snapshots."
+              exit 1
+            fi
+          fi
 
       # Room's generated schema is part of the release contract. Carry it encrypted
       # to the isolated publisher so it can be versioned in the private source repo.
