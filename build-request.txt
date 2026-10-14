@@ -1,4 +1,4 @@
-Build requested for current DreamMemory main after documenting the minimal public-builder rule. Source SHA: fcdb50e395c8ec92dfcf81917819256934ae4003.
-Expected source main SHA at trigger: fcdb50e395c8ec92dfcf81917819256934ae4003
+Build requested for DreamMemory source main after the confirmed-scope correction and parallel module repair batch. Source SHA: 5345553abe0a6bd0b291265b19ee2ce24b4af24c.
+Expected source main SHA at trigger: 5345553abe0a6bd0b291265b19ee2ce24b4af24c
 Required verification: JVM unit tests, debug APK build, Room schema discipline, signing, signature verification, and private release upload.
 Keep source SHA parity check enabled; do not publish if DreamMemory/main advances during the build.
