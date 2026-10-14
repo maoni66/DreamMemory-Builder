@@ -1,2 +1,2 @@
-Build requested after fixing DisplayScreen.kt compile errors in source commit f46c6d537c43c5d67af2102a0841c0e107ab4b4c
-Requested at: 2026-10-14T09:32:14.052Z
+Build requested after all 2026-10-14 source and documentation fixes.
+Source main should be captured at current HEAD; verify JVM tests, APK build, signing and private release publication.
