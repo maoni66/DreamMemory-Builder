@@ -1,4 +1,4 @@
-Build requested for DreamMemory source main after the previous APK passed tests/build/signature/release; this batch adds project hierarchy cascade/isolation regression coverage and records verified repair status. Source SHA: 74bf3652e3527b381d13c6161fba8e005e51fa79.
-Expected source main SHA at trigger: 74bf3652e3527b381d13c6161fba8e005e51fa79
+Build requested for DreamMemory source main after implementing project-task reminders through the existing reminder dialog/scheduler, lifecycle cancellation, reboot/backup rescheduling, and active-task validation. Source SHA: 7a2a0c8e1c1b9cf79f316bb22f44dc99d9d4b226.
+Expected source main SHA at trigger: 7a2a0c8e1c1b9cf79f316bb22f44dc99d9d4b226
 Required verification: JVM unit tests, debug APK build, Room schema discipline, signing, signature verification, and private release upload.
 Keep source SHA parity check enabled; do not publish if DreamMemory/main advances during the build.
