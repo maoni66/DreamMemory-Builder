@@ -1,4 +1,4 @@
-Build requested for current DreamMemory main after recording the trigger contract and adding global search type/date filters. Source SHA: 214be0ff9b0f1cf7af3a51596a8439ea83357b9e.
-Expected source main SHA at trigger: 214be0ff9b0f1cf7af3a51596a8439ea83357b9e
+Build requested for current DreamMemory main after documenting the minimal public-builder rule. Source SHA: fcdb50e395c8ec92dfcf81917819256934ae4003.
+Expected source main SHA at trigger: fcdb50e395c8ec92dfcf81917819256934ae4003
 Required verification: JVM unit tests, debug APK build, Room schema discipline, signing, signature verification, and private release upload.
 Keep source SHA parity check enabled; do not publish if DreamMemory/main advances during the build.
