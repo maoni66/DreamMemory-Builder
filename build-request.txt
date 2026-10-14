@@ -1,3 +1,4 @@
-Build requested after final theme package import safety fixes.
-Source main must include separate staging and installed asset directories, bounded direct theme resource imports, and ThemePackageCodecImportLimitsTest.
-Verify JVM tests, debug APK build, Room schema discipline, signing, signature verification and private release upload.
+Build requested for current DreamMemory main after theme import-safety fixes and source audit updates.
+Expected source main SHA at trigger: bd85df643d3b1d97ab9d86d7449caed3f45f2853
+Required verification: JVM unit tests, debug APK build, Room schema discipline, signing, signature verification, and private release upload.
+Keep source SHA parity check enabled; do not publish if DreamMemory/main advances during the build.
