@@ -1,2 +1,3 @@
-Build requested after ThemePackageCodec import hardening and unit tests.
-Source main should be captured at current HEAD; verify JVM tests, debug APK build, Room schema discipline, signing, signature verification and private release upload.
+Build requested after final theme package import safety fixes.
+Source main must include separate staging and installed asset directories, bounded direct theme resource imports, and ThemePackageCodecImportLimitsTest.
+Verify JVM tests, debug APK build, Room schema discipline, signing, signature verification and private release upload.
