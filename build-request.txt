@@ -1,4 +1,4 @@
-Build requested for DreamMemory source main after fixing the search import and aligning tests with the confirmed keyword-search scope; includes Room regression coverage for purchase/possession relations and reading-note source unlinking. Source SHA: 4d4e826ba0a418dbc48ce272c87faadaebe32835.
-Expected source main SHA at trigger: 4d4e826ba0a418dbc48ce272c87faadaebe32835
+Build requested for DreamMemory source main after the previous APK passed tests/build/signature/release; this batch adds project hierarchy cascade/isolation regression coverage and records verified repair status. Source SHA: 74bf3652e3527b381d13c6161fba8e005e51fa79.
+Expected source main SHA at trigger: 74bf3652e3527b381d13c6161fba8e005e51fa79
 Required verification: JVM unit tests, debug APK build, Room schema discipline, signing, signature verification, and private release upload.
 Keep source SHA parity check enabled; do not publish if DreamMemory/main advances during the build.
