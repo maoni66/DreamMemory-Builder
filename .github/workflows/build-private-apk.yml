@@ -1,8 +1,13 @@
 name: DreamMemory Private APK Builder
 
-# Temporarily paused automatic builds: commits to main/build-request.txt do not trigger CI.
+# Automatic APK builds are triggered only by a build-request.txt commit in this public builder repo.
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "build-request.txt":
 
 permissions:
   contents: read
