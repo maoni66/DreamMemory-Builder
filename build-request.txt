@@ -1,2 +1,2 @@
-Build requested after all 2026-10-14 source and documentation fixes.
-Source main should be captured at current HEAD; verify JVM tests, APK build, signing and private release publication.
+Build requested after ThemePackageCodec import hardening and unit tests.
+Source main should be captured at current HEAD; verify JVM tests, debug APK build, Room schema discipline, signing, signature verification and private release upload.
