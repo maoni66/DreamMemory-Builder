@@ -1,4 +1,4 @@
-Build requested for current DreamMemory main after theme import-safety fixes and source audit updates.
-Expected source main SHA at trigger: bd85df643d3b1d97ab9d86d7449caed3f45f2853
+Build requested for current DreamMemory main after aligning the Room baseline audit with the recorded 0.6.0 product decision.
+Expected source main SHA at trigger: cb0d76ec66dac671365fa352cb112dc0d6038908
 Required verification: JVM unit tests, debug APK build, Room schema discipline, signing, signature verification, and private release upload.
 Keep source SHA parity check enabled; do not publish if DreamMemory/main advances during the build.
