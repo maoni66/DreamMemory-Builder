@@ -1,6 +1,6 @@
 Build requested for DreamMemory source main as one coordinated feature-quality batch, not a per-change build.
-Source SHA: 43925319758fbd683a71fb9bf0f8b86ceb9c08d9.
-Expected source main SHA at trigger: 43925319758fbd683a71fb9bf0f8b86ceb9c08d9.
+Source SHA: 033978da9d8412cff34d083bd542f759dd5e7c0a.
+Expected source main SHA at trigger: 033978da9d8412cff34d083bd542f759dd5e7c0a.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -40,7 +40,7 @@ UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / 
 - Do not commit further DreamMemory source/docs while this build is active. CI success does not equal real-device visual acceptance.
 
 
-- 0.7.1 navigation/interaction polish at source SHA 43925319758fbd683a71fb9bf0f8b86ceb9c08d9:
+- 0.7.1 navigation/interaction polish at source SHA 033978da9d8412cff34d083bd542f759dd5e7c0a:
   - BottomBar.kt replaces font glyphs with six consistent Canvas-drawn icons in a shared 24dp viewport and consistent label metrics.
   - DreamNavGraph.kt adds left/right swiping between adjacent top-level workspaces, with transition direction matched to navigation direction; known overlay destinations disable the outer swipe detector.
   - DreamCards.kt reduces card/header surface contrast and adds a subtle outline to avoid disconnected white panels.
@@ -48,3 +48,14 @@ UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / 
   - UX audit, bug history, handoff, ledger and README record this scope and its verification boundaries.
 - Must compile the gesture detector and Canvas glyphs, pass all JVM unit tests, build debug APK, enforce Room schema discipline, encrypt/decrypt the artifact, sign and verify the APK, confirm source SHA parity, and publish the private Release.
 - Do not claim the perceived tap lag is fully resolved without real-device profiling and interaction checks. Specifically verify vertical scrolling, inner horizontal gestures, taps/long-presses, back navigation, narrow screens, and light/dark/custom themes.
+
+
+- 0.7.2 warm-paper design system batch at source SHA 033978da9d8412cff34d083bd542f759dd5e7c0a:
+  - Theme.kt establishes the product-owner palette: #FFF5E6 paper, #FFD47F soft gold, #B9D4CF sage, #87A6BF blue, #866E4A brown. The supplied #FFCB0 is not a valid six-digit HEX, so #FFCB00 is explicitly provisional and used only as a small accent.
+  - All eight built-in presets now explicitly define light/dark surface-container roles to prevent generic Material white/lavender surfaces bleeding into themed cards.
+  - DreamCard uses opaque theme surfaceContainerLow; emphasized cards use primaryContainer; DreamPageHeader is unboxed by default; pressed-state scale recomposition is removed in favor of native ripple.
+  - BottomBar selection uses primaryContainer; top-level tab transition is shorter (170 ms) and uses a smaller horizontal offset.
+  - Docs added: docs/DESIGN_SYSTEM_WARM_PALETTE_2026-10-15.md; updated PROJECT_CONTEXT, DESIGN_DECISIONS, UI_UX_AUDIT, PROJECT_CHANGE_AND_MIGRATION_LEDGER, VISUAL_REDESIGN_HANDOFF and BUG_HISTORY.
+- Run the complete required pipeline: JVM unit tests, debug APK build, Room schema discipline, encrypted artifact transfer, signing and signature verification, source SHA parity, and private Release publication.
+- Treat compiler errors as blockers. Explicitly verify Material3 surfaceContainer roles compile against the project's pinned dependency version.
+- Do not claim this makes all card layouts visually final. Real-device visual review, horizontal gesture conflicts, Release performance profiling, accessibility and page-by-page object-specific layouts remain acceptance items.
