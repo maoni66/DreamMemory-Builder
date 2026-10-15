@@ -1,6 +1,6 @@
 Build requested for DreamMemory source main as one coordinated feature-quality batch, not a per-change build.
-Source SHA: 1836e1ffdcdaf390e63b45003fee35f9c3874dc6.
-Expected source main SHA at trigger: 1836e1ffdcdaf390e63b45003fee35f9c3874dc6.
+Source SHA: 6b9f74d6749e5beb76067d634f8b5cbfe2a732fc.
+Expected source main SHA at trigger: 6b9f74d6749e5beb76067d634f8b5cbfe2a732fc.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -19,3 +19,7 @@ Last completed successful Builder run #50 (38726099887) used the previous source
 
 Batch policy: do not commit further DreamMemory source/docs while this build is active; wait for the complete run result before starting the next source batch. CI success does not equal device or visual acceptance.
 UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / Discover; improve hierarchy, spacing, density, filter/form grouping, button priority, empty/loading/error states, theme consistency, long content, narrow screens, accessibility and true device verification. Do not mark visual acceptance complete without real-device checks.
+
+- Visual system batch for 0.6.4: DreamCard border treatment now varies by preset/emphasis; card body spacing is more deliberate; section headings use a theme-accent rule; selected filter pills have clearer contrast; the six-tab navigation has a stronger selected indicator without changing tab count/order/routes; theme presets use distinct shape systems rather than one universal radius.
+- Version metadata: app/build.gradle.kts now sets versionName 0.6.4 and versionCode 1011; README and UI audit/ledger updated.
+- This build must verify the complete accumulated source batch at SHA 6b9f74d6749e5beb76067d634f8b5cbfe2a732fc. Do not advance private main while it runs.
