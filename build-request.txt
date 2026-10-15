@@ -1,4 +1,4 @@
-Build requested for DreamMemory source main after implementing project-task reminders through the existing reminder dialog/scheduler, lifecycle cancellation, reboot/backup rescheduling, and active-task validation. Source SHA: 7a2a0c8e1c1b9cf79f316bb22f44dc99d9d4b226.
-Expected source main SHA at trigger: 7a2a0c8e1c1b9cf79f316bb22f44dc99d9d4b226
+Build requested for DreamMemory source main after the six-tab audit batch: extract and test Home summary selectors, Discover resource-request template parsing, and Life shopping/pickup pasted-input parsing; update navigation decision docs to preserve the user's six-tab requirement. Source SHA: 8d90558bea1d929f01521c0064de7301d398beb2.
+Expected source main SHA at trigger: 8d90558bea1d929f01521c0064de7301d398beb2
 Required verification: JVM unit tests, debug APK build, Room schema discipline, signing, signature verification, and private release upload.
 Keep source SHA parity check enabled; do not publish if DreamMemory/main advances during the build.
