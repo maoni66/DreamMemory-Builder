@@ -1,6 +1,6 @@
 Build requested for DreamMemory source main as one coordinated feature-quality batch, not a per-change build.
-Source SHA: 0f0b07a659bba789d17eeb5dcf61e379775f6c40.
-Expected source main SHA at trigger: 0f0b07a659bba789d17eeb5dcf61e379775f6c40.
+Source SHA: 1836e1ffdcdaf390e63b45003fee35f9c3874dc6.
+Expected source main SHA at trigger: 1836e1ffdcdaf390e63b45003fee35f9c3874dc6.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -9,11 +9,13 @@ This batch includes all previous unverified changes since the last successful Bu
 - Home summary selector extraction and unit tests; shared section heading and action alignment.
 - Shelf remaining-height layout correction and missing AssistChip import fix.
 - Record results list and empty state now consume only remaining height after search and filter controls.
+- Record: added an explicit initial-DAO-emission flag and a tested deep-link resolver so an empty initial StateFlow value is not mistaken for a loaded empty database; missing targets are consumed only after the real query emits.
+- Life / Memory / Notebook: added per-domain initial-load flags and updated LifeScreen deep-link handling to wait for the correct DAO flow, then consume missing targets even when the valid result is empty.
 - Development review/acceptance standard, six-tab source trace audit, UI/UX audit, bug history, project context and migration ledger updates; stale five-tab proposal in the ledger has been corrected to the user's current fixed six-tab decision.
 
 Required verification: all JVM unit tests must pass, debug APK build, Room schema version discipline, APK/schema transfer encryption, isolated publishing-runner decryption, APK signing and signature verification, source SHA parity, and private release upload. Do not publish if DreamMemory/main advances during the build.
 
-Last completed successful Builder run #50 (38726099887) used the previous source revision and passed tests, debug APK build, Room schema discipline, encryption/decryption, signing, signature verification and private release publication. This new run is required to verify the complete batch above.
+Last completed successful Builder run #50 (38726099887) used the previous source revision and passed tests, debug APK build, Room schema discipline, encryption/decryption, signing, signature verification and private release publication. This run is required to verify the complete batch above plus the newly added Record and Life deep-link loading fixes and their regression tests.
 
 Batch policy: do not commit further DreamMemory source/docs while this build is active; wait for the complete run result before starting the next source batch. CI success does not equal device or visual acceptance.
 UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / Discover; improve hierarchy, spacing, density, filter/form grouping, button priority, empty/loading/error states, theme consistency, long content, narrow screens, accessibility and true device verification. Do not mark visual acceptance complete without real-device checks.
