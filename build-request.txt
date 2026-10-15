@@ -1,6 +1,6 @@
 Build requested for DreamMemory source main as one coordinated feature-quality batch, not a per-change build.
-Source SHA: 8ea58931616efaca326fa6745e89af0184375b33.
-Expected source main SHA at trigger: 8ea58931616efaca326fa6745e89af0184375b33.
+Source SHA: 2c56d9022d8f6b7e45b0df44ef3a419f6fc4f9e1.
+Expected source main SHA at trigger: 2c56d9022d8f6b7e45b0df44ef3a419f6fc4f9e1.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -79,3 +79,12 @@ UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / 
   - CreateScreen replaces three OutlinedCard collection entries with themed DreamCard rows; albums use tertiary container/glyph, works use primary container/star glyph, references use secondary container/search glyph. Titles and descriptions are capped to two lines, and rows retain click ripple.
   - LifeScreen replaces two default Material Card menstrual-cycle summary surfaces with themed DreamCard and quieter supporting labels.
   - No intended Room schema changes. Run all JVM tests, assembleDebug, schema discipline, encrypted artifact transfer/decryption, APK signing/signature verification, source SHA parity and private Release publication. CI does not replace real-device visual acceptance.
+
+
+## New coordinated batch: 0.7.5 pager UX correction (2026-10-15)
+- Source version: 0.7.5 / versionCode 1017.
+- Exact source SHA: 2c56d9022d8f6b7e45b0df44ef3a419f6fc4f9e1.
+- Fix 0.7.4 bottom-tab feedback lag: bottom-bar selected destination now follows HorizontalPager.currentPage during the swipe; actual currentRoute is still committed from settledPage so route-driven animateScrollToPage does not fight an active drag.
+- Set HorizontalPager beyondViewportPageCount = 1 to precompose one adjacent page as a swipe-start hitch mitigation. This is a hypothesis; do not claim smoothness without physical-device profiling.
+- Preserve all six top-level tabs and domain ownership. No Room schema or data changes.
+- Re-run the entire required validation suite: JVM tests, debug APK, Room schema discipline, encrypted package transfer, isolated publishing, APK signing and signature verification, exact source SHA parity, and private release publication. Do not claim the UI issue is fully accepted based only on CI.
