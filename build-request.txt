@@ -1,6 +1,6 @@
 Build requested for DreamMemory source main as one coordinated feature-quality batch, not a per-change build.
-Source SHA: 033978da9d8412cff34d083bd542f759dd5e7c0a.
-Expected source main SHA at trigger: 033978da9d8412cff34d083bd542f759dd5e7c0a.
+Source SHA: c4411e9356d8c47bf25abc699e8ceb2fc372bdc9.
+Expected source main SHA at trigger: c4411e9356d8c47bf25abc699e8ceb2fc372bdc9.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -62,4 +62,13 @@ UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / 
 - Do not claim this makes all card layouts visually final. Real-device visual review, horizontal gesture conflicts, Release performance profiling, accessibility and page-by-page object-specific layouts remain acceptance items.
 
 
-- Retry required after Builder #56 failed during JVM unit-test compilation. Private DreamMemory/main is now at source SHA 6b1a348fef2071d5a898ed42994b02ba8e49e1f5; this is the exact expected source SHA for the next run. Verify the import fix, all unit tests, assembleDebug, Room schema discipline, encrypted artifact transfer, APK signing/signature verification, source SHA parity and private Release publication. Do not claim success until every required step is green.
+- Builder #57 succeeded for source SHA 6b1a348fef2071d5a898ed42994b02ba8e49e1f5. JVM unit tests, debug APK build, Room schema discipline, encrypted transfer, isolated decryption, APK signing/signature verification, and private Release publication all passed. Release: https://github.com/maoni66/DreamMemory/releases/tag/build-6b1a348fef20-38738516634-1. This verified 0.7.2 only; do not apply that result to later source changes.
+
+
+- 0.7.3 native pager/theme polish batch; exact private DreamMemory/main source SHA: c4411e9356d8c47bf25abc699e8ceb2fc372bdc9.
+  - app version bumped to 0.7.3 / versionCode 1015.
+  - DreamNavGraph uses Compose HorizontalPager for finger-following tab swipes; settledPage route sync ignores the initial emission to protect deep-link target state.
+  - Theme.kt adds custom light-theme surface container roles blended from user background/secondary/tertiary colors; exact warm peach is #FFCDB0.
+  - DreamCards fixes selected pill foreground to onPrimaryContainer; BottomBar adjusts glyph optical bounds and uses opaque surfaceContainerLow for the bar.
+  - Room entities, DAOs, migrations and schema files are not intentionally changed.
+  - Required: confirm exact source SHA parity, all JVM unit tests, assembleDebug, Room schema discipline, encrypted artifact transfer, isolated decryption, APK signing/signature verification, private release publication. Inspect compiler/test logs for pager APIs and custom theme color-role issues. CI success is not device visual acceptance.
