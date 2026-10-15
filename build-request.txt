@@ -1,7 +1,19 @@
-Build requested for DreamMemory source main after ResourceRequestSpec parser hardening, coordinated first-batch UI fixes, and the newly committed development review/acceptance standard.
-Source SHA: d22d9b36f03948ac80c9f1e89942bbeafc04c57b.
-Expected source main SHA at trigger: d22d9b36f03948ac80c9f1e89942bbeafc04c57b.
-This revision includes request-template parsing that separates JSON options and malformed simple suffixes without splitting ordinary commas in query URLs; a regression test preserving commas in query values; Home section headers standardized with DreamSectionHeader; shared section header action vertical alignment; Shelf result/empty-state regions constrained to remaining viewport height; Discover imported-source section using the shared heading hierarchy; Discover Legado rule resolution; Shelf AssistChip import; Home summary selectors/tests; Legado resolver tests; Life shopping/pickup parser/tests; docs/DEVELOPMENT_REVIEW_AND_ACCEPTANCE_STANDARD.md; and build failure history/operational guard updates.
-Required verification: all JVM unit tests must pass, debug APK build, Room schema version discipline, signing, signature verification, source SHA parity check, and private release upload. Do not publish if DreamMemory/main advances during the build.
-Builder run 38725560791 (#49) passed JVM tests, debug APK build, Room schema checks, APK transfer encryption, signing, and signature verification. Publish correctly refused because main advanced during the run from 0b40abc5ae130bd28e47cf583a8d93916932b251 to 0a185b626f9acae6aa8bb1f4b214f43517627ab4. The docs are now committed before this run. Do not commit further DreamMemory source/docs while this run is active; wait for the complete result. UI is still a staged first batch, not final visual acceptance.
-UI scope remains: keep all content/features and six tabs Home / Life / Shelf / Record / Create / Discover; improve hierarchy, spacing, density, filter/form grouping, button priority, empty/loading states, theme consistency, long content and narrow-screen behavior. Do not mark visual acceptance complete without real-device checks.
+Build requested for DreamMemory source main as one coordinated feature-quality batch, not a per-change build.
+Source SHA: 0f0b07a659bba789d17eeb5dcf61e379775f6c40.
+Expected source main SHA at trigger: 0f0b07a659bba789d17eeb5dcf61e379775f6c40.
+
+This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
+- Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
+- Discover Anime WebView URL policy extracted to isAllowedAnimeWebUrl; initial creation and subsequent Compose updates both validate HTTP/HTTPS and a non-empty host; blocked URL transitions stop loading and use about:blank without repeated reloads. Robolectric tests cover allowed and rejected URL schemes/hosts.
+- Life shopping and pickup input parser extraction and unit tests.
+- Home summary selector extraction and unit tests; shared section heading and action alignment.
+- Shelf remaining-height layout correction and missing AssistChip import fix.
+- Record results list and empty state now consume only remaining height after search and filter controls.
+- Development review/acceptance standard, six-tab source trace audit, UI/UX audit, bug history, project context and migration ledger updates; stale five-tab proposal in the ledger has been corrected to the user's current fixed six-tab decision.
+
+Required verification: all JVM unit tests must pass, debug APK build, Room schema version discipline, APK/schema transfer encryption, isolated publishing-runner decryption, APK signing and signature verification, source SHA parity, and private release upload. Do not publish if DreamMemory/main advances during the build.
+
+Last completed successful Builder run #50 (38726099887) used the previous source revision and passed tests, debug APK build, Room schema discipline, encryption/decryption, signing, signature verification and private release publication. This new run is required to verify the complete batch above.
+
+Batch policy: do not commit further DreamMemory source/docs while this build is active; wait for the complete run result before starting the next source batch. CI success does not equal device or visual acceptance.
+UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / Discover; improve hierarchy, spacing, density, filter/form grouping, button priority, empty/loading/error states, theme consistency, long content, narrow screens, accessibility and true device verification. Do not mark visual acceptance complete without real-device checks.
