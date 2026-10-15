@@ -1,5 +1,5 @@
-Build requested for DreamMemory source main after fixing the confirmed Discover Legado rule-resolution compilation blocker and completing the current six-tab audit batch. This batch includes: Home summary selectors and tests; Discover request-template parser and Legado nested-rule resolver with regression tests; Life shopping/pickup input parsers and tests; navigation decision docs preserving the fixed six-tab order; bug/UX/project-context records for the prior failed run.
-Source SHA: d52ec2a0bc07f1b73f60d460d46475e400dce7c4.
-Expected source main SHA at trigger: d52ec2a0bc07f1b73f60d460d46475e400dce7c4.
-Required verification: JVM unit tests must compile and pass, debug APK build, Room schema discipline, signing, signature verification, source SHA parity check, and private release upload.
-The previous run 38717377222 failed in Kotlin compilation because DiscoverViewModel referenced missing legadoRule; this has been replaced by resolveLegadoRule and regression tests. Do not publish if DreamMemory/main advances during the build.
+Build requested for DreamMemory source main after fixing two confirmed compilation blockers: Discover Legado rule resolution and missing Material3 AssistChip import in ShelfScreen. This batch includes Home summary selectors and tests; Discover request-template parser and Legado nested-rule resolver with regression tests; Life shopping/pickup input parsers and tests; fixed six-tab navigation decision; bug/UX records for both failed runs.
+Source SHA: 2dd182e2048095fe516d535a548575f066c573b5.
+Expected source main SHA at trigger: 2dd182e2048095fe516d535a548575f066c573b5.
+Required verification: JVM unit tests must compile and pass, debug APK build, Room schema version discipline, signing, signature verification, source SHA parity check, and private release upload.
+Prior run 38717377222 failed due to unresolved legadoRule; prior run 38721238319 failed due to missing androidx.compose.material3.AssistChip import in ShelfScreen.kt. Both have been addressed in this source revision. Do not publish if DreamMemory/main advances during the build.
