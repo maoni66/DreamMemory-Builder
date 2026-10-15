@@ -50,8 +50,9 @@ UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / 
 - Do not claim the perceived tap lag is fully resolved without real-device profiling and interaction checks. Specifically verify vertical scrolling, inner horizontal gestures, taps/long-presses, back navigation, narrow screens, and light/dark/custom themes.
 
 
-- 0.7.2 warm-paper design system batch at source SHA 033978da9d8412cff34d083bd542f759dd5e7c0a:
-  - Theme.kt establishes the product-owner palette: #FFF5E6 paper, #FFD47F soft gold, #B9D4CF sage, #87A6BF blue, #866E4A brown. The supplied #FFCB0 is not a valid six-digit HEX, so #FFCB00 is explicitly provisional and used only as a small accent.
+- 0.7.2 warm-paper design system batch, corrected source SHA 6b1a348fef2071d5a898ed42994b02ba8e49e1f5:
+  - Confirmed product-owner palette: #FFF5E6 paper, #FFCDB0 warm peach, #FFD47F soft gold, #B9D4CF sage, #87A6BF blue, #866E4A brown. #FFCDB0 is the exact confirmed value, not a provisional approximation.
+  - Fixed Kotlin compilation failure in Theme.kt: moved asImageBitmap and staticCompositionLocalOf imports into the import block; the previous run #56 failed at Theme.kt:31 with “imports are only allowed in the beginning of file”.
   - All eight built-in presets now explicitly define light/dark surface-container roles to prevent generic Material white/lavender surfaces bleeding into themed cards.
   - DreamCard uses opaque theme surfaceContainerLow; emphasized cards use primaryContainer; DreamPageHeader is unboxed by default; pressed-state scale recomposition is removed in favor of native ripple.
   - BottomBar selection uses primaryContainer; top-level tab transition is shorter (170 ms) and uses a smaller horizontal offset.
@@ -59,3 +60,6 @@ UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / 
 - Run the complete required pipeline: JVM unit tests, debug APK build, Room schema discipline, encrypted artifact transfer, signing and signature verification, source SHA parity, and private Release publication.
 - Treat compiler errors as blockers. Explicitly verify Material3 surfaceContainer roles compile against the project's pinned dependency version.
 - Do not claim this makes all card layouts visually final. Real-device visual review, horizontal gesture conflicts, Release performance profiling, accessibility and page-by-page object-specific layouts remain acceptance items.
+
+
+- Retry required after Builder #56 failed during JVM unit-test compilation. Private DreamMemory/main is now at source SHA 6b1a348fef2071d5a898ed42994b02ba8e49e1f5; this is the exact expected source SHA for the next run. Verify the import fix, all unit tests, assembleDebug, Room schema discipline, encrypted artifact transfer, APK signing/signature verification, source SHA parity and private Release publication. Do not claim success until every required step is green.
