@@ -1,6 +1,6 @@
 Build requested for DreamMemory source main as one coordinated feature-quality batch, not a per-change build.
-Source SHA: d558be742d637c92fcd751155798c3c78cb53b50.
-Expected source main SHA at trigger: d558be742d637c92fcd751155798c3c78cb53b50.
+Source SHA: 43925319758fbd683a71fb9bf0f8b86ceb9c08d9.
+Expected source main SHA at trigger: 43925319758fbd683a71fb9bf0f8b86ceb9c08d9.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -38,3 +38,13 @@ UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / 
 - Preserve all domain/data boundaries and verify no source/schema behavior regressions. Required: JVM tests, assembleDebug, Room schema discipline, artifact encryption/decryption, APK signing and signature verification, source SHA parity, private release publication.
 - The previous successful run #53 only verified 0.6.4 at SHA 6b9f74d6749e5beb76067d634f8b5cbfe2a732fc. This run must verify the complete 0.7.0 visual batch at SHA d558be742d637c92fcd751155798c3c78cb53b50.
 - Do not commit further DreamMemory source/docs while this build is active. CI success does not equal real-device visual acceptance.
+
+
+- 0.7.1 navigation/interaction polish at source SHA 43925319758fbd683a71fb9bf0f8b86ceb9c08d9:
+  - BottomBar.kt replaces font glyphs with six consistent Canvas-drawn icons in a shared 24dp viewport and consistent label metrics.
+  - DreamNavGraph.kt adds left/right swiping between adjacent top-level workspaces, with transition direction matched to navigation direction; known overlay destinations disable the outer swipe detector.
+  - DreamCards.kt reduces card/header surface contrast and adds a subtle outline to avoid disconnected white panels.
+  - Version metadata is 0.7.1 / versionCode 1013.
+  - UX audit, bug history, handoff, ledger and README record this scope and its verification boundaries.
+- Must compile the gesture detector and Canvas glyphs, pass all JVM unit tests, build debug APK, enforce Room schema discipline, encrypt/decrypt the artifact, sign and verify the APK, confirm source SHA parity, and publish the private Release.
+- Do not claim the perceived tap lag is fully resolved without real-device profiling and interaction checks. Specifically verify vertical scrolling, inner horizontal gestures, taps/long-presses, back navigation, narrow screens, and light/dark/custom themes.
