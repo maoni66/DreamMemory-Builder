@@ -1,6 +1,6 @@
 Build requested for DreamMemory source main as one coordinated feature-quality batch, not a per-change build.
-Source SHA: c4411e9356d8c47bf25abc699e8ceb2fc372bdc9.
-Expected source main SHA at trigger: c4411e9356d8c47bf25abc699e8ceb2fc372bdc9.
+Source SHA: 8ea58931616efaca326fa6745e89af0184375b33.
+Expected source main SHA at trigger: 8ea58931616efaca326fa6745e89af0184375b33.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -72,3 +72,10 @@ UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / 
   - DreamCards fixes selected pill foreground to onPrimaryContainer; BottomBar adjusts glyph optical bounds and uses opaque surfaceContainerLow for the bar.
   - Room entities, DAOs, migrations and schema files are not intentionally changed.
   - Required: confirm exact source SHA parity, all JVM unit tests, assembleDebug, Room schema discipline, encrypted artifact transfer, isolated decryption, APK signing/signature verification, private release publication. Inspect compiler/test logs for pager APIs and custom theme color-role issues. CI success is not device visual acceptance.
+
+
+- 0.7.4 object-specific surface polish; exact private DreamMemory/main SHA: 8ea58931616efaca326fa6745e89af0184375b33.
+  - app version 0.7.4 / versionCode 1016.
+  - CreateScreen replaces three OutlinedCard collection entries with themed DreamCard rows; albums use tertiary container/glyph, works use primary container/star glyph, references use secondary container/search glyph. Titles and descriptions are capped to two lines, and rows retain click ripple.
+  - LifeScreen replaces two default Material Card menstrual-cycle summary surfaces with themed DreamCard and quieter supporting labels.
+  - No intended Room schema changes. Run all JVM tests, assembleDebug, schema discipline, encrypted artifact transfer/decryption, APK signing/signature verification, source SHA parity and private Release publication. CI does not replace real-device visual acceptance.
