@@ -1,7 +1,7 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated feature-quality batch, not a per-change build.
-Source SHA: ade279bb265e7dc1a7eeb976575c4df0a4082f15.
+Source SHA: c30e94ab7567f8fe58fda0fcb07ea1c4105f7cff.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: ade279bb265e7dc1a7eeb976575c4df0a4082f15.
+Expected source SHA at trigger: c30e94ab7567f8fe58fda0fcb07ea1c4105f7cff.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -114,3 +114,12 @@ Template and placement audit batch (2026-10-16): validate exact DreamMemory sour
 - Notebook templates now affect the editor rather than only the notebook name: diary/inspiration/web/recipe have distinct writing prompts and title/content labels; web and recipe have corresponding memory types and focused type choices; legacy imported types remain editable. Chat remains a message stream. No Room fields/schema version were changed.
 - Added JVM tests for web/recipe/inspiration defaults, relevant type choices, template prompts/labels, and preservation of imported legacy types.
 - Verify all JVM unit tests, Debug APK build, and Room schema version discipline against this exact source SHA. Non-main branch only: do not sign, publish, or write generated schemas to main. CI does not replace device acceptance.
+
+
+Follow-up usability batch (2026-10-16): validate exact DreamMemory source head c30e94ab7567f8fe58fda0fcb07ea1c4105f7cff.
+- The prior run #38903612339 succeeded for source SHA ade279bb265e7dc1a7eeb976575c4df0a4082f15: JVM unit tests, Debug APK build and Room schema version discipline passed. This result does not validate the following edits.
+- Notebook template picker labels are now explicitly “标准模板 / 日记模板 / 对话模板 / 灵感模板 / 网页模板 / 菜谱模板”, not a set of separate “记本” product names.
+- Record editor now uses type-specific title/note/rating/source labels and a concise domain hint for books, comics, movies, anime, music, musicals, games, courses, and art albums. Guidance preserves the boundaries: local files/reading progress in Shelf, ordinary actions in Life, original works/editable albums in Create.
+- Added JVM tests for record-specific editor labels and cross-domain hints; expanded notebook tests to assert template naming, content prompts, type defaults, and legacy type preservation.
+- No Room Entity fields, schema version, or migration changed in this batch.
+Required: JVM unit tests, assembleDebug, Room schema version discipline against this exact source SHA. Non-main branch only; do not sign, publish, or write generated schemas to main. CI success is not device acceptance.
