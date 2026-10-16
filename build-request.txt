@@ -230,3 +230,8 @@ Latest corrective follow-up (2026-10-16): validate exact DreamMemory source head
 - Includes video-course shelf support plus a stricter open-path rule: a course shelf item must have a nonblank source/video URL or a local video path; the DAO hides and the legacy cleanup removes course metadata rows with neither.
 - Verify the SQL TRIM predicates compile in Room, repository add/update guards compile, course-specific progress status handling works, and ShelfKindOptionsTest passes.
 - Preserve all previous requirements: JVM unit tests, assembleDebug, Room schema version discipline; branch validation only, no signing/publishing/schema writeback. Device playback and source-link behavior remain unverified until manual device testing.
+
+
+Test expectation correction (2026-10-16): validate exact DreamMemory source head 07232a464f0ef20f61ef4590b44d6c8e1cd40354 on design/visual-system-pass-0.7.6.
+- Fix ShelfKindOptionsTest to compare book/comic/movie against common statuses while global filters also include course-specific statuses.
+- This is the exact latest source SHA; run JVM unit tests, assembleDebug and Room schema version discipline only. Do not sign/publish/write schema files to main. Device playback remains a separate manual acceptance item.
