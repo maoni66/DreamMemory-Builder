@@ -1,7 +1,7 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated feature-quality batch, not a per-change build.
-Source SHA: 49521fbcf18e794af4c8b580829377d976109cf2.
+Source SHA: b2722d0e6a13d91b2ab38bcb93972ff18233a0cf.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 49521fbcf18e794af4c8b580829377d976109cf2.
+Expected source SHA at trigger: b2722d0e6a13d91b2ab38bcb93972ff18233a0cf.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -132,3 +132,12 @@ Shelf content-consistency batch (2026-10-16): validate exact DreamMemory source 
 - Added appropriate game/musical-theatre icons and progress labels, and a regression test for the supported kinds and status choices.
 - No Room Entity fields, schema version, or migrations changed.
 Required: all JVM unit tests, assembleDebug, and Room schema version discipline against this exact SHA. Non-main branch only; do not sign, publish, or write generated schema files to main. CI success is not real-device acceptance.
+
+
+Discover interaction-cost batch (2026-10-16): validate exact DreamMemory source head b2722d0e6a13d91b2ab38bcb93972ff18233a0cf.
+- Prior run #38904466885 succeeded for the shelf consistency batch: JVM tests, Debug APK build and Room schema discipline passed. This run validates the following accumulated changes.
+- Shelf: expose all already-defined resource kinds, including games and musical theatre; provide the right status choices and global filters; add game “正在玩”, relevant icons and progress labels. Regression tests cover type availability and specialized status sets.
+- Discover: separate TVBox and Kazumi rule name/URL/result state so one form cannot overwrite or hide the other's input/feedback.
+- Discover: place advanced TVBox/CMS/Kazumi/local-resource import controls behind a collapsed-by-default “高级来源与导入” section; the ordinary discovery/search experience remains visible by default. This is progressive disclosure, not feature removal.
+- No Room Entity fields, schema version, or migrations changed.
+Required: all JVM unit tests, assembleDebug, Room schema version discipline against this exact source SHA. Non-main branch only; do not sign/publish or write schema files to main. CI success does not equal device acceptance; verify expanding/collapsing, form state isolation, long URLs, narrow screens, and return-state preservation on device.
