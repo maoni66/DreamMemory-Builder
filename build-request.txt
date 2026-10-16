@@ -243,3 +243,11 @@ Coordinated feedback + shelf video-course correction batch (2026-10-16): validat
 - Docs now record the feedback privacy/triage contract and correct the previous overbroad course exclusion. No Room schema/entity/migration change intended.
 - Required: all JVM unit tests, assembleDebug, Room schema version discipline against this exact source SHA. Branch validation only; do not sign/publish or write generated schemas to main. If any compile/test failure occurs, inspect actual job logs and fix before calling the batch complete.
 - Device acceptance remains separate: test feedback form keyboard/long text/narrow screen, chooser target and cancellation, no-target error path; test video-course source opening, valid-course retention, and safe old-row/file cleanup.
+
+
+Feedback compile-error correction batch (2026-10-16): validate exact DreamMemory branch head f5926647b26a6ca5a51e37e218950923f19f2a5c on design/visual-system-pass-0.7.6.
+- Previous run 38913993061 failed during JVM Kotlin compilation with ProfileScreen.kt unresolved BuildConfig at lines 38 and 392. Root cause: BuildConfig was not generated in this module.
+- Fixed by reading versionName from PackageManager with API 33+ PackageInfoFlags and legacy fallback; no BuildConfig dependency or Gradle build-feature change.
+- Also keep the feedback form open after launching the system Sharesheet so canceling share does not discard the draft.
+- Required: JVM unit tests, assembleDebug, Room schema version discipline against this exact SHA. Do not sign/publish or write schema files to main. Inspect logs and fix any new errors before declaring complete.
+- Device acceptance remains pending: verify chooser cancel retains draft, user-selected share target gets only the intended text, keyboard and long text layout, and return navigation.
