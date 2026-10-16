@@ -251,3 +251,13 @@ Feedback compile-error correction batch (2026-10-16): validate exact DreamMemory
 - Also keep the feedback form open after launching the system Sharesheet so canceling share does not discard the draft.
 - Required: JVM unit tests, assembleDebug, Room schema version discipline against this exact SHA. Do not sign/publish or write schema files to main. Inspect logs and fix any new errors before declaring complete.
 - Device acceptance remains pending: verify chooser cancel retains draft, user-selected share target gets only the intended text, keyboard and long text layout, and return navigation.
+
+Personal-use memo refinement batch (2026-10-17): validate exact DreamMemory source head 974140c0b735c08bdd4cd8467a0553275a1cbbce on branch design/visual-system-pass-0.7.6.
+- Reframe the former “user feedback” form as a personal improvement memo for the sole app owner.
+- Remove contact collection; use categories “待修问题 / 改进想法 / 使用感受”; share text contains only the memo body and app/Android versions.
+- Keep the explicit no-server/no-auto-upload/no-auto-send boundary. Android Sharesheet handoff is not a receipt and this feature is not an in-app persisted history; canceling share does not preserve the draft.
+- Update FeedbackMessageTest and project context, UX audit, bug history, migration ledger, release readiness and personal memo guidance.
+- No Room schema, migration, third-party dependency, or six-tab navigation changes.
+- Required: JVM unit tests, assembleDebug, and Room schema version discipline against the latest actual branch HEAD. Branch validation only; do not sign, publish, or write generated Room schemas to private main. Check real logs before declaring success.
+- Device acceptance remains pending for type selection, keyboard/long text layout, chooser target, cancel/return, and no-target error.
+
