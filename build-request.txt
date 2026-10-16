@@ -1,7 +1,7 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated feature-quality batch, not a per-change build.
-Source SHA: e6420c8714a4421672f55586bbf0151d92b35fb8.
+Source SHA: 1681e3fd2c255968e867585356f8336f41e7b4a9.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: e6420c8714a4421672f55586bbf0151d92b35fb8.
+Expected source SHA at trigger: 1681e3fd2c255968e867585356f8336f41e7b4a9.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -92,3 +92,5 @@ UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / 
 
 
 Build mode for this request: branch validation only. Run JVM unit tests, assembleDebug, and Room schema discipline against the exact source ref above. Do not sign, publish a release, or write generated Room schemas back to private main for non-main refs.
+
+Retry after compile-error fixes: add the missing Compose dp import to CreateAssetPreview.kt and read MaterialTheme color outside the Canvas draw scope in HomeScreen.kt. Source head: 1681e3fd2c255968e867585356f8336f41e7b4a9.
