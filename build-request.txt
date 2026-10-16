@@ -1,7 +1,7 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated feature-quality batch, not a per-change build.
-Source SHA: a5cc5864e4c11fc343859e3ef7c50d8f7d7e7eef.
+Source SHA: ade279bb265e7dc1a7eeb976575c4df0a4082f15.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: a5cc5864e4c11fc343859e3ef7c50d8f7d7e7eef.
+Expected source SHA at trigger: ade279bb265e7dc1a7eeb976575c4df0a4082f15.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -106,3 +106,11 @@ Includes the previous accumulated changes plus the corrected notebook-template d
 - PROJECT_CONTEXT and DESIGN_DECISIONS now explicitly set the cross-module standard: low startup cost with a high expression ceiling, progressive disclosure, content-appropriate presentation, single-source data, functional closure, and task-based usability acceptance.
 - Source code change is in NotebookScreen.kt. Verify Compose DropdownMenu APIs compile, all JVM tests pass, Debug APK builds, and Room schema version discipline passes.
 Required verification: JVM unit tests, assembleDebug, Room schema version discipline. This is non-main branch validation only; do not sign, publish, or write generated Room schemas to main. CI success does not replace device testing of template selection, notebook creation, legacy notebook rendering, conversation flow, detail/editor/back behavior, and narrow-screen layout. Do not commit more source/docs while this run is active.
+
+
+Template and placement audit batch (2026-10-16): validate exact DreamMemory source head ade279bb265e7dc1a7eeb976575c4df0a4082f15.
+- Corrected the page-tree baseline to preserve the user's fixed six tabs: Home / Life / Shelf / Record / Create / Discover. “My” remains a secondary personal/settings entry.
+- Added an explicit content-placement matrix: daily life and tools → Life; files/reading progress → Shelf; lived book/movie/music/game experiences → Record; original works/album/canvas/reference assets → Create; external sources and resource discovery → Discover; recency/review/continue summaries → Home; preferences/backup/privacy/theme → My/settings.
+- Notebook templates now affect the editor rather than only the notebook name: diary/inspiration/web/recipe have distinct writing prompts and title/content labels; web and recipe have corresponding memory types and focused type choices; legacy imported types remain editable. Chat remains a message stream. No Room fields/schema version were changed.
+- Added JVM tests for web/recipe/inspiration defaults, relevant type choices, template prompts/labels, and preservation of imported legacy types.
+- Verify all JVM unit tests, Debug APK build, and Room schema version discipline against this exact source SHA. Non-main branch only: do not sign, publish, or write generated schemas to main. CI does not replace device acceptance.
