@@ -147,12 +147,12 @@ jobs:
       # branch can commit the canonical snapshot before a second verification run.
       # Schema files contain structure only; never upload user data or APKs here.
       - name: Upload generated Room schema for branch review
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.source_ref != 'main'
+        if: always() && steps.request.outputs.needs_build == 'true' && steps.request.outputs.source_ref != 'main'
         uses: actions/upload-artifact@v4
         with:
           name: room-schema-${{ steps.source.outputs.source_sha }}
           path: app/schemas/com.dreammemory.app.data.local.DreamMemoryDatabase/*.json
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 7
 
       # Room's generated schema is part of the release contract. Carry it encrypted
