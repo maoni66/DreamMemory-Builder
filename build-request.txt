@@ -235,3 +235,11 @@ Latest corrective follow-up (2026-10-16): validate exact DreamMemory source head
 Test expectation correction (2026-10-16): validate exact DreamMemory source head 07232a464f0ef20f61ef4590b44d6c8e1cd40354 on design/visual-system-pass-0.7.6.
 - Fix ShelfKindOptionsTest to compare book/comic/movie against common statuses while global filters also include course-specific statuses.
 - This is the exact latest source SHA; run JVM unit tests, assembleDebug and Room schema version discipline only. Do not sign/publish/write schema files to main. Device playback remains a separate manual acceptance item.
+
+
+Coordinated feedback + shelf video-course correction batch (2026-10-16): validate exact DreamMemory branch head 3bc75f7cc58ffdbc6b7f0fc743ae4ef1668abbd5 on design/visual-system-pass-0.7.6.
+- Feedback feature: add 「我的 → 帮助与反馈」 form with issue/suggestion/experience categories, required description, optional contact, app/Android version context, and Android Sharesheet handoff. It does not upload to a server, persist to business DB, or include private user data/logs. Verify FeedbackMessageTest.
+- Shelf policy correction: retain video courses when they have a usable source URL or local path; use course-specific learning states/progress; cleanup must not delete valid course rows. Only unsupported game/musical-theatre/unknown metadata and courses with no source/path are eligible for cleanup.
+- Docs now record the feedback privacy/triage contract and correct the previous overbroad course exclusion. No Room schema/entity/migration change intended.
+- Required: all JVM unit tests, assembleDebug, Room schema version discipline against this exact source SHA. Branch validation only; do not sign/publish or write generated schemas to main. If any compile/test failure occurs, inspect actual job logs and fix before calling the batch complete.
+- Device acceptance remains separate: test feedback form keyboard/long text/narrow screen, chooser target and cancellation, no-target error path; test video-course source opening, valid-course retention, and safe old-row/file cleanup.
