@@ -270,3 +270,10 @@ Personal memo own-app share receiver batch (2026-10-17): validate exact DreamMem
 - New pure Kotlin PersonalMemoShareParserTest covers parsing, category/body/version fields, personal routing and ordinary-text regression.
 - Required: JVM unit tests, assembleDebug, Room schema discipline against exact latest branch HEAD. Do not sign/publish or write schema to private main. Check actual logs before declaring pass. Device checks pending for chooser visibility, own-app receive, inbox visibility, cancel/retry and backup/restore.
 
+Editable canvas first implementation batch (2026-10-17): validate exact DreamMemory source HEAD 0f23331c0b83a960053703bf00b005044486102d on branch design/visual-system-pass-0.7.6.
+- Add CreateCanvasEntity and CreateCanvasElementEntity, Room v1 -> v2 data-preserving migration, canvas DAO and migration contract tests.
+- Validate creation/open/rename/delete, text/shape/image elements, drag, resize, rotate, layer reorder, lock/visibility, undo/redo, PNG export renderer, media reference cleanup and full backup v11 restore paths.
+- Run JVM unit tests, assembleDebug, and Room schema discipline. The current branch intentionally does not yet contain schema 2.json; use the newly added branch-only schema artifact upload even if tests fail, then commit the exact compiler-generated v2 snapshot to the source branch and rerun Builder against the resulting exact SHA.
+- Do not sign or publish. Do not write generated schema to private main. Keep full backup media validation and old backup versions 2..10 compatible; automatic light backup remains database-only and missing media must render as a placeholder.
+- Device acceptance remains pending for gestures, rotation, image import, layer order, undo/redo, PNG output, source-media deletion protection, full restore, and light-backup missing media.
+
