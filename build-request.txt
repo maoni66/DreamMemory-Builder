@@ -1,7 +1,7 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated feature-quality batch, not a per-change build.
-Source SHA: b2722d0e6a13d91b2ab38bcb93972ff18233a0cf.
+Source SHA: 74f2485033fcdf74f676e08371edf414d136e5b2.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: b2722d0e6a13d91b2ab38bcb93972ff18233a0cf.
+Expected source SHA at trigger: 74f2485033fcdf74f676e08371edf414d136e5b2.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -141,3 +141,11 @@ Discover interaction-cost batch (2026-10-16): validate exact DreamMemory source 
 - Discover: place advanced TVBox/CMS/Kazumi/local-resource import controls behind a collapsed-by-default “高级来源与导入” section; the ordinary discovery/search experience remains visible by default. This is progressive disclosure, not feature removal.
 - No Room Entity fields, schema version, or migrations changed.
 Required: all JVM unit tests, assembleDebug, Room schema version discipline against this exact source SHA. Non-main branch only; do not sign/publish or write schema files to main. CI success does not equal device acceptance; verify expanding/collapsing, form state isolation, long URLs, narrow screens, and return-state preservation on device.
+
+
+Shelf field-guidance batch (2026-10-16): validate exact DreamMemory source head 74f2485033fcdf74f676e08371edf414d136e5b2.
+- Prior run #38904956383 succeeded for the shelf status/discover disclosure batch: JVM tests, Debug APK build and Room schema discipline passed.
+- Shelf editor now labels progress by kind (reading/watching/playing/studying), uses kind-specific note/source-link labels, and explains the boundary between managing a resource and recording personal experience. This keeps local resource/progress in Shelf and experience/review in Record, without adding fields.
+- Added JVM tests for the new labels and cross-domain hints.
+- No Room Entity fields, schema version, or migrations changed.
+Required: all JVM unit tests, assembleDebug, Room schema version discipline against this exact source SHA. Non-main branch only; do not sign/publish or write schemas to main. CI success does not replace device verification of form switching, long text, narrow screens and existing legacy status values.
