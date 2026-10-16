@@ -1,7 +1,7 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated feature-quality batch, not a per-change build.
-Source SHA: 1681e3fd2c255968e867585356f8336f41e7b4a9.
+Source SHA: b58e5da0d5c2c3487dbc617688e7d706953d535a.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 1681e3fd2c255968e867585356f8336f41e7b4a9.
+Expected source SHA at trigger: b58e5da0d5c2c3487dbc617688e7d706953d535a.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -93,4 +93,7 @@ UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / 
 
 Build mode for this request: branch validation only. Run JVM unit tests, assembleDebug, and Room schema discipline against the exact source ref above. Do not sign, publish a release, or write generated Room schemas back to private main for non-main refs.
 
-Retry after compile-error fixes: add the missing Compose dp import to CreateAssetPreview.kt and read MaterialTheme color outside the Canvas draw scope in HomeScreen.kt. Source head: 1681e3fd2c255968e867585356f8336f41e7b4a9.
+Retry after compile-error fixes: add the missing Compose dp import to CreateAssetPreview.kt and read MaterialTheme color outside the Canvas draw scope in HomeScreen.kt. Source head: b58e5da0d5c2c3487dbc617688e7d706953d535a.
+
+
+Consolidated validation batch (2026-10-16): validate the latest source head above after the previous successful run. Includes (1) nullable-safe Kazumi JSON request/config access in DiscoverViewModel, (2) nullable parent handling in ManagedPathSafetyTest, (3) Record ALBUM display disambiguation from “画册” to “画集” without schema/data changes, and (4) updated release/readiness/audit documentation. Run JVM unit tests, assembleDebug, and Room schema discipline once for this combined source head. Do not sign or publish a release for this non-main branch.
