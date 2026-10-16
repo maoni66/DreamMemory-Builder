@@ -1,11 +1,11 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated verification batch.
-Source SHA: 1e2ea05e61a6727a11879db90b7eff32cfd06725.
+Source SHA: 80670674eccb6f414c260d7138b1704474f1a5f6.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 1e2ea05e61a6727a11879db90b7eff32cfd06725.
+Expected source SHA at trigger: 80670674eccb6f414c260d7138b1704474f1a5f6.
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
 This batch includes:
-- Shelf game-boundary correction: no new game resources in Shelf, preserve legacy rows, and keep game lifecycle states in Record.
+- Shelf boundary correction: Shelf only permits Book / Comic / Video, the only types with an actual readable/watchable flow. Game/course/musical-theatre/unknown legacy shelf rows are purged on ShelfViewModel startup; DAO observation hides them immediately, repository writes reject unsupported kinds, and the editor/status filters only expose supported kinds. Reading-note references are unlinked; owned orphan files are deleted only after path/reference safety checks. Game experiences in Record remain untouched.
 - SVG visual style processing: route SVG sources through the existing AndroidSVG decoder; validate well-formed XML with DTD/external entities disabled; retain ordinary raster decoding.
 - Robolectric regression coverage for valid SVG, malformed/truncated SVG rejection, and PNG decoding. Previous run 38910397732 passed all JVM tests, Debug APK build and Room schema discipline for source SHA 90f98012705a7afa7f4b0f35d520382088985e20.
 - Fix two Kotlin nullable receiver warnings in DiscoverViewModel's Kazumi query/body template substitution using safe calls and empty fallback for actual null values.
@@ -213,3 +213,5 @@ Create flow / stale detail state batch (2026-10-16): validate exact DreamMemory 
 - Opening an album, work or reference now clears the other selected detail types and stale relation/asset lists before loading the selected owner's data. This prevents multiple detail screens being active together and stale association state leaking across selections.
 - No database schema, Room Entity fields, or migrations changed.
 Required: JVM unit tests, assembleDebug, Room schema version discipline against exact source SHA 42f0f38916bdaa92890e55b3c84a38291e6854c7. Non-main branch only; no signing/publishing/schema writeback. CI success is not device acceptance; verify create->edit->save, back navigation, repeated create actions and switching among work/album/reference on device.
+
+- Regression tests now assert the exact allowed shelf types and reject game/course/musical-theatre/unknown kinds. No Room schema or migration change is intended. Check that compile and test failures, if any, are fixed against the exact SHA above.
