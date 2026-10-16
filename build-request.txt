@@ -1,7 +1,7 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated feature-quality batch, not a per-change build.
-Source SHA: 74f2485033fcdf74f676e08371edf414d136e5b2.
+Source SHA: 42f0f38916bdaa92890e55b3c84a38291e6854c7.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 74f2485033fcdf74f676e08371edf414d136e5b2.
+Expected source SHA at trigger: 42f0f38916bdaa92890e55b3c84a38291e6854c7.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -149,3 +149,11 @@ Shelf field-guidance batch (2026-10-16): validate exact DreamMemory source head 
 - Added JVM tests for the new labels and cross-domain hints.
 - No Room Entity fields, schema version, or migrations changed.
 Required: all JVM unit tests, assembleDebug, Room schema version discipline against this exact source SHA. Non-main branch only; do not sign/publish or write schemas to main. CI success does not replace device verification of form switching, long text, narrow screens and existing legacy status values.
+
+
+Create flow / stale detail state batch (2026-10-16): validate exact DreamMemory source head 42f0f38916bdaa92890e55b3c84a38291e6854c7.
+- Prior run #38904956383 passed JVM unit tests, Debug APK build and Room schema discipline for the previous source head.
+- Create entry actions now open the newly created album/work/reference directly and enter edit mode, instead of silently adding a default-named item and requiring the user to find it again in the list.
+- Opening an album, work or reference now clears the other selected detail types and stale relation/asset lists before loading the selected owner's data. This prevents multiple detail screens being active together and stale association state leaking across selections.
+- No database schema, Room Entity fields, or migrations changed.
+Required: JVM unit tests, assembleDebug, Room schema version discipline against exact source SHA 42f0f38916bdaa92890e55b3c84a38291e6854c7. Non-main branch only; no signing/publishing/schema writeback. CI success is not device acceptance; verify create->edit->save, back navigation, repeated create actions and switching among work/album/reference on device.
