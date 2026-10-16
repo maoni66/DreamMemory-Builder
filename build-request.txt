@@ -1,8 +1,17 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated verification batch.
-Source SHA: 71ba5f5b4e53696166bd2e2542e54131e3bad8cd.
+Source SHA: a6329a010f29be41379ee550770fb4417b8e2b04.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 71ba5f5b4e53696166bd2e2542e54131e3bad8cd.
+Expected source SHA at trigger: a6329a010f29be41379ee550770fb4417b8e2b04.
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+
+This batch includes the previously validated Shelf game-boundary correction plus:
+- Fix CreateViewModel visual style processing for SVG assets: use the existing bounded AndroidSVG decoder when MIME type is image/svg+xml instead of BitmapFactory.
+- Keep ordinary raster decoding unchanged and preserve generated-copy behavior; source assets are not modified.
+- Add Robolectric tests for valid SVG decoding, malformed SVG handling, and raster PNG decoding.
+- The previous run 38909627220 compiled application/test Kotlin but failed at Robolectric runner initialization because automatic SDK selection did not choose a supported SDK under compileSdk 36. Pin the new test class to SDK 35, supported by the project's Robolectric 4.14.1.
+- Update docs/REUSABLE_SOURCE_AUDIT_2026-10-16.md with the discovered behavior gap and verification record.
+
+No Room schema or migration changes are intended. Required verification: all JVM unit tests, Debug APK build, and Room schema version discipline against the exact source SHA above. CI success does not equal device acceptance.
 
 This batch includes the previously validated Shelf game-boundary correction plus:
 - Fix CreateViewModel visual style processing for SVG assets: use the existing bounded AndroidSVG decoder when the asset MIME type is image/svg+xml instead of sending SVG through BitmapFactory.
