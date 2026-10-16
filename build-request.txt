@@ -1,7 +1,7 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated feature-quality batch, not a per-change build.
-Source SHA: 07df5213288d7da499a6868c4b22f811fdb4c5a2.
+Source SHA: a5cc5864e4c11fc343859e3ef7c50d8f7d7e7eef.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 07df5213288d7da499a6868c4b22f811fdb4c5a2.
+Expected source SHA at trigger: a5cc5864e4c11fc343859e3ef7c50d8f7d7e7eef.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -98,8 +98,11 @@ Retry after compile-error fixes: add the missing Compose dp import to CreateAsse
 
 Consolidated validation batch (2026-10-16): validate the latest source head above after the previous successful run. Includes (1) nullable-safe Kazumi JSON request/config access in DiscoverViewModel, (2) nullable parent handling in ManagedPathSafetyTest, (3) Record ALBUM display disambiguation from “画册” to “画集” without schema/data changes, and (4) updated release/readiness/audit documentation. Run JVM unit tests, assembleDebug, and Room schema discipline once for this combined source head. Do not sign or publish a release for this non-main branch.
 
-Consolidated follow-up validation batch (2026-10-16): validate the exact latest PR head 07df5213288d7da499a6868c4b22f811fdb4c5a2. Includes the previous validated source batch plus a notebook creation UX correction:
-- The notebook is one user-facing feature/container, not seven separate notebook products. Creation now offers only the two interaction templates that materially change the flow: Standard (generic progress stream) and Conversation (message stream), aligned with the project's Nian standard/conversation reference notes.
-- Legacy stored kind constants remain for existing data compatibility; no Room schema/entity field or migration changed. Generic notebook display label is now “标准记本”. Web/recipe/inspiration/unassigned uses are content purposes/capabilities rather than separate options in the creation picker.
-- Updated PROJECT_CONTEXT, DESIGN_DECISIONS and FEATURE_INVENTORY to distinguish templates from independent modules and reinforce Nian standard progress-stream/conversation-message-stream behavior.
-Required: JVM unit tests, assembleDebug, Room schema version discipline. This is non-main branch validation only; do not sign, publish, or write generated Room schemas to main. CI success does not replace device testing of notebook creation, legacy notebook rendering, message flow, detail/editor/back behavior, and narrow-screen layout. Do not commit more source/docs while this run is active.
+Consolidated follow-up validation batch (2026-10-16): validate the exact latest PR head a5cc5864e4c11fc343859e3ef7c50d8f7d7e7eef.
+Includes the previous accumulated changes plus the corrected notebook-template decision and a low-friction, high-expression design standard:
+- Notebook creation defaults to Standard, while a compact optional dropdown exposes Standard, Diary, Conversation, Inspiration, Web, and Recipe templates. This restores meaningful choices without putting six parallel cards in the first-use flow.
+- The system-level Unassigned inbox remains a system destination, not a user-created template.
+- All notebook types remain in one notebook feature and shared data system. Only modes that materially change interaction should get a distinct editor/renderer; other templates need task-specific structure rather than just a changed label. Legacy kind constants remain, and no Room schema change is intended.
+- PROJECT_CONTEXT and DESIGN_DECISIONS now explicitly set the cross-module standard: low startup cost with a high expression ceiling, progressive disclosure, content-appropriate presentation, single-source data, functional closure, and task-based usability acceptance.
+- Source code change is in NotebookScreen.kt. Verify Compose DropdownMenu APIs compile, all JVM tests pass, Debug APK builds, and Room schema version discipline passes.
+Required verification: JVM unit tests, assembleDebug, Room schema version discipline. This is non-main branch validation only; do not sign, publish, or write generated Room schemas to main. CI success does not replace device testing of template selection, notebook creation, legacy notebook rendering, conversation flow, detail/editor/back behavior, and narrow-screen layout. Do not commit more source/docs while this run is active.
