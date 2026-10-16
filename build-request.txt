@@ -215,3 +215,12 @@ Create flow / stale detail state batch (2026-10-16): validate exact DreamMemory 
 Required: JVM unit tests, assembleDebug, Room schema version discipline against exact source SHA 42f0f38916bdaa92890e55b3c84a38291e6854c7. Non-main branch only; no signing/publishing/schema writeback. CI success is not device acceptance; verify create->edit->save, back navigation, repeated create actions and switching among work/album/reference on device.
 
 - Regression tests now assert the exact allowed shelf types and reject game/course/musical-theatre/unknown kinds. No Room schema or migration change is intended. Check that compile and test failures, if any, are fixed against the exact SHA above.
+
+
+Corrective shelf validation batch (2026-10-16): validate exact DreamMemory source head 2f50879d7f35973c12b60f115b50de2a81c906d7 on branch design/visual-system-pass-0.7.6.
+- Correct the overbroad exclusion: courses represented by openable video links/files are valid Shelf resources.
+- Restore ShelfKinds.COURSE with course-specific “想学 / 学习中 / 已学完 / 搁置” statuses, learning progress labels and “课程视频链接” source label.
+- DAO must include course rows in Shelf display and must not classify them as unsupported legacy data; old unsupported game/musical-theatre/unknown metadata remains eligible for cleanup.
+- Record remains the home for lived experience, reviews and notes; no change to the fixed six tabs or Record game history.
+- No Room Entity fields, schema version, or migration changes intended.
+Required: JVM unit tests, assembleDebug, and Room schema version discipline against this exact source SHA. Non-main branch only: do not sign, publish, or write generated schemas to main. CI success does not equal real-device acceptance; verify course rows survive legacy cleanup and test a course source link/video on device.
