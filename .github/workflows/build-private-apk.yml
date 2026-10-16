@@ -22,13 +22,35 @@ jobs:
     timeout-minutes: 35
     outputs:
       source_sha: ${{ steps.source.outputs.source_sha }}
+      source_ref: ${{ steps.request.outputs.source_ref }}
       needs_build: ${{ steps.request.outputs.needs_build }}
     steps:
+      - name: Checkout build request
+        uses: actions/checkout@v7
+        with:
+          path: builder
+
+      - name: Parse and validate requested source ref
+        id: request
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_ref="$(awk -F': ' '/^Source ref:/ {print $2; exit}' builder/build-request.txt)"
+          source_ref="${source_ref:-main}"
+          git check-ref-format --branch "$source_ref"
+          case "$source_ref" in
+            main|design/*|fix/*) ;;
+            *) echo "Unsupported source ref: $source_ref"; exit 1 ;;
+          esac
+          echo "source_ref=$source_ref" >> "$GITHUB_OUTPUT"
+          echo "needs_build=true" >> "$GITHUB_OUTPUT"
+          echo "Explicit build requested for source ref: $source_ref"
+
       - name: Checkout private DreamMemory source
         uses: actions/checkout@v7
         with:
           repository: maoni66/DreamMemory
-          ref: main
+          ref: ${{ steps.request.outputs.source_ref }}
           token: ${{ secrets.SOURCE_REPO_TOKEN }}
           persist-credentials: false
 
@@ -46,13 +68,6 @@ jobs:
         shell: bash
         run: echo "source_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      - name: Honor explicit build request
-        id: request
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo "needs_build=true" >> "$GITHUB_OUTPUT"
-          echo "Explicit build requested; always run tests and produce a fresh APK, even if this source SHA has a prior release."
 
       - name: Set up JDK 17
         if: steps.request.outputs.needs_build == 'true'
@@ -131,7 +146,7 @@ jobs:
       # Room's generated schema is part of the release contract. Carry it encrypted
       # to the isolated publisher so it can be versioned in the private source repo.
       - name: Encrypt APK and Room schema for isolated publishing runner
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.source_ref == 'main'
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
         shell: bash
@@ -149,7 +164,7 @@ jobs:
             -pass env:ARTIFACT_PASSWORD
 
       - name: Upload encrypted release package only
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.source_ref == 'main'
         uses: actions/upload-artifact@v6
         with:
           name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
@@ -159,7 +174,7 @@ jobs:
 
   publish:
     needs: build
-    if: needs.build.outputs.needs_build == 'true'
+    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.source_ref == 'main'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
