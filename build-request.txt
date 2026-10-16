@@ -1,7 +1,18 @@
-Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated feature-quality batch, not a per-change build.
-Source SHA: 42f0f38916bdaa92890e55b3c84a38291e6854c7.
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated verification batch.
+Source SHA: fa77fc5424359252c08ecaac513aa62ce99875a0.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 42f0f38916bdaa92890e55b3c84a38291e6854c7.
+Expected source SHA at trigger: fa77fc5424359252c08ecaac513aa62ce99875a0.
+Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+
+This batch includes all prior unverified changes on the branch plus:
+- Shelf type picker no longer offers games; games and play lifecycle states belong in Record, not Shelf.
+- Game-specific statuses are removed from the general Shelf status filter.
+- Existing legacy game shelf rows are preserved and retain their old kind option only while editing, preventing silent reclassification.
+- Shelf empty-state copy now lists book, comic, film/TV, course, and musical-theatre resources.
+- Added regression coverage asserting game is excluded from new Shelf types and general Shelf filters while course and musical-theatre status handling remains.
+- Documented the product decision in docs/DESIGN_DECISIONS.md.
+
+No Room schema or migration changes are intended. Required verification: all JVM unit tests, Debug APK build, and Room schema version discipline against the exact source SHA above. CI success does not equal device acceptance.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
