@@ -1,8 +1,16 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated verification batch.
-Source SHA: 90f98012705a7afa7f4b0f35d520382088985e20.
+Source SHA: 1e2ea05e61a6727a11879db90b7eff32cfd06725.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 90f98012705a7afa7f4b0f35d520382088985e20.
+Expected source SHA at trigger: 1e2ea05e61a6727a11879db90b7eff32cfd06725.
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+
+This batch includes:
+- Shelf game-boundary correction: no new game resources in Shelf, preserve legacy rows, and keep game lifecycle states in Record.
+- SVG visual style processing: route SVG sources through the existing AndroidSVG decoder; validate well-formed XML with DTD/external entities disabled; retain ordinary raster decoding.
+- Robolectric regression coverage for valid SVG, malformed/truncated SVG rejection, and PNG decoding. Previous run 38910397732 passed all JVM tests, Debug APK build and Room schema discipline for source SHA 90f98012705a7afa7f4b0f35d520382088985e20.
+- Fix two Kotlin nullable receiver warnings in DiscoverViewModel's Kazumi query/body template substitution using safe calls and empty fallback for actual null values.
+
+No Room schema or migration changes are intended. Required verification: all JVM unit tests, Debug APK build, and Room schema version discipline against the exact source SHA above. CI success does not equal device acceptance.
 
 This batch includes the previously validated Shelf game-boundary correction plus:
 - SVG visual style processing now dispatches SVG assets to the existing AndroidSVG decoder and leaves raster decoding unchanged.
