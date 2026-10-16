@@ -261,3 +261,12 @@ Personal-use memo refinement batch (2026-10-17): validate exact DreamMemory sour
 - Required: JVM unit tests, assembleDebug, and Room schema version discipline against the latest actual branch HEAD. Branch validation only; do not sign, publish, or write generated Room schemas to private main. Check real logs before declaring success.
 - Device acceptance remains pending for type selection, keyboard/long text layout, chooser target, cancel/return, and no-target error.
 
+Personal memo own-app share receiver batch (2026-10-17): validate exact DreamMemory source HEAD 0041cdcbba49913f9b98c279ee176e86ccdbc309 on branch design/visual-system-pass-0.7.6.
+- AndroidManifest already declares ACTION_SEND / text/plain and MainActivity already receives EXTRA_TEXT. Ensure a user can choose DreamMemory from the Android Sharesheet, then confirm saving the app's own “DreamMemory 自用改进备忘” format.
+- Route only that explicitly marked format into existing MemoryEntity / memories storage as a “想法” entry in the “未归类” inbox. Do not misclassify it as a LifeItem TODO/shopping record or a media record.
+- Ordinary incoming text, links, pickup codes and shopping lists must retain their existing ShareIntakeDialog behavior.
+- Saving must be user-confirmed and close only after Room write success; failure keeps the dialog and retry option; dismiss/cancel must not write.
+- Reuse existing Room database and database-based full/light backups; no new entity/table/schema version/migration/network dependency; no changes to six-tab navigation.
+- New pure Kotlin PersonalMemoShareParserTest covers parsing, category/body/version fields, personal routing and ordinary-text regression.
+- Required: JVM unit tests, assembleDebug, Room schema discipline against exact latest branch HEAD. Do not sign/publish or write schema to private main. Check actual logs before declaring pass. Device checks pending for chooser visibility, own-app receive, inbox visibility, cancel/retry and backup/restore.
+
