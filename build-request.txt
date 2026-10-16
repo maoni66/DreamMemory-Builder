@@ -1,6 +1,7 @@
-Build requested for DreamMemory source main as one coordinated feature-quality batch, not a per-change build.
-Source SHA: 2c56d9022d8f6b7e45b0df44ef3a419f6fc4f9e1.
-Expected source main SHA at trigger: 2c56d9022d8f6b7e45b0df44ef3a419f6fc4f9e1.
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated feature-quality batch, not a per-change build.
+Source SHA: e6420c8714a4421672f55586bbf0151d92b35fb8.
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: e6420c8714a4421672f55586bbf0151d92b35fb8.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -88,3 +89,6 @@ UI scope remains: preserve the six tabs Home / Life / Shelf / Record / Create / 
 - Set HorizontalPager beyondViewportPageCount = 1 to precompose one adjacent page as a swipe-start hitch mitigation. This is a hypothesis; do not claim smoothness without physical-device profiling.
 - Preserve all six top-level tabs and domain ownership. No Room schema or data changes.
 - Re-run the entire required validation suite: JVM tests, debug APK, Room schema discipline, encrypted package transfer, isolated publishing, APK signing and signature verification, exact source SHA parity, and private release publication. Do not claim the UI issue is fully accepted based only on CI.
+
+
+Build mode for this request: branch validation only. Run JVM unit tests, assembleDebug, and Room schema discipline against the exact source ref above. Do not sign, publish a release, or write generated Room schemas back to private main for non-main refs.
