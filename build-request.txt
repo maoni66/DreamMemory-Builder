@@ -224,3 +224,9 @@ Corrective shelf validation batch (2026-10-16): validate exact DreamMemory sourc
 - Record remains the home for lived experience, reviews and notes; no change to the fixed six tabs or Record game history.
 - No Room Entity fields, schema version, or migration changes intended.
 Required: JVM unit tests, assembleDebug, and Room schema version discipline against this exact source SHA. Non-main branch only: do not sign, publish, or write generated schemas to main. CI success does not equal real-device acceptance; verify course rows survive legacy cleanup and test a course source link/video on device.
+
+
+Latest corrective follow-up (2026-10-16): validate exact DreamMemory source head 105b37818b40298cd1009b920fbeee1d4548b6b3 on branch design/visual-system-pass-0.7.6.
+- Includes video-course shelf support plus a stricter open-path rule: a course shelf item must have a nonblank source/video URL or a local video path; the DAO hides and the legacy cleanup removes course metadata rows with neither.
+- Verify the SQL TRIM predicates compile in Room, repository add/update guards compile, course-specific progress status handling works, and ShelfKindOptionsTest passes.
+- Preserve all previous requirements: JVM unit tests, assembleDebug, Room schema version discipline; branch validation only, no signing/publishing/schema writeback. Device playback and source-link behavior remain unverified until manual device testing.
