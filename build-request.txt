@@ -1,7 +1,7 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated feature-quality batch, not a per-change build.
-Source SHA: c30e94ab7567f8fe58fda0fcb07ea1c4105f7cff.
+Source SHA: 49521fbcf18e794af4c8b580829377d976109cf2.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: c30e94ab7567f8fe58fda0fcb07ea1c4105f7cff.
+Expected source SHA at trigger: 49521fbcf18e794af4c8b580829377d976109cf2.
 
 This batch includes all previous unverified changes since the last successful Builder run plus this coordinated cross-module set:
 - Discover request-template parser hardening, preserving commas inside query URLs, Legado nested rule resolution and regression tests.
@@ -123,3 +123,12 @@ Follow-up usability batch (2026-10-16): validate exact DreamMemory source head c
 - Added JVM tests for record-specific editor labels and cross-domain hints; expanded notebook tests to assert template naming, content prompts, type defaults, and legacy type preservation.
 - No Room Entity fields, schema version, or migration changed in this batch.
 Required: JVM unit tests, assembleDebug, Room schema version discipline against this exact source SHA. Non-main branch only; do not sign, publish, or write generated schemas to main. CI success is not device acceptance.
+
+
+Shelf content-consistency batch (2026-10-16): validate exact DreamMemory source head 49521fbcf18e794af4c8b580829377d976109cf2.
+- Prior run #38904021136 succeeded for the previous source SHA c30e94ab7567f8fe58fda0fcb07ea1c4105f7cff: JVM tests, Debug APK build, and Room schema discipline passed. This run validates the shelf fix below as well.
+- Fixed the mismatch where ShelfKinds declared GAME and PLAY kinds and specialized statuses, but omitted those kinds from the visible picker and fell back to generic status choices.
+- Shelf now exposes game and musical-theatre resources; game statuses include the existing want/done/dropped states plus “正在玩”; musical theatre uses its own watch/status values; global status filter includes all specialized status sets.
+- Added appropriate game/musical-theatre icons and progress labels, and a regression test for the supported kinds and status choices.
+- No Room Entity fields, schema version, or migrations changed.
+Required: all JVM unit tests, assembleDebug, and Room schema version discipline against this exact SHA. Non-main branch only; do not sign, publish, or write generated schema files to main. CI success is not real-device acceptance.
