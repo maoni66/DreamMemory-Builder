@@ -1,22 +1,33 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: eccacb3a01ede7e8fb73219071b21909aa7a782f
+Source SHA: cac33478cc8c1129b9b7d81a02a7332a99d1f262
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: eccacb3a01ede7e8fb73219071b21909aa7a782f
+Expected source SHA at trigger: cac33478cc8c1129b9b7d81a02a7332a99d1f262
 Build mode: branch validation only. Run the full JVM unit-test suite, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Coordinated functional batch — global search to creative canvas:
-- Add creative canvases to the existing global-search Flow aggregation and relevance ranking, using title matches and showing canvas dimensions in result metadata.
-- Route a canvas search result by its stable database ID directly into the canvas editor. The ViewModel must read the current canvas and elements from Room rather than depend on a potentially stale/incomplete in-memory list.
-- Regression test exact/partial title ranking, empty/unmatched queries, result kind/route/stable ID and dimensions.
-- Review cross-workspace navigation and preserve all six tabs and domain boundaries.
+Coordinated validation batch:
+1. Global search to creative canvas:
+- Include canvases in global search using their stable database IDs and title relevance.
+- Route a canvas result directly to the editor, loading current Room data rather than relying on an in-memory list.
+- Run GlobalCanvasSearchTest for exact/partial matches, unmatched queries, and deep-link metadata.
+2. App-wide theme/accessibility foundation:
+- Run ThemeContrastTest for ARGB contrast ratio, alpha compositing, and 4.5:1 normal-text warnings.
+- Verify the custom theme editor compiles with live low-contrast warnings.
+- Preserve theme import/export, custom theme CSS handling, all preset palettes, dynamic-color precedence, and system-bar behavior.
+3. Regression guards:
+- Preserve all existing unit tests, backup WAL checkpoint regression coverage, six bottom tabs and their order, and Room schema version discipline.
 - No Room schema, migration, backup-format, or dependency changes are intended.
 
-Regression guards:
-- Preserve the light-backup WAL checkpoint fix and the full JVM regression suite. Builder #110 (run 39013885032) succeeded for prior source SHA a82c35c8ae554ed609ee6d815f02189b092629ab; it verified JVM tests, Debug APK compile, and Room schema discipline, but does not cover this batch.
-- Do not weaken/delete tests or treat source review as a substitute for actual Builder results.
-- If a job fails, inspect the real failing test/build log and fix the cause before retrying.
-- Confirm the build-request Source SHA, checked-out source SHA, and Expected SHA are identical. This non-main branch is validation only: no APK upload, signing, release, or writes to private main.
-- CI success does not replace device verification of global search -> canvas open, back navigation, deleted-target feedback, canvas persistence/export, backup/restore, or visual/accessibility acceptance.
+References reviewed for theme UX:
+- Android Accessibility Help: https://support.google.com/accessibility/android/answer/7158390?hl=en (contrast ratios and alpha blending).
+- Canva developer color guidance: https://www.canva.dev/docs/apps/design-guidelines/colors/ (functional colors and theme-aware contrast). Principles only; no third-party code or assets copied.
+
+Do not weaken/delete tests. If any job fails, inspect the actual failing test/build output and fix the cause. Confirm build-request Source SHA, checked-out source SHA, and Expected SHA match. This non-main branch is validation only: no APK upload, signing, release, or writes to private main.
+
+Device/visual acceptance still required after CI:
+- Test theme presets, light/dark/system switching, custom themes, imported theme packs, system bars and six-tab navigation.
+- Capture screenshots at narrow/wide layouts and increased font scale; inspect contrast over textures/images/CSS and dialogs.
+- Exercise global search -> canvas, back navigation, deleted-target feedback, canvas persistence/export, and backup/restore.
+- CI success is not real-device or whole-app formal acceptance.
 
 --- Historical build requests ---
 
