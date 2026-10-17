@@ -1,3 +1,20 @@
+Validate reader input bounds and purchase-possession relation regressions.
+Source SHA: d2d85f3e290fab258cc587a05d5808582e802a4a
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: d2d85f3e290fab258cc587a05d5808582e802a4a
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room schema version discipline and upload schema artifact. No signing, publication, merge or writes to source main.
+
+Changes:
+- Purchase-to-possession unlink is transactional and only removes the selected relation edge; both endpoint entities and unrelated relation edges survive. Tests cover multiple links, last-link transfer marker, invalid target, idempotent unlink, unrelated edge preservation.
+- Untrusted EPUB text streams are bounded after decompression: container.xml <= 1 MiB, OPF <= 4 MiB, each XHTML chapter <= 8 MiB, spine <= 5000 chapters. Overflow is rejected rather than silently truncated.
+- Local TXT/MD reads now use bounded streaming with a 32 MiB cap instead of unbounded File.readText(), so oversized text files fail through existing visible error state rather than loading whole file without limit.
+- Unit tests cover exact byte boundary, overflow, invalid limit and EPUB chapter-count boundary.
+- Reference audit confirms Reeden is not open-source; Legado with MD3 is GPL-3.0; Readium 3.1.2 is BSD-3-Clause but uses Kotlin 2.1.21/AGP 8.10.1 and Fragment/WebView navigation. Readium integration remains a compatibility spike, not claimed as complete.
+
+Required checks: all JVM tests, Debug APK compilation, Room schema discipline, exact SHA parity, schema artifact upload. Inspect actual logs and fix root causes if checks fail; never weaken tests. No release signing/publication.
+
+---
+
 Validate EPUB resource exhaustion protection plus purchase-possession unlink regressions.
 Source SHA: e00c6abfe8c1acc27fc56ce86caf7cc9bc3325e4
 Source ref: design/visual-system-pass-0.7.6
