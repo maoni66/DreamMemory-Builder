@@ -1,17 +1,17 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: c7e13b7765fdcef7352e5accf651c47c3bccb493
+Source SHA: 2bc212a9b755d56b5a294ad20f1424c6d8744995
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: c7e13b7765fdcef7352e5accf651c47c3bccb493
+Expected source SHA at trigger: 2bc212a9b755d56b5a294ad20f1424c6d8744995
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Validate the expanded full-backup round-trip media case:
-- Builder #100 passed JVM tests, Debug APK compilation, and Room schema discipline for source SHA 3fe03e879accb8f49f7e7d7ab2064ce7dd8a2a30.
-- Extend the full ZIP round-trip fixture with an actual user-owned consumption image under DreamMemoryData/consumptionImages.
-- Export the backup, delete the original image, restore from the archive, then assert the restored absolute reference path exists and the restored bytes exactly match the original fixture.
-- Preserve the prior checks for consumption/possession stable relation, record work note, experience event, and invalid archive preserving current data.
-- No production code, Room entity/schema/version, migration, or backup format change is intended.
-- Run the full JVM suite, assembleDebug, and Room schema discipline for the exact source SHA. Upload Room schema artifact only; no APK upload, signing, release, or main modification.
-- This automated media fixture covers only consumption images. Device checks for attachments, covers, canvas assets, local books/videos, SAF providers, interrupted restore and light-backup missing-media placeholders remain required.
+Validate full-restore failure rollback on top of the passing backup round-trip media batch:
+- Builder #101 passed JVM tests, Debug APK compilation, and Room schema discipline for source SHA c7e13b7765fdcef7352e5accf651c47c3bccb493.
+- New test failedDatabaseImportRollsBackCurrentDatabaseAndUserFiles constructs a format-valid v12 archive with an experience event referencing a missing record, to force a Room foreign-key failure during the import transaction.
+- Verify the restore returns failure while the original consumption row and original DreamMemoryData sentinel file remain intact, and the restore marker is cleared after successful rollback.
+- Re-run all backup round-trip tests, including consumption image byte/path restoration and invalid archive preserving current data.
+- No production-code, Room entity/schema/version, migration, or backup-format changes intended.
+- Run full JVM suite, assembleDebug, and Room schema discipline for the exact source SHA. Upload generated Room schema artifact only; no APK upload, signing, release, or main modification.
+- This test is fault injection, not proof of real process-death, low-storage, device reboot, or full media matrix acceptance.
 - Audit: docs/BACKUP_RESTORE_ROUNDTRIP_AUDIT_2026-10-17.md.
 
 
