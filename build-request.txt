@@ -1,3 +1,20 @@
+Validate reader palette preferences, backup v16 compatibility, and focus-session process recovery.
+Source SHA: 4b3ad446e2f919be168f57c55d9022302aa1d033
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 4b3ad446e2f919be168f57c55d9022302aa1d033
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room migration/schema version discipline and upload generated schema artifact. No signing, publication, merge or writes to private main.
+
+Changes:
+- ReaderPalette adds SYSTEM/PAPER/SEPIA/NIGHT reading colors for body text, paper surface and ruled lines; it does not change the global app theme. Reader palette is persisted with font scale and line spacing.
+- Full backup v16 includes reader palette and defaults older backups missing the field to SYSTEM. Light backup remains v3 because it serializes the preference map generically; old v3 archives missing palette restore with SYSTEM default.
+- Added backup roundtrip assertions for palette as well as font size and line spacing, plus invalid stored palette fallback tests.
+- FocusSessionRecovery helper selects only expired, unpaused, unfinished FOCUS items. LifeViewModel reconciles them on entry, persists completion, clears remaining/reminder state, cancels old alarms and refreshes the widget. Added pure logic test for expired/future/paused/done/non-focus/no-deadline cases.
+- Updated reference catalog with the Apache-2.0 Pomodoro timer source audit. The code pattern was studied; no upstream timer UI code copied.
+
+Required checks: all JVM tests, Debug APK compilation, Room schema version discipline, exact source SHA parity and schema artifact upload. If any check fails, inspect real logs and fix root cause without weakening tests. No release signing/publication.
+
+---
+
 Validate reader-appearance backup compatibility and roundtrip coverage.
 Source SHA: 0bab9e5c0a02cc6867c244e3cb9791c36e0de1a6
 Source ref: design/visual-system-pass-0.7.6
