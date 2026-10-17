@@ -494,3 +494,16 @@ Required checks: all JVM unit tests, Debug APK compilation, Room schema version 
 Follow-up scope for this exact SHA:
 - ChatComposer now selects “我 / 对方 / 自定义角色” before sending, rather than sending immediately from the two role buttons. Custom labels are normalized and bounded to 32 characters; preserve failed drafts.
 - Validate all JVM tests, Debug APK compilation, Room schema discipline, and exact source SHA parity. No schema change, no signing/publishing, no main branch writes.
+
+
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to validate editable check-in history notes.
+Source SHA: ed404d86087b01b1a2bda2148395f035209abc20
+Source branch: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: ed404d86087b01b1a2bda2148395f035209abc20
+Scope:
+- Add an edit/add note action to each saved life check-in occurrence, reusing LifeOccurrenceEntity.note without a schema change.
+- Preserve occurredAt, createdAt, parent lifeItemId, and aggregate check-in count when editing a note.
+- Keep the existing one-tap check-in path unchanged; notes remain optional.
+- Add LifeOccurrenceNoteTest for update persistence, stable event identity/time, and no-op behavior for a missing ID.
+- Includes the previously validated custom chat speaker selector and album-to-work multi-link regression tests.
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, and exact source SHA parity. Inspect real logs on failure; do not remove tests or weaken assertions. Validation-only branch: no signing, publishing, merge, or writes to main. Device checks for note editing, narrow layout, and history state remain separate.
