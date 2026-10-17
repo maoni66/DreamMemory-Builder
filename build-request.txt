@@ -1,3 +1,21 @@
+Build requested for DreamMemory image pipeline reliability batch.
+Source SHA: 4d45d9c4b1fadd96828925e93e2855c91b1ecff7
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 4d45d9c4b1fadd96828925e93e2855c91b1ecff7
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact for review only. Do not sign, publish a release, merge, or write generated Room schemas to private main for this non-main ref.
+
+Batch scope (8 changed files):
+- Add shared CreateImageDecoder with bounded BitmapFactory sampling and EXIF orientation normalization.
+- Use the shared decoder for canvas image import, generic creation asset import, asset previews and visual-style decoding.
+- Preserve alpha for PNG/WebP and other decoded alpha-bearing creation assets by writing PNG main images and PNG thumbnails; opaque images remain JPEG.
+- Add CreateImageDecoderTest for EXIF 90-degree orientation and maximum decode dimension.
+- Expand the reusable-source audit and product reference catalog with repository/license evidence; record the defect and validation boundary.
+- No Room schema, migration, backup format, navigation, or domain ownership changes.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, and exact source SHA parity. If any check fails, inspect actual logs and fix the cause without deleting tests or weakening assertions. Device validation is separate and must cover camera EXIF photos, transparent PNG/WebP, portrait/landscape extremes, canvas layering and PNG export. Do not commit further DreamMemory source/docs while this run is active.
+
+---
+
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to fix transparent image loss in the creation canvas.
 Source SHA: ea9dcb61deb3a5c653fc4e6e6f8c650c2ad345ae
 Source ref: design/visual-system-pass-0.7.6
