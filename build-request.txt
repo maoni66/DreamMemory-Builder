@@ -434,3 +434,24 @@ Coordinated implementation:
 Previous Builder run #120 succeeded for the Records experience calendar integration at source SHA a2c3769ae909e210404958a48ed696f784f33c25. This request validates the newer exact source SHA above, including the calendar batch plus Home recall integration.
 
 Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity. If any step fails, inspect full logs and fix the actual root cause; do not remove tests or weaken assertions. Branch validation only; no signing/publishing and no writes to private main. Device validation remains separate, including opening a recalled work, return navigation, and date/time display.
+
+
+---
+
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to validate Muse Gallery inspired album exhibition presentation.
+Source SHA: f41fb8065dd0bf2aa2bf0eef9fe86301aa08a489
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: f41fb8065dd0bf2aa2bf0eef9fe86301aa08a489
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+
+Coordinated implementation:
+1. Add a distinct "预览展览" entry from album detail.
+2. Reuse existing album assets and existing ALBUM_TO_WORK relationships; do not duplicate work or asset records.
+3. Provide three temporary presentation layouts: 展览墙, 作品集, 素材墙. Asset taps use the existing asset preview; work taps open the existing work detail.
+4. Back navigation exits exhibition preview before closing the album.
+5. Update product reference, UX audit, change ledger, and bug history.
+6. No Room schema, migration, backup format, dependency, or six-tab order changes. Layout choice is session-only and is not persisted.
+
+Previous Builder run #121 succeeded for Home "那年今日" work-experience recall at source SHA 838bdadbf492e64aa6e8b5d52aa4a93ec93b4c7b: all JVM unit tests, Debug APK compilation, and Room schema discipline passed. This request validates the newer exact source SHA above.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity. If any step fails, inspect full logs and fix the actual root cause; do not remove tests or weaken assertions. Branch validation only; no signing/publishing and no writes to private main. Device validation remains separate for layout readability, large font, narrow screens, asset preview, work navigation, and back behavior.
