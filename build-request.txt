@@ -460,9 +460,9 @@ Required checks: all JVM unit tests, Debug APK compilation, Room schema version 
 ---
 
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to validate Life check-in occurrence history and database v4 migration.
-Source SHA: 3d85bc755e47c64e044b3a5ec7d8d1f8dff36c3d
+Source SHA: 453f240932e4d2b450f88bfbd4090c6b889b1ec8
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 3d85bc755e47c64e044b3a5ec7d8d1f8dff36c3d
+Expected source SHA at trigger: 453f240932e4d2b450f88bfbd4090c6b889b1ec8
 Build mode: branch validation only. Run all JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
 Coordinated implementation:
