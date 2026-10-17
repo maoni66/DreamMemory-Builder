@@ -1,18 +1,19 @@
-Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to validate the Records experience-calendar integration.
-Source SHA: 6c9e4e95fc73fa3283d8cfa3e409b76ef4a8a00c
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to revalidate the Records experience-calendar integration after fixing the catalog alias.
+Source SHA: a2c3769ae909e210404958a48ed696f784f33c25
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 6c9e4e95fc73fa3283d8cfa3e409b76ef4a8a00c
+Expected source SHA at trigger: a2c3769ae909e210404958a48ed696f784f33c25
 Build mode: branch validation only. Run all JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Coordinated implementation batch:
-1. Adopt Kizitonwose Calendar 2.6.2 (MIT; Compose UI 1.7.x compatibility line) as the calendar layout engine, not the latest mainline version that requires a newer Compose UI.
-2. Add a Records "作品列表 / 体验日历" view switch. Calendar day markers and selected-day event list derive only from existing ExperienceEventEntity.experiencedAt values, grouped by the device local time zone. Opening a calendar event navigates to its existing work record detail.
-3. Expose all experience events as a Room Flow; keep the existing record search/type/status/tag filters applied in calendar mode.
-4. Add unit tests for local date boundaries, same-day ordering, and empty event history.
-5. Update reference research, reusable-source audit, UX audit, and change ledger. The implementation applies Day One/海獭日记 calendar recall, LaxtTime event-history semantics, and 已阅/MovieNestLog lightweight experience logging patterns without copying their UI/brand assets or replacing Room.
-6. No Room schema, migration, backup format, six-tab order, or domain ownership changes.
+Batch details:
+1. Records adds a "作品列表 / 体验日历" view based on Kizitonwose Calendar 2.6.2 (MIT; Compose UI 1.7.x compatibility line).
+2. Calendar markers and selected-day list derive only from existing ExperienceEventEntity.experiencedAt values in the device local time zone. Selected events open their owning RecordEntity details. Existing type/status/tag/search filters apply.
+3. RecordDao exposes all experience events as Flow; RecordViewModel provides the stream. No Room schema, migration, backup format, six-tab order, or domain ownership changes.
+4. Added tests for local date boundaries, same-day ordering, and empty history.
+5. Reference mapping and change ledger cover Day One/海獭日记 calendar recall, LaxtTime event-history semantics, and 已阅/MovieNestLog manual experience logging. No third-party UI/brand assets copied.
 
-Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity. If a step fails, inspect logs and fix the root cause; do not remove tests or lower assertions. Branch validation only; no signing/publishing and no writes to private main. Device validation remains separate for month swipes, selected-day state, narrow screens, large fonts, empty dates, and opening/returning from record details. Do not commit further DreamMemory source/docs while this run is active.
+Previous run #119 failed at Gradle configuration, before compiling source/tests: app/build.gradle.kts could not resolve libs.calendar.compose because the version-catalog library alias was missing. The alias is now explicitly registered as kizitonwose-calendar-compose and the accessor is libs.kizitonwose.calendar.compose. Also corrected calendar selected-month state and Chinese record-type labels.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity. If any step fails, inspect full logs and fix root cause; do not remove tests or lower assertions. Branch validation only; no signing/publishing and no writes to private main. Device validation remains separate for month swipes, selected-day state, narrow screens, large fonts, empty dates, and opening/returning from record details. Do not commit further DreamMemory source/docs while this run is active.
 
 ---
 
