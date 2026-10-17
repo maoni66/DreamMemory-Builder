@@ -1,3 +1,12 @@
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
+Source SHA: 90f79ad3b53cfca235ac67e81c0f16d30926a23e.
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 90f79ad3b53cfca235ac67e81c0f16d30926a23e.
+Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload the Debug APK as an artifact for manual device acceptance. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+
+This batch consolidates the canvas aspect-ratio resize fix, two regression tests, and synchronized project audit/release documents into one source commit. Previous source SHA f66b1990cc739c2101b4fa77d9ccb982f76ab119 passed JVM unit tests, assembleDebug, and Room schema discipline, but did not expose an APK artifact. Validate this new exact SHA once after the complete batch; do not create additional builds for intermediate changes. CI success does not replace real-device canvas, export, backup/restore, or media-missing acceptance.
+
+--- Historical build requests ---
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to verify the documentation-integrated canvas status against the exact new source HEAD.
 Source SHA: f66b1990cc739c2101b4fa77d9ccb982f76ab119.
 Source ref: design/visual-system-pass-0.7.6
