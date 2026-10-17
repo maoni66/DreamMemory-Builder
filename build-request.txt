@@ -1,16 +1,15 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: 41d6e69cecda408f54c873e2c93e0d868041e99c
+Source SHA: a82c35c8ae554ed609ee6d815f02189b092629ab
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 41d6e69cecda408f54c873e2c93e0d868041e99c
+Expected source SHA at trigger: a82c35c8ae554ed609ee6d815f02189b092629ab
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Verify corrected Gradle test diagnostics and identify light-backup regression:
-- Builder #105 and #107 failed in the new light-backup round-trip test; logs did not show the assertion message.
-- Builder #108 failed before tests because its Gradle Kotlin DSL receiver was invalid; no tests ran.
-- Source commit 8374a8354c10269cc92e6b721fc1981fdaf98d39 moves test logging configuration to top-level tasks.withType<Test>().configureEach, with full exception format and standard streams.
-- Run full JVM suite. Confirm Gradle config succeeds, then capture exact light-backup failure stage/message from test output. Fix the true root cause without removing/weakening the test. If tests pass, run assembleDebug and Room schema discipline.
-- Test contract: light backup includes metadata + database + preferences only, does not include media; deleting original image and database row then restoring reinstates stable row/reference but does not recreate media.
-- Preserve existing full backup media matrix, invalid archive protection, and restore rollback tests. Upload generated Room schema artifact only; no APK upload/signing/release/main modification.
+Verify light-backup WAL checkpoint hardening:
+- Builder #109 (run 39013388202) captured the exact regression: restore rejects the archived SQLite database with "unsupported light backup database version: 0". One of 169 JVM tests failed; build stopped before APK/schema checks.
+- Production change ba4cefe04141c9ef9de8dc836c5b34d71839966d replaces unchecked FULL checkpoint with wal_checkpoint(TRUNCATE), verifies busy/log/checkpointed results, and verifies the live DB user_version before archiving the main DB file.
+- Run full JVM suite and capture whether lightBackupRestoresDatabaseButDoesNotRestoreMediaFiles now passes. Do not weaken/delete the test or relax restore validation.
+- If JVM suite passes, run assembleDebug and Room schema discipline. Upload generated Room schema artifact only; no APK upload, signing, release, or main modification.
+- Preserve full backup media round-trip, invalid archive safety, and database-import rollback tests. No Room schema, migration, DB version or backup format change intended.
 - Audit: docs/BACKUP_RESTORE_ROUNDTRIP_AUDIT_2026-10-17.md.
 
 
