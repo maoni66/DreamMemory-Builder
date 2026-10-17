@@ -1,4 +1,22 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
+Source SHA: 2b47445f5c8bd6c9e617545b53ccf8c9238abc2b
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 2b47445f5c8bd6c9e617545b53ccf8c9238abc2b
+Build mode: branch validation only. Run the full JVM unit-test suite, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+
+Coordinated source batch:
+1. Preserve and revalidate the existing global-canvas-search route and theme contrast/accessibility work from SHA cac33478cc8c1129b9b7d81a02a7332a99d1f262.
+2. Custom theme editor now renders a live Compose preview while color fields change: palette accents, background, left/right bubble fill and border, and rounded/square bubble geometry. Invalid intermediate hex input falls back to the seed color for preview while the existing save validation remains authoritative.
+3. No Room schema, migration, backup format, dependency, six-tab order, or theme CSS execution policy changes.
+4. Preserve all existing tests; do not weaken or delete assertions.
+
+Required checks: all JVM tests, Debug APK compilation, Room schema discipline, exact source SHA parity. If any step fails, inspect actual logs and fix the root cause. This is a branch validation only; no signing, publishing, or writes to private main.
+
+Device/visual acceptance still required: edit each custom color and confirm preview updates immediately; verify left/right bubble borders and square/rounded shape; enter invalid hex and confirm preview stays stable while save is blocked; save/apply/reopen/import/export a custom theme; inspect system bars and all six tabs. CI success does not equal real-device or whole-app formal acceptance.
+
+--- Historical build requests ---
+
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
 Source SHA: cac33478cc8c1129b9b7d81a02a7332a99d1f262
 Source ref: design/visual-system-pass-0.7.6
 Expected source SHA at trigger: cac33478cc8c1129b9b7d81a02a7332a99d1f262
