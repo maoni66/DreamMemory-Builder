@@ -1,17 +1,15 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: cbfa8ded4759e1980a87f07312482376a0f72373.
+Source SHA: 02905963ad49e0c424838151c994b05c8935c4fe.
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: cbfa8ded4759e1980a87f07312482376a0f72373.
-Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload the generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+Expected source SHA at trigger: 02905963ad49e0c424838151c994b05c8935c4fe.
+Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-This batch consolidates:
-- The canvas resize regression test correction (the previous factor=2 expectation incorrectly expected the 3x canvas-edge limit).
-- A safe fallback for invalid/non-finite resize factors.
-- Aspect-ratio-preserving image sizing for both existing assets and images imported directly into a canvas, including centering the fitted image in the available canvas area.
-- JVM regression tests for portrait/landscape aspect ratios and invalid ratios.
-- Synchronized project context, canvas plan, bug history, release readiness, UX audit, and change ledger notes.
+This consolidated canvas reliability batch:
+- Handles exceptions from canvas list refresh, create/open, asset loading, canvas metadata saves, and transactional element snapshot saves.
+- Preserves coroutine cancellation semantics and surfaces user-visible failure messages rather than allowing unhandled database exceptions to escape from the canvas ViewModel.
+- Updates the canvas plan, bug history, project context, release readiness, change ledger, and UX audit with Builder #90's verified result and this batch's pending validation status.
 
-Builder #89 (38995212050) failed at the resize edge test; it did not build the APK because the JVM test step failed. This request validates the new exact source SHA once after the complete batch. Keep non-main validation schema-only; the mainline release flow is responsible for APK delivery. CI success does not replace real-device canvas, export, backup/restore, and media-missing acceptance.
+Previous Builder #90 validated source SHA cbfa8ded4759e1980a87f07312482376a0f72373: JVM tests, assembleDebug, and Room schema discipline passed; it uploaded Room schema artifact only. This request validates the new exact SHA after the complete batch. CI does not replace real-device testing of canvas gestures, PNG appearance, restart persistence, full backup/restore, or light-backup missing-media placeholders.
 
 --- Historical build requests ---
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to verify the documentation-integrated canvas status against the exact new source HEAD.
