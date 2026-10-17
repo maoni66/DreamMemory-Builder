@@ -1,3 +1,20 @@
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to validate theme package file-type correction against exact source HEAD.
+Source SHA: 729bf2a67d031709292c145e376b0424990e6ca9
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 729bf2a67d031709292c145e376b0424990e6ca9
+Build mode: branch validation only. Run full JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+
+Coordinated implementation batch:
+1. Previous source SHA 227f3fbad707e1a7da7ad481732d69c951c4e3d4 reused DreamThemeBackdrop for editor background/texture preview and added avatar-frame preview. Builder #115 passed JVM tests, Debug APK build and Room schema checks on that exact SHA.
+2. Inspect actual theme package flow: ProfileScreen used CreateDocument("application/zip") while suggesting a .json filename; ThemePackageCodec writes ZipOutputStream archive entries and reads with ZipInputStream. Import MIME filter prioritized JSON/text despite package being ZIP.
+3. Fix suggested export filename to .zip and make ZIP MIME types primary for import while retaining */* compatibility.
+4. Update BUG_HISTORY.md, UI_UX_AUDIT.md and PROJECT_CHANGE_AND_MIGRATION_LEDGER.md with root cause, source commit and pending device validation.
+5. No Room schema, migration, third-party dependency, six-tab order, domain/data-model change. Preserve tests/assertions.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity. If any step fails, inspect logs and fix root cause. This is branch validation only; no signing or publishing. Device file picker and asset-rich round-trip validation remain separate. Do not commit further DreamMemory source/docs while this run is active.
+
+---
+
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to validate the shared custom-theme renderer and avatar-frame preview against the exact latest source HEAD.
 Source SHA: 227f3fbad707e1a7da7ad481732d69c951c4e3d4
 Source ref: design/visual-system-pass-0.7.6
