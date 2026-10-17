@@ -1,18 +1,18 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: 3fe03e879accb8f49f7e7d7ab2064ce7dd8a2a30
+Source SHA: c7e13b7765fdcef7352e5accf651c47c3bccb493
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 3fe03e879accb8f49f7e7d7ab2064ce7dd8a2a30
+Expected source SHA at trigger: c7e13b7765fdcef7352e5accf651c47c3bccb493
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Validate this complete backup regression batch:
-- Builder #99 passed JVM unit tests, Debug APK compilation, and Room schema discipline for source SHA fdc724c373f3a3566434707b95c2ed33537c2c53; that run included the relation-query loading-state correction.
-- Add BackupRoundTripTest.fullBackupRestoresConsumptionPossessionRelationAndExperienceEvent: use the real BackupRepository full ZIP export/restore path, remove the source rows, restore, then verify consumption amount/transfer marker, possession identity, stable PURCHASE_TO_POSSESSION link, RecordEntity note, and ExperienceEvent identity/content.
-- Add BackupRoundTripTest.invalidFullBackupDoesNotReplaceCurrentDatabase: invalid archive must fail before replacing the current database and preserve its existing consumption row.
-- Review test isolation and cleanup for database singleton, user media root, restore marker, stage/old directories, and temporary archives.
-- No production-code changes, Room entity/schema/version changes, or backup format changes are intended. Run the full JVM suite, assembleDebug, and Room schema discipline against this exact source SHA.
-- Upload generated Room schema artifact only; do not upload APK, sign, release, or modify main.
-- CI success does not replace real-device verification of large media, SAF/document-provider URIs, process death, disk-space failure, restore rollback, reminder rescheduling, or light-backup missing-media placeholders.
-- Reference audit: docs/BACKUP_RESTORE_ROUNDTRIP_AUDIT_2026-10-17.md.
+Validate the expanded full-backup round-trip media case:
+- Builder #100 passed JVM tests, Debug APK compilation, and Room schema discipline for source SHA 3fe03e879accb8f49f7e7d7ab2064ce7dd8a2a30.
+- Extend the full ZIP round-trip fixture with an actual user-owned consumption image under DreamMemoryData/consumptionImages.
+- Export the backup, delete the original image, restore from the archive, then assert the restored absolute reference path exists and the restored bytes exactly match the original fixture.
+- Preserve the prior checks for consumption/possession stable relation, record work note, experience event, and invalid archive preserving current data.
+- No production code, Room entity/schema/version, migration, or backup format change is intended.
+- Run the full JVM suite, assembleDebug, and Room schema discipline for the exact source SHA. Upload Room schema artifact only; no APK upload, signing, release, or main modification.
+- This automated media fixture covers only consumption images. Device checks for attachments, covers, canvas assets, local books/videos, SAF providers, interrupted restore and light-backup missing-media placeholders remain required.
+- Audit: docs/BACKUP_RESTORE_ROUNDTRIP_AUDIT_2026-10-17.md.
 
 
 --- Historical build requests ---
