@@ -413,3 +413,24 @@ Editable canvas verification rerun (2026-10-17): validate exact DreamMemory sour
 - Do not sign/publish or merge PR #3. Do not write to private main. The earlier run 38984190370 validated only source SHA 0f23331c0b83a960053703bf00b005044486102d and failed; this is a new validation of the latest exact SHA.
 - Device acceptance remains pending regardless of CI result.
 
+
+
+---
+
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to validate Home "On This Day" integration for real work experience events.
+Source SHA: 838bdadbf492e64aa6e8b5d52aa4a93ec93b4c7b
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 838bdadbf492e64aa6e8b5d52aa4a93ec93b4c7b
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+
+Coordinated implementation:
+1. Keep existing memory recall behavior, including exclusion of chat logs.
+2. Add work-experience recall using ExperienceEventEntity.experiencedAt in the device local time zone. Include only prior-year same-month/day experiences and join them to their owning RecordEntity; orphaned events, current-year events, and other dates must be excluded.
+3. Home shows both memory entries and real work experiences in "那年今日"; tapping an experience opens its owning Record detail.
+4. Add ExperienceRecallTest for prior-year same-day inclusion, current-year/date mismatch exclusion, orphan exclusion, newest-first ordering, and local-timezone date boundaries.
+5. Update product reference catalog, UX audit, change ledger and bug history.
+6. No Room schema, migration, dependency, backup format, six-tab order, or domain ownership changes.
+
+Previous Builder run #120 succeeded for the Records experience calendar integration at source SHA a2c3769ae909e210404958a48ed696f784f33c25. This request validates the newer exact source SHA above, including the calendar batch plus Home recall integration.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity. If any step fails, inspect full logs and fix the actual root cause; do not remove tests or weaken assertions. Branch validation only; no signing/publishing and no writes to private main. Device validation remains separate, including opening a recalled work, return navigation, and date/time display.
