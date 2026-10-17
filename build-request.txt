@@ -1,3 +1,21 @@
+Validate reader-appearance backup compatibility and roundtrip coverage.
+Source SHA: 0bab9e5c0a02cc6867c244e3cb9791c36e0de1a6
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 0bab9e5c0a02cc6867c244e3cb9791c36e0de1a6
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room migration/schema version discipline and upload schema artifact. No signing, publication, merge or writes to private main.
+
+Changes:
+- Full backup format v15 now exports/restores readerAppearanceSettings (fontScale and lineSpacingMultiplier), clamps non-finite/out-of-range values, and defaults old full backups missing this field.
+- Full restore rollback snapshots now include dream_reader_appearance.
+- Automatic light backup format v3 includes dream_reader_appearance in preferences.json, required prefs, and rollback snapshots.
+- Legacy light backup v1/v2 without reader appearance settings gets explicit defaults; v3 missing the field is rejected as incomplete.
+- Extended BackupRoundTripTest to mutate typography settings after export and assert full and light restores recover exact values; tests v2 default compatibility and v3 missing-field rejection.
+- Updated current backup-version docs and Readium BSD-3 source audit; latest Readium release is not adopted blindly because its stated Kotlin/Gradle baseline exceeds the current project toolchain.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity and schema artifact upload. Inspect/fix actual failures without weakening tests. No release signing/publication.
+
+---
+
 Validate MOBI/AZW reader support and independent reader typography preferences.
 Source SHA: efc93a9eaacf0f0f3a91054d43cdcdc0931014aa
 Source ref: design/visual-system-pass-0.7.6
