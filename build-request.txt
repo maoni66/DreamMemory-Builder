@@ -1,3 +1,21 @@
+Build requested for shared EXIF-aware image decoding across creation, records and life, plus product-decision documentation reconciliation.
+Source SHA: a86149077c39c951060263fb3a523a1ffcb4c5c3
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: a86149077c39c951060263fb3a523a1ffcb4c5c3
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact for review only. Do not sign, publish, merge, or write generated Room schemas to private main for this non-main ref.
+
+Batch scope:
+- Move the EXIF-aware, bounded decoder from feature.create into shared app.util.DreamImageDecoder.
+- Reuse it for creation asset import, canvas import, asset preview/style decoding, record cover decoding, and life consumption-image decoding. Record and life no longer maintain independent BitmapFactory stream-decoding implementations.
+- Keep PNG/WebP alpha preservation from the previous batch. No database schema, migration, backup format, media ownership or six-tab navigation changes.
+- Update the shared decoder test path and preserve tests for EXIF rotation and maximum decode dimensions.
+- Reconcile old Markdown statements that incorrectly said navigation should be reevaluated. The fixed bottom tabs remain: Home / Life / Shelf / Record / Create / Discover; My is secondary. Expand reference documentation for Nian, Reeden, Legado with MD3, Read You, 集粒, 豆豆芽 and 土星计划, including source visibility/license cautions.
+- No release signing or publication.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline and exact source SHA parity. If any check fails, inspect actual logs and fix the cause without deleting tests or weakening assertions. Device validation remains separate for EXIF metadata from file/content URIs, transparent PNG/WebP, record covers, life photos, canvas layering and PNG export. Do not commit further DreamMemory source/docs while this run is active.
+
+---
+
 Build requested for DreamMemory image pipeline reliability batch.
 Source SHA: 4d45d9c4b1fadd96828925e93e2855c91b1ecff7
 Source ref: design/visual-system-pass-0.7.6
