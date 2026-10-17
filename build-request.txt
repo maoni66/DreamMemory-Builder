@@ -1,3 +1,19 @@
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to validate the shared custom-theme renderer and avatar-frame preview against the exact latest source HEAD.
+Source SHA: 227f3fbad707e1a7da7ad481732d69c951c4e3d4
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 227f3fbad707e1a7da7ad481732d69c951c4e3d4
+Build mode: branch validation only. Run full JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+
+Coordinated implementation batch:
+1. Reuse the existing DreamThemeBackdrop composable in Theme.kt for the custom-theme editor preview instead of maintaining duplicate background/image rendering. It now renders the selected background image and all existing DreamThemeTexture variants through the same implementation used by the app theme.
+2. Add an integrated avatar-frame preview using the existing ThemePackageCodec asset resolution and ThemeAssetRenderer decoder. Preserve palette preview, left/right bubble images, CSS supported-property rendering, and unsupported-property warnings.
+3. Update UI/UX audit, project change/migration ledger, and reusable-source audit with exact commits and validation limits.
+4. No Room schema, migration, backup format, third-party dependency, six-tab order, or domain/data-model changes. Preserve all tests and assertions.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity. If any step fails, inspect actual logs and fix the root cause. This is branch validation only; no signing, publishing, release, or writes to private main. Device visual acceptance remains separate. Do not commit further DreamMemory source/docs while this run is active.
+
+---
+
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
 Source SHA: bd3339e0f97bd009e30411ce03cc8bb10d54cc92
 Source ref: design/visual-system-pass-0.7.6
