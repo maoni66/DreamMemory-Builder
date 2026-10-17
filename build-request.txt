@@ -1,3 +1,19 @@
+Validate the latest source batch: purchase-possession unlink edge cases and bounded EPUB text decompression.
+Source SHA: 12439566c66cd8dafce5edae20588791bebb4e21
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 12439566c66cd8dafce5edae20588791bebb4e21
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room schema version discipline and upload schema artifact. No signing, publication, merge or writes to source main.
+
+Included changes:
+- Consumer-to-possession unlink is user-confirmed and transactional; removes only the selected PURCHASE_TO_POSSESSION edge, preserves purchase and possession entities and unrelated edges, and clears the transfer marker only when no valid linked possession remains.
+- Regression coverage includes multi-link unlink, last-link state, invalid non-possession target, repeated unlink idempotency, and preserving unrelated relation edges.
+- EPUB parser no longer calls unbounded readText() on untrusted ZIP text entries. New bounded UTF-8 streaming reader caps decompressed container.xml at 1 MiB, OPF at 4 MiB, and a single chapter at 8 MiB; over-limit content yields a visible reader error. Unit tests cover exact limit, overflow and invalid limit.
+- Reference audit identifies Reeden as non-open-source and Legado with MD3 as GPL-3.0; these are product/architecture references only, no incompatible source copied. Readium remains a separate engine compatibility evaluation.
+
+Required checks: all JVM tests, Debug APK compile, Room schema discipline, exact SHA parity, schema artifact upload. Inspect real logs and fix any failures at the root cause without weakening tests. No release signing/publication.
+
+---
+
 Validate consumption-to-possession unlink edge-case regression on exact source SHA 3ff40994c96fa7b27d267602032095bdee91067f.
 Source SHA: 3ff40994c96fa7b27d267602032095bdee91067f
 Source ref: design/visual-system-pass-0.7.6
