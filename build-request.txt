@@ -1,3 +1,19 @@
+Build requested for final canvas-export image decoding path and reference-library audit.
+Source SHA: 92114d97128c98821c048eff1535b99480378952
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 92114d97128c98821c048eff1535b99480378952
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact for review only. Do not sign, publish, merge, or write generated Room schemas to private main for this non-main ref.
+
+Batch scope:
+- Replace CreateCanvasRenderer's last direct BitmapFactory.decodeFile call with shared DreamImageDecoder, applying EXIF normalization and bounding decoded source images to 4096px while preserving canvas export scale, z-order, opacity, and alpha.
+- Update reusable-source audit, reference catalog and change ledger. Add source/license and compatibility notes for Apache-2.0 Reorderable and MIT MaterialKolor; neither dependency is introduced without a concrete fit and Compose/Kotlin compatibility check.
+- Previous Builder #133 passed all JVM tests, Debug APK compilation and Room schema discipline for SHA a86149077c39c951060263fb3a523a1ffcb4c5c3. This run validates the newer exact SHA above.
+- No Room schema, migration, backup, navigation, domain ownership or release changes.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline and exact source SHA parity. If any check fails, inspect actual logs and fix the root cause without deleting tests or weakening assertions. Device validation remains separate for EXIF photos, transparent PNG/WebP, canvas layering and exported PNG. Do not commit further DreamMemory source/docs while this run is active.
+
+---
+
 Build requested for shared EXIF-aware image decoding across creation, records and life, plus product-decision documentation reconciliation.
 Source SHA: a86149077c39c951060263fb3a523a1ffcb4c5c3
 Source ref: design/visual-system-pass-0.7.6
