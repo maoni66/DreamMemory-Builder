@@ -1,3 +1,19 @@
+Validate off-main-thread bounded TXT/EPUB reading on exact source SHA 642659dcec20c0baebe0f1cbb9a1ab0a87485b65.
+Source SHA: 642659dcec20c0baebe0f1cbb9a1ab0a87485b65
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 642659dcec20c0baebe0f1cbb9a1ab0a87485b65
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room schema version discipline and upload schema artifact. No signing, publication, merge or writes to source main.
+
+This batch adds one further reader reliability fix on top of the validated bounded-input batch:
+- TXT/MD file reads use Dispatchers.IO and a 32 MiB decompressed/input limit.
+- EPUB container.xml/OPF/chapter reads remain bounded (1 MiB / 4 MiB / 8 MiB) and are now performed on Dispatchers.IO, as is spine parsing. Compose state updates remain in the coroutine's main context.
+- EPUB spine limit is 5000 chapters; tests cover byte boundaries, over-limit entries, invalid limits and chapter-count boundary.
+- The previous exact SHA d2d85f3e290fab258cc587a05d5808582e802a4a passed JVM tests, Debug APK, Room schema discipline and schema artifact upload in Builder #148. This new run must validate the later I/O dispatcher change.
+
+Required checks: all JVM tests, Debug APK compilation, Room schema discipline, exact source SHA parity, schema artifact upload. If anything fails, inspect real logs and fix the root cause without weakening tests. No release signing/publication.
+
+---
+
 Validate reader input bounds and purchase-possession relation regressions.
 Source SHA: d2d85f3e290fab258cc587a05d5808582e802a4a
 Source ref: design/visual-system-pass-0.7.6
