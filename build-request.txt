@@ -1,3 +1,24 @@
+Re-run reader palettes, backup v16 and focus recovery after fixing actual compile errors from Builder #141.
+Source SHA: 916e41f164643295fe20af4093d32a2893edf186
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 916e41f164643295fe20af4093d32a2893edf186
+Build mode: branch validation only. Run all JVM tests, assembleDebug, Room schema discipline and schema artifact upload. No signing, publication, merge or writes to private main.
+
+Builder #141 failed at compileDebugKotlin with exactly two errors:
+1) AutoBackupRepository.kt:428 had one extra right parenthesis in the legacy reader appearance defaults.
+2) SelectableReaderText.kt was public while exposing internal ReaderPalette.
+Both root causes are fixed: correct closing parenthesis count, and SelectableReaderText is now internal. No tests were deleted or weakened.
+
+Batch scope remains:
+- ReaderPalette SYSTEM/PAPER/SEPIA/NIGHT, saved with font scale/line spacing.
+- Full backup v16 exports/restores palette; old backups missing palette default to SYSTEM. Light backup v3 uses generic preference serialization; old v3 missing palette falls back to SYSTEM.
+- Backup roundtrip asserts palette/font/line spacing and legacy light backup defaults.
+- LifeViewModel reconciles expired unpaused unfinished focus sessions at startup, persists completion and cancels stale alarms; pure filter tests cover edge cases.
+
+Required checks: all JVM tests, Debug APK, Room schema discipline, exact source SHA parity, schema artifact upload. If another check fails, inspect actual logs and fix root cause. No release signing/publication.
+
+---
+
 Validate reader palette preferences, backup v16 compatibility, and focus-session process recovery.
 Source SHA: 4b3ad446e2f919be168f57c55d9022302aa1d033
 Source ref: design/visual-system-pass-0.7.6
