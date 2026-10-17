@@ -120,11 +120,13 @@ jobs:
           committed_current="$committed_dir/$version.json"
 
           if [ -f "$committed_current" ]; then
-            if ! cmp -s "$committed_current" "$generated"; then
+            # JSON whitespace/key ordering is not schema semantics; compare parsed content
+            # so a compact but complete generated snapshot remains valid.
+            if ! python3 -c 'import json,sys; n=lambda p: json.dumps(json.load(open(p, encoding="utf-8")), sort_keys=True, separators=(",", ":"), ensure_ascii=False); sys.exit(0 if n(sys.argv[1]) == n(sys.argv[2]) else 1)' "$committed_current" "$generated"; then
               echo "Room schema version $version changed without a version bump. Increase @Database.version and add/test a Migration; never rewrite an already released schema."
               exit 1
             fi
-            echo "Committed Room schema v$version is unchanged."
+            echo "Committed Room schema v$version is unchanged (semantic JSON comparison)."
           else
             existing_count="$(find "$RUNNER_TEMP/committed-room-schemas" -type f -name '*.json' -print | wc -l)"
             previous_version=$((version - 1))
