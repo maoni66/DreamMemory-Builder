@@ -1,17 +1,16 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: 5011fc9ce10b8ed588f85bb54bf5faf277040595
+Source SHA: ebf47d31222e0e1681a741f5a4ec282f9f74a0dc
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 5011fc9ce10b8ed588f85bb54bf5faf277040595
+Expected source SHA at trigger: ebf47d31222e0e1681a741f5a4ec282f9f74a0dc
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Validate light backup's database-only / missing-media semantics:
-- Builder #104 passed JVM tests, Debug APK compilation, and Room schema discipline for source SHA d5b652c13a22850e40039bab9ede70e9f0eaf60f, including local EPUB and app-specific external Movies path restoration.
-- New test lightBackupRestoresDatabaseButDoesNotRestoreMediaFiles creates an actual AutoBackupRepository light backup, verifies metadata declares mediaIncluded=false and ZIP contains only metadata/database/preferences (no files/ or external_movies/), deletes the original consumption image and database row, then restores the latest light backup.
-- Assert the database row returns with the same ID/title and imageUri, while the media file remains missing; this confirms light backups do not silently recreate or include media.
-- Re-run all full backup round-trip tests: consumption image, attachment, cover, canvas original/compressed/thumbnail and element reference, local book, video, invalid archive safety, and failed-import rollback.
-- No production-code, Room schema/version, migration, or backup format change intended.
-- Run full JVM suite, assembleDebug, and Room schema discipline for this exact source SHA. Upload generated Room schema artifact only; no APK upload, signing, release, or main modification.
-- This test does not replace real-device validation of missing-media UI placeholders, external SAF provider URIs, process death, disk-space exhaustion or reboot recovery.
+Diagnose and verify light-backup media semantics regression:
+- Builder #104 passed full JVM tests, Debug APK compilation, and Room schema discipline for source SHA d5b652c13a22850e40039bab9ede70e9f0eaf60f.
+- Builder #105 failed in new test lightBackupRestoresDatabaseButDoesNotRestoreMediaFiles (169 tests, one failure); build log reported only the test method and did not expose the failing assertion text.
+- Source commit 89ee3c84c90388932ba3e3507f425b864e460bff adds explicit assertion messages for ZIP entry names, metadata, and restored database row identity/fields. Run full JVM tests and capture the specific failing assertion message; fix the actual root cause without deleting the test or weakening the product expectation.
+- Test contract: light backup contains metadata.json, database/dreammemory_v1.db, preferences.json; metadata declares mediaIncluded=false; ZIP must not include media files. After export, remove the referenced consumption image and database row, restore the light backup, verify the stable consumption row/ID/imageUri returns, and verify the image bytes/file are NOT recreated.
+- If the corrected test passes, continue with assembleDebug and Room schema discipline against this exact source SHA. Upload generated Room schema artifact only. No APK upload/signing/release/main modification.
+- Preserve existing full-backup round-trip, invalid archive protection, and rollback fault-injection tests.
 - Audit: docs/BACKUP_RESTORE_ROUNDTRIP_AUDIT_2026-10-17.md.
 
 
