@@ -1,16 +1,15 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: ebf47d31222e0e1681a741f5a4ec282f9f74a0dc
+Source SHA: 503d8f296cca054bddfb9eb210e1a78a24eec843
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: ebf47d31222e0e1681a741f5a4ec282f9f74a0dc
+Expected source SHA at trigger: 503d8f296cca054bddfb9eb210e1a78a24eec843
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Diagnose and verify light-backup media semantics regression:
-- Builder #104 passed full JVM tests, Debug APK compilation, and Room schema discipline for source SHA d5b652c13a22850e40039bab9ede70e9f0eaf60f.
-- Builder #105 failed in new test lightBackupRestoresDatabaseButDoesNotRestoreMediaFiles (169 tests, one failure); build log reported only the test method and did not expose the failing assertion text.
-- Source commit 89ee3c84c90388932ba3e3507f425b864e460bff adds explicit assertion messages for ZIP entry names, metadata, and restored database row identity/fields. Run full JVM tests and capture the specific failing assertion message; fix the actual root cause without deleting the test or weakening the product expectation.
-- Test contract: light backup contains metadata.json, database/dreammemory_v1.db, preferences.json; metadata declares mediaIncluded=false; ZIP must not include media files. After export, remove the referenced consumption image and database row, restore the light backup, verify the stable consumption row/ID/imageUri returns, and verify the image bytes/file are NOT recreated.
-- If the corrected test passes, continue with assembleDebug and Room schema discipline against this exact source SHA. Upload generated Room schema artifact only. No APK upload/signing/release/main modification.
-- Preserve existing full-backup round-trip, invalid archive protection, and rollback fault-injection tests.
+Diagnose light backup round-trip regression:
+- Builder #105 (run 39012190789) failed only lightBackupRestoresDatabaseButDoesNotRestoreMediaFiles among 169 JVM tests, on source SHA 5011fc9ce10b8ed588f85bb54bf5faf277040595. APK and Room discipline were skipped.
+- Diagnostic test commit 629b18946751a14cabe20313eb1df700a18fed0f adds stage markers and failure exception output around light ZIP creation/inspection, source deletion, restore and missing-media assertion. Use actual failing stage/log to identify root cause; do not weaken or remove intended assertions.
+- Preserve all previously passing full-backup round-trip, media path, invalid archive, failed-import rollback and Room schema checks.
+- Product contract: light backup includes DB + preferences only; it must not recreate user media. No production-code/schema/backup-format changes unless observed failure demonstrates a real production defect.
+- Run full JVM suite, assembleDebug, and Room schema discipline against this exact source SHA. Upload generated Room schema artifact only; no APK upload, signing, release or main modification.
 - Audit: docs/BACKUP_RESTORE_ROUNDTRIP_AUDIT_2026-10-17.md.
 
 
