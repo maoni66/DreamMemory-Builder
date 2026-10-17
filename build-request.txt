@@ -1,4 +1,20 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
+Source SHA: bd3339e0f97bd009e30411ce03cc8bb10d54cc92
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: bd3339e0f97bd009e30411ce03cc8bb10d54cc92
+Build mode: branch validation only. Run full JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+
+Coordinated theme preview batch:
+1. Validated predecessor custom-theme color/live preview commit 2b47445f5c8bd6c9e617545b53ccf8c9238abc2b with Builder #113 (success); this request must validate the newer exact SHA above.
+2. Custom theme live preview now resolves and displays imported background and left/right bubble assets. The left/right bubble preview reflects the existing parser's supported background, border, radius, padding and text styles, and reports unsupported CSS properties instead of executing arbitrary CSS/JS.
+3. Texture selection is labeled but texture rendering is not yet implemented in the editor preview. Avatar-frame preview and device interaction remain pending acceptance. Do not mark them complete.
+4. No Room schema, migration, backup format, dependency, six-tab order, or data model changes. Preserve all tests and assertions.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity. If any step fails, inspect actual logs and fix the root cause. Branch validation only; no signing, publishing, release, or writes to private main. Device visual acceptance remains separate.
+
+--- Historical build requests ---
+
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
 Source SHA: 2b47445f5c8bd6c9e617545b53ccf8c9238abc2b
 Source ref: design/visual-system-pass-0.7.6
 Expected source SHA at trigger: 2b47445f5c8bd6c9e617545b53ccf8c9238abc2b
