@@ -1,16 +1,19 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: fdc724c373f3a3566434707b95c2ed33537c2c53
+Source SHA: 3fe03e879accb8f49f7e7d7ab2064ce7dd8a2a30
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: fdc724c373f3a3566434707b95c2ed33537c2c53
+Expected source SHA at trigger: 3fe03e879accb8f49f7e7d7ab2064ce7dd8a2a30
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Validate the post-build review fix on top of the LIFE-DATA-002 safe purchase-possession repair batch:
-- Builder #98 passed JVM unit tests, Debug APK compilation, and Room schema discipline for source SHA cda87f3dce206504e4f5f1004db8af55d88781a6.
-- After #98, LifeScreen.kt was corrected so the initial empty list from the asynchronous relation query cannot temporarily show a false “关联缺失” warning. Only show the warning and repair action once the query has completed and no valid linked possession exists.
-- Revalidate all existing purchase-possession relation repair tests, the Room transaction helper, and the previous Record Work / ExperienceEvent backup v12 batch.
-- No Room entity/schema/version change is intended. Upload generated Room schema artifact only. No APK upload, signing, release, or main-branch write.
-- Report the exact checked-out source SHA and each JVM test / assembleDebug / Room schema result separately.
-- CI success still does not replace real-device repair flow, historical data validation, or full backup/restore round-trip acceptance.
+Validate this complete backup regression batch:
+- Builder #99 passed JVM unit tests, Debug APK compilation, and Room schema discipline for source SHA fdc724c373f3a3566434707b95c2ed33537c2c53; that run included the relation-query loading-state correction.
+- Add BackupRoundTripTest.fullBackupRestoresConsumptionPossessionRelationAndExperienceEvent: use the real BackupRepository full ZIP export/restore path, remove the source rows, restore, then verify consumption amount/transfer marker, possession identity, stable PURCHASE_TO_POSSESSION link, RecordEntity note, and ExperienceEvent identity/content.
+- Add BackupRoundTripTest.invalidFullBackupDoesNotReplaceCurrentDatabase: invalid archive must fail before replacing the current database and preserve its existing consumption row.
+- Review test isolation and cleanup for database singleton, user media root, restore marker, stage/old directories, and temporary archives.
+- No production-code changes, Room entity/schema/version changes, or backup format changes are intended. Run the full JVM suite, assembleDebug, and Room schema discipline against this exact source SHA.
+- Upload generated Room schema artifact only; do not upload APK, sign, release, or modify main.
+- CI success does not replace real-device verification of large media, SAF/document-provider URIs, process death, disk-space failure, restore rollback, reminder rescheduling, or light-backup missing-media placeholders.
+- Reference audit: docs/BACKUP_RESTORE_ROUNDTRIP_AUDIT_2026-10-17.md.
+
 
 --- Historical build requests ---
 
