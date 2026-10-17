@@ -1,3 +1,17 @@
+Revalidate purchase-possession unlink after fixing missing imports from Builder #143.
+Source SHA: c1c43570a804983e958e038a455feecf9c6534b1
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: c1c43570a804983e958e038a455feecf9c6534b1
+Build mode: branch validation only. Run all JVM tests, assembleDebug, Room schema discipline and upload schema artifact. No signing, publication, merge or writes to private main.
+
+Builder #143 failed in compileDebugKotlin because ConsumptionViewModel.kt used the new unlink helper and result enum without imports. The unresolved references also caused a cascading non-exhaustive when error. Both imports are now added. No tests were removed or weakened.
+
+Batch still covers transactional unlink of a selected PURCHASE_TO_POSSESSION edge, preservation of both endpoint records and unrelated edges, transfer marker recalculation based on remaining valid links, UI confirmation and in-memory Room tests.
+
+Required checks: all JVM tests, Debug APK, Room schema version discipline, exact source SHA parity and schema artifact upload. Inspect any new errors and fix root causes. No release signing/publication.
+
+---
+
 Validate explicit unlinking of purchase-to-possession relations.
 Source SHA: e75593053a72fb5c5382d767dd6efc09c5dc11d7
 Source ref: design/visual-system-pass-0.7.6
