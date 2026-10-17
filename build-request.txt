@@ -1,3 +1,17 @@
+Validate consumption-to-possession unlink edge-case regression on exact source SHA 3ff40994c96fa7b27d267602032095bdee91067f.
+Source SHA: 3ff40994c96fa7b27d267602032095bdee91067f
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 3ff40994c96fa7b27d267602032095bdee91067f
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room schema version discipline, upload schema artifact. No signing, publication, merge, or writes to source main.
+
+Latest code adds a Room regression test proving unlinking the same purchase-possession relation twice is idempotent (UNLINKED then ALREADY_UNLINKED), the unrelated relation edge survives, and neither purchase nor possession is deleted. Existing tests cover multiple relations, transfer marker remaining true until last valid edge, clearing on last unlink, and rejecting non-possession targets.
+
+Reference source audit expanded with Mizu (GPL-3.0), Book's Story (GPL-3.0), PixaPencil (current EULA; historical native code has differing license periods), and ComposeNotes (inactive; no root LICENSE found). These are design/architecture references only; no incompatible or unclear-license source was copied.
+
+Required checks: all JVM tests, Debug APK compile, Room schema discipline, exact SHA parity, schema artifact upload. Inspect logs and fix actual root causes if anything fails. Do not weaken/remove tests. No release signing/publication.
+
+---
+
 Revalidate purchase-possession unlink after fixing missing imports from Builder #143.
 Source SHA: c1c43570a804983e958e038a455feecf9c6534b1
 Source ref: design/visual-system-pass-0.7.6
