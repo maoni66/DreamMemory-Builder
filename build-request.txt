@@ -1,13 +1,14 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: 2632563711b4287565df28d2c4ef693be5cd4429
+Source SHA: 65c2faaef5de861eacb3ededb39d839e16ab686c
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 2632563711b4287565df28d2c4ef693be5cd4429
+Expected source SHA at trigger: 65c2faaef5de861eacb3ededb39d839e16ab686c
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
 Validate this complete Record Work / ExperienceEvent batch:
 - Room schema v3 adds ExperienceEventEntity as a child of RecordEntity; v2->v3 migration preserves legacy records and migrates completedAt > 0 to one COMPLETION event.
 - DAO/ViewModel support observe, add, and delete; add validates the parent and disallows future experience timestamps.
 - Experience timeline entries can now be edited in place: editor pre-fills the selected event and Room Update preserves its identity, source, and creation timestamp; update revalidates the parent and date.
+- Detail UI suppresses duplicate legacy work-level rating/note only when an exact LEGACY_MIGRATION/LEGACY_BACKUP event mirror matches date, rating, and note; stored legacy fields remain preserved.
 - Record detail UI collects real Room Flow events and supports creating an event with date, type, rating, note; viewing the timeline; and deleting only one event. Save-in-flight disables duplicate submissions.
 - Full backup format version is 12; import accepts versions 2..12 and reconstructs experience events from completedAt when the legacy backup lacks experienceEvents.
 - A v3 schema snapshot was manually prepared; compare it to compiler-generated Room schema and report any semantic mismatch. Generated Room schema is the source of truth.
