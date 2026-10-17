@@ -1,17 +1,17 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: d5b652c13a22850e40039bab9ede70e9f0eaf60f
+Source SHA: 5011fc9ce10b8ed588f85bb54bf5faf277040595
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: d5b652c13a22850e40039bab9ede70e9f0eaf60f
+Expected source SHA at trigger: 5011fc9ce10b8ed588f85bb54bf5faf277040595
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Validate local book and video path round-trip on top of the passing media matrix:
-- Builder #103 passed JVM tests, Debug APK compilation, and Room schema discipline for source SHA 37ddf7fc6522571f90236cb16d619717a4337e6e.
-- The complete backup fixture now includes ShelfItemEntity.localPath for a local EPUB under DreamMemoryData/local_books and a video under app-specific external Movies storage.
-- Export the full ZIP, delete both source files, restore, then verify stable Shelf IDs, restored local paths and file bytes. This exercises both the dm: and movies: backup path schemes.
-- Preserve all prior checks for consumption/possession relation, experience events, attachments, record cover, canvas assets/element paths, invalid archive safety, and failed-import rollback.
-- No production code, Room entity/schema/version, migration, or backup-format change intended.
-- Run full JVM suite, assembleDebug, and Room schema discipline against this exact source SHA. Upload generated Room schema artifact only; no APK upload, signing, release, or main modification.
-- Real SAF/document-provider URIs and physical-device storage/restore behavior remain outside this automated fixture.
+Validate light backup's database-only / missing-media semantics:
+- Builder #104 passed JVM tests, Debug APK compilation, and Room schema discipline for source SHA d5b652c13a22850e40039bab9ede70e9f0eaf60f, including local EPUB and app-specific external Movies path restoration.
+- New test lightBackupRestoresDatabaseButDoesNotRestoreMediaFiles creates an actual AutoBackupRepository light backup, verifies metadata declares mediaIncluded=false and ZIP contains only metadata/database/preferences (no files/ or external_movies/), deletes the original consumption image and database row, then restores the latest light backup.
+- Assert the database row returns with the same ID/title and imageUri, while the media file remains missing; this confirms light backups do not silently recreate or include media.
+- Re-run all full backup round-trip tests: consumption image, attachment, cover, canvas original/compressed/thumbnail and element reference, local book, video, invalid archive safety, and failed-import rollback.
+- No production-code, Room schema/version, migration, or backup format change intended.
+- Run full JVM suite, assembleDebug, and Room schema discipline for this exact source SHA. Upload generated Room schema artifact only; no APK upload, signing, release, or main modification.
+- This test does not replace real-device validation of missing-media UI placeholders, external SAF provider URIs, process death, disk-space exhaustion or reboot recovery.
 - Audit: docs/BACKUP_RESTORE_ROUNDTRIP_AUDIT_2026-10-17.md.
 
 
