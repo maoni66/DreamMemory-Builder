@@ -1,3 +1,26 @@
+Validate per-album curation ordering after committing the generated Room v5 snapshot.
+Source SHA: 2e0a9daea32591a01327239c0412e2e4fd4d5ccf
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 2e0a9daea32591a01327239c0412e2e4fd4d5ccf
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room migration/schema version discipline and upload the generated schema artifact for review. No signing, publication, merge or writes to private main.
+
+Prior Builder results:
+- #135 compile failed on longPressDraggableHandle and missing padding import.
+- #136 compile failed because draggableHandle was incorrectly imported as a top-level function.
+- #137 compiled the reorder UI, then migrationPreservesRowsAcrossCoreDomains failed because the branch lacked app/schemas/com.dreammemory.app.data.local.DreamMemoryDatabase/5.json. The run uploaded schema v5 artifact with identityHash 668da2a9adabfb86eef6fc39986e5cad. That generated v5 snapshot is now committed in source SHA 2e0a9daea32591a01327239c0412e2e4fd4d5ccf.
+- No tests were deleted or weakened.
+
+Batch scope:
+- Room v4→v5 adds MemoryNodeLinkEntity.sortOrder with default 0.
+- Per-album ALBUM_TO_WORK ordering, append-new-link behavior and transaction-scoped reorder; the same work can have different positions in different albums.
+- Reorderable 3.1.0 drag UI and bundled Apache-2.0 license.
+- Full backup v14 serializes sortOrder; older backups without the field restore as 0.
+- Migration default, per-album isolation and backup roundtrip tests.
+
+Required checks: all JVM tests, Debug APK, Room migration/schema discipline, exact source SHA parity and generated schema artifact upload. If a check fails, inspect the actual logs and fix the cause. No release signing or publication.
+
+---
+
 Re-run album curation ordering after correcting the Reorderable 3.1.0 scope-member API.
 Source SHA: ce449d6f2107039e9a9cf5b8ad8cf1cda254fcf2
 Source ref: design/visual-system-pass-0.7.6
