@@ -1,3 +1,20 @@
+Validate MOBI/AZW reader support and independent reader typography preferences.
+Source SHA: efc93a9eaacf0f0f3a91054d43cdcdc0931014aa
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: efc93a9eaacf0f0f3a91054d43cdcdc0931014aa
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room migration/schema version discipline and upload generated schema artifact for review. No signing, publication, merge or writes to private main.
+
+Changes:
+- Adapted the MIT-licensed MOBI/KF6/KF8 parser core from https://github.com/ChengqianHuang/Reader into the isolated package com.dreammemory.app.thirdparty.localreader.mobi; bundled its MIT license and updated THIRD_PARTY_NOTICES.md. No upstream UI/database was copied.
+- Added local-only MOBI/AZW/AZW3 chapter extraction and in-app reader routing. Parsing is on Dispatchers.IO; file size capped at 256 MiB, fallback body extraction capped at 32 MiB; chapter/section/TOC fallback and visible parse error states included.
+- Added persistent reader typography preferences (font scale and line spacing) independent of global App theme; applied to TXT/MD/EPUB/MOBI text; PDF remains PDF-page rendering.
+- Added tests for supported extension routing and clamping/invalid values for typography settings.
+- Updated reusable-source audit and product reference catalog with real source/license evidence and remaining device-validation risks.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity and schema artifact upload. If a check fails, inspect actual logs and fix root causes without deleting/weakening tests. Do not claim all MOBI/AZW variants compatible without device sample validation. No release signing or publication.
+
+---
+
 Validate per-album curation ordering after committing the generated Room v5 snapshot.
 Source SHA: 2e0a9daea32591a01327239c0412e2e4fd4d5ccf
 Source ref: design/visual-system-pass-0.7.6
