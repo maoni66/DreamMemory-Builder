@@ -1,3 +1,25 @@
+Re-run album curation ordering after correcting the Reorderable 3.1.0 scope-member API.
+Source SHA: ce449d6f2107039e9a9cf5b8ad8cf1cda254fcf2
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: ce449d6f2107039e9a9cf5b8ad8cf1cda254fcf2
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room migration/schema discipline and upload the generated schema artifact for review. No signing, publication, merge or writes to private main.
+
+Root cause fix:
+- Builder #136 failed because Reorderable 3.1.0 exposes draggableHandle/longPressDraggableHandle as member extensions of ReorderableListItemScope, not package-level imports.
+- The UI now calls Modifier.longPressDraggableHandle() inside ReorderableItem scope, removes the invalid import, and keeps the missing padding import fixed. No tests were deleted or weakened.
+
+Batch scope:
+- Room v4→v5 adds MemoryNodeLinkEntity.sortOrder with default 0.
+- Per-album ALBUM_TO_WORK ordering, append-new-link behavior and transaction-scoped reorder; the same work can have different positions in different albums.
+- Reorderable 3.1.0 UI drag sorting and bundled Apache-2.0 license.
+- Full backup v14 serializes sortOrder; older backups without this key restore as 0.
+- Migration default, per-album isolation and backup roundtrip tests.
+- Current canvas plan, reference catalog, reusable-source audit, change ledger and bug history updated.
+
+Required checks: all JVM tests, Debug APK, Room migration contract/schema discipline and exact SHA parity. Upload generated schema v5 artifact. After artifact review, commit generated schema v5 to source branch and rerun validation on the final SHA. No release signing or publication.
+
+---
+
 Re-run persistent per-album curation order after fixing the actual Kotlin compile failure from Builder #135.
 Source SHA: f8fee17620a9c93c9c07f6b757f734700412ba76
 Source ref: design/visual-system-pass-0.7.6
