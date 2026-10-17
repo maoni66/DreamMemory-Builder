@@ -480,9 +480,9 @@ Required checks: all JVM unit tests, Debug APK compilation, Room schema version 
 
 
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to validate custom chat speaker labels and album-to-work relation regression coverage.
-Source SHA: 37992127854fa9ae13a2f8ad3455af5f46b93937
+Source SHA: 68b08dd5f4dcd1c7c1553b1230694ab14a44d5f9
 Source branch: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 37992127854fa9ae13a2f8ad3455af5f46b93937
+Expected source SHA at trigger: 68b08dd5f4dcd1c7c1553b1230694ab14a44d5f9
 Scope:
 - Chat notebook message editor accepts custom speaker labels while preserving default “我/对方”; labels are trimmed and limited to 32 characters using the existing MemoryEntity.speaker field, with no database schema change.
 - Add ChatSpeakerTest for normal labels, blank fallback, and max length.
@@ -507,3 +507,9 @@ Scope:
 - Add LifeOccurrenceNoteTest for update persistence, stable event identity/time, and no-op behavior for a missing ID.
 - Includes the previously validated custom chat speaker selector and album-to-work multi-link regression tests.
 Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, and exact source SHA parity. Inspect real logs on failure; do not remove tests or weaken assertions. Validation-only branch: no signing, publishing, merge, or writes to main. Device checks for note editing, narrow layout, and history state remain separate.
+
+
+Follow-up scope for this exact SHA:
+- Consumption cards can link one purchase to multiple existing possessions via explicit user selection, display every linked possession, and open each source item. The data helper validates types, writes idempotent relation edges transactionally, and preserves unrelated valid relations.
+- Added a JVM regression test for two linked possessions and duplicate-link idempotence. No Room schema change.
+- Required checks: all JVM tests, Debug APK compilation, Room schema discipline, exact SHA parity. If a check fails, fix the root cause without removing tests or weakening assertions. No signing/publishing or main branch writes; device validation remains separate.
