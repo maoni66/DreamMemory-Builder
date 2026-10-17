@@ -1,7 +1,7 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: 65c2faaef5de861eacb3ededb39d839e16ab686c
+Source SHA: 62c9577914a16ca5dc4aef899acd98558ce762cf
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 65c2faaef5de861eacb3ededb39d839e16ab686c
+Expected source SHA at trigger: 62c9577914a16ca5dc4aef899acd98558ce762cf
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
 Validate this complete Record Work / ExperienceEvent batch:
@@ -12,6 +12,10 @@ Validate this complete Record Work / ExperienceEvent batch:
 - Record detail UI collects real Room Flow events and supports creating an event with date, type, rating, note; viewing the timeline; and deleting only one event. Save-in-flight disables duplicate submissions.
 - Full backup format version is 12; import accepts versions 2..12 and reconstructs experience events from completedAt when the legacy backup lacks experienceEvents.
 - A v3 schema snapshot was manually prepared; compare it to compiler-generated Room schema and report any semantic mismatch. Generated Room schema is the source of truth.
+- Additional LIFE-DATA-001 batch reuses the existing memory_node_links PURCHASE_TO_POSSESSION relation: consumption rows navigate to their linked possession; possession cards show source purchase date, category, purchase price and image, and navigate back to the source consumption row.
+- Newly transferred possessions no longer copy the purchase amount into valueCents as if it were a current valuation. Purchase amount remains sourced from the consumption record; current estimated value stays independent.
+- Added Room DAO projection queries for linked purchases/possessions and list focus/scroll behavior for bidirectional navigation. No Room schema version or entity change is intended; full backup already serializes memoryNodeLinks.
+- Old rows that only have transferredToPossession=true but no relation row must not be auto-matched by title/amount heuristics. Keep this as a visible data-health/repair concern; do not silently invent relations.
 - Project architecture, UX audit, migration ledger, context, and release readiness docs distinguish source implementation from validation.
 - Keep this source branch isolated. No main changes, APK upload, signing, or release. Automated checks do not replace real backup/restore and device acceptance.
 
