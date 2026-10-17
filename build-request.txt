@@ -1,17 +1,16 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: 16b25481af04a1b8b636a89783456e0a4011daf5
+Source SHA: 41d6e69cecda408f54c873e2c93e0d868041e99c
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 16b25481af04a1b8b636a89783456e0a4011daf5
+Expected source SHA at trigger: 41d6e69cecda408f54c873e2c93e0d868041e99c
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Expose and diagnose the light-backup round-trip test failure:
-- Builder #104 passed the then-current full suite, APK compile and Room schema discipline.
-- Builder #105 and #107 both failed only in lightBackupRestoresDatabaseButDoesNotRestoreMediaFiles; prior logs only reported AssertionError at the runBlocking method line and hid the test's own diagnostic output.
-- Source commit a92adff0b738c61104414ccede729cff4fb7ad5b configures Gradle test logging with full failure exception format and standard streams enabled. The test itself has named stages and detailed assertion messages.
-- Run the full JVM suite and capture the specific failing stage/assertion/exception from the new logs. Fix the actual root cause; do not remove or weaken the test. Do not make production changes unless evidence points to a production defect.
-- Product contract: light backup contains DB + preferences only; ZIP excludes media; after deleting the original image and DB row, restoring must reinstate the stable DB row/reference but must not recreate the image file.
-- If JVM tests pass, continue with assembleDebug and Room schema discipline. Upload generated Room schema artifact only. No APK upload/signing/release/main modification.
-- Preserve all existing full-backup media matrix, invalid archive protection, and restore rollback fault-injection tests.
+Verify corrected Gradle test diagnostics and identify light-backup regression:
+- Builder #105 and #107 failed in the new light-backup round-trip test; logs did not show the assertion message.
+- Builder #108 failed before tests because its Gradle Kotlin DSL receiver was invalid; no tests ran.
+- Source commit 8374a8354c10269cc92e6b721fc1981fdaf98d39 moves test logging configuration to top-level tasks.withType<Test>().configureEach, with full exception format and standard streams.
+- Run full JVM suite. Confirm Gradle config succeeds, then capture exact light-backup failure stage/message from test output. Fix the true root cause without removing/weakening the test. If tests pass, run assembleDebug and Room schema discipline.
+- Test contract: light backup includes metadata + database + preferences only, does not include media; deleting original image and database row then restoring reinstates stable row/reference but does not recreate media.
+- Preserve existing full backup media matrix, invalid archive protection, and restore rollback tests. Upload generated Room schema artifact only; no APK upload/signing/release/main modification.
 - Audit: docs/BACKUP_RESTORE_ROUNDTRIP_AUDIT_2026-10-17.md.
 
 
