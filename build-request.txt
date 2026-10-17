@@ -1,17 +1,17 @@
-Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to validate bounded, collision-safe theme package export against exact source HEAD.
-Source SHA: c72fff9033537e5cf4e8f6761fcd753fbc1c4cf9
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to validate the notebook editor UX batch against exact source HEAD.
+Source SHA: 48ad27a35e6188d9624aa04f76542ba1c0f3ced9
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: c72fff9033537e5cf4e8f6761fcd753fbc1c4cf9
+Expected source SHA at trigger: 48ad27a35e6188d9624aa04f76542ba1c0f3ced9
 Build mode: branch validation only. Run full JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
 Coordinated implementation batch:
-1. Prior Builder #116 passed all JVM unit tests, Debug APK build, and Room schema version discipline on exact source SHA 729bf2a67d031709292c145e376b0424990e6ca9 (theme package file-type correction).
-2. ThemePackageCodec export now stages the ZIP in cache and writes to the selected URI only after archive construction and budget checks complete; temporary ZIP is cleaned in finally.
-3. Export validates theme count, per-resource size, manifest size, total uncompressed bytes, and archive entry count against import limits.
-4. Give CSS and image fields distinct ZIP asset entry names to avoid duplicate entries when extensions collide.
-5. Add ThemePackageCodecExportLimitsTest and update BUG_HISTORY.md, REUSABLE_SOURCE_AUDIT_2026-10-16.md, and PROJECT_CHANGE_AND_MIGRATION_LEDGER.md.
+1. Replace the notebook editor's generic small DreamDialog with a full-screen editing flow. Keep the title and save bars fixed while the body scrolls.
+2. Give chat messages distinct controls for speaker, bubble alignment, timestamp, and message body; preserve the existing message data model and template-specific labels.
+3. Confirm before discarding unsaved changes, including system/back dismissal.
+4. Update docs/UI_UX_AUDIT.md, docs/BUG_HISTORY.md, and docs/PROJECT_CHANGE_AND_MIGRATION_LEDGER.md to distinguish source implementation from pending device acceptance.
+5. No Room schema, migration, backup format, third-party dependency, six-tab order, or domain/data-model changes are intended.
 
-Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity. If any step fails, inspect logs and fix the root cause. Branch validation only; no signing/publishing and no writes to private main. Device file-provider behavior and complete asset-rich export/import round-trip remain separate. Do not commit further DreamMemory source/docs while this run is active.
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity. If any step fails, inspect actual logs and fix the root cause; do not remove tests or lower assertions. Branch validation only; no signing/publishing and no writes to private main. Device validation remains separate for keyboard/IME behavior, window insets, long content scrolling, back/discard behavior, and template-specific editor usability. Do not commit further DreamMemory source/docs while this run is active.
 
 ---
 
