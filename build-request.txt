@@ -1,3 +1,24 @@
+Re-run persistent per-album curation order after fixing the actual Kotlin compile failure from Builder #135.
+Source SHA: f8fee17620a9c93c9c07f6b757f734700412ba76
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: f8fee17620a9c93c9c07f6b757f734700412ba76
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room migration/schema version discipline and upload the generated schema artifact for review. Do not sign, publish, merge, or write generated schemas to private main.
+
+Root cause fix:
+- Builder #135 failed in CreateRelationSection.kt because longPressDraggableHandle is not present in Reorderable 3.1.0 and Modifier.padding lacked its layout import.
+- Updated to Modifier.draggableHandle() and imported androidx.compose.foundation.layout.padding. No tests were removed or weakened.
+
+Batch scope remains:
+- Room v4→v5 adds MemoryNodeLinkEntity.sortOrder, SQL default 0.
+- Per-album ALBUM_TO_WORK ordering, append-new-link behavior and transaction-scoped reorder; a work can have different positions in multiple albums.
+- Reorderable 3.1.0 UI drag sorting, Apache-2.0 license bundled.
+- Full backup v14 preserves sortOrder; older backups missing the field restore as 0.
+- Migration, per-album isolation and backup roundtrip tests.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room migration contract/schema discipline and exact source SHA parity. Upload generated schema v5 artifact. Once available, commit that generated schema to the source branch and rerun validation against the final exact SHA. No release signing or publication.
+
+---
+
 Build requested for persistent per-album curation order.
 Source SHA: c9e34672f5381fc172ced2dbfcf8be1a1673f2f9
 Source ref: design/visual-system-pass-0.7.6
