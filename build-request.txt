@@ -1,3 +1,12 @@
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to verify the documentation-integrated canvas status against the exact new source HEAD.
+Source SHA: f66b1990cc739c2101b4fa77d9ccb982f76ab119.
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: f66b1990cc739c2101b4fa77d9ccb982f76ab119.
+Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+
+Previous Builder run #87 (38984733348) passed JVM unit tests, assembleDebug, and Room schema discipline for source SHA 70dbb79446c9b5e23cc3a9a4363f06e05a6dab94. This request validates the documentation-only follow-up commit f66b1990cc739c2101b4fa77d9ccb982f76ab119. Preserve the fixed six-tab IA and all data boundaries. CI success does not replace real-device canvas, export, backup/restore, or media-missing acceptance.
+
+--- Historical build requests ---
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 as one coordinated verification batch.
 Source SHA: 80670674eccb6f414c260d7138b1704474f1a5f6.
 Source ref: design/visual-system-pass-0.7.6
