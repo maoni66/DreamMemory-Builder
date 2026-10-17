@@ -1,22 +1,22 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: 90350ff2ac757cd5d2f4c5e8eb8287c92a0690ab
+Source SHA: 8ecd12b5d65d4d386563e176ac0548b6f9abe40b
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 90350ff2ac757cd5d2f4c5e8eb8287c92a0690ab
+Expected source SHA at trigger: 8ecd12b5d65d4d386563e176ac0548b6f9abe40b
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-This coordinated Record Work / ExperienceEvent batch:
-- Adds ExperienceEventEntity as a child of the existing work identity RecordEntity; one work can own multiple actual experience events.
-- Advances Room schema v2 to v3 with a data-preserving migration. Legacy rows with completedAt > 0 receive one COMPLETION event while original rating/note/completedAt fields remain intact.
-- Adds DAO and ViewModel APIs to observe, add, and delete experience events.
-- Extends full backup export/restore with experienceEvents and reconstructs events from completedAt when importing older backups that lack the new field.
-- Adds a migration regression assertion.
-- Adds a real record-detail experience timeline backed by Room Flow. Users can add an event with date, event type, rating and note; view past events; and delete one event without deleting the work. This is actual UI wiring, not a static placeholder.
-- Updates project architecture, migration, release readiness, context and UX audit docs to distinguish implemented source from unverified acceptance.
-- Keeps this source branch isolated: no main changes, APK upload, signing, or release. Automated checks do not replace real backup/restore and device acceptance.
+Validate this complete Record Work / ExperienceEvent batch:
+- Room schema v3 adds ExperienceEventEntity as a child of RecordEntity; v2->v3 migration preserves legacy records and migrates completedAt > 0 to one COMPLETION event.
+- DAO/ViewModel support observe, add, and delete; add validates the parent and disallows future experience timestamps.
+- Record detail UI collects real Room Flow events and supports creating an event with date, type, rating, note; viewing the timeline; and deleting only one event. Save-in-flight disables duplicate submissions.
+- Full backup format version is 12; import accepts versions 2..12 and reconstructs experience events from completedAt when the legacy backup lacks experienceEvents.
+- A v3 schema snapshot was manually prepared; compare it to compiler-generated Room schema and report any semantic mismatch. Generated Room schema is the source of truth.
+- Project architecture, UX audit, migration ledger, context, and release readiness docs distinguish source implementation from validation.
+- Keep this source branch isolated. No main changes, APK upload, signing, or release. Automated checks do not replace real backup/restore and device acceptance.
 
-Previous Builder #91 validated source SHA 02905963ad49e0c424838151c994b05c8935c4fe: JVM tests, assembleDebug, and Room schema discipline passed. Validate the exact source SHA above; treat generated Room schema as compiler truth and report mismatches. The manual v3 schema snapshot must be checked against the generated schema.
+Previous Builder #91 validated source SHA 02905963ad49e0c424838151c994b05c8935c4fe. Validate this exact SHA above; report test results and Room schema artifact details.
 
 --- Historical build requests ---
+
 
 
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to verify the documentation-integrated canvas status against the exact new source HEAD.
