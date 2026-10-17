@@ -1,22 +1,16 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: cda87f3dce206504e4f5f1004db8af55d88781a6
+Source SHA: fdc724c373f3a3566434707b95c2ed33537c2c53
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: cda87f3dce206504e4f5f1004db8af55d88781a6
+Expected source SHA at trigger: fdc724c373f3a3566434707b95c2ed33537c2c53
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Validate this complete batch against the exact source SHA above:
-- Re-run the previously validated Record Work / ExperienceEvent v3 + backup v12 batch and LIFE-DATA-001 purchase-to-possession bidirectional navigation after the additional source changes.
-- LIFE-DATA-002 repairs legacy consumption rows where transferredToPossession=true but no valid PURCHASE_TO_POSSESSION relation exists.
-- New data-layer helper repairPurchasePossessionLink uses a Room transaction, validates the existing consumption row and the selected existing possession, never matches by title/amount/date/image, never creates duplicate possessions, and preserves unrelated relation types.
-- When a relation is stale, repair removes only the stale PURCHASE_TO_POSSESSION relation rows for the selected consumption, creates the explicitly selected stable-ID relation, and confirms the relation was persisted before the transaction commits.
-- Consumption UI exposes “修复关联” only when the transfer marker exists but no valid linked possession can be loaded. The user must choose an existing possession; if none exists, the UI explains that no automatic match or duplicate creation occurs.
-- Extend ConsumptionPossessionRelationTest with three Robolectric/Room cases: explicit repair does not duplicate; stale relation cleanup preserves unrelated relations; unmarked purchase and non-possession target are rejected.
-- No Room entity/schema/version change is intended. Existing full backup serialization of memoryNodeLinks remains unchanged.
-- Project context, UX audit, change/migration ledger and bug history document the implementation, research references, and unverified device acceptance.
-- Run all JVM tests, assembleDebug, and Room schema discipline. Confirm exact source SHA and schema artifact; publish/sign/upload no APK and do not touch main.
-- Automated checks do not replace device acceptance, old-data repair testing, or backup/restore round-trip verification.
-
-Previous Builder #97 passed JVM unit tests, Debug APK build, and Room schema discipline for source SHA 62c9577914a16ca5dc4aef899acd98558ce762cf. This request validates the new exact SHA above; report every check separately.
+Validate the post-build review fix on top of the LIFE-DATA-002 safe purchase-possession repair batch:
+- Builder #98 passed JVM unit tests, Debug APK compilation, and Room schema discipline for source SHA cda87f3dce206504e4f5f1004db8af55d88781a6.
+- After #98, LifeScreen.kt was corrected so the initial empty list from the asynchronous relation query cannot temporarily show a false “关联缺失” warning. Only show the warning and repair action once the query has completed and no valid linked possession exists.
+- Revalidate all existing purchase-possession relation repair tests, the Room transaction helper, and the previous Record Work / ExperienceEvent backup v12 batch.
+- No Room entity/schema/version change is intended. Upload generated Room schema artifact only. No APK upload, signing, release, or main-branch write.
+- Report the exact checked-out source SHA and each JVM test / assembleDebug / Room schema result separately.
+- CI success still does not replace real-device repair flow, historical data validation, or full backup/restore round-trip acceptance.
 
 --- Historical build requests ---
 
