@@ -1,3 +1,19 @@
+Validate EPUB resource exhaustion protection plus purchase-possession unlink regressions.
+Source SHA: e00c6abfe8c1acc27fc56ce86caf7cc9bc3325e4
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: e00c6abfe8c1acc27fc56ce86caf7cc9bc3325e4
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room schema version discipline, and upload schema artifact. No signing, publication, merge or writes to source main.
+
+Changes:
+- Consumer-to-possession unlink is transactional, removes only the explicitly selected edge, preserves endpoints/unrelated edges, maintains transfer marker until the last valid possession link is removed, and is covered by idempotency regression tests.
+- EPUB ZIP text parsing now uses bounded streaming reads: container.xml <= 1 MiB, OPF <= 4 MiB, each XHTML chapter <= 8 MiB decompressed bytes.
+- EPUB spine parsing stops at 5001 entries and rejects counts over 5000 instead of silently truncating. Tests cover exact byte limits, overflow, invalid limits, and chapter count boundary.
+- Source reuse audit documents Reeden (explicitly non-open-source), Legado with MD3 (GPL-3.0), and Readium 3.1.2 (BSD-3-Clause but built with Kotlin 2.1.21/AGP 8.10.1 and Fragment/WebView navigator; compatibility with current Kotlin 2.2.10/AGP 9.2.1 requires a separate spike). No incompatible source code copied.
+
+Required checks: all JVM tests, Debug APK, Room schema discipline, exact SHA parity, schema artifact upload. Inspect actual logs and fix root cause if any check fails without weakening tests. No release signing/publication.
+
+---
+
 Validate the latest source batch: purchase-possession unlink edge cases and bounded EPUB text decompression.
 Source SHA: 12439566c66cd8dafce5edae20588791bebb4e21
 Source ref: design/visual-system-pass-0.7.6
