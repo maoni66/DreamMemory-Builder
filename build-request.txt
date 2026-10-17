@@ -1,3 +1,19 @@
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to fix transparent image loss in the creation canvas.
+Source SHA: ea9dcb61deb3a5c653fc4e6e6f8c650c2ad345ae
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: ea9dcb61deb3a5c653fc4e6e6f8c650c2ad345ae
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not sign, publish a release, or write generated Room schemas to private main for this non-main ref.
+
+Batch details:
+1. CreateCanvasViewModel previously stored the imported canvas render image and thumbnail as JPEG, which discards transparency from PNG/WebP inputs. Change both derivatives to PNG while preserving the original file and existing asset/entity references.
+2. Add CreateCanvasImageCodec and a Robolectric regression test proving alpha survives encode/decode.
+3. Update BUG_HISTORY.md, REUSABLE_SOURCE_AUDIT_2026-10-16.md, and PROJECT_CHANGE_AND_MIGRATION_LEDGER.md with the source evidence, reference-source review, and pending device validation.
+4. No Room schema, migration, backup format, six-tab order, or domain ownership changes. This is source-path validation only; do not sign, publish, merge, or write to main.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity. If any check fails, inspect real logs and fix the root cause; do not remove tests or weaken assertions. Device validation remains separate: import transparent PNG/WebP, layer it over a colored background, and verify exported PNG alpha/appearance. Do not commit further DreamMemory source/docs while this run is active.
+
+---
+
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to revalidate the Records experience-calendar integration after fixing the catalog alias.
 Source SHA: a2c3769ae909e210404958a48ed696f784f33c25
 Source ref: design/visual-system-pass-0.7.6
