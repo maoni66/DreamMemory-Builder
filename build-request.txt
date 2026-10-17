@@ -1,17 +1,17 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: 37ddf7fc6522571f90236cb16d619717a4337e6e
+Source SHA: d5b652c13a22850e40039bab9ede70e9f0eaf60f
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 37ddf7fc6522571f90236cb16d619717a4337e6e
+Expected source SHA at trigger: d5b652c13a22850e40039bab9ede70e9f0eaf60f
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Validate the expanded backup media matrix:
-- Builder #102 passed JVM tests, Debug APK compilation, and Room schema discipline for source SHA 2bc212a9b755d56b5a294ad20f1424c6d8744995, including restore failure rollback fault injection.
-- Extend the full backup round-trip test to include: consumption image; AttachmentEntity file and URI; RecordEntity coverUri; CreateAssetEntity original/compressed/thumbnail media files; CreateCanvasElementEntity IMAGE element with sourceAssetId and sourcePathSnapshot.
-- The test deletes source media after export, restores from ZIP, and verifies every file's bytes plus restored database references and stable IDs.
-- Preserve all previous assertions for consumption-possession link, record note, experience event, invalid archive protection, and rollback after a Room foreign-key failure.
-- No production-code, Room entity/schema/version, migration, or backup-format changes intended.
-- Run the full JVM suite, assembleDebug, and Room schema discipline against this exact source SHA. Upload generated Room schema artifact only; do not upload APK, sign, release, or modify main.
-- This automated media matrix does not cover local books/videos, external SAF providers, real process death, disk-space exhaustion, or all restore/reboot behavior.
+Validate local book and video path round-trip on top of the passing media matrix:
+- Builder #103 passed JVM tests, Debug APK compilation, and Room schema discipline for source SHA 37ddf7fc6522571f90236cb16d619717a4337e6e.
+- The complete backup fixture now includes ShelfItemEntity.localPath for a local EPUB under DreamMemoryData/local_books and a video under app-specific external Movies storage.
+- Export the full ZIP, delete both source files, restore, then verify stable Shelf IDs, restored local paths and file bytes. This exercises both the dm: and movies: backup path schemes.
+- Preserve all prior checks for consumption/possession relation, experience events, attachments, record cover, canvas assets/element paths, invalid archive safety, and failed-import rollback.
+- No production code, Room entity/schema/version, migration, or backup-format change intended.
+- Run full JVM suite, assembleDebug, and Room schema discipline against this exact source SHA. Upload generated Room schema artifact only; no APK upload, signing, release, or main modification.
+- Real SAF/document-provider URIs and physical-device storage/restore behavior remain outside this automated fixture.
 - Audit: docs/BACKUP_RESTORE_ROUNDTRIP_AUDIT_2026-10-17.md.
 
 
