@@ -277,3 +277,9 @@ Editable canvas first implementation batch (2026-10-17): validate exact DreamMem
 - Do not sign or publish. Do not write generated schema to private main. Keep full backup media validation and old backup versions 2..10 compatible; automatic light backup remains database-only and missing media must render as a placeholder.
 - Device acceptance remains pending for gestures, rotation, image import, layer order, undo/redo, PNG output, source-media deletion protection, full restore, and light-backup missing media.
 
+Editable canvas verification rerun (2026-10-17): validate exact DreamMemory source HEAD 70dbb79446c9b5e23cc3a9a4363f06e05a6dab94 on branch design/visual-system-pass-0.7.6.
+- This SHA includes the committed Room schema v2 snapshot, the migration-test fix, renderer dimension smoke test, serialized canvas writes/media cleanup, full backup v11 canvas arrays, and project documentation updates.
+- Run JVM unit tests, assembleDebug, and Room schema discipline. Confirm migration test runs v1 -> v2 while retaining existing rows; compare generated schema v2 against committed schema by parsed JSON semantics.
+- Do not sign/publish or merge PR #3. Do not write to private main. The earlier run 38984190370 validated only source SHA 0f23331c0b83a960053703bf00b005044486102d and failed; this is a new validation of the latest exact SHA.
+- Device acceptance remains pending regardless of CI result.
+
