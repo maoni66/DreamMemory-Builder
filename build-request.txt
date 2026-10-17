@@ -477,3 +477,15 @@ Coordinated implementation:
 Previous Builder run #122 succeeded for the Muse Gallery inspired album exhibition preview at source SHA f41fb8065dd0bf2aa2bf0eef9fe86301aa08a489. This request validates the newer exact SHA above.
 
 Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, exact source SHA parity. If any step fails, inspect full logs and fix the actual root cause; do not remove tests or weaken assertions. Since Room version advances to 4, the generated schema 4.json must be reviewed and committed to this source branch if the artifact check reports it missing; then rerun validation against the new exact source SHA. Branch validation only; no signing/publishing and no writes to private main. Device validation remains separate for repeated rapid check-ins, history ordering, deletion cascade, old backup restore, full backup round-trip, and return behavior.
+
+
+Build requested for DreamMemory source branch design/visual-system-pass-0.7.6 to validate custom chat speaker labels and album-to-work relation regression coverage.
+Source SHA: 417c5b2a5e46f950bde4c310b793d44d88e68022
+Source branch: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 417c5b2a5e46f950bde4c310b793d44d88e68022
+Scope:
+- Chat notebook message editor accepts custom speaker labels while preserving default “我/对方”; labels are trimmed and limited to 32 characters using the existing MemoryEntity.speaker field, with no database schema change.
+- Add ChatSpeakerTest for normal labels, blank fallback, and max length.
+- Add MemoryNodeLinkRelationTest proving a single work can be linked from multiple albums and unlinking one relation does not remove the other.
+- Update design decisions, UX audit, product completeness audit, and change/migration ledger.
+Required checks: all JVM unit tests, Debug APK compilation, Room schema version discipline, and exact source SHA parity. If any check fails, inspect actual logs and fix root cause; do not delete tests or weaken assertions. Validation-only branch; no signing, publishing, merging, or writes to main. Device validation remains separate.
