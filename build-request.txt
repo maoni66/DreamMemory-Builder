@@ -1,3 +1,21 @@
+Build requested for persistent per-album curation order.
+Source SHA: c9e34672f5381fc172ced2dbfcf8be1a1673f2f9
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: c9e34672f5381fc172ced2dbfcf8be1a1673f2f9
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room migration/schema version discipline and upload the generated schema artifact for review. Do not sign, publish, merge, or write generated schemas to private main for this non-main ref.
+
+Batch scope:
+- Room v4→v5 adds MemoryNodeLinkEntity.sortOrder with SQL default 0 for existing relation rows.
+- ALBUM_TO_WORK links have independent order per album. New links append after current album items; reordering updates only links for that album in a DAO transaction. The same work may remain in multiple albums with different order.
+- Album detail uses Reorderable 3.1.0 (Apache-2.0) long-press drag sorting. The library is only UI interaction; persistence remains in DreamMemory. Apache license text is bundled under app assets and THIRD_PARTY_NOTICES.md.
+- Full backup format v13→v14 serializes sortOrder; older backups without this key restore it as 0.
+- Added migration default test, per-album order isolation test and full backup roundtrip test for two albums with the same works but different order.
+- Corrected current canvas plan status and updated product/source audit docs. No six-tab navigation changes, no work/album ownership changes, and no deletion of original works when unlinking.
+
+Required checks: all JVM unit tests, Debug APK compilation, Room migration contract/schema discipline and exact source SHA parity. The workflow should upload schema v5. If any check fails, inspect actual logs and fix the cause without deleting tests or weakening assertions. Once the schema artifact is available, commit the generated v5 snapshot to the source branch and rerun validation against the final exact SHA. No release signing or publication.
+
+---
+
 Build requested for final canvas-export image decoding path and reference-library audit.
 Source SHA: 92114d97128c98821c048eff1535b99480378952
 Source ref: design/visual-system-pass-0.7.6
