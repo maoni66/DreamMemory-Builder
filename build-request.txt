@@ -1,25 +1,22 @@
 Build requested for DreamMemory source branch design/visual-system-pass-0.7.6.
-Source SHA: 62c9577914a16ca5dc4aef899acd98558ce762cf
+Source SHA: cda87f3dce206504e4f5f1004db8af55d88781a6
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 62c9577914a16ca5dc4aef899acd98558ce762cf
+Expected source SHA at trigger: cda87f3dce206504e4f5f1004db8af55d88781a6
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, and Room schema version discipline. Upload generated Room schema artifact only. Do not upload a Debug APK, sign, publish a release, or write generated Room schemas to private main for this non-main ref.
 
-Validate this complete Record Work / ExperienceEvent batch:
-- Room schema v3 adds ExperienceEventEntity as a child of RecordEntity; v2->v3 migration preserves legacy records and migrates completedAt > 0 to one COMPLETION event.
-- DAO/ViewModel support observe, add, and delete; add validates the parent and disallows future experience timestamps.
-- Experience timeline entries can now be edited in place: editor pre-fills the selected event and Room Update preserves its identity, source, and creation timestamp; update revalidates the parent and date.
-- Detail UI suppresses duplicate legacy work-level rating/note only when an exact LEGACY_MIGRATION/LEGACY_BACKUP event mirror matches date, rating, and note; stored legacy fields remain preserved.
-- Record detail UI collects real Room Flow events and supports creating an event with date, type, rating, note; viewing the timeline; and deleting only one event. Save-in-flight disables duplicate submissions.
-- Full backup format version is 12; import accepts versions 2..12 and reconstructs experience events from completedAt when the legacy backup lacks experienceEvents.
-- A v3 schema snapshot was manually prepared; compare it to compiler-generated Room schema and report any semantic mismatch. Generated Room schema is the source of truth.
-- Additional LIFE-DATA-001 batch reuses the existing memory_node_links PURCHASE_TO_POSSESSION relation: consumption rows navigate to their linked possession; possession cards show source purchase date, category, purchase price and image, and navigate back to the source consumption row.
-- Newly transferred possessions no longer copy the purchase amount into valueCents as if it were a current valuation. Purchase amount remains sourced from the consumption record; current estimated value stays independent.
-- Added Room DAO projection queries for linked purchases/possessions and list focus/scroll behavior for bidirectional navigation. No Room schema version or entity change is intended; full backup already serializes memoryNodeLinks.
-- Old rows that only have transferredToPossession=true but no relation row must not be auto-matched by title/amount heuristics. Keep this as a visible data-health/repair concern; do not silently invent relations.
-- Project architecture, UX audit, migration ledger, context, and release readiness docs distinguish source implementation from validation.
-- Keep this source branch isolated. No main changes, APK upload, signing, or release. Automated checks do not replace real backup/restore and device acceptance.
+Validate this complete batch against the exact source SHA above:
+- Re-run the previously validated Record Work / ExperienceEvent v3 + backup v12 batch and LIFE-DATA-001 purchase-to-possession bidirectional navigation after the additional source changes.
+- LIFE-DATA-002 repairs legacy consumption rows where transferredToPossession=true but no valid PURCHASE_TO_POSSESSION relation exists.
+- New data-layer helper repairPurchasePossessionLink uses a Room transaction, validates the existing consumption row and the selected existing possession, never matches by title/amount/date/image, never creates duplicate possessions, and preserves unrelated relation types.
+- When a relation is stale, repair removes only the stale PURCHASE_TO_POSSESSION relation rows for the selected consumption, creates the explicitly selected stable-ID relation, and confirms the relation was persisted before the transaction commits.
+- Consumption UI exposes “修复关联” only when the transfer marker exists but no valid linked possession can be loaded. The user must choose an existing possession; if none exists, the UI explains that no automatic match or duplicate creation occurs.
+- Extend ConsumptionPossessionRelationTest with three Robolectric/Room cases: explicit repair does not duplicate; stale relation cleanup preserves unrelated relations; unmarked purchase and non-possession target are rejected.
+- No Room entity/schema/version change is intended. Existing full backup serialization of memoryNodeLinks remains unchanged.
+- Project context, UX audit, change/migration ledger and bug history document the implementation, research references, and unverified device acceptance.
+- Run all JVM tests, assembleDebug, and Room schema discipline. Confirm exact source SHA and schema artifact; publish/sign/upload no APK and do not touch main.
+- Automated checks do not replace device acceptance, old-data repair testing, or backup/restore round-trip verification.
 
-Previous Builder #91 validated source SHA 02905963ad49e0c424838151c994b05c8935c4fe. Validate this exact SHA above; report test results and Room schema artifact details.
+Previous Builder #97 passed JVM unit tests, Debug APK build, and Room schema discipline for source SHA 62c9577914a16ca5dc4aef899acd98558ce762cf. This request validates the new exact SHA above; report every check separately.
 
 --- Historical build requests ---
 
