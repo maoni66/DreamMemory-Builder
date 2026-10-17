@@ -1,3 +1,20 @@
+Validate preservation of historical status snapshots when editing experience events.
+Source SHA: 583522c526d75ed7e84f26d3758da663dcfecd9b
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: 583522c526d75ed7e84f26d3758da663dcfecd9b
+Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room schema version discipline and upload schema artifact. No signing, publication, merge or writes to source main.
+
+New issue found during source review:
+- Editing an old ExperienceEvent previously overwrote statusSnapshot with the work's current status. A work might have been “看完” when the experience was recorded but later change to “搁置”; merely editing the old note/date would silently rewrite that historical snapshot.
+- Added withEditedDetails(), which updates only eventType, experiencedAt, rating and note. It preserves statusSnapshot, id, recordId, source and createdAt. Added unit tests for preserved snapshot/identity and rating/note normalization.
+- This is a pure data-semantic fix; no Room schema migration.
+
+The immediately preceding reader I/O batch passed in Builder #149 on SHA 642659dcec20c0baebe0f1cbb9a1ab0a87485b65: JVM tests, Debug APK, Room schema discipline and schema artifact upload all succeeded. Current run must validate the later experience-event fix on its exact SHA.
+
+Required checks: all JVM tests, Debug APK compile, Room schema discipline, exact source SHA parity, schema artifact upload. Inspect real logs and fix root causes without weakening tests. No release signing/publication.
+
+---
+
 Validate off-main-thread bounded TXT/EPUB reading on exact source SHA 642659dcec20c0baebe0f1cbb9a1ab0a87485b65.
 Source SHA: 642659dcec20c0baebe0f1cbb9a1ab0a87485b65
 Source ref: design/visual-system-pass-0.7.6
