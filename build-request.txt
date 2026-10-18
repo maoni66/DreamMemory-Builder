@@ -1,8 +1,8 @@
 Validate DreamMemory development branch after centralizing bounded and redirect-safe HTTP requests for online resource sources.
 
-Source SHA: cd54913c0a4d8a8185da6ba6488d4fe61bd77f5b
+Source SHA: 1237877f6beae8eef29a94d8b4ca0aa14d1cc67e
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: cd54913c0a4d8a8185da6ba6488d4fe61bd77f5b
+Expected source SHA at trigger: 1237877f6beae8eef29a94d8b4ca0aa14d1cc67e
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
@@ -14,3 +14,4 @@ Required checks:
 - Preserve assertions and repair root causes if any check fails; do not weaken or remove failing tests.
 - Keep CI validation separate from device acceptance and formal release status.
 - Project status checklist: docs/PROJECT_GAP_CHECKLIST_2026-10-18.md.
+- For Legado reader requests, verify source-level header JSON parsing and template expansion; verify explicit request headers override source defaults case-insensitively. Verify source headers are applied in reader search, book detail, chapter body, and nextContentUrl continuation calls. Run ResourceRequestSpecTest and all JVM tests; inspect failures without weakening assertions. This batch is not complete unless the checked-out SHA exactly equals 1237877f6beae8eef29a94d8b4ca0aa14d1cc67e.
