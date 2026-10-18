@@ -1,8 +1,8 @@
 Validate DreamMemory development branch after centralizing bounded and redirect-safe HTTP requests for online resource sources.
 
-Source SHA: e3ca9b38482ca557a123135344f972b53a7a040c
+Source SHA: 4d30fddcebcf0271e5a53e851b3eb3e742463ef0
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: e3ca9b38482ca557a123135344f972b53a7a040c
+Expected source SHA at trigger: 4d30fddcebcf0271e5a53e851b3eb3e742463ef0
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
