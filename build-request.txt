@@ -1,7 +1,7 @@
 Validate the latest DreamMemory development branch HEAD after adding HTTP(S)-only validation for imported book source addresses and separating invalid-address counts from duplicates.
-Source SHA: 6eef110de29c96fefe0c9324752d53ec457a3e9f
+Source SHA: 99392a7fd5a810a23c3ffb76573761c1a254feb3
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 6eef110de29c96fefe0c9324752d53ec457a3e9f
+Expected source SHA at trigger: 99392a7fd5a810a23c3ffb76573761c1a254feb3
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
