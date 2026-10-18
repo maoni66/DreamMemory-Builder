@@ -1,12 +1,12 @@
-Validate the latest DreamMemory development branch HEAD after Builder SHA verification fixes and source-audit updates.
-Source SHA: d909f36a9426924e2d33f0ca6c4888dbb306b253
+Validate the latest DreamMemory development branch HEAD after adding online source configuration import and its URL validation tests.
+Source SHA: 2348864b5f5780927c78bc0ad8f16ef9847b9297
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: d909f36a9426924e2d33f0ca6c4888dbb306b253
+Expected source SHA at trigger: 2348864b5f5780927c78bc0ad8f16ef9847b9297
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
-- Verify checked-out source SHA exactly matches d909f36a9426924e2d33f0ca6c4888dbb306b253 before tests.
+- Verify checked-out source SHA exactly matches 2348864b5f5780927c78bc0ad8f16ef9847b9297 before tests.
 - Run all JVM unit tests, Debug APK compilation, Room schema version discipline, and schema artifact upload.
-- Inspect logs for previous AutoBackupRepository.kt and SelectableReaderText.kt Kotlin compilation errors.
+- Inspect logs for compilation/test failures in online source import, URL validation, and existing project checks.
 - Preserve all tests/assertions and repair root causes if a check fails.
 - Keep CI validation separate from device acceptance and formal release status.
