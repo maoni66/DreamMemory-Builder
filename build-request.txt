@@ -1,15 +1,15 @@
 Validate DreamMemory development branch after centralizing bounded and redirect-safe HTTP requests for online resource sources.
 
-Source SHA: 3c6a0aaea5d00dd9994c5a703edb2863e10b5c95
+Source SHA: 4dcff1d71985e48054c203937db18129d80fd63e
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 3c6a0aaea5d00dd9994c5a703edb2863e10b5c95
+Expected source SHA at trigger: 4dcff1d71985e48054c203937db18129d80fd63e
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
 - Verify checked-out source SHA exactly matches 8437a703025c9d0498fa5a3040c9d2048be63 before tests.
 - Run all JVM unit tests, Debug APK compilation, Room schema version discipline, and schema artifact upload.
 - Inspect logs for ResourceHttpSafety.kt, ResourceHttpSafetyTest.kt, and ResourceHttpSafetyIntegrationTest.kt. Require redirect cycle/limit, cross-origin sensitive-header stripping, POST 302 vs 307 semantics, HTTPS downgrade rejection, 304/other 3xx non-success behavior, stacked gzip+deflate decoding, bounded error bodies, unsupported encoding, read interruption, and connection/read failure tests to pass.
-- Verify DiscoverViewModel routes fetchRequest, fetchUrlText, fetchSourceConfigText, CMS source checking/search, and resource URL validation through the shared transport; fetchRequest must accept only 2xx. No source-network helper should retain automatic redirects or unbounded readBytes/readText.
+- Verify DiscoverViewModel routes fetchRequest, fetchUrlText, fetchSourceConfigText, CMS source checking/search, and resource URL validation through the shared transport; fetchRequest must accept only 2xx. Verify AnimeWebUrlPolicyTest rejects user-info, invalid ports and control characters; VideoPlayerScreen validates playback/download URLs, uses unique filenames, checks downloaded file existence/size, and handles unavailable storage/enqueue failure. Inspect DiscoverScreen WebView safe browsing, disabled file/content access, disabled file-origin access, disabled pop-up windows and strict HTTP(S) navigation. No source-network helper should retain automatic redirects or unbounded readBytes/readText.
 - Also run existing tests for book source preview/deduplication, local/online config size bounds, transactional file/database import, global typography/font assets, theme contrast/component controls, reduced motion, theme backup/font round-trip, e-ink reader palette, consumption filters, and existing project checks.
 - Preserve assertions and repair root causes if any check fails; do not weaken or remove failing tests.
 - Keep CI validation separate from device acceptance and formal release status.
