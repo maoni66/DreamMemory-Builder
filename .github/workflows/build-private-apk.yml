@@ -66,7 +66,6 @@ jobs:
       - name: Record source revision
         id: source
         shell: bash
-        shell: bash
         run: |
           set -euo pipefail
           source_sha="$(git rev-parse HEAD)"
