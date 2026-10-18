@@ -1,13 +1,11 @@
-Validate the exact current DreamMemory development branch HEAD after experience-event affected-row fixes and documentation updates.
+Validate exact DreamMemory development source revision.
 Source SHA: 5f3ce9d7f21029b0353814f5c5ccc08c2c25b229
 Source ref: design/visual-system-pass-0.7.6
 Expected source SHA at trigger: 5f3ce9d7f21029b0353814f5c5ccc08c2c25b229
-Build mode: branch validation only. Run all JVM unit tests, assembleDebug, Room schema version discipline and upload schema artifact. No signing, publication, merge or writes to source main.
+Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
-Required verification:
-- The Builder workflow must reject a source SHA mismatch before tests begin.
-- Confirm actual checked-out source SHA exactly equals 5f3ce9d7f21029b0353814f5c5ccc08c2c25b229.
-- Run all JVM unit tests, Debug APK compilation, Room schema version discipline, and schema artifact upload.
-- Inspect actual workflow/job logs, especially previous Kotlin compilation errors in AutoBackupRepository.kt and SelectableReaderText.kt. Confirm they are absent on this exact source.
-- If any check fails, fix the root cause on design/visual-system-pass-0.7.6, preserve regression assertions, and rerun against the exact new SHA.
-- No signing, publication, merge, or writes to source main.
+Checks:
+- The Builder must compare the checked-out source HEAD against Source SHA and fail on mismatch before tests.
+- Review actual logs for previous AutoBackupRepository.kt and SelectableReaderText.kt Kotlin errors.
+- Preserve tests and assertions; fix root causes and rerun on the exact resulting SHA if any check fails.
+- Report test, APK build, schema validation, artifact upload, and device verification separately.
