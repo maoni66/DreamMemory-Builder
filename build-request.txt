@@ -1,11 +1,11 @@
-Validate the latest DreamMemory development branch HEAD after adding a selectable Legado source import preview, duplicate detection, 500-item cap, 8 MiB local/online config limits, and transactional source file/database rollback.
-Source SHA: 0ec83eafc966e09ffd0ec72a7b0900c16f43510e
+Validate the latest DreamMemory development branch HEAD after correcting public visibility of the book source import preview models and rerunning the selectable Legado source import flow.
+Source SHA: 6f561ff08dc6c465c86047d68f4401b7b4e5f56a
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 0ec83eafc966e09ffd0ec72a7b0900c16f43510e
+Expected source SHA at trigger: 6f561ff08dc6c465c86047d68f4401b7b4e5f56a
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
-- Verify checked-out source SHA exactly matches 0ec83eafc966e09ffd0ec72a7b0900c16f43510e before tests.
+- Verify checked-out source SHA exactly matches 6f561ff08dc6c465c86047d68f4401b7b4e5f56a before tests.
 - Run all JVM unit tests, Debug APK compilation, Room schema version discipline, and schema artifact upload.
 - Inspect logs for compilation/test failures in book source preview and deduplication, local/online config size bounds, transactional file/database import, global typography/font assets, theme contrast and component controls, reduced motion, theme backup/font round-trip, e-ink reader palette, consumption filters, URL validation, and existing project checks.
 - Preserve all tests/assertions and repair root causes if a check fails.
