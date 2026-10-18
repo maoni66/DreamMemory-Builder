@@ -1,12 +1,12 @@
-Validate the latest DreamMemory development branch HEAD after adding online source import hardening, global typography and custom font assets, custom-theme contrast handling, e-ink reader palette controls, consumption search/filter/sort, and source-level reuse audits.
-Source SHA: 41133b928a9c70ac525db8b54573211680e5642d
+Validate the latest DreamMemory development branch HEAD after fixing the consumption sort test expectation and adding custom theme radius, border, shadow and spacing controls plus package/persistence coverage.
+Source SHA: ace8c3b71b57eceba24011ea4166d91666afdfbe
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 41133b928a9c70ac525db8b54573211680e5642d
+Expected source SHA at trigger: ace8c3b71b57eceba24011ea4166d91666afdfbe
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
-- Verify checked-out source SHA exactly matches 41133b928a9c70ac525db8b54573211680e5642d before tests.
+- Verify checked-out source SHA exactly matches ace8c3b71b57eceba24011ea4166d91666afdfbe before tests.
 - Run all JVM unit tests, Debug APK compilation, Room schema version discipline, and schema artifact upload.
-- Inspect logs for compilation/test failures in online source import, global typography/font assets, theme contrast, e-ink reader palette, consumption filters, URL validation, bounded config download, and existing project checks.
+- Inspect logs for compilation/test failures in online source import, global typography/font assets, theme contrast, custom theme component controls, e-ink reader palette, consumption filters, URL validation, bounded config download, and existing project checks.
 - Preserve all tests/assertions and repair root causes if a check fails.
 - Keep CI validation separate from device acceptance and formal release status.
