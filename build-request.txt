@@ -37,4 +37,14 @@ Shared request-cancellation regression acceptance:
 - Verify `runCatchingPreservingCancellation` rethrows the exact `CancellationException` instance and still captures ordinary exceptions as failure results; run `ResourceRequestSpecTest` and all JVM unit tests.
 - Verify shared `fetchRequest`, `fetchUrlText`, `fetchSourceConfigText`, source validation and CMS availability checking no longer convert coroutine cancellation to null/false or a normal diagnostic string.
 - Inspect `DiscoverViewModel.kt` for remaining network-bound `runCatching` / `catch (Exception)` paths that can swallow cancellation; keep parser-only fallback behavior distinct from network/request wrappers.
-- Exact source SHA for this batch: `49c8cf6ea08c5037e4510e2fc2dca05f4c7a678c`. Run full JVM unit tests, Debug APK, Room schema v5 semantic comparison and artifact upload. Do not sign, publish, merge, or modify source main.
+- Exact source SHA for the cancellation batch: `49c8cf6ea08c5037e4510e2fc2dca05f4c7a678c`. That historical batch passed; the current batch SHA is pinned below. Do not sign, publish, merge, or modify source main.
+
+
+Room v5 to v6 cache-integrity migration acceptance:
+- Exact source SHA for this batch: `e6ffecf0f79174846cf82fc23c0ba7567efd59d3`; actual checkout must match exactly.
+- Verify `OnlineChapterCacheEntity.partialContent` is NOT NULL with default 0, and Room database version is 6.
+- Verify `MIGRATION_5_6` adds `partialContent INTEGER NOT NULL DEFAULT 0` without rewriting/deleting chapter cache data.
+- Run `DreamMemoryMigrationTest.migrationFromV5PreservesCachedChapterAndDefaultsPartialFlag`: create schema v5, insert a cached chapter with retained=1, migrate to v6, confirm URL/title/content/cachedAt/retained survive and partialContent defaults to 0; verify the new flag can be set.
+- Run full migration contract from schema v1 to v6 and the full JVM unit test suite; run Debug APK build, Room schema version discipline and upload generated schema v6 artifact. Do not rewrite old schema snapshots, weaken migration tests, sign/publish, merge, or modify source main.
+- Inspect reader cache paths: a partial cache must retain its warning after app/detail close and reopen; single-chapter cache should retry an existing partial entry; successful full refetch should clear partialContent; existing partial entries must count as partial in bulk cache/prefetch status.
+- No formal release claim until real historical DB and device acceptance are complete.
