@@ -1,8 +1,8 @@
 Validate DreamMemory development branch after persisting partial chapter-cache integrity with a data-preserving Room v5 to v6 migration.
 
-Source SHA: 6454f8d7b2b148a6bd807006285367ce4dc4a029
+Source SHA: 621cf0b3da8d12bc7b18ee858d1e9367f79c168b
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 6454f8d7b2b148a6bd807006285367ce4dc4a029
+Expected source SHA at trigger: 621cf0b3da8d12bc7b18ee858d1e9367f79c168b
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
@@ -72,3 +72,11 @@ Source import diagnostics and TVBox traversal safety acceptance:
 - Verify nested TVBox multi-config import validates each HTTP(S) URL, preserves cancellation, rejects repeated URLs, caps nesting depth and total config count, and reports partial failures without hiding successfully imported APIs.
 - Verify no old nullable fetchUrlText/fetchSourceConfigText wrappers remain in DiscoverViewModel to silently collapse these import requests into empty/false results.
 - Build Debug APK, enforce Room schema v6 semantic discipline, upload schema artifact. No signing/publishing/merge or source-main writes. Device acceptance remains open.
+
+
+Final documentation sync after Builder #200:
+- Exact source SHA for this documentation-only batch: 621cf0b3da8d12bc7b18ee858d1e9367f79c168b; requested and checked-out SHA must match.
+- Verify docs/PROJECT_GAP_CHECKLIST_2026-10-18.md records Builder #199/#200 and marks source-import diagnostics plus TVBox recursion guard as JVM/CI verified while device acceptance remains open.
+- Verify docs/PROJECT_CONTEXT.md links the resource audit and records exact run IDs/SHA/artifact IDs for #199 and #200; verify docs/BUG_HISTORY.md records the structured import feedback and TVBox traversal guard.
+- Confirm docs/OPEN_SOURCE_REUSE_AND_DOWNLOADABLE_ASSETS_AUDIT_2026-10-19.md remains an audit of candidates, not a claim that Media3/Coil/Readium or downloaded assets were integrated.
+- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. Documentation-only delta from the tested source SHA; no signing/publishing/merge and no source-main writes. Device acceptance remains open.
