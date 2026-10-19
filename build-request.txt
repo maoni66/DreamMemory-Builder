@@ -1,8 +1,8 @@
 Validate DreamMemory development branch after persisting partial chapter-cache integrity with a data-preserving Room v5 to v6 migration.
 
-Source SHA: b678583356e363aac5e566a3f5e2ae32e75f9bf8
+Source SHA: 5e90e9a75f2848794baddeccd0a79e46806794e3
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: b678583356e363aac5e566a3f5e2ae32e75f9bf8
+Expected source SHA at trigger: 5e90e9a75f2848794baddeccd0a79e46806794e3
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
@@ -139,3 +139,10 @@ CURRENT REQUEST OVERRIDE (2026-10-19; supersedes older historical SHA-specific a
 - Exact current source SHA: b678583356e363aac5e566a3f5e2ae32e75f9bf8; requested and actual checkout must match exactly.
 - This is a documentation-only synchronization for Builder #208 thumbnail fix. Verify the four updated project documents record Builder #208 run 39181552725, exact source SHA, matching checkout, JVM test success, Debug APK success, Room v6 semantic check success, artifact 12156203392, and remaining device acceptance.
 - Run full JVM tests, assembleDebug, Room schema v6 semantic discipline, and upload the schema artifact. Do not sign, publish, merge, or modify DreamMemory main. Device acceptance remains open.
+
+
+CURRENT REQUEST OVERRIDE (2026-10-19; supersedes previous SHA-specific request):
+- Exact source SHA: 5e90e9a75f2848794baddeccd0a79e46806794e3; source ref: design/visual-system-pass-0.7.6; requested and actual checked-out SHA must match exactly.
+- Validate the latest audit-document update for DownloadManager size-limit and redirect risk plus Coil/Readium candidate evaluation.
+- Run full JVM unit tests, assembleDebug, Room schema version discipline, and upload generated Room schema artifact. No signing, publishing, merge, or main-branch source writes.
+- Device acceptance remains open; this documentation-only batch does not fix DownloadManager network-size/redirect risks.
