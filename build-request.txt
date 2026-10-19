@@ -1,8 +1,8 @@
 Validate DreamMemory development branch after persisting partial chapter-cache integrity with a data-preserving Room v5 to v6 migration.
 
-Source SHA: b596b8615de7963789430ea644b6f715c947efb2
+Source SHA: 6454f8d7b2b148a6bd807006285367ce4dc4a029
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: b596b8615de7963789430ea644b6f715c947efb2
+Expected source SHA at trigger: 6454f8d7b2b148a6bd807006285367ce4dc4a029
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
@@ -62,3 +62,13 @@ Open-source reuse and downloadable asset audit acceptance:
 - Confirm docs/OPEN_SOURCE_REUSE_AND_DOWNLOADABLE_ASSETS_AUDIT_2026-10-19.md exists and separates already-integrated dependencies from candidates, lists license/source URLs, and explicitly marks Readium/Media3/Coil/assets as candidates rather than installed features.
 - Confirm docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, docs/BUG_HISTORY.md and docs/LEGADOM_INK_COMPATIBILITY_AND_REUSE_AUDIT_2026-10-18.md link or record this audit and Builder #198 success.
 - Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. This batch changes docs only; do not modify app code to add any candidate library, do not sign/publish/merge, and keep device acceptance separate.
+
+
+Source import diagnostics and TVBox traversal safety acceptance:
+- Exact source SHA for this batch: 6454f8d7b2b148a6bd807006285367ce4dc4a029; requested and checked-out SHA must match.
+- Run SourceImportFeedbackTest and all JVM tests. Verify source import callbacks for TVBox, Kazumi and online source JSON display structured feedback rather than a generic false/zero result.
+- Verify non-2xx responses and timeout/DNS/I/O errors are propagated through strict bounded fetch helpers and summarized with safe categories; raw URLs, query parameters, tokens, and headers must not appear in UI feedback.
+- Verify TVBox config parsing distinguishes invalid JSON, missing/empty sites/urls, invalid site URLs, valid imports, partial child failures and skipped children.
+- Verify nested TVBox multi-config import validates each HTTP(S) URL, preserves cancellation, rejects repeated URLs, caps nesting depth and total config count, and reports partial failures without hiding successfully imported APIs.
+- Verify no old nullable fetchUrlText/fetchSourceConfigText wrappers remain in DiscoverViewModel to silently collapse these import requests into empty/false results.
+- Build Debug APK, enforce Room schema v6 semantic discipline, upload schema artifact. No signing/publishing/merge or source-main writes. Device acceptance remains open.
