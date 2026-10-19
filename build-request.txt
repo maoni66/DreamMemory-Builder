@@ -1,8 +1,8 @@
-Validate DreamMemory development branch after persisting partial chapter-cache integrity with a data-preserving Room v5 to v6 migration.
+Validate DreamMemory documentation sync after Builder #210, including the current project gap checklist evidence.
 
-Source SHA: 5e90e9a75f2848794baddeccd0a79e46806794e3
+Source SHA: c9f5acbddff2a3871cdaa5689e9c22ad81e68302
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 5e90e9a75f2848794baddeccd0a79e46806794e3
+Expected source SHA at trigger: c9f5acbddff2a3871cdaa5689e9c22ad81e68302
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
@@ -142,7 +142,7 @@ CURRENT REQUEST OVERRIDE (2026-10-19; supersedes older historical SHA-specific a
 
 
 CURRENT REQUEST OVERRIDE (2026-10-19; supersedes previous SHA-specific request):
-- Exact source SHA: 5e90e9a75f2848794baddeccd0a79e46806794e3; source ref: design/visual-system-pass-0.7.6; requested and actual checked-out SHA must match exactly.
-- Validate the latest audit-document update for DownloadManager size-limit and redirect risk plus Coil/Readium candidate evaluation.
+- Exact source SHA: c9f5acbddff2a3871cdaa5689e9c22ad81e68302; source ref: design/visual-system-pass-0.7.6; requested and actual checked-out SHA must match exactly.
+- Validate the checklist synchronization for Builder #210 success and #209 cancellation, including the still-open DownloadManager network-size/redirect risks.
 - Run full JVM unit tests, assembleDebug, Room schema version discipline, and upload generated Room schema artifact. No signing, publishing, merge, or main-branch source writes.
 - Device acceptance remains open; this documentation-only batch does not fix DownloadManager network-size/redirect risks.
