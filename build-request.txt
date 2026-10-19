@@ -1,148 +1,16 @@
-Validate DreamMemory documentation sync after Builder #210, including the current project gap checklist evidence.
+Validate the consolidated DreamMemory development baseline after selective branch integration and project-document synchronization.
 
-Source SHA: c9f5acbddff2a3871cdaa5689e9c22ad81e68302
+Source SHA: 8d7c38269ecfda25dd0bb564707e041cb6591b51
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: c9f5acbddff2a3871cdaa5689e9c22ad81e68302
-Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
+Expected source SHA at trigger: 8d7c38269ecfda25dd0bb564707e041cb6591b51
+Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
-Required checks:
-- Verify checked-out source SHA exactly matches 5b57fb3873d3fa1d7bab002cc0cf04cd6d9ea777; do not compare this batch against a historical SHA. Historical network-security coverage from earlier fixed-SHA runs remains context, but the current build must check out this exact commit.
-- Run all JVM unit tests, Debug APK compilation, Room schema version discipline, and schema artifact upload.
-- Inspect logs for ResourceHttpSafety.kt, ResourceHttpSafetyTest.kt, and ResourceHttpSafetyIntegrationTest.kt. Require redirect cycle/limit, cross-origin sensitive-header stripping, POST 302 vs 307 semantics, HTTPS downgrade rejection, 304/other 3xx non-success behavior, stacked gzip+deflate decoding, bounded error bodies, unsupported encoding, read interruption, and connection/read failure tests to pass.
-- Verify DiscoverViewModel routes fetchRequest, fetchUrlText, fetchSourceConfigText, CMS source checking/search, and resource URL validation through the shared transport; fetchRequest must accept only 2xx. Verify AnimeWebUrlPolicyTest rejects user-info, invalid ports and control characters; VideoPlayerScreen validates playback/download URLs, uses unique filenames, checks downloaded file existence/size, and handles unavailable storage/enqueue failure. Inspect DiscoverScreen WebView safe browsing, disabled file/content access, disabled file-origin access, disabled pop-up windows and strict HTTP(S) navigation. Verify Jsoup 1.23.2 resolves from the version catalog and ResourceHtmlRulesTest covers CSS selectors, malformed HTML, void elements, text rules, namespace-free XPath and preservation of nested markup. Verify light-backup schema policy accepts only schemas 1..DREAM_MEMORY_DATABASE_VERSION, requires current schema for backup creation, and future-schema restore leaves the current database untouched. Verify SourceSearchDiagnosticsTest ensures failures are summarized without leaking raw URLs/tokens, preference search distinguishes failed sources from valid empty results, cancellation propagates, resolveSearchStatusTitle maps reader/video/public search modes correctly, and single-source reader/video/public search onFailure paths show the safe failure category rather than a generic offline message. Verify resolveVideoPlayUrl and resolvePublicVideo capture failures, show safe categories, reject malformed CMS/Archive metadata, and validate Archive identifiers before URL construction. Inspect DiscoverScreen to ensure its search status card uses searchStatusTitle rather than a hardcoded book-source label. Verify full backup does not serialize DownloadManager IDs and does not archive unreferenced partial files from the external Movies directory; BackupRoundTripTest must preserve referenced shelf movie bytes while excluding the orphan partial file. No source-network helper should retain automatic redirects or unbounded readBytes/readText.
-- Also run existing tests for book source preview/deduplication, local/online config size bounds, transactional file/database import, global typography/font assets, theme contrast/component controls, reduced motion, theme backup/font round-trip, e-ink reader palette, consumption filters, and existing project checks.
-- Preserve assertions and repair root causes if any check fails; do not weaken or remove failing tests.
-- Keep CI validation separate from device acceptance and formal release status.
-- Project status checklist: docs/PROJECT_GAP_CHECKLIST_2026-10-18.md.
-- For Legado reader requests, verify source-level header JSON parsing and template expansion; verify explicit request headers override source defaults case-insensitively. Verify source headers are applied in reader search, book detail, chapter body, and nextContentUrl continuation calls. Run ResourceRequestSpecTest, ResourceHttpSafetyIntegrationTest (configured with Robolectric for Android org.json APIs), and all JVM tests; inspect failures without weakening assertions. The local HTTP test must load `app/src/test/resources/legado/reader-source-with-headers.json`, assert its search/detail/catalog/body rule fields, and assert the actual POST method/body, source Cookie/custom headers, and explicit User-Agent precedence. This is a representative project fixture, not a real external source sample; do not claim full Legado compatibility. Also verify the reader chapter fetch diagnostics change: `fetchText` must preserve first-page HTTP/network failures rather than returning a blank string; openChapter and cacheChapter must show sanitized failure categories, empty/unmatched content must be distinguishable from transport failure, and bulk prefetch must continue after per-chapter failure while propagating cancellation. This batch is not complete unless the checked-out SHA exactly equals 5b57fb3873d3fa1d7bab002cc0cf04cd6d9ea777. The source branch and docs were frozen before this request was written; do not update DreamMemory until this run finishes.
-
-
-Reader diagnostic regression acceptance:
-- Verify compilation and existing tests for `DiscoverViewModel.kt`.
-- Confirm a non-2xx chapter-body response surfaces `HTTP <status>` via the safe summary and does not get reported as a successful empty chapter.
-- Confirm timeout, DNS, and I/O errors expose only safe categories, never URLs, query parameters, headers, or tokens.
-- Confirm a successful response whose extraction rule yields blank content reports empty/unmatched content separately.
-- Confirm cancellation is not swallowed by bulk prefetch/cache paths.
-- Verify `fetchText` returns explicit continuation status: when a later `nextContentUrl` request fails, already retrieved content may be retained only with a visible partial-content warning; cancellation must propagate; the eight-page limit must report a possible incomplete chapter. Verify single-chapter and bulk caching identify partial cached content. Verify bulk cache success/failure counts are based on actual outcomes and do not overwrite per-chapter failures with a false all-success message; already cached chapters count as successful. Verify prefetch counts existing/newly cached, partial and failed chapters accurately, continues after per-chapter failure, and propagates cancellation.
-
-
-Bulk and multi-page reader/cache acceptance:
-- Confirm `cacheChapterInternal` returns actual success/partial/failure outcome; `cacheAllChapters` reports successful/partial/failed counts and cannot overwrite failures with `已缓存 N 章`.
-- Confirm `prefetchFirstTen` reports actual cached/partial/failed counts, counting existing cache entries accurately and continuing after per-chapter failure.
-- Confirm multi-page content stops on a missing/looping continuation safely; a failed continuation request or reached page cap produces a visible incomplete-content warning, while the first-page failure still throws to the caller.
-- Confirm partial content is explicitly labeled in read/cache status and never presented as fully fetched.
-
-
-Shared request-cancellation regression acceptance:
-- Verify `runCatchingPreservingCancellation` rethrows the exact `CancellationException` instance and still captures ordinary exceptions as failure results; run `ResourceRequestSpecTest` and all JVM unit tests.
-- Verify shared `fetchRequest`, `fetchUrlText`, `fetchSourceConfigText`, source validation and CMS availability checking no longer convert coroutine cancellation to null/false or a normal diagnostic string.
-- Inspect `DiscoverViewModel.kt` for remaining network-bound `runCatching` / `catch (Exception)` paths that can swallow cancellation; keep parser-only fallback behavior distinct from network/request wrappers.
-- Exact source SHA for the cancellation batch: `49c8cf6ea08c5037e4510e2fc2dca05f4c7a678c`. That historical batch passed; the current batch SHA is pinned below. Do not sign, publish, merge, or modify source main.
-
-
-Room v5 to v6 cache-integrity migration acceptance:
-- Exact source SHA for this batch: `5b57fb3873d3fa1d7bab002cc0cf04cd6d9ea777`; actual checkout must match exactly. The v6 Room schema snapshot is committed in this SHA; do not rely only on KSP generating it during the test task.
-- Verify `OnlineChapterCacheEntity.partialContent` is NOT NULL with default 0, Room database version is 6, and the committed `app/schemas/com.dreammemory.app.data.local.DreamMemoryDatabase/6.json` is included in the test assets so MigrationTestHelper can validate the v6 target schema.
-- Verify `MIGRATION_5_6` adds `partialContent INTEGER NOT NULL DEFAULT 0` without rewriting/deleting chapter cache data.
-- Run `DreamMemoryMigrationTest.migrationFromV5PreservesCachedChapterAndDefaultsPartialFlag`: create schema v5, insert a cached chapter with retained=1, migrate to v6, confirm URL/title/content/cachedAt/retained survive and partialContent defaults to 0; verify the new flag can be set.
-- Run full migration contract from schema v1 to v6 and the full JVM unit test suite; run Debug APK build, Room schema version discipline and upload generated schema v6 artifact. Do not rewrite old schema snapshots, weaken migration tests, sign/publish, merge, or modify source main.
-- Inspect reader cache paths: a partial cache must retain its warning after app/detail close and reopen; single-chapter cache should retry an existing partial entry; successful full refetch should clear partialContent; existing partial entries must count as partial in bulk cache/prefetch status.
-- No formal release claim until real historical DB and device acceptance are complete.
-
-
-Kazumi API detail failure diagnostic follow-up:
-- Exact source SHA: `5b57fb3873d3fa1d7bab002cc0cf04cd6d9ea777`; requested and checked-out source SHA must match.
-- Confirm `fetchKazumiApiDetail` uses strict HTTP request propagation. A non-2xx response, timeout, DNS or I/O failure must surface the safe failure category in the existing detail status; do not collapse request failure into `null`/generic empty detail.
-- Missing or incomplete API configuration may still return null and must remain distinguishable from transport failure.
-- Run all JVM tests, Debug APK build, Room schema v6 semantic discipline and artifact upload. Do not sign, publish, merge or modify DreamMemory main; device and historical database acceptance remain separate.
-
-
-Open-source reuse and downloadable asset audit acceptance:
-- Exact source SHA for this documentation-only batch: b596b8615de7963789430ea644b6f715c947efb2; requested and checked-out SHA must match.
-- Confirm docs/OPEN_SOURCE_REUSE_AND_DOWNLOADABLE_ASSETS_AUDIT_2026-10-19.md exists and separates already-integrated dependencies from candidates, lists license/source URLs, and explicitly marks Readium/Media3/Coil/assets as candidates rather than installed features.
-- Confirm docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, docs/BUG_HISTORY.md and docs/LEGADOM_INK_COMPATIBILITY_AND_REUSE_AUDIT_2026-10-18.md link or record this audit and Builder #198 success.
-- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. This batch changes docs only; do not modify app code to add any candidate library, do not sign/publish/merge, and keep device acceptance separate.
-
-
-Source import diagnostics and TVBox traversal safety acceptance:
-- Exact source SHA for this batch: 6454f8d7b2b148a6bd807006285367ce4dc4a029; requested and checked-out SHA must match.
-- Run SourceImportFeedbackTest and all JVM tests. Verify source import callbacks for TVBox, Kazumi and online source JSON display structured feedback rather than a generic false/zero result.
-- Verify non-2xx responses and timeout/DNS/I/O errors are propagated through strict bounded fetch helpers and summarized with safe categories; raw URLs, query parameters, tokens, and headers must not appear in UI feedback.
-- Verify TVBox config parsing distinguishes invalid JSON, missing/empty sites/urls, invalid site URLs, valid imports, partial child failures and skipped children.
-- Verify nested TVBox multi-config import validates each HTTP(S) URL, preserves cancellation, rejects repeated URLs, caps nesting depth and total config count, and reports partial failures without hiding successfully imported APIs.
-- Verify no old nullable fetchUrlText/fetchSourceConfigText wrappers remain in DiscoverViewModel to silently collapse these import requests into empty/false results.
-- Build Debug APK, enforce Room schema v6 semantic discipline, upload schema artifact. No signing/publishing/merge or source-main writes. Device acceptance remains open.
-
-
-Final documentation sync after Builder #200:
-- Exact source SHA for this documentation-only batch: 621cf0b3da8d12bc7b18ee858d1e9367f79c168b; requested and checked-out SHA must match.
-- Verify docs/PROJECT_GAP_CHECKLIST_2026-10-18.md records Builder #199/#200 and marks source-import diagnostics plus TVBox recursion guard as JVM/CI verified while device acceptance remains open.
-- Verify docs/PROJECT_CONTEXT.md links the resource audit and records exact run IDs/SHA/artifact IDs for #199 and #200; verify docs/BUG_HISTORY.md records the structured import feedback and TVBox traversal guard.
-- Confirm docs/OPEN_SOURCE_REUSE_AND_DOWNLOADABLE_ASSETS_AUDIT_2026-10-19.md remains an audit of candidates, not a claim that Media3/Coil/Readium or downloaded assets were integrated.
-- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. Documentation-only delta from the tested source SHA; no signing/publishing/merge and no source-main writes. Device acceptance remains open.
-
-
-Media3 player reuse integration acceptance:
-- Exact source SHA for this batch: 40eb5763ee34be91f6341c5c888ef498fcd9622f; requested and checked-out SHA must match.
-- Verify the version catalog pins AndroidX Media3 1.11.1 consistently for ExoPlayer, HLS, DASH and PlayerView; no version skew across Media3 modules.
-- Verify VideoPlayerScreen no longer uses Android VideoView/MediaController; it creates/releases ExoPlayer with Compose lifecycle, uses PlayerView controls, resumes saved 1..99 percent progress only when duration is known, and continues periodic percentage progress callbacks.
-- Verify initial play URLs are validated by isSupportedResourceHttpUrl; Media3 DefaultHttpDataSource uses finite connect/read timeouts and explicitly disallows HTTPS-to-HTTP cross-protocol redirects. Do not claim the Media3 stream path enforces the shared transport's five-hop limit or body-size cap; that remains an open limitation. Keep DownloadManager's separate redirect/size boundary documented.
-- Verify player errors surface a safe Media3 error code name without raw URL/query/token data; completion reports 100 percent; invalid URL does not start playback.
-- Run VideoPlaybackProgressTest, full JVM unit tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact.
-- Verify THIRD_PARTY_NOTICES.md and app/src/main/assets/licenses/Media3-1.11.1-APACHE-2.0.txt record the Apache-2.0 dependency. No signing/publishing/merge or source-main writes; device playback/rotation/background/network-failure acceptance remains open.
-
-
-Media3 progress-test correction after failed attempt #202:
-- Prior run #202 (39179576104) failed only because VideoPlaybackProgressTest expected 99,999 ms for 99% of a 100,000 ms duration; implementation correctly returned 99,000 ms. The assertion has been corrected to 99,000 ms.
-- Exact source SHA for this retry: d6b0a06ca4e99f46fd8f24de4f9bc4686611ec4c; requested and checked-out SHA must match.
-- Re-run VideoPlaybackProgressTest and the full JVM suite, then assembleDebug and enforce Room schema v6 semantic discipline; upload schema artifact.
-- Confirm Media3 1.11.1 dependency modules, ExoPlayer lifecycle, timeout and no HTTPS downgrade configuration, progress restore/callbacks, Apache-2.0 notice/license text all still compile. No signing/publishing/merge; device acceptance remains open.
-
-
-Media3 integration documentation sync after Builder #203:
-- Exact source SHA for this documentation-only batch: 96b8f2dd63c8581a42953e97e5d9abda3f7db744; requested and checked-out SHA must match.
-- Verify the open-source reuse audit marks Media3 1.11.1 as integrated (not merely a candidate), records Apache-2.0 notice/license path, Builder #203 run/SHA/artifact, and the remaining device/network-boundary limitations.
-- Verify PROJECT_GAP_CHECKLIST records Media3 integration as JVM/CI verified but device acceptance still open; PROJECT_CONTEXT and BUG_HISTORY record #202's incorrect 99% test expectation and #203's success.
-- Verify no claim says DownloadManager redirect/size security or Media3 five-hop/body-size limits are solved.
-- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing/publishing/merge; device acceptance remains open.
-
-
-DownloadManager task recovery and shelf reconciliation acceptance:
-- Exact source SHA for this batch: e3a3c0542307432542a35fa8564ceb0297151a57; requested and checked-out SHA must match.
-- Run DownloadTaskReconciliationTest and all JVM tests. Verify COMPLETE only for a non-empty app-managed video file with SUCCESSFUL status or a missing DownloadManager row; PENDING/RUNNING/PAUSED remain queued; failed or invalid files are removed.
-- Verify DiscoverScreen invokes reconciliation on lifecycle ON_RESUME, persisted DownloadTaskEntity rows are queried, successful files update the matching shelf item's local path and remove the task, pending tasks remain, failed/invalid tasks are removed, and path checks prevent deleting files outside the app's Movies directory.
-- Verify VideoPlayerScreen sends download ID with success/failure callbacks, completion/failure removes persisted task rows, no-row broadcasts recover a valid file rather than deleting it, and retry is re-enabled after terminal status.
-- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing/publishing/merge; device test must still cover leaving player, backgrounding, process restart, success, failure and retry.
-
-
-Download task recovery documentation sync after Builder #205:
-- Exact source SHA for this documentation-only batch: 8e163b69bc5c281bb64704f9c8fd39bd1d49f806; requested and checked-out SHA must match.
-- Verify PROJECT_GAP_CHECKLIST records Builder #205 success and separates CI status from pending device acceptance for leave-player/background/process-restart/failure/retry cases.
-- Verify PROJECT_CONTEXT, BUG_HISTORY and OPEN_SOURCE_REUSE_AND_DOWNLOADABLE_ASSETS_AUDIT record the download reconciliation implementation, exact SHA/artifact, and explicitly state that DownloadManager redirect/size limits remain unresolved.
-- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing/publishing/merge; device acceptance remains open.
-
-
-Asset thumbnail decode responsiveness acceptance:
-- Exact source SHA for this batch: 2451e0e4875873e167d57d39fb1c2fbf8c7782c5; requested and checked-out SHA must match.
-- Verify CreateAssetListDialog no longer decodes bitmaps synchronously during LazyColumn composition; it uses produceState plus Dispatchers.IO, keyed by asset path and MIME type.
-- Verify decodeCreateAssetThumbnail reuses DreamImageDecoder for bounded raster decoding (EXIF orientation retained) and existing secure AndroidSVG validation/rendering for SVG; thumbnail dimension defaults to 256 px and no new image dependency is introduced.
-- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing/publishing/merge; device scrolling/performance acceptance remains open.
-
-
-Async SVG-aware thumbnail compile fix after failed attempt #207:
-- Prior run #207 (39181401670) failed at Kotlin compile because a delegated Compose bitmap property could not be smart-cast after a null check.
-- The source now snapshots the delegated value into a local val before checking it. Exact source SHA for retry: 5e9b2da18ce9f9679048fb40c12ac0afdb9fcb16; requested and checked-out SHA must match.
-- Re-run full JVM tests and assembleDebug; verify CreateAssetListDialog thumbnail decoding stays on Dispatchers.IO, raster/SVG use the bounded shared helper, and Room schema v6 remains unchanged. Upload schema artifact. No signing/publishing/merge; device scrolling/performance acceptance remains open.
-
-
-CURRENT REQUEST OVERRIDE (2026-10-19; supersedes older historical SHA-specific acceptance paragraphs above):
-- Exact current source SHA: b678583356e363aac5e566a3f5e2ae32e75f9bf8; requested and actual checkout must match exactly.
-- This is a documentation-only synchronization for Builder #208 thumbnail fix. Verify the four updated project documents record Builder #208 run 39181552725, exact source SHA, matching checkout, JVM test success, Debug APK success, Room v6 semantic check success, artifact 12156203392, and remaining device acceptance.
-- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline, and upload the schema artifact. Do not sign, publish, merge, or modify DreamMemory main. Device acceptance remains open.
-
-
-CURRENT REQUEST OVERRIDE (2026-10-19; supersedes previous SHA-specific request):
-- Exact source SHA: c9f5acbddff2a3871cdaa5689e9c22ad81e68302; source ref: design/visual-system-pass-0.7.6; requested and actual checked-out SHA must match exactly.
-- Validate the checklist synchronization for Builder #210 success and #209 cancellation, including the still-open DownloadManager network-size/redirect risks.
-- Run full JVM unit tests, assembleDebug, Room schema version discipline, and upload generated Room schema artifact. No signing, publishing, merge, or main-branch source writes.
-- Device acceptance remains open; this documentation-only batch does not fix DownloadManager network-size/redirect risks.
+Acceptance requirements:
+- The requested source SHA and actual checked-out source SHA must exactly match 8d7c38269ecfda25dd0bb564707e041cb6591b51. Do not substitute the current branch tip or a historical SHA.
+- Run all JVM unit tests, including LifeOccurrenceNoteTest. Verify editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
+- Build the Debug APK with assembleDebug.
+- Enforce Room schema version discipline for current schema v6; upload the generated schema artifact.
+- Verify docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, and docs/BUG_HISTORY.md consistently record the selective branch-integration decisions and distinguish the last successful CI snapshot from the exact SHA being validated.
+- Do not merge PR #2 or PR #3, do not write to DreamMemory main, and do not sign or publish.
+- DownloadManager automatic redirects and missing application-level download-byte limit remain documented open risks; this batch does not claim to fix them.
+- CI success is not device acceptance. Real-device testing, historical database migration acceptance, backup/restore interruption tests, and formal release validation remain open.
