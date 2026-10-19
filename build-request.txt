@@ -1,8 +1,8 @@
 Validate DreamMemory development branch after persisting partial chapter-cache integrity with a data-preserving Room v5 to v6 migration.
 
-Source SHA: 5e9b2da18ce9f9679048fb40c12ac0afdb9fcb16
+Source SHA: b678583356e363aac5e566a3f5e2ae32e75f9bf8
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 5e9b2da18ce9f9679048fb40c12ac0afdb9fcb16
+Expected source SHA at trigger: b678583356e363aac5e566a3f5e2ae32e75f9bf8
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
@@ -133,3 +133,9 @@ Async SVG-aware thumbnail compile fix after failed attempt #207:
 - Prior run #207 (39181401670) failed at Kotlin compile because a delegated Compose bitmap property could not be smart-cast after a null check.
 - The source now snapshots the delegated value into a local val before checking it. Exact source SHA for retry: 5e9b2da18ce9f9679048fb40c12ac0afdb9fcb16; requested and checked-out SHA must match.
 - Re-run full JVM tests and assembleDebug; verify CreateAssetListDialog thumbnail decoding stays on Dispatchers.IO, raster/SVG use the bounded shared helper, and Room schema v6 remains unchanged. Upload schema artifact. No signing/publishing/merge; device scrolling/performance acceptance remains open.
+
+
+CURRENT REQUEST OVERRIDE (2026-10-19; supersedes older historical SHA-specific acceptance paragraphs above):
+- Exact current source SHA: b678583356e363aac5e566a3f5e2ae32e75f9bf8; requested and actual checkout must match exactly.
+- This is a documentation-only synchronization for Builder #208 thumbnail fix. Verify the four updated project documents record Builder #208 run 39181552725, exact source SHA, matching checkout, JVM test success, Debug APK success, Room v6 semantic check success, artifact 12156203392, and remaining device acceptance.
+- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline, and upload the schema artifact. Do not sign, publish, merge, or modify DreamMemory main. Device acceptance remains open.
