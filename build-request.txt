@@ -1,8 +1,8 @@
 Validate DreamMemory development branch after persisting partial chapter-cache integrity with a data-preserving Room v5 to v6 migration.
 
-Source SHA: 8e163b69bc5c281bb64704f9c8fd39bd1d49f806
+Source SHA: 2451e0e4875873e167d57d39fb1c2fbf8c7782c5
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 8e163b69bc5c281bb64704f9c8fd39bd1d49f806
+Expected source SHA at trigger: 2451e0e4875873e167d57d39fb1c2fbf8c7782c5
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
@@ -120,3 +120,10 @@ Download task recovery documentation sync after Builder #205:
 - Verify PROJECT_GAP_CHECKLIST records Builder #205 success and separates CI status from pending device acceptance for leave-player/background/process-restart/failure/retry cases.
 - Verify PROJECT_CONTEXT, BUG_HISTORY and OPEN_SOURCE_REUSE_AND_DOWNLOADABLE_ASSETS_AUDIT record the download reconciliation implementation, exact SHA/artifact, and explicitly state that DownloadManager redirect/size limits remain unresolved.
 - Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing/publishing/merge; device acceptance remains open.
+
+
+Asset thumbnail decode responsiveness acceptance:
+- Exact source SHA for this batch: 2451e0e4875873e167d57d39fb1c2fbf8c7782c5; requested and checked-out SHA must match.
+- Verify CreateAssetListDialog no longer decodes bitmaps synchronously during LazyColumn composition; it uses produceState plus Dispatchers.IO, keyed by asset path and MIME type.
+- Verify decodeCreateAssetThumbnail reuses DreamImageDecoder for bounded raster decoding (EXIF orientation retained) and existing secure AndroidSVG validation/rendering for SVG; thumbnail dimension defaults to 256 px and no new image dependency is introduced.
+- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing/publishing/merge; device scrolling/performance acceptance remains open.
