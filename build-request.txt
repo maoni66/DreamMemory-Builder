@@ -1,8 +1,8 @@
 Validate DreamMemory development branch after persisting partial chapter-cache integrity with a data-preserving Room v5 to v6 migration.
 
-Source SHA: e3a3c0542307432542a35fa8564ceb0297151a57
+Source SHA: 8e163b69bc5c281bb64704f9c8fd39bd1d49f806
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: e3a3c0542307432542a35fa8564ceb0297151a57
+Expected source SHA at trigger: 8e163b69bc5c281bb64704f9c8fd39bd1d49f806
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
@@ -113,3 +113,10 @@ DownloadManager task recovery and shelf reconciliation acceptance:
 - Verify DiscoverScreen invokes reconciliation on lifecycle ON_RESUME, persisted DownloadTaskEntity rows are queried, successful files update the matching shelf item's local path and remove the task, pending tasks remain, failed/invalid tasks are removed, and path checks prevent deleting files outside the app's Movies directory.
 - Verify VideoPlayerScreen sends download ID with success/failure callbacks, completion/failure removes persisted task rows, no-row broadcasts recover a valid file rather than deleting it, and retry is re-enabled after terminal status.
 - Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing/publishing/merge; device test must still cover leaving player, backgrounding, process restart, success, failure and retry.
+
+
+Download task recovery documentation sync after Builder #205:
+- Exact source SHA for this documentation-only batch: 8e163b69bc5c281bb64704f9c8fd39bd1d49f806; requested and checked-out SHA must match.
+- Verify PROJECT_GAP_CHECKLIST records Builder #205 success and separates CI status from pending device acceptance for leave-player/background/process-restart/failure/retry cases.
+- Verify PROJECT_CONTEXT, BUG_HISTORY and OPEN_SOURCE_REUSE_AND_DOWNLOADABLE_ASSETS_AUDIT record the download reconciliation implementation, exact SHA/artifact, and explicitly state that DownloadManager redirect/size limits remain unresolved.
+- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing/publishing/merge; device acceptance remains open.
