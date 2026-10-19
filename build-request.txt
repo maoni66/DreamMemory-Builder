@@ -1,18 +1,18 @@
-Validate the consolidated DreamMemory development baseline after selective branch integration and project-document synchronization.
+Validate the consolidated DreamMemory development baseline after selective branch integration, 87-line gap checklist reconciliation kickoff, and complete project-document synchronization.
 
-Source SHA: 022403938efa9b590ebb0884ae572cbedde9aec3
+Source SHA: 00f1dca43127afc19865bd4570901f22c2b12358
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 022403938efa9b590ebb0884ae572cbedde9aec3
+Expected source SHA at trigger: 00f1dca43127afc19865bd4570901f22c2b12358
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match 022403938efa9b590ebb0884ae572cbedde9aec3. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match 00f1dca43127afc19865bd4570901f22c2b12358. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest and DataHealthScannerTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
 - Build the Debug APK with assembleDebug.
 - Enforce Room schema version discipline for current schema v6; upload the generated schema artifact.
-- Verify docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, and docs/BUG_HISTORY.md consistently record selective branch-integration decisions and distinguish the last successful CI snapshot from the exact SHA being validated.
+- Verify docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, and docs/BUG_HISTORY.md consistently record selective branch-integration decisions, the 87 unchecked checklist rows and reconciliation method, and distinguish the last successful CI snapshot from the exact SHA being validated.
 - Do not merge PR #2 or PR #3, do not write to DreamMemory main, and do not sign or publish.
 - DownloadManager automatic redirects and missing application-level download-byte limit remain documented open risks; this batch does not claim to fix them.
 - CI success is not device acceptance. Real-device testing, historical database migration acceptance, backup/restore interruption tests, and formal release validation remain open.
