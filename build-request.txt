@@ -1,8 +1,8 @@
 Validate DreamMemory development branch after persisting partial chapter-cache integrity with a data-preserving Room v5 to v6 migration.
 
-Source SHA: d6b0a06ca4e99f46fd8f24de4f9bc4686611ec4c
+Source SHA: 96b8f2dd63c8581a42953e97e5d9abda3f7db744
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: d6b0a06ca4e99f46fd8f24de4f9bc4686611ec4c
+Expected source SHA at trigger: 96b8f2dd63c8581a42953e97e5d9abda3f7db744
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
@@ -97,3 +97,11 @@ Media3 progress-test correction after failed attempt #202:
 - Exact source SHA for this retry: d6b0a06ca4e99f46fd8f24de4f9bc4686611ec4c; requested and checked-out SHA must match.
 - Re-run VideoPlaybackProgressTest and the full JVM suite, then assembleDebug and enforce Room schema v6 semantic discipline; upload schema artifact.
 - Confirm Media3 1.11.1 dependency modules, ExoPlayer lifecycle, timeout and no HTTPS downgrade configuration, progress restore/callbacks, Apache-2.0 notice/license text all still compile. No signing/publishing/merge; device acceptance remains open.
+
+
+Media3 integration documentation sync after Builder #203:
+- Exact source SHA for this documentation-only batch: 96b8f2dd63c8581a42953e97e5d9abda3f7db744; requested and checked-out SHA must match.
+- Verify the open-source reuse audit marks Media3 1.11.1 as integrated (not merely a candidate), records Apache-2.0 notice/license path, Builder #203 run/SHA/artifact, and the remaining device/network-boundary limitations.
+- Verify PROJECT_GAP_CHECKLIST records Media3 integration as JVM/CI verified but device acceptance still open; PROJECT_CONTEXT and BUG_HISTORY record #202's incorrect 99% test expectation and #203's success.
+- Verify no claim says DownloadManager redirect/size security or Media3 five-hop/body-size limits are solved.
+- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing/publishing/merge; device acceptance remains open.
