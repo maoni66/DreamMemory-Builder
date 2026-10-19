@@ -1,8 +1,8 @@
 Validate DreamMemory development branch after persisting partial chapter-cache integrity with a data-preserving Room v5 to v6 migration.
 
-Source SHA: 2451e0e4875873e167d57d39fb1c2fbf8c7782c5
+Source SHA: 5e9b2da18ce9f9679048fb40c12ac0afdb9fcb16
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 2451e0e4875873e167d57d39fb1c2fbf8c7782c5
+Expected source SHA at trigger: 5e9b2da18ce9f9679048fb40c12ac0afdb9fcb16
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
@@ -127,3 +127,9 @@ Asset thumbnail decode responsiveness acceptance:
 - Verify CreateAssetListDialog no longer decodes bitmaps synchronously during LazyColumn composition; it uses produceState plus Dispatchers.IO, keyed by asset path and MIME type.
 - Verify decodeCreateAssetThumbnail reuses DreamImageDecoder for bounded raster decoding (EXIF orientation retained) and existing secure AndroidSVG validation/rendering for SVG; thumbnail dimension defaults to 256 px and no new image dependency is introduced.
 - Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing/publishing/merge; device scrolling/performance acceptance remains open.
+
+
+Async SVG-aware thumbnail compile fix after failed attempt #207:
+- Prior run #207 (39181401670) failed at Kotlin compile because a delegated Compose bitmap property could not be smart-cast after a null check.
+- The source now snapshots the delegated value into a local val before checking it. Exact source SHA for retry: 5e9b2da18ce9f9679048fb40c12ac0afdb9fcb16; requested and checked-out SHA must match.
+- Re-run full JVM tests and assembleDebug; verify CreateAssetListDialog thumbnail decoding stays on Dispatchers.IO, raster/SVG use the bounded shared helper, and Room schema v6 remains unchanged. Upload schema artifact. No signing/publishing/merge; device scrolling/performance acceptance remains open.
