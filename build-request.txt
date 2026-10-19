@@ -1,8 +1,8 @@
 Validate DreamMemory development branch after persisting partial chapter-cache integrity with a data-preserving Room v5 to v6 migration.
 
-Source SHA: 96b8f2dd63c8581a42953e97e5d9abda3f7db744
+Source SHA: e3a3c0542307432542a35fa8564ceb0297151a57
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 96b8f2dd63c8581a42953e97e5d9abda3f7db744
+Expected source SHA at trigger: e3a3c0542307432542a35fa8564ceb0297151a57
 Build mode: branch validation only. Run JVM unit tests, assembleDebug, Room schema version discipline, and upload generated schema artifact. No signing, publishing, merge, or source-main writes.
 
 Required checks:
@@ -105,3 +105,11 @@ Media3 integration documentation sync after Builder #203:
 - Verify PROJECT_GAP_CHECKLIST records Media3 integration as JVM/CI verified but device acceptance still open; PROJECT_CONTEXT and BUG_HISTORY record #202's incorrect 99% test expectation and #203's success.
 - Verify no claim says DownloadManager redirect/size security or Media3 five-hop/body-size limits are solved.
 - Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing/publishing/merge; device acceptance remains open.
+
+
+DownloadManager task recovery and shelf reconciliation acceptance:
+- Exact source SHA for this batch: e3a3c0542307432542a35fa8564ceb0297151a57; requested and checked-out SHA must match.
+- Run DownloadTaskReconciliationTest and all JVM tests. Verify COMPLETE only for a non-empty app-managed video file with SUCCESSFUL status or a missing DownloadManager row; PENDING/RUNNING/PAUSED remain queued; failed or invalid files are removed.
+- Verify DiscoverScreen invokes reconciliation on lifecycle ON_RESUME, persisted DownloadTaskEntity rows are queried, successful files update the matching shelf item's local path and remove the task, pending tasks remain, failed/invalid tasks are removed, and path checks prevent deleting files outside the app's Movies directory.
+- Verify VideoPlayerScreen sends download ID with success/failure callbacks, completion/failure removes persisted task rows, no-row broadcasts recover a valid file rather than deleting it, and retry is re-enabled after terminal status.
+- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing/publishing/merge; device test must still cover leaving player, backgrounding, process restart, success, failure and retry.
