@@ -1,20 +1,20 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: a8a02059d76c785f7182551957b5651fbc3acb89
+Source SHA: 5847136a246f8b29dea5633d9a989b4581dca7c2
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: a8a02059d76c785f7182551957b5651fbc3acb89
+Expected source SHA at trigger: 5847136a246f8b29dea5633d9a989b4581dca7c2
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match a8a02059d76c785f7182551957b5651fbc3acb89. Do not substitute the current branch tip or a historical SHA.
-- Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, and the extended BackupRoundTripTest covering both focus-skin and reading-note round trips.
+- The requested source SHA and actual checked-out source SHA must exactly match 5847136a246f8b29dea5633d9a989b4581dca7c2. Do not substitute the current branch tip or a historical SHA.
+- Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
 - Verify the full-backup round trip sets dream_focus.skin to NIGHT before export, changes it to APPLE before restore, and asserts restore returns NIGHT; test cleanup clears the focus preferences.
 - Verify the full-backup round trip inserts ReadingNoteEntity ID 4301 linked to shelf item ID 4101, exports the full archive, clears reading notes before restore, and asserts all fields restore exactly: type/body/tags/workTitle/author/sourceIdentifier/sourceVersion/locationType/locationValue/selectedText/anchorStart/anchorEnd/colorKey/linkedShelfItemId/createdAt/updatedAt plus stable ID.
 - Build the Debug APK with assembleDebug.
 - Enforce Room schema version discipline for current schema v6; upload the generated schema artifact.
-- Verify docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, and docs/BUG_HISTORY.md consistently record selective branch-integration decisions, the 83 unchecked checklist rows, 9 [~] rows, 9 [T] rows and reconciliation method, and distinguish the last successful CI snapshot from the exact SHA being validated.
+- Verify docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, and docs/BUG_HISTORY.md consistently record selective branch-integration decisions, the 82 unchecked checklist rows, 10 [~] rows, 9 [T] rows and reconciliation method, and distinguish the last successful CI snapshot from the exact SHA being validated.
 - Do not merge PR #2 or PR #3, do not write to DreamMemory main, and do not sign or publish.
 - Verify new video downloads no longer call DownloadManager.enqueue and instead use BoundedVideoDownloadService with the application-controlled downloader.
 - Verify downloadResourceToFileBounded manually validates every HTTP(S) redirect (maximum 5; no HTTPS-to-HTTP downgrade), checks Content-Length early, enforces a strict 1 GiB streamed-byte cap even when Content-Length is absent or dishonest, writes to a sibling .part file and only publishes a complete file after successful completion.
@@ -23,7 +23,9 @@ Acceptance requirements:
 - Verify GlobalSearchViewModel now observes resourceSourceDao().observeAll() and adds resource source results based on name, kind, location, format and check status, with enabled status metadata and stable target ID.
 - Run GlobalResourceSourceSearchTest and verify exact-name score/result fields, kind/location/check-status matching, and no result for unrelated/blank queries.
 - Verify DreamNavGraph routes resource search results to the Profile resource manager and passes the target ID; ResourceManagerScreen must scroll to that exact source, and stale target IDs must be cleared before other result navigation and when leaving the manager.
+- Verify FocusSessionRecoveryTest covers: normal pause stores positive remaining time and disables reminder state; pausing an elapsed session completes instead of persisting a paused zero; resuming positive remaining time restores a deadline and reminder; resuming zero remaining completes immediately; invalid kind/state transitions return null.
+- Inspect pauseFocus, resumeFocus and markFocusCompleted: each must fetch the latest DAO row before changing state. Completion must check that the persisted deadline is due, and completion/pause/resume must converge done/focusPaused/focusRemainingMs/reminderEnabled/reminderAt/targetAt consistently.
 - This source-level implementation is not accepted until this exact SHA passes JVM tests, assembleDebug, and Room schema v6 discipline. Device acceptance for backgrounding, service notification, process death/restart, oversized responses, redirects and opening the completed shelf item remains open.
 - CI success is not device acceptance. Real-device testing, historical database migration acceptance, backup/restore interruption tests, and formal release validation remain open.
 
-- Newest source commit to validate includes the resource-source global search, target routing/scrolling, GlobalResourceSourceSearchTest, synchronized docs and the bounded video downloader already validated on the previous SHA. The previous Builder #223 success only covers SHA 802f7b559583153346d3a61048a0d07c0c49798b, not this requested SHA.
+- Newest source commit to validate includes the resource-source global search, target routing/scrolling, GlobalResourceSourceSearchTest, zero-remaining focus pause/resume remediation, expanded FocusSessionRecoveryTest and synchronized docs. Builder #224 only validated SHA a8a02059d76c785f7182551957b5651fbc3acb89; this requested SHA is new and must pass all checks independently.
