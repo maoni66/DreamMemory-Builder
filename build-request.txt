@@ -1,13 +1,13 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 5847136a246f8b29dea5633d9a989b4581dca7c2
+Source SHA: 8a406f06cc2eab0fcb86de5e4be532a62a7e79c5
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 5847136a246f8b29dea5633d9a989b4581dca7c2
+Expected source SHA at trigger: 8a406f06cc2eab0fcb86de5e4be532a62a7e79c5
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match 5847136a246f8b29dea5633d9a989b4581dca7c2. Do not substitute the current branch tip or a historical SHA.
-- Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest.
+- The requested source SHA and actual checked-out source SHA must exactly match 8a406f06cc2eab0fcb86de5e4be532a62a7e79c5. Do not substitute the current branch tip or a historical SHA.
+- Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
 - Verify the full-backup round trip sets dream_focus.skin to NIGHT before export, changes it to APPLE before restore, and asserts restore returns NIGHT; test cleanup clears the focus preferences.
@@ -29,3 +29,10 @@ Acceptance requirements:
 - CI success is not device acceptance. Real-device testing, historical database migration acceptance, backup/restore interruption tests, and formal release validation remain open.
 
 - Newest source commit to validate includes the resource-source global search, target routing/scrolling, GlobalResourceSourceSearchTest, zero-remaining focus pause/resume remediation, expanded FocusSessionRecoveryTest and synchronized docs. Builder #224 only validated SHA a8a02059d76c785f7182551957b5651fbc3acb89; this requested SHA is new and must pass all checks independently.
+
+
+Additional validation for this source revision:
+- Inspect LifeViewModel reminder-related operations to ensure they fetch the latest persisted item before mutation and stop when the row is missing.
+- Verify LifeItemDao.updateReminder blocks enabling reminders for completed rows while allowing disable, and returns the affected-row count.
+- Run ConsumptionPossessionRelationTest.completedLifeItemCannotHaveReminderReenabled.
+- Scheduling must occur only after a successful guarded DAO update. Keep device notification, alarm, reboot, and permission checks marked open.
