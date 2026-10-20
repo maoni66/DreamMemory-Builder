@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 18110d354987583407168897d3c9d97c5b118a7e
+Source SHA: 6437a5afd1d100d8b066e7dd5dfe2e2ad6105a6b
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 18110d354987583407168897d3c9d97c5b118a7e
+Expected source SHA at trigger: 6437a5afd1d100d8b066e7dd5dfe2e2ad6105a6b
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match 18110d354987583407168897d3c9d97c5b118a7e. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match 6437a5afd1d100d8b066e7dd5dfe2e2ad6105a6b. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
@@ -14,7 +14,7 @@ Acceptance requirements:
 - Verify the full-backup round trip inserts ReadingNoteEntity ID 4301 linked to shelf item ID 4101, exports the full archive, clears reading notes before restore, and asserts all fields restore exactly: type/body/tags/workTitle/author/sourceIdentifier/sourceVersion/locationType/locationValue/selectedText/anchorStart/anchorEnd/colorKey/linkedShelfItemId/createdAt/updatedAt plus stable ID.
 - Build the Debug APK with assembleDebug.
 - Enforce Room schema version discipline for current schema v6; upload the generated schema artifact.
-- Verify docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, and docs/BUG_HISTORY.md consistently record selective branch-integration decisions, the 82 unchecked checklist rows, 10 [~] rows, 9 [T] rows and reconciliation method, and distinguish the last successful CI snapshot from the exact SHA being validated.
+- Verify docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, and docs/BUG_HISTORY.md consistently record selective branch-integration decisions, the 81 unchecked checklist rows, 11 [~] rows, 9 [T] rows, 36 [x] rows, 1 [!] row and reconciliation method, and distinguish the last successful CI snapshot from the exact SHA being validated.
 - Do not merge PR #2 or PR #3, do not write to DreamMemory main, and do not sign or publish.
 - Verify new video downloads no longer call DownloadManager.enqueue and instead use BoundedVideoDownloadService with the application-controlled downloader.
 - Verify downloadResourceToFileBounded manually validates every HTTP(S) redirect (maximum 5; no HTTPS-to-HTTP downgrade), checks Content-Length early, enforces a strict 1 GiB streamed-byte cap even when Content-Length is absent or dishonest, writes to a sibling .part file and only publishes a complete file after successful completion.
@@ -28,7 +28,7 @@ Acceptance requirements:
 - This source-level implementation is not accepted until this exact SHA passes JVM tests, assembleDebug, and Room schema v6 discipline. Device acceptance for backgrounding, service notification, process death/restart, oversized responses, redirects and opening the completed shelf item remains open.
 - CI success is not device acceptance. Real-device testing, historical database migration acceptance, backup/restore interruption tests, and formal release validation remain open.
 
-- Newest source commit to validate includes the resource-source global search, target routing/scrolling, GlobalResourceSourceSearchTest, zero-remaining focus pause/resume remediation, expanded FocusSessionRecoveryTest and synchronized docs. Builder #224 only validated SHA a8a02059d76c785f7182551957b5651fbc3acb89; this requested SHA is new and must pass all checks independently.
+- Newest source commit to validate includes the resource-source global search, target routing/scrolling, GlobalResourceSourceSearchTest, zero-remaining focus pause/resume remediation, life-item partial-edit policy, canvas image import cancellation ownership guard, safe cleanup when asset-row deletion fails, and synchronized current docs/counts. Builder #228 validated the earlier SHA 18110d354987583407168897d3c9d97c5b118a7e; this requested SHA is newer and must pass all checks independently.
 
 
 Additional validation for this source revision:
@@ -51,3 +51,8 @@ Additional validation for the canvas image import cancellation fix:
 - Verify the element insert and elementCommitted flag assignment occur in the same NonCancellable section. Once the element row commits, cancellation must not delete its asset row or original/compressed/thumbnail files.
 - Verify failure/cancellation before element commit performs cleanup in a NonCancellable section, removing only this import's asset row and files; do not delete files after the element has committed.
 - Run the full JVM unit test suite, assembleDebug, and Room schema v6 discipline against this exact SHA. Keep device import/cancel/reopen acceptance open. No signing, publishing, merges, or writes to DreamMemory main.
+
+
+Additional validation for the second canvas-import cleanup guard:
+- Verify cleanup deletes the original/compressed/thumbnail files only if deletion of the newly created asset row succeeds (or the row was never created). If Room deletion fails, preserve the files so any surviving row does not point at deleted paths.
+- Re-run the complete JVM test suite, assembleDebug, and Room schema v6 discipline against exact source SHA 6437a5afd1d100d8b066e7dd5dfe2e2ad6105a6b. Keep real-device import/cancellation/reopen checks open.
