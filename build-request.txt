@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 17e51c0dc7e21318de0b3471489e75719dd69fe9
+Source SHA: 7b5d676f42af48eedaf72523d2bbe989b4060dc2
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 17e51c0dc7e21318de0b3471489e75719dd69fe9
+Expected source SHA at trigger: 7b5d676f42af48eedaf72523d2bbe989b4060dc2
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match 17e51c0dc7e21318de0b3471489e75719dd69fe9. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match 7b5d676f42af48eedaf72523d2bbe989b4060dc2. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, and the extended BackupRoundTripTest covering both focus-skin and reading-note round trips.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
@@ -14,9 +14,13 @@ Acceptance requirements:
 - Verify the full-backup round trip inserts ReadingNoteEntity ID 4301 linked to shelf item ID 4101, exports the full archive, clears reading notes before restore, and asserts all fields restore exactly: type/body/tags/workTitle/author/sourceIdentifier/sourceVersion/locationType/locationValue/selectedText/anchorStart/anchorEnd/colorKey/linkedShelfItemId/createdAt/updatedAt plus stable ID.
 - Build the Debug APK with assembleDebug.
 - Enforce Room schema version discipline for current schema v6; upload the generated schema artifact.
-- Verify docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, and docs/BUG_HISTORY.md consistently record selective branch-integration decisions, the 86 unchecked checklist rows, 9 [T] rows and reconciliation method, and distinguish the last successful CI snapshot from the exact SHA being validated.
+- Verify docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, and docs/BUG_HISTORY.md consistently record selective branch-integration decisions, the 85 unchecked checklist rows, 7 [~] rows, 9 [T] rows and reconciliation method, and distinguish the last successful CI snapshot from the exact SHA being validated.
 - Do not merge PR #2 or PR #3, do not write to DreamMemory main, and do not sign or publish.
-- DownloadManager automatic redirects and missing application-level download-byte limit remain documented open risks; this batch does not claim to fix them.
+- Verify new video downloads no longer call DownloadManager.enqueue and instead use BoundedVideoDownloadService with the application-controlled downloader.
+- Verify downloadResourceToFileBounded manually validates every HTTP(S) redirect (maximum 5; no HTTPS-to-HTTP downgrade), checks Content-Length early, enforces a strict 1 GiB streamed-byte cap even when Content-Length is absent or dishonest, writes to a sibling .part file and only publishes a complete file after successful completion.
+- Run ResourceHttpSafetyTest including the local HTTP-server cases for redirect success, exact byte limit, and unknown-length oversize rejection/partial-file cleanup.
+- Verify BoundedVideoDownloadService manifest declaration and foreground-service permissions compile; inspect negative-ID task reconciliation so active service tasks remain pending and interrupted partial files are cleaned after process restart. Old positive-ID DownloadManager tasks remain on their compatibility reconciliation path.
+- This source-level implementation is not accepted until this exact SHA passes JVM tests, assembleDebug, and Room schema v6 discipline. Device acceptance for backgrounding, service notification, process death/restart, oversized responses, redirects and opening the completed shelf item remains open.
 - CI success is not device acceptance. Real-device testing, historical database migration acceptance, backup/restore interruption tests, and formal release validation remain open.
 
 - Newest source commit to validate includes the reading-note full backup round-trip regression and synchronized docs; do not infer its status from the prior successful Builder #216 run, which only validated SHA 5bc73b723aacdb6a761f7adab05136eec9c27bf5.
