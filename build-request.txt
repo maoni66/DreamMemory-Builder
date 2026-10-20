@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 0687d8b84677ccee8457e530cbc393ff1fd596e9
+Source SHA: 18110d354987583407168897d3c9d97c5b118a7e
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 0687d8b84677ccee8457e530cbc393ff1fd596e9
+Expected source SHA at trigger: 18110d354987583407168897d3c9d97c5b118a7e
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match 0687d8b84677ccee8457e530cbc393ff1fd596e9. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match 18110d354987583407168897d3c9d97c5b118a7e. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
@@ -44,3 +44,10 @@ Additional validation for the latest life-item partial-edit patch:
 - Verify LifeViewModel.update passes nullable patch values to buildLifeItemUpdate after loading the current DAO row; the life-item editor must not pass item.detail when that field was not edited.
 - Verify togglePossession reads the current DAO row before changing status.
 - Keep notification permission, AlarmManager, process restart, and real-device interaction acceptance open. No signing, publishing, or merges.
+
+
+Additional validation for the canvas image import cancellation fix:
+- Inspect CreateCanvasViewModel.importImageToCanvas: the inserted asset ID must be recorded in a NonCancellable section so a committed row cannot be left untracked if cancellation arrives before return.
+- Verify the element insert and elementCommitted flag assignment occur in the same NonCancellable section. Once the element row commits, cancellation must not delete its asset row or original/compressed/thumbnail files.
+- Verify failure/cancellation before element commit performs cleanup in a NonCancellable section, removing only this import's asset row and files; do not delete files after the element has committed.
+- Run the full JVM unit test suite, assembleDebug, and Room schema v6 discipline against this exact SHA. Keep device import/cancel/reopen acceptance open. No signing, publishing, merges, or writes to DreamMemory main.
