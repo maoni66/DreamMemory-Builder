@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 08bdfa743af6ca42979cea5272d52d736464ad02
+Source SHA: effdc2bb21e48d9671bb279965e3ef144537b256
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 08bdfa743af6ca42979cea5272d52d736464ad02
+Expected source SHA at trigger: effdc2bb21e48d9671bb279965e3ef144537b256
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match 08bdfa743af6ca42979cea5272d52d736464ad02. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match effdc2bb21e48d9671bb279965e3ef144537b256. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, and the extended BackupRoundTripTest covering both focus-skin and reading-note round trips.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
