@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 1a4198e17df442e349fce4fb4535ebcd0dd537fe
+Source SHA: d21c2460487645067e71f6a00e81f360d10349ae
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 1a4198e17df442e349fce4fb4535ebcd0dd537fe
+Expected source SHA at trigger: d21c2460487645067e71f6a00e81f360d10349ae
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -312,3 +312,9 @@ Latest migration-safety design ledger update:
 - Verify docs/PROJECT_CHANGE_AND_MIGRATION_LEDGER.md records the frozen safe-migration protocol: read-only preflight, explicit source/target conflict handling, exact local path mapping, transactional DB reference updates, resumable stages, idempotence, and no startup migration until all path references are inventoried and interruption/retry tests pass.
 - This is documentation-only. Do not move user files, change schema, or enable UserDataPaths.migrateLegacy at startup. Keep migration and device acceptance open.
 - Run full JVM tests, assembleDebug, Room schema v6 semantic discipline, and upload schema artifact. No signing, publishing, merging, or writes to DreamMemory main.
+
+
+Latest path-reference inventory refinement:
+- Exact DreamMemory source SHA: d21c2460487645067e71f6a00e81f360d10349ae. Requested SHA and actual checked-out SHA must match exactly.
+- Verify docs/PROJECT_CHANGE_AND_MIGRATION_LEDGER.md records the initial Entity path-field inventory, including download_tasks.localPath, create_canvas_elements.sourcePathSnapshot, create_assets URI fields, attachments.uri, consumption_records.imageUri, records.coverUri and reading_notes.locationValue. Explicitly preserve non-local URIs/remote URLs and treat the inventory as incomplete until SharedPreferences, serialized data and call sites are reviewed.
+- Documentation-only change. Do not move files, alter schema, or enable startup migration. Run full JVM tests, assembleDebug, Room schema v6 discipline and schema artifact upload. No signing, publishing, merges or writes to DreamMemory main.
