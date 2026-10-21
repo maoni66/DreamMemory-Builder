@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: ce6dc35b3d88983db423b90237f87d27403939a2
+Source SHA: beadd19cd0d94558d8e6b83526b7b4af94ac6e18
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: ce6dc35b3d88983db423b90237f87d27403939a2
+Expected source SHA at trigger: beadd19cd0d94558d8e6b83526b7b4af94ac6e18
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -149,3 +149,12 @@ Final documentation synchronization after Builder #257:
 - Verify PROJECT_CONTEXT.md, PROJECT_GAP_CHECKLIST_2026-10-18.md, DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, and BUG_HISTORY.md record Builder #257's exact SHA/run/artifact and clearly distinguish local HTTP fixture coverage from still-open real third-party source and device acceptance.
 - Verify root-level FocusSkin.kt remains absent and app/src/main/java/com/dreammemory/app/feature/life/FocusSkin.kt remains the active implementation; do not change skin persistence or the six-tab structure.
 - Run all JVM unit tests, assembleDebug, and Room schema v6 semantic discipline; upload schema artifact. No signing, publishing, merges, or writes to DreamMemory main.
+
+
+Additional validation for explicit unsupported Legado script-rule diagnostics:
+- Validate exact DreamMemory SHA beadd19cd0d94558d8e6b83526b7b4af94ac6e18; requested SHA and actual checked-out SHA must match.
+- Run LegadoRuleResolverTest, SourceSearchDiagnosticsTest, and the full JVM unit test suite.
+- Verify requireSupportedLegadoRule detects @js: and @webjs: only in rules actually used by the current search/detail/catalog/content path, before issuing the corresponding network request.
+- Verify unsupported rules map to the safe user-facing message “当前版本暂不支持此书源的 JS/WebJS 脚本规则”; no script body, URL, token, or raw exception message may be exposed.
+- Verify normal CSS, XPath, and JSON path rules remain allowed, and the BookSourceEndToEndIntegrationTest still passes.
+- Build assembleDebug, enforce Room schema v6 semantic discipline, and upload schema artifact. No signing, publishing, merges, or writes to DreamMemory main.
