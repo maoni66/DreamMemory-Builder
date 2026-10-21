@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 135988d5b9cdcdaf94eefa0b03d3df27fd098f3e
+Source SHA: d7f729a5fb31eb249756a943a521d96e01ab8383
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 135988d5b9cdcdaf94eefa0b03d3df27fd098f3e
+Expected source SHA at trigger: d7f729a5fb31eb249756a943a521d96e01ab8383
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match 135988d5b9cdcdaf94eefa0b03d3df27fd098f3e. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match d7f729a5fb31eb249756a943a521d96e01ab8383. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
@@ -189,8 +189,15 @@ Previous validation request (Builder #263) — source SHA d1861566a8dedc1ea5f7a8
 - Run assembleDebug and Room schema v6 semantic discipline; upload schema artifact. No signing, publishing, merge, or DreamMemory main writes.
 
 
-Latest validation request — source SHA 135988d5b9cdcdaf94eefa0b03d3df27fd098f3e:
+Previous validation request (Builder #264) — source SHA 135988d5b9cdcdaf94eefa0b03d3df27fd098f3e:
 - This exact SHA is the only target for this run; requested source SHA and actual checked-out SHA must match exactly.
 - Run full JVM unit tests, including ResourceRequestSpecTest, BookSourceImportPreviewTest, BookSourceEndToEndIntegrationTest, LegadoRuleResolverTest, and SourceSearchDiagnosticsTest.
 - Verify parseResourceRequestSpec preserves a comma followed by a JSON-valued query literal when that object does not contain recognized request-option keys, while still parsing comma-delimited options objects with method/body/headers. Preserve existing invalid-options fallback and normal URL comma behavior.
 - Run assembleDebug and Room schema v6 semantic discipline; upload generated schema artifact. No signing, publishing, merge, or DreamMemory main writes.
+
+
+Latest validation request — source SHA d7f729a5fb31eb249756a943a521d96e01ab8383:
+- This exact SHA is the only target for this run; requested source SHA and actual checked-out source SHA must match exactly.
+- Run the full JVM unit suite, including ResourceRequestSpecTest, BookSourceImportPreviewTest, BookSourceEndToEndIntegrationTest, LegadoRuleResolverTest, and SourceSearchDiagnosticsTest.
+- Verify JSON-valued query text after a comma remains part of the URL when it is not a request-options object; recognized method/body/headers options still parse; malformed JSON-looking options preserve the established fallback to a simple GET request. Verify URLs without commas do not trigger unnecessary JSONObject parsing.
+- Run assembleDebug and Room schema v6 semantic discipline; upload schema artifact. No signing, publishing, merge, or DreamMemory main writes.
