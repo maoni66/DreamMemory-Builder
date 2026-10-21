@@ -1,15 +1,15 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: f110223de08588ee37bf4c397bac5d8348d718ca
+Source SHA: 1ef4a905a62f0715a93ed1ff237257989451b44e
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: f110223de08588ee37bf4c397bac5d8348d718ca
+Expected source SHA at trigger: 1ef4a905a62f0715a93ed1ff237257989451b44e
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
 - The requested source SHA and actual checked-out source SHA must exactly match the Source SHA at the top of this request. Do not substitute a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
-- Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
+- Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit, and asserts all seven managed data directories are included: attachments, consumptionImages, createAssets, profile, local_books, book_sources, anime_rules. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only. Confirm the orphan scan now covers consumption-image and profile folders as well as the original five managed folders.
 - Verify the full-backup round trip sets dream_focus.skin to NIGHT before export, changes it to APPLE before restore, and asserts restore returns NIGHT; test cleanup clears the focus preferences.
 - Verify the full-backup round trip inserts ReadingNoteEntity ID 4301 linked to shelf item ID 4101, exports the full archive, clears reading notes before restore, and asserts all fields restore exactly: type/body/tags/workTitle/author/sourceIdentifier/sourceVersion/locationType/locationValue/selectedText/anchorStart/anchorEnd/colorKey/linkedShelfItemId/createdAt/updatedAt plus stable ID.
 - Build the Debug APK with assembleDebug.
@@ -259,3 +259,10 @@ Latest validation request — migration safety deferral and synchronized docs (2
 - Confirm MainActivity no longer automatically invokes UserDataPaths.migrateLegacy. This is deliberate: that helper moves legacy directories without rewriting possible absolute paths in ShelfItemEntity.localPath or ResourceSourceEntity.location. Do not reintroduce automatic migration until a recoverable file-move plus DB-reference migration design is implemented and tested.
 - Confirm docs record Builder #269/#271 verified data-health fixes, and that the unsafe startup migration draft SHA d12374b7d62e6d81076b83aeb87182dc173a8e7f was rolled back after path-reference audit. Real upgrade/data-retention acceptance remains open.
 - Run full JVM tests, assembleDebug, Room schema v6 semantic discipline, and upload schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
+
+
+Additional validation for managed data-health directory coverage:
+- Validate exact DreamMemory source SHA 1ef4a905a62f0715a93ed1ff237257989451b44e from design/visual-system-pass-0.7.6; requested and actual checked-out SHA must match exactly.
+- Verify DataHealthScanner includes consumptionImages and profile in the managed-directory orphan scan, in addition to attachments, createAssets, local_books, book_sources, and anime_rules. Referenced consumption images and profile paths must be recognized from current records/preferences; scan remains read-only and does not create missing directories.
+- Run DataHealthScannerTest including exact seven-directory coverage, DataHealthScannerReadOnlyTest, and the complete JVM suite; run assembleDebug and Room schema v6 semantic discipline; upload schema artifact.
+- Keep real-device, real third-party source, backup/restore and formal acceptance open. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
