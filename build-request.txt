@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 752cdf6476d4abbb94641e92909eec7f20ce580e
+Source SHA: 30c9d1b870978ad12ddbbc7d921a26cf111914e4
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 752cdf6476d4abbb94641e92909eec7f20ce580e
+Expected source SHA at trigger: 30c9d1b870978ad12ddbbc7d921a26cf111914e4
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match 752cdf6476d4abbb94641e92909eec7f20ce580e. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match 30c9d1b870978ad12ddbbc7d921a26cf111914e4. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
@@ -28,7 +28,7 @@ Acceptance requirements:
 - This source-level implementation is not accepted until this exact SHA passes JVM tests, assembleDebug, and Room schema v6 discipline. Device acceptance for backgrounding, service notification, process death/restart, oversized responses, redirects and opening the completed shelf item remains open.
 - CI success is not device acceptance. Real-device testing, historical database migration acceptance, backup/restore interruption tests, and formal release validation remain open.
 
-- Newest source commit to validate includes the resource-source global search, target routing/scrolling, GlobalResourceSourceSearchTest, zero-remaining focus pause/resume remediation, life-item partial-edit policy, canvas image import cancellation ownership guard, safe cleanup when asset-row deletion fails, and synchronized current docs/counts, plus CreateAssetCleanupGateTest covering the single cleanup owner and shared completion observed by waiters. Builder #235 validated the earlier SHA 1c5891f8022f002dc94c84d9f56784cebfb8af86; this requested SHA is newer and must pass all checks independently.
+- Newest source commit to validate includes the resource-source global search, target routing/scrolling, GlobalResourceSourceSearchTest, zero-remaining focus pause/resume remediation, life-item partial-edit policy, canvas image import cancellation ownership guard, safe cleanup when asset-row deletion fails, and synchronized current docs/counts, plus CreateAssetCleanupGateTest covering the single cleanup owner, shared completion, and proving await() keeps an importer suspended until cleanup completes. Builder #235 validated the earlier SHA 1c5891f8022f002dc94c84d9f56784cebfb8af86; this requested SHA is newer and must pass all checks independently.
 
 
 Additional validation for this source revision:
@@ -88,7 +88,7 @@ Additional validation for cross-ViewModel transient canvas file references:
 
 
 Additional validation for startup orphan cleanup serialization:
-- Run CreateAssetCleanupGateTest and verify one caller owns startup cleanup, subsequent callers share the same completion, waiters remain pending until cleanup completes, and completion releases all waiters.
+- Run CreateAssetCleanupGateTest and verify isolated gate state per test, one caller owns startup cleanup, subsequent callers share the same completion, waiters remain pending until cleanup completes, and completion releases all waiters through await().
 - Verify CreateAssetCleanupGate begins one process-wide cleanup session, exposes its completion to all CreateViewModel instances, and always completes in finally.
 - Verify CreateCanvasViewModel.importImageToCanvas awaits the shared gate before creating its asset row/files, so startup cleanup cannot delete a file created after its reference snapshot.
-- Run the full JVM suite including CanvasTransientFileReferencesTest and CreateCanvasOperationsTest.fileCleanupReferencesIncludeLiveUndoAndRedoSnapshots, assembleDebug, and Room schema v6 discipline against exact SHA 752cdf6476d4abbb94641e92909eec7f20ce580e. Keep startup-time import and process-restart cleanup device checks open.
+- Run the full JVM suite including CanvasTransientFileReferencesTest, CreateCanvasOperationsTest.fileCleanupReferencesIncludeLiveUndoAndRedoSnapshots, and CreateAssetCleanupGateTest, assembleDebug, and Room schema v6 discipline against exact SHA 30c9d1b870978ad12ddbbc7d921a26cf111914e4. Keep startup-time import and process-restart cleanup device checks open.
