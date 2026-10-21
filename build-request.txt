@@ -131,16 +131,9 @@ Latest focused follow-up patch (2026-10-21; this SHA supersedes earlier source S
 - Do not sign, publish, merge PRs, merge PR #2/#3, or write to DreamMemory main. Real source fixtures and device acceptance remain open.
 
 
-Latest follow-up validation request (2026-10-21; supersedes earlier source SHA values above):
-- Validate exact DreamMemory source SHA 132ffd5c3111960ffa8c4d620b543d3a47a5b4a9 from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match.
-- In BookSourceImportPreviewTest, run importPreviewClosesOnlyWhenCommitHasNoFailures and verify preview closes only when failed == 0.
-- Inspect commitPendingBookSourceImport: keep the pending source preview when one or more selected items fail; convert unexpected commit exceptions to a failure summary; rethrow CancellationException unchanged; always reset the in-progress flag.
-- Run SourceSearchDiagnosticsTest (including Kazumi rule failure diagnostic) and KazumiApiDetailConfigTest (required API path validation), plus the full JVM test suite, assembleDebug, Room schema v6 discipline and schema artifact upload.
-- No signing, publishing, merging, PR #2/#3 merge, or writes to DreamMemory main. External source fixture and device acceptance remain open.
-
-Latest JSON-array book-source import fix (2026-10-21; supersedes earlier requested source SHAs):
-- Validate exact DreamMemory source SHA e4f96f6d48dd216081a0e0f0b075792b48c8917c from design/visual-system-pass-0.7.6 and confirm requested SHA equals actual checked-out SHA.
-- Fix integration mismatch where buildBookSourceImportPreview accepted a top-level JSON array but importJsonBookSourcesText rejected it before the preview parser. Arrays must pass the JSON object-or-array gate; object-specific Kazumi and TVBox branches must only run for JSON objects.
-- Run BookSourceImportPreviewTest, including jsonObjectOrArrayValidationAcceptsBareSourceArray, existing bare-array/wrapped-list parsing, malformed JSON rejection, URL safety and preview-retention tests.
-- Run full JVM unit tests, assembleDebug, Room schema v6 discipline and upload generated Room schema artifact. Report exact requested/actual source SHA and each result.
-- No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main. Real source fixture and device acceptance remain open.
+Latest follow-up validation request (2026-10-21; active request — supersedes prior source SHA values):
+- Validate exact DreamMemory source SHA e4f96f6d48dd216081a0e0f0b075792b48c8917c from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match exactly.
+- Fix the integration mismatch where buildBookSourceImportPreview accepts a top-level JSON array but importJsonBookSourcesText rejected it before preview parsing. Top-level arrays must pass the JSON object-or-array gate; Kazumi and TVBox object-specific branches must only run for JSON objects.
+- Run BookSourceImportPreviewTest, including jsonObjectOrArrayValidationAcceptsBareSourceArray, bare-array and wrapped-list parsing, malformed JSON rejection, URL safety, and preview-retention tests.
+- Run the complete JVM unit test suite, assembleDebug, Room schema v6 discipline and upload the generated Room schema artifact. Confirm the requested SHA and actual checked-out SHA match exactly.
+- Do not sign, publish, merge, merge PR #2/#3, or write to DreamMemory main. External real-source fixture and device acceptance remain open.
