@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: a86f50ec2eb52e38c31999f8e92479616e41aa3d
+Source SHA: e9717ceb7732399234ff5137ae8845decdf841ac
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: a86f50ec2eb52e38c31999f8e92479616e41aa3d
+Expected source SHA at trigger: e9717ceb7732399234ff5137ae8845decdf841ac
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
