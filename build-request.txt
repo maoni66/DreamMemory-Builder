@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: b83716a4e11b29993fad2dad67ab96748237ca5b
+Source SHA: d12374b7d62e6d81076b83aeb87182dc173a8e7f
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: b83716a4e11b29993fad2dad67ab96748237ca5b
+Expected source SHA at trigger: d12374b7d62e6d81076b83aeb87182dc173a8e7f
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -244,3 +244,11 @@ Latest validation request — fresh-install data health status (2026-10-21):
 - This source includes DataHealthReport.isHealthy semantics based on brokenReferences rather than rootAvailable alone; a missing DreamMemoryData root on a fresh install with no broken references should not be marked unhealthy. The scanner should add an explanatory note when the root is absent. Missing referenced local files must still be reported as broken references.
 - Run DataHealthScannerTest.missingManagedRootAloneDoesNotMakeReportUnhealthy, DataHealthScannerReadOnlyTest, and the full JVM suite.
 - Run assembleDebug, Room schema v6 semantic discipline, and upload the generated schema artifact. Verify docs reflect this fix as pending validation and keep device acceptance, real third-party book source testing, and release readiness open. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
+
+
+Latest validation request — startup legacy file migration (2026-10-21):
+- Validate exact DreamMemory source SHA d12374b7d62e6d81076b83aeb87182dc173a8e7f from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match exactly.
+- Inspect MainActivity: migrateLegacyUserDataAfterRestore must run in normal onCreate only after both full and light restore recovery checks succeed; recovery failure still returns before migration. onNewIntent must reuse the same helper.
+- Run UserDataPathsMigrationTest and verify legacy local_books, book_sources, and anime_rules folders move under DreamMemoryData, contents remain intact, and existing managed target folders are not overwritten.
+- Run DataHealthScannerTest including missingManagedRootAloneDoesNotMakeReportUnhealthy, DataHealthScannerReadOnlyTest, and the full JVM suite. Run assembleDebug, Room schema v6 semantic discipline, and upload schema artifact.
+- Confirm docs record this startup migration patch as pending validation and continue to distinguish automated tests from real upgrade/device data retention. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
