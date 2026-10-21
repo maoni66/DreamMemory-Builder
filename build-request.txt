@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: d12374b7d62e6d81076b83aeb87182dc173a8e7f
+Source SHA: a86f50ec2eb52e38c31999f8e92479616e41aa3d
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: d12374b7d62e6d81076b83aeb87182dc173a8e7f
+Expected source SHA at trigger: a86f50ec2eb52e38c31999f8e92479616e41aa3d
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -252,3 +252,10 @@ Latest validation request — startup legacy file migration (2026-10-21):
 - Run UserDataPathsMigrationTest and verify legacy local_books, book_sources, and anime_rules folders move under DreamMemoryData, contents remain intact, and existing managed target folders are not overwritten.
 - Run DataHealthScannerTest including missingManagedRootAloneDoesNotMakeReportUnhealthy, DataHealthScannerReadOnlyTest, and the full JVM suite. Run assembleDebug, Room schema v6 semantic discipline, and upload schema artifact.
 - Confirm docs record this startup migration patch as pending validation and continue to distinguish automated tests from real upgrade/device data retention. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
+
+
+Latest validation request — migration safety deferral and synchronized docs (2026-10-21):
+- Validate exact DreamMemory source SHA a86f50ec2eb52e38c31999f8e92479616e41aa3d from design/visual-system-pass-0.7.6; requested SHA and actual checked-out source SHA must match exactly.
+- Confirm MainActivity no longer automatically invokes UserDataPaths.migrateLegacy. This is deliberate: that helper moves legacy directories without rewriting possible absolute paths in ShelfItemEntity.localPath or ResourceSourceEntity.location. Do not reintroduce automatic migration until a recoverable file-move plus DB-reference migration design is implemented and tested.
+- Confirm docs record Builder #269/#271 verified data-health fixes, and that the unsafe startup migration draft SHA d12374b7d62e6d81076b83aeb87182dc173a8e7f was rolled back after path-reference audit. Real upgrade/data-retention acceptance remains open.
+- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline, and upload schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
