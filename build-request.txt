@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: bba16a916a41d9228593acb3bbbd995136ffea4a
+Source SHA: 318f71fe1f93e813be42084fac342d35a38ed2ae
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: bba16a916a41d9228593acb3bbbd995136ffea4a
+Expected source SHA at trigger: 318f71fe1f93e813be42084fac342d35a38ed2ae
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -346,3 +346,8 @@ Latest follow-up — startup invocation and download recovery audit:
 - Confirm the audit documents that neither DreamMemoryApplication.onCreate nor MainActivity.onCreate currently invokes UserDataPaths.migrateLegacy; MainActivity explicitly defers migration until DB path references can be reconciled.
 - Confirm MainActivity's DownloadManager-based startup reconciliation is distinct from BoundedVideoDownloadService's app-managed negative-ID download lifecycle. Safe cleanup is restricted to the app Movies directory and avoids deleting shelf-referenced files; reference-check failure fails closed.
 - Run JVM tests, assembleDebug, Room schema v6 semantic check and upload schema artifact. Documentation-only; no migration runtime changes, no signing/publishing/merges, no DreamMemory main writes.
+
+Latest follow-up — profile image path and recovery-file audit:
+- Validate exact DreamMemory SHA 318f71fe1f93e813be42084fac342d35a38ed2ae; requested and checked-out SHA must match.
+- Confirm the audit covers SharedPreferences dream_profile keys avatar_path/background_path and the .tmp/.bak transaction files used by ProfileViewModel. Migration planning must coordinate these preferences and preserve interruption-recovery semantics; do not treat profile transaction files as automatically disposable or rewrite ordinary HTTP(S) resource source URLs.
+- Run full JVM tests, assembleDebug, Room schema v6 semantic check, upload schema artifact. Documentation-only, no startup migration behavior changes, no signing/publishing/merges, no DreamMemory main writes.
