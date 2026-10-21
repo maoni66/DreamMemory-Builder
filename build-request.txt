@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 8c47379c0e9e08dd92593459723516ef098c566c
+Source SHA: 41d4d2ef8bfe6048e02cf42c021d3b835e705ae2
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 8c47379c0e9e08dd92593459723516ef098c566c
+Expected source SHA at trigger: 41d4d2ef8bfe6048e02cf42c021d3b835e705ae2
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -223,3 +223,10 @@ Latest documentation synchronization validation (2026-10-21):
 - The last code snapshot 33122deba9a22140bb871a666b284b1c6cfa3b86 passed Builder #267 attempt 2 (run 39595636275): full JVM unit tests, assembleDebug, Room schema v6 semantic check; artifact 12344805314. This source revision adds documentation-only synchronization for that evidence across PROJECT_GAP_CHECKLIST_2026-10-18.md, DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, PROJECT_CONTEXT.md, and BUG_HISTORY.md.
 - Verify the docs consistently state that real third-party book source flow, device acceptance, backup/restore on device, UI/accessibility, and formal release validation remain open. The checklist remains 138 items: 81 [ ], 11 [~], 9 [T], 36 [x], 1 [!].
 - Run the full JVM unit test suite, assembleDebug, Room schema v6 semantic discipline, and upload the generated schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
+
+
+Latest validation request — data health report path redaction (2026-10-21):
+- Validate exact DreamMemory source SHA 41d4d2ef8bfe6048e02cf42c021d3b835e705ae2 from design/visual-system-pass-0.7.6; requested source SHA and actual checked-out source SHA must match exactly.
+- This snapshot includes safeOwnedPathReference in DataHealthScanner, replacing full absolute paths in missing-file/profile-image/orphan-file report references with a bounded filename summary; unresolvable references use a generic redacted label. Scanning remains read-only.
+- Run DataHealthScannerTest.dataHealthReferencesHideAbsolutePathsButKeepUsefulFilename and the complete JVM test suite. Verify file:// URI decoding, filename truncation/control-character filtering, and that report references do not expose parent directories.
+- Run assembleDebug, Room schema v6 semantic discipline, and upload generated schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main. Device acceptance and real third-party book-source tests remain open.
