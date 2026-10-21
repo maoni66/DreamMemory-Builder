@@ -131,9 +131,8 @@ Latest focused follow-up patch (2026-10-21; this SHA supersedes earlier source S
 - Do not sign, publish, merge PRs, merge PR #2/#3, or write to DreamMemory main. Real source fixtures and device acceptance remain open.
 
 
-Latest follow-up validation request (2026-10-21; active request — supersedes prior source SHA values):
-- Validate exact DreamMemory source SHA e4f96f6d48dd216081a0e0f0b075792b48c8917c from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match exactly.
-- Fix the integration mismatch where buildBookSourceImportPreview accepts a top-level JSON array but importJsonBookSourcesText rejected it before preview parsing. Top-level arrays must pass the JSON object-or-array gate; Kazumi and TVBox object-specific branches must only run for JSON objects.
-- Run BookSourceImportPreviewTest, including jsonObjectOrArrayValidationAcceptsBareSourceArray, bare-array and wrapped-list parsing, malformed JSON rejection, URL safety, and preview-retention tests.
-- Run the complete JVM unit test suite, assembleDebug, Room schema v6 discipline and upload the generated Room schema artifact. Confirm the requested SHA and actual checked-out SHA match exactly.
-- Do not sign, publish, merge, merge PR #2/#3, or write to DreamMemory main. External real-source fixture and device acceptance remain open.
+Latest verification request (2026-10-21; supersedes earlier source SHA requests):
+- Validate exact DreamMemory source SHA 5d4cd9891be0ef3577f712d821529279cdb490d7 from design/visual-system-pass-0.7.6. Confirm requested and actual checked-out SHA match exactly.
+- Snapshot includes the top-level JSON array import-entry fix, BookSourceImportPreviewTest regression coverage, and synchronized project gap/context/bug-history docs.
+- Run complete JVM unit tests, assembleDebug, Room schema v6 discipline, and upload generated schema artifact.
+- Do not sign, publish, merge PRs, merge PR #2/#3, or write to DreamMemory main. Real external source fixtures and device acceptance remain open.
