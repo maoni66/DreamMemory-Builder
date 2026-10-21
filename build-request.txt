@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 1a92ff4ec0cc2042617724afd707dddf36f5c8af
+Source SHA: 3279ac6d178e0c64d22287ede1fb75ed3b2c88fe
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 1a92ff4ec0cc2042617724afd707dddf36f5c8af
+Expected source SHA at trigger: 3279ac6d178e0c64d22287ede1fb75ed3b2c88fe
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match 1a92ff4ec0cc2042617724afd707dddf36f5c8af. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match 3279ac6d178e0c64d22287ede1fb75ed3b2c88fe. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
@@ -96,3 +96,7 @@ Additional validation for startup orphan cleanup serialization:
 
 Final documentation synchronization validation (2026-10-21):
 - Source SHA 30c9d1b870978ad12ddbbc7d921a26cf111914e4 passed Builder run 39524423936. The subsequent commits only append the latest validation snapshot and cleanup-gate test notes to PROJECT_CONTEXT.md, PROJECT_GAP_CHECKLIST_2026-10-18.md, BUG_HISTORY.md, and DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md. Validate the exact documentation-synchronized source SHA 1a92ff4ec0cc2042617724afd707dddf36f5c8af with the complete JVM test suite, assembleDebug, and Room schema v6 discipline; confirm requested SHA equals checked-out SHA. No signing, publishing, merges, or writes to DreamMemory main.
+
+
+Additional validation for canvas renderer background-color assertion (2026-10-21):
+- Source SHA 3279ac6d178e0c64d22287ede1fb75ed3b2c88fe adds assertions that the rendered bitmap is red at the top-left and center pixels, in addition to configured dimensions. Run the full JVM unit test suite, assembleDebug, and Room schema v6 discipline against this exact SHA; verify requested SHA equals actual checked-out SHA. Keep device export/open-image acceptance open. No signing, publishing, merges, or writes to DreamMemory main.
