@@ -131,7 +131,7 @@ Latest focused follow-up patch (2026-10-21; this SHA supersedes earlier source S
 - Do not sign, publish, merge PRs, merge PR #2/#3, or write to DreamMemory main. Real source fixtures and device acceptance remain open.
 
 
-Latest verification request (2026-10-21; supersedes earlier source SHA requests):
+Latest verification request (2026-10-21; supersedes earlier source SHA requests; revision 2):
 - Validate exact DreamMemory source SHA 5d4cd9891be0ef3577f712d821529279cdb490d7 from design/visual-system-pass-0.7.6. Confirm requested and actual checked-out SHA match exactly.
 - Snapshot includes the top-level JSON array import-entry fix, BookSourceImportPreviewTest regression coverage, and synchronized project gap/context/bug-history docs.
 - Run complete JVM unit tests, assembleDebug, Room schema v6 discipline, and upload generated schema artifact.
