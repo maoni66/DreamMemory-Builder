@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 2a137af0ab4d2ac284d2149dc4bf8e73a5963a70
+Source SHA: ac28ecf1493dd41e6c7c012c9cc088ea387af79d
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 2a137af0ab4d2ac284d2149dc4bf8e73a5963a70
+Expected source SHA at trigger: ac28ecf1493dd41e6c7c012c9cc088ea387af79d
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -329,3 +329,8 @@ Latest follow-up — download and backup path audit (2026-10-21):
 - Validate exact DreamMemory source SHA 2a137af0ab4d2ac284d2149dc4bf8e73a5963a70 from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match exactly.
 - Verify docs/PROJECT_CHANGE_AND_MIGRATION_LEDGER.md records that DownloadRepository only wraps DAO operations and download_tasks.localPath call sites remain to be traced; ResourceSourceDao treats location as a free-form string; AutoBackupRepository light backups exclude user media/downloads; BackupRepository interrupted full-restore recovery is a separate protocol from legacy-directory migration; UserDataPaths root helpers create directories and must not be used for read-only preflight.
 - Documentation-only change. Do not move user files, alter Room schema, or enable startup migration. Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main. Device upgrade, data retention, backup/restore interruption and formal release acceptance remain open.
+
+Latest follow-up — managed download and creation asset audit (2026-10-21):
+- Validate exact DreamMemory source SHA ac28ecf1493dd41e6c7c012c9cc088ea387af79d on design/visual-system-pass-0.7.6, with requested and checked-out SHA identical.
+- Confirm audit notes: BoundedVideoDownloadService writes into getExternalFilesDir(Environment.DIRECTORY_MOVIES), stores that absolute path in download_tasks.localPath and then shelf_items.localPath; this is not under filesDir/DreamMemoryData and must not be rewritten by a generic legacy-root mapper. Cancellation/failure removes validated managed destination and .part file. CreateAssetEntity stores originalUri/compressedUri/thumbnailUri; CreateRepository fails closed on asset reference-count lookup failure. AttachmentEntity.uri and asset URIs must preserve URI semantics.
+- Documentation-only. Do not move files, change Room schema, or enable startup migration. Run full JVM tests, assembleDebug, Room schema v6 semantic check and upload schema artifact. No signing/publishing/merges or DreamMemory main writes. Real device/data-retention/formal release acceptance remain open.
