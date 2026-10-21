@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 8c7e79f79396a9a81da3683d42bf639ccf5eadd2
+Source SHA: dfe71f56ff9e490a3008f08bb3eb4df22556cc58
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 8c7e79f79396a9a81da3683d42bf639ccf5eadd2
+Expected source SHA at trigger: dfe71f56ff9e490a3008f08bb3eb4df22556cc58
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match 8c7e79f79396a9a81da3683d42bf639ccf5eadd2. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match dfe71f56ff9e490a3008f08bb3eb4df22556cc58. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
@@ -99,4 +99,7 @@ Final documentation synchronization validation (2026-10-21):
 
 
 Additional validation for canvas renderer background-color assertion (2026-10-21):
-- Source SHA 8c7e79f79396a9a81da3683d42bf639ccf5eadd2 adds assertions that the rendered bitmap is red at the top-left and center pixels, in addition to configured dimensions. Run the full JVM unit test suite, assembleDebug, and Room schema v6 discipline against this exact SHA; verify requested SHA equals actual checked-out SHA. Keep device export/open-image acceptance open. No signing, publishing, merges, or writes to DreamMemory main.
+- Source SHA dfe71f56ff9e490a3008f08bb3eb4df22556cc58 adds assertions that the rendered bitmap is red at the top-left and center pixels, in addition to configured dimensions. Run the full JVM unit test suite, assembleDebug, and Room schema v6 discipline against this exact SHA; verify requested SHA equals actual checked-out SHA. Keep device export/open-image acceptance open. No signing, publishing, merges, or writes to DreamMemory main.
+
+
+Follow-up after Builder #240 exposed that Canvas.drawColor did not populate the expected pixels in the Robolectric test. The renderer now initializes the bitmap background with Bitmap.eraseColor before creating/scaling drawing operations. Validate exact SHA dfe71f56ff9e490a3008f08bb3eb4df22556cc58 with full JVM tests, assembleDebug, and Room schema v6 discipline. No signing, publishing, merges, or writes to DreamMemory main.
