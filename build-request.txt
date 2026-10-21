@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 74c5349b2f2cef73094f53eab54752998a93740e
+Source SHA: 1a4198e17df442e349fce4fb4535ebcd0dd537fe
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 74c5349b2f2cef73094f53eab54752998a93740e
+Expected source SHA at trigger: 1a4198e17df442e349fce4fb4535ebcd0dd537fe
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -305,3 +305,10 @@ Latest documentation-only synchronization validation (2026-10-21):
 - All four project documents now record Builder #284 (run 39609800360) validating code SHA f42df9682e07d61f3b09720bd668b4cf1898144b: full JVM tests, assembleDebug, Room schema v6 semantic comparison, artifact 12348984575. Confirm the docs also record that unreadable existing managed directories are reported while missing directories are ignored.
 - This target changes documentation only; do not claim code behavior beyond the already verified f42df9682e07d61f3b09720bd668b4cf1898144b snapshot. Keep device acceptance, real third-party source tests, legacy directory/database path migration, backup/restore and formal release readiness open.
 - Run full JVM tests, assembleDebug and Room schema v6 semantic discipline; upload schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
+
+
+Latest migration-safety design ledger update:
+- Exact DreamMemory source SHA: 1a4198e17df442e349fce4fb4535ebcd0dd537fe. Source SHA and actual checkout SHA must match exactly.
+- Verify docs/PROJECT_CHANGE_AND_MIGRATION_LEDGER.md records the frozen safe-migration protocol: read-only preflight, explicit source/target conflict handling, exact local path mapping, transactional DB reference updates, resumable stages, idempotence, and no startup migration until all path references are inventoried and interruption/retry tests pass.
+- This is documentation-only. Do not move user files, change schema, or enable UserDataPaths.migrateLegacy at startup. Keep migration and device acceptance open.
+- Run full JVM tests, assembleDebug, Room schema v6 semantic discipline, and upload schema artifact. No signing, publishing, merging, or writes to DreamMemory main.
