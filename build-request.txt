@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 1c6b4be550b97d6148127c40a1814f667f8e8b5f
+Source SHA: ce6dc35b3d88983db423b90237f87d27403939a2
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 1c6b4be550b97d6148127c40a1814f667f8e8b5f
+Expected source SHA at trigger: ce6dc35b3d88983db423b90237f87d27403939a2
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -139,6 +139,13 @@ Latest verification request (2026-10-21; supersedes earlier source SHA requests;
 
 
 Additional validation for the local book-source end-to-end regression:
-- Run app/src/test/java/com/dreammemory/app/feature/discover/BookSourceEndToEndIntegrationTest.kt on this exact SHA.
+- Run app/src/test/java/com/dreammemory/app/feature/discover/BookSourceEndToEndIntegrationTest.kt on this exact SHA ce6dc35b3d88983db423b90237f87d27403939a2.
 - Verify the production DiscoverViewModel flow operations are exercised against a local HTTP server: POST search request and request headers, HTML result parsing, book detail metadata, chapter catalog URL resolution, and chapter body extraction.
 - Verify no external network dependency is used by this regression test. Keep real third-party source compatibility and real-device reading acceptance open.
+
+
+Final documentation synchronization after Builder #257:
+- Validate exact DreamMemory source SHA ce6dc35b3d88983db423b90237f87d27403939a2; requested and actual checked-out SHA must match.
+- Verify PROJECT_CONTEXT.md, PROJECT_GAP_CHECKLIST_2026-10-18.md, DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, and BUG_HISTORY.md record Builder #257's exact SHA/run/artifact and clearly distinguish local HTTP fixture coverage from still-open real third-party source and device acceptance.
+- Verify root-level FocusSkin.kt remains absent and app/src/main/java/com/dreammemory/app/feature/life/FocusSkin.kt remains the active implementation; do not change skin persistence or the six-tab structure.
+- Run all JVM unit tests, assembleDebug, and Room schema v6 semantic discipline; upload schema artifact. No signing, publishing, merges, or writes to DreamMemory main.
