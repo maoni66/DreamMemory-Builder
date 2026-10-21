@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: c86dfb327e0840e860e663a01deef0720a9f583b
+Source SHA: e9dd78f5cd62add79ecb067c5d62be035e8414e8
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: c86dfb327e0840e860e663a01deef0720a9f583b
+Expected source SHA at trigger: e9dd78f5cd62add79ecb067c5d62be035e8414e8
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match c86dfb327e0840e860e663a01deef0720a9f583b. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match e9dd78f5cd62add79ecb067c5d62be035e8414e8. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
@@ -166,9 +166,17 @@ Additional boundary validation after Builder #259:
 - Run the full JVM suite including BookSourceEndToEndIntegrationTest and LegadoRuleResolverTest, assembleDebug, and Room schema v6 semantic discipline. Upload schema artifact; no signing, publishing, merges, or writes to DreamMemory main.
 
 
-Latest validation request — source SHA c86dfb327e0840e860e663a01deef0720a9f583b:
+Previous validation request (Builder #261) — source SHA c86dfb327e0840e860e663a01deef0720a9f583b:
 - The source SHA above is the sole validation target. Verify requested source SHA == actual checked-out source SHA exactly; ignore stale historical SHA mentions elsewhere in this file.
 - Run the full JVM unit suite, including BookSourceEndToEndIntegrationTest.unsupportedScriptRulesFailBeforeNetworkRequestsInSearchDetailAndChapterFlow, LegadoRuleResolverTest, and SourceSearchDiagnosticsTest.
 - The new integration test must verify unsupported @js:/@webjs: rules in search, detail, and chapter-body flows fail before any HTTP request, and user-facing summaries never contain the script body.
 - Preserve the existing successful normal CSS/XPath/JSON source search → detail → catalog → chapter body local HTTP test.
 - Run assembleDebug and Room schema v6 semantic discipline; upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
+
+
+Latest validation request — source SHA e9dd78f5cd62add79ecb067c5d62be035e8414e8:
+- This exact SHA is the only target for this run; requested SHA and actual checked-out source SHA must match exactly.
+- Run the full JVM suite, including BookSourceEndToEndIntegrationTest, LegadoRuleResolverTest, and SourceSearchDiagnosticsTest.
+- Verify the updated requireSupportedLegadoRule ignores quoted CSS attribute values and XPath string literals when searching for @js:/@webjs: syntax. The rules a[href="@js:literal"] and //a[contains(@href, '@webjs:literal')] must remain allowed, while actual leading @js: and selector-suffixed @webjs: script rules must still be rejected safely.
+- Verify the new BookSourceEndToEndIntegrationTest proves unsupported rules are rejected before network I/O in search, detail, and chapter-body flows; no script body leaks into the user-facing summary.
+- Preserve the normal CSS/XPath/JSON local HTTP end-to-end flow, run assembleDebug, and enforce Room schema v6 semantic discipline. Upload schema artifact. No signing, publishing, merge, or DreamMemory main writes.
