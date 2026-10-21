@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 74f33b91a6943fc5c63e2f50757457bccb0204d6
+Source SHA: 31d611322f28f7e4544008e9291d4eecf04510a9
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 74f33b91a6943fc5c63e2f50757457bccb0204d6
+Expected source SHA at trigger: 31d611322f28f7e4544008e9291d4eecf04510a9
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -276,14 +276,14 @@ Latest validation and documentation synchronization (2026-10-21):
 
 
 Additional validation request (2026-10-21):
-- Validate exact DreamMemory source SHA 74f33b91a6943fc5c63e2f50757457bccb0204d6; requested and actual checked-out SHA must match.
+- Validate exact DreamMemory source SHA 31d611322f28f7e4544008e9291d4eecf04510a9; requested and actual checked-out SHA must match.
 - Run full JVM tests and verify DataHealthScannerTest.orphanScanFindsUnreferencedFilesInConsumptionAndProfileWithoutChangingFiles passes. The helper must report only unreferenced files in managed directories, compare canonical paths, and never create/delete/modify files.
 - Confirm the production scanner delegates orphan discovery to findOrphanFiles and preserves safe filename-only diagnostics.
 - Run assembleDebug and Room schema v6 semantic comparison; upload schema artifact. No signing or publishing.
 
 
 Latest documentation-synchronized source validation (2026-10-21):
-- The exact target SHA is 74f33b91a6943fc5c63e2f50757457bccb0204d6. Requested SHA and actual checked-out SHA must match exactly.
-- Verify DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, BUG_HISTORY.md, and PROJECT_GAP_CHECKLIST_2026-10-18.md record Builder #279 (run 39608052946) for code SHA ad824480f58c8b496733b1a3881d83aee097d1de, including full JVM tests, assembleDebug, Room schema v6 semantic check and artifact 12349092410.
+- The exact target SHA is 31d611322f28f7e4544008e9291d4eecf04510a9. Requested SHA and actual checked-out SHA must match exactly.
+- Verify DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, BUG_HISTORY.md, PROJECT_GAP_CHECKLIST_2026-10-18.md, and PROJECT_CONTEXT.md record Builder #279 (run 39608052946) for code SHA ad824480f58c8b496733b1a3881d83aee097d1de, including full JVM tests, assembleDebug, Room schema v6 semantic check and artifact 12349092410.
 - Confirm the latest checklist totals remain 139 items: 82 [ ], 11 [~], 9 [T], 36 [x], 1 [!]; 93 open total. Do not close real-device, real-source, migration, backup/restore, accessibility, or release acceptance based on CI.
 - Run the complete JVM suite, assembleDebug, Room schema v6 semantic discipline and upload schema artifact for this exact SHA. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
