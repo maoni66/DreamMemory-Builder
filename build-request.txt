@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: beadd19cd0d94558d8e6b83526b7b4af94ac6e18
+Source SHA: c524b7f4223e25270b46a8806642520720b518ec
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: beadd19cd0d94558d8e6b83526b7b4af94ac6e18
+Expected source SHA at trigger: c524b7f4223e25270b46a8806642520720b518ec
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -158,3 +158,9 @@ Additional validation for explicit unsupported Legado script-rule diagnostics:
 - Verify unsupported rules map to the safe user-facing message “当前版本暂不支持此书源的 JS/WebJS 脚本规则”; no script body, URL, token, or raw exception message may be exposed.
 - Verify normal CSS, XPath, and JSON path rules remain allowed, and the BookSourceEndToEndIntegrationTest still passes.
 - Build assembleDebug, enforce Room schema v6 semantic discipline, and upload schema artifact. No signing, publishing, merges, or writes to DreamMemory main.
+
+
+Additional boundary validation after Builder #259:
+- Validate exact DreamMemory SHA c524b7f4223e25270b46a8806642520720b518ec; requested and actual checked-out source SHA must match.
+- Verify DiscoverViewModel.fetchDetail only validates chapterName/chapterUrl script syntax when a nonblank chapterList rule means those fields will actually be used. If chapterList is blank and the reader falls back to generic chapter-link detection, unused legacy chapter name/URL fields must not cause a false unsupported-script failure.
+- Run the full JVM suite including BookSourceEndToEndIntegrationTest and LegadoRuleResolverTest, assembleDebug, and Room schema v6 semantic discipline. Upload schema artifact; no signing, publishing, merges, or writes to DreamMemory main.
