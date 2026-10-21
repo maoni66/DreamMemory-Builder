@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: d7f729a5fb31eb249756a943a521d96e01ab8383
+Source SHA: 211657335f6462d249c3e605de018ff4d0b35f64
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: d7f729a5fb31eb249756a943a521d96e01ab8383
+Expected source SHA at trigger: 211657335f6462d249c3e605de018ff4d0b35f64
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -201,3 +201,10 @@ Latest validation request — source SHA d7f729a5fb31eb249756a943a521d96e01ab838
 - Run the full JVM unit suite, including ResourceRequestSpecTest, BookSourceImportPreviewTest, BookSourceEndToEndIntegrationTest, LegadoRuleResolverTest, and SourceSearchDiagnosticsTest.
 - Verify JSON-valued query text after a comma remains part of the URL when it is not a request-options object; recognized method/body/headers options still parse; malformed JSON-looking options preserve the established fallback to a simple GET request. Verify URLs without commas do not trigger unnecessary JSONObject parsing.
 - Run assembleDebug and Room schema v6 semantic discipline; upload schema artifact. No signing, publishing, merge, or DreamMemory main writes.
+
+
+Latest validation request — source SHA 211657335f6462d249c3e605de018ff4d0b35f64:
+- This exact SHA is the only target for this run; requested source SHA and actual checked-out source SHA must match exactly.
+- Run the full JVM unit test suite, including ResourceHttpSafetyIntegrationTest and BookSourceEndToEndIntegrationTest.
+- Verify cross-origin redirects strip standard sensitive headers plus custom credential-shaped headers such as X-Api-Key, X-Access-Token, and X-Client-Secret, while preserving benign X-Trace. Same-origin behavior, HTTPS-to-HTTP downgrade rejection, redirect limit, and request body redirect semantics must remain covered.
+- Run assembleDebug and Room schema v6 semantic discipline; upload generated schema artifact. No signing, publishing, merge, or DreamMemory main writes.
