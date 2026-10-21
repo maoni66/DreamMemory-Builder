@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: e9dd78f5cd62add79ecb067c5d62be035e8414e8
+Source SHA: d1861566a8dedc1ea5f7a8afc6f2a007f20056cb
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: e9dd78f5cd62add79ecb067c5d62be035e8414e8
+Expected source SHA at trigger: d1861566a8dedc1ea5f7a8afc6f2a007f20056cb
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match e9dd78f5cd62add79ecb067c5d62be035e8414e8. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match d1861566a8dedc1ea5f7a8afc6f2a007f20056cb. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
@@ -174,9 +174,16 @@ Previous validation request (Builder #261) — source SHA c86dfb327e0840e860e663
 - Run assembleDebug and Room schema v6 semantic discipline; upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 
-Latest validation request — source SHA e9dd78f5cd62add79ecb067c5d62be035e8414e8:
+Previous validation request (Builder #262) — source SHA e9dd78f5cd62add79ecb067c5d62be035e8414e8:
 - This exact SHA is the only target for this run; requested SHA and actual checked-out source SHA must match exactly.
 - Run the full JVM suite, including BookSourceEndToEndIntegrationTest, LegadoRuleResolverTest, and SourceSearchDiagnosticsTest.
 - Verify the updated requireSupportedLegadoRule ignores quoted CSS attribute values and XPath string literals when searching for @js:/@webjs: syntax. The rules a[href="@js:literal"] and //a[contains(@href, '@webjs:literal')] must remain allowed, while actual leading @js: and selector-suffixed @webjs: script rules must still be rejected safely.
 - Verify the new BookSourceEndToEndIntegrationTest proves unsupported rules are rejected before network I/O in search, detail, and chapter-body flows; no script body leaks into the user-facing summary.
 - Preserve the normal CSS/XPath/JSON local HTTP end-to-end flow, run assembleDebug, and enforce Room schema v6 semantic discipline. Upload schema artifact. No signing, publishing, merge, or DreamMemory main writes.
+
+
+Latest validation request — source SHA d1861566a8dedc1ea5f7a8afc6f2a007f20056cb:
+- This exact SHA is the only target for this run; requested SHA and actual checked-out source SHA must match exactly.
+- Run the full JVM unit test suite, including BookSourceEndToEndIntegrationTest, LegadoRuleResolverTest, and SourceSearchDiagnosticsTest.
+- Confirm the four synchronized project docs accurately distinguish Builder #262's validated code SHA e9dd78f5cd62add79ecb067c5d62be035e8414e8 from the current docs-only SHA d1861566a8dedc1ea5f7a8afc6f2a007f20056cb; retain explicit open status for real third-party source samples, device testing, backup/restore, UI/accessibility, and release readiness.
+- Run assembleDebug and Room schema v6 semantic discipline; upload schema artifact. No signing, publishing, merge, or DreamMemory main writes.
