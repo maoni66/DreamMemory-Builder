@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: f42df9682e07d61f3b09720bd668b4cf1898144b
+Source SHA: 74c5349b2f2cef73094f53eab54752998a93740e
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: f42df9682e07d61f3b09720bd668b4cf1898144b
+Expected source SHA at trigger: 74c5349b2f2cef73094f53eab54752998a93740e
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -298,3 +298,10 @@ Checklist header correction after the previous request was queued:
 
 Latest scanner readability regression target:
 - Exact DreamMemory source SHA: f42df9682e07d61f3b09720bd668b4cf1898144b. Verify `findUnscannableManagedDirectories` reports existing directories that cannot be listed, while missing managed directories are ignored as normal before first use. Run full JVM tests, assembleDebug, and Room schema v6 semantic comparison. Require requested SHA == actual checked-out SHA. No signing, publishing, merges, or writes to DreamMemory main.
+
+
+Latest documentation-only synchronization validation (2026-10-21):
+- Validate exact DreamMemory source SHA 74c5349b2f2cef73094f53eab54752998a93740e; requested SHA and actual checked-out SHA must match.
+- All four project documents now record Builder #284 (run 39609800360) validating code SHA f42df9682e07d61f3b09720bd668b4cf1898144b: full JVM tests, assembleDebug, Room schema v6 semantic comparison, artifact 12348984575. Confirm the docs also record that unreadable existing managed directories are reported while missing directories are ignored.
+- This target changes documentation only; do not claim code behavior beyond the already verified f42df9682e07d61f3b09720bd668b4cf1898144b snapshot. Keep device acceptance, real third-party source tests, legacy directory/database path migration, backup/restore and formal release readiness open.
+- Run full JVM tests, assembleDebug and Room schema v6 semantic discipline; upload schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
