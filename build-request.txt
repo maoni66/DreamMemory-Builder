@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 7a7e28a8ec2159039ecb759931804984bd141999
+Source SHA: b83716a4e11b29993fad2dad67ab96748237ca5b
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 7a7e28a8ec2159039ecb759931804984bd141999
+Expected source SHA at trigger: b83716a4e11b29993fad2dad67ab96748237ca5b
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -237,3 +237,10 @@ Final documentation synchronization validation (2026-10-21):
 - Code snapshot 41d4d2ef8bfe6048e02cf42c021d3b835e705ae2 passed Builder #269 (run 39598117669): full JVM tests, assembleDebug, Room schema v6 semantic comparison; schema artifact 12345126352. This latest commit batch only synchronizes the verified evidence into PROJECT_GAP_CHECKLIST_2026-10-18.md, PROJECT_CONTEXT.md, DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, and BUG_HISTORY.md, including the path-redaction validation and open device/real-source gaps.
 - Confirm checklist counts remain 138 items: 81 [ ], 11 [~], 9 [T], 36 [x], 1 [!]. Do not change real-device, real third-party source, backup/restore, accessibility, or release readiness statuses based only on CI.
 - Run full JVM unit tests, assembleDebug, Room schema v6 semantic discipline, and upload schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
+
+
+Latest validation request — fresh-install data health status (2026-10-21):
+- Validate exact DreamMemory source SHA b83716a4e11b29993fad2dad67ab96748237ca5b from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match exactly.
+- This source includes DataHealthReport.isHealthy semantics based on brokenReferences rather than rootAvailable alone; a missing DreamMemoryData root on a fresh install with no broken references should not be marked unhealthy. The scanner should add an explanatory note when the root is absent. Missing referenced local files must still be reported as broken references.
+- Run DataHealthScannerTest.missingManagedRootAloneDoesNotMakeReportUnhealthy, DataHealthScannerReadOnlyTest, and the full JVM suite.
+- Run assembleDebug, Room schema v6 semantic discipline, and upload the generated schema artifact. Verify docs reflect this fix as pending validation and keep device acceptance, real third-party book source testing, and release readiness open. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
