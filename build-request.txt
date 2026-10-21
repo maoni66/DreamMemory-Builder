@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 33122deba9a22140bb871a666b284b1c6cfa3b86
+Source SHA: 8c47379c0e9e08dd92593459723516ef098c566c
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 33122deba9a22140bb871a666b284b1c6cfa3b86
+Expected source SHA at trigger: 8c47379c0e9e08dd92593459723516ef098c566c
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match d7f729a5fb31eb249756a943a521d96e01ab8383. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match the Source SHA at the top of this request. Do not substitute a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
@@ -216,3 +216,10 @@ Latest validation request — source SHA 33122deba9a22140bb871a666b284b1c6cfa3b8
 - Confirm cross-origin redirects strip standard sensitive headers and custom credential-shaped headers such as X-Api-Key, X-Access-Token, and X-Client-Secret, while preserving benign X-Trace.
 - Confirm DataHealthScanner no longer creates the DreamMemoryData root or managed subdirectories while scanning; missing directories are not counted as empty. Verify URI scheme case-insensitivity, remote/content URI exclusion, file URI decoding, and ordinary local path resolution.
 - Run assembleDebug and Room schema v6 semantic discipline; upload generated schema artifact. No signing, publishing, merge, or DreamMemory main writes.
+
+
+Latest documentation synchronization validation (2026-10-21):
+- Validate exact DreamMemory source SHA 8c47379c0e9e08dd92593459723516ef098c566c from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match exactly.
+- The last code snapshot 33122deba9a22140bb871a666b284b1c6cfa3b86 passed Builder #267 attempt 2 (run 39595636275): full JVM unit tests, assembleDebug, Room schema v6 semantic check; artifact 12344805314. This source revision adds documentation-only synchronization for that evidence across PROJECT_GAP_CHECKLIST_2026-10-18.md, DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, PROJECT_CONTEXT.md, and BUG_HISTORY.md.
+- Verify the docs consistently state that real third-party book source flow, device acceptance, backup/restore on device, UI/accessibility, and formal release validation remain open. The checklist remains 138 items: 81 [ ], 11 [~], 9 [T], 36 [x], 1 [!].
+- Run the full JVM unit test suite, assembleDebug, Room schema v6 semantic discipline, and upload the generated schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
