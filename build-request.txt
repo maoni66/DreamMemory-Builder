@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 24d8ea7c538dd9f07e56dd4fdf1668e8b8a4ff8f
+Source SHA: 1c6b4be550b97d6148127c40a1814f667f8e8b5f
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: e4f96f6d48dd216081a0e0f0b075792b48c8917c
+Expected source SHA at trigger: 1c6b4be550b97d6148127c40a1814f667f8e8b5f
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -136,3 +136,9 @@ Latest verification request (2026-10-21; supersedes earlier source SHA requests;
 - Snapshot includes the top-level JSON array import-entry fix, BookSourceImportPreviewTest regression coverage, and synchronized project gap/context/bug-history docs.
 - Run complete JVM unit tests, assembleDebug, Room schema v6 discipline, and upload generated schema artifact.
 - Do not sign, publish, merge PRs, merge PR #2/#3, or write to DreamMemory main. Real external source fixtures and device acceptance remain open.
+
+
+Additional validation for the local book-source end-to-end regression:
+- Run app/src/test/java/com/dreammemory/app/feature/discover/BookSourceEndToEndIntegrationTest.kt on this exact SHA.
+- Verify the production DiscoverViewModel flow operations are exercised against a local HTTP server: POST search request and request headers, HTML result parsing, book detail metadata, chapter catalog URL resolution, and chapter body extraction.
+- Verify no external network dependency is used by this regression test. Keep real third-party source compatibility and real-device reading acceptance open.
