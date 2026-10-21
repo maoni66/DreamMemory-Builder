@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: fbc9a7658f12f831149caf198b7f0235860b6211
+Source SHA: ad824480f58c8b496733b1a3881d83aee097d1de
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: fbc9a7658f12f831149caf198b7f0235860b6211
+Expected source SHA at trigger: ad824480f58c8b496733b1a3881d83aee097d1de
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -273,3 +273,10 @@ Latest validation and documentation synchronization (2026-10-21):
 - Builder #277 (run 39606324570) passed the exact source SHA 1ef4a905a62f0715a93ed1ff237257989451b44e: full JVM unit tests, assembleDebug, Room schema v6 semantic discipline; requested and actual checkout SHAs matched; schema artifact 12348596211.
 - This request targets the subsequent documentation-synchronized source SHA fbc9a7658f12f831149caf198b7f0235860b6211. Re-run the complete JVM suite, assembleDebug, and Room schema v6 discipline against this exact SHA; confirm requested and actual checkout SHAs match. Verify the current checklist counts are 139 total, 82 [ ], 11 [~], 9 [T], 36 [x], 1 [!], with 93 open total. Verify DataHealthScannerTest covers all seven managed directories including consumptionImages and profile, and scanning remains read-only.
 - No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main. Real-device, real third-party source, migration and backup/restore acceptance remain open.
+
+
+Additional validation request (2026-10-21):
+- Validate exact DreamMemory source SHA ad824480f58c8b496733b1a3881d83aee097d1de; requested and actual checked-out SHA must match.
+- Run full JVM tests and verify DataHealthScannerTest.orphanScanFindsUnreferencedFilesInConsumptionAndProfileWithoutChangingFiles passes. The helper must report only unreferenced files in managed directories, compare canonical paths, and never create/delete/modify files.
+- Confirm the production scanner delegates orphan discovery to findOrphanFiles and preserves safe filename-only diagnostics.
+- Run assembleDebug and Room schema v6 semantic comparison; upload schema artifact. No signing or publishing.
