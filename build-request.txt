@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 89878821dc41ec24ca1257fdc366b96beb541561
+Source SHA: bba16a916a41d9228593acb3bbbd995136ffea4a
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 89878821dc41ec24ca1257fdc366b96beb541561
+Expected source SHA at trigger: bba16a916a41d9228593acb3bbbd995136ffea4a
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -340,3 +340,9 @@ Latest follow-up — canvas snapshot and legacy-directory coverage audit:
 - Verify the documentation-only audit update records that canvas imports save three absolute file paths in create_assets and also store the compressed path independently in create_canvas_elements.sourcePathSnapshot. A complete migration must coordinate all four fields.
 - Verify UserDataPaths.migrateLegacy currently attempts only local_books, book_sources and anime_rules, while the managed data-directory inventory also includes attachments, consumptionImages, createAssets and profile. Do not enable or change migration runtime behavior in this documentation-only pass.
 - Run complete JVM unit tests, assembleDebug and Room schema v6 semantic check; upload schema artifact. No signing, publishing, merges, or DreamMemory main writes. Device migration/data-retention/formal acceptance remain open.
+
+Latest follow-up — startup invocation and download recovery audit:
+- Validate exact DreamMemory SHA bba16a916a41d9228593acb3bbbd995136ffea4a, with requested source and checked-out source identical.
+- Confirm the audit documents that neither DreamMemoryApplication.onCreate nor MainActivity.onCreate currently invokes UserDataPaths.migrateLegacy; MainActivity explicitly defers migration until DB path references can be reconciled.
+- Confirm MainActivity's DownloadManager-based startup reconciliation is distinct from BoundedVideoDownloadService's app-managed negative-ID download lifecycle. Safe cleanup is restricted to the app Movies directory and avoids deleting shelf-referenced files; reference-check failure fails closed.
+- Run JVM tests, assembleDebug, Room schema v6 semantic check and upload schema artifact. Documentation-only; no migration runtime changes, no signing/publishing/merges, no DreamMemory main writes.
