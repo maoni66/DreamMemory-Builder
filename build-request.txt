@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: bddfd1e6b64684888438b713f34d109d67c344c5
+Source SHA: d4e7ef86c6d42da933ab2a8caaff5d0d2bc7833e
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: bddfd1e6b64684888438b713f34d109d67c344c5
+Expected source SHA at trigger: d4e7ef86c6d42da933ab2a8caaff5d0d2bc7833e
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match bddfd1e6b64684888438b713f34d109d67c344c5. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match d4e7ef86c6d42da933ab2a8caaff5d0d2bc7833e. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
@@ -116,8 +116,16 @@ Latest documentation-snapshot verification (2026-10-21):
 
 
 Latest feature-patch validation (2026-10-21; supersedes older requested SHA values above):
-- Validate exact DreamMemory source SHA bddfd1e6b64684888438b713f34d109d67c344c5 from design/visual-system-pass-0.7.6. Confirm the requested SHA and actual checked-out SHA match exactly.
+- Validate exact DreamMemory source SHA d4e7ef86c6d42da933ab2a8caaff5d0d2bc7833e from design/visual-system-pass-0.7.6. Confirm the requested SHA and actual checked-out SHA match exactly.
 - Verify fetchKazumiApiDetail no longer silently returns null when chapterApiConfig/request or required roadsPath, episodesPath, episodeNamePath, and episodeUrlPath/urlPath are missing. It must throw a safe IllegalArgumentException so the existing status UI shows a configuration/response diagnostic without exposing raw URL, token, or response contents.
 - Run KazumiApiDetailConfigTest; it must cover a complete configuration and each of the four missing required paths.
 - Run the complete JVM unit test suite, assembleDebug, Room schema v6 discipline, and upload the generated schema artifact.
 - Keep real external Kazumi source/API testing and device-side feedback verification open. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
+
+
+Latest focused follow-up patch (2026-10-21; this SHA supersedes earlier source SHA references in the history above):
+- Validate exact DreamMemory source SHA d4e7ef86c6d42da933ab2a8caaff5d0d2bc7833e from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match.
+- Verify Kazumi detail loading no longer silently returns null when its source row is absent, the source is not a Kazumi rule, the rule file is unreadable/missing, or JSON is invalid. The UI-facing summary must say "Kazumi 规则文件缺失、不可读或格式无效" without exposing paths, raw URLs, tokens, or raw exception messages.
+- Run SourceSearchDiagnosticsTest, including the KazumiRuleUnavailableException safe-summary assertion, and KazumiApiDetailConfigTest including all required path-missing cases.
+- Run the complete JVM unit test suite, assembleDebug, Room schema v6 discipline and upload the generated Room schema artifact.
+- Do not sign, publish, merge PRs, merge PR #2/#3, or write to DreamMemory main. Real source fixtures and device acceptance remain open.
