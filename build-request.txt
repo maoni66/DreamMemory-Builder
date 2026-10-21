@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: ac28ecf1493dd41e6c7c012c9cc088ea387af79d
+Source SHA: 89878821dc41ec24ca1257fdc366b96beb541561
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: ac28ecf1493dd41e6c7c012c9cc088ea387af79d
+Expected source SHA at trigger: 89878821dc41ec24ca1257fdc366b96beb541561
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -334,3 +334,9 @@ Latest follow-up — managed download and creation asset audit (2026-10-21):
 - Validate exact DreamMemory source SHA ac28ecf1493dd41e6c7c012c9cc088ea387af79d on design/visual-system-pass-0.7.6, with requested and checked-out SHA identical.
 - Confirm audit notes: BoundedVideoDownloadService writes into getExternalFilesDir(Environment.DIRECTORY_MOVIES), stores that absolute path in download_tasks.localPath and then shelf_items.localPath; this is not under filesDir/DreamMemoryData and must not be rewritten by a generic legacy-root mapper. Cancellation/failure removes validated managed destination and .part file. CreateAssetEntity stores originalUri/compressedUri/thumbnailUri; CreateRepository fails closed on asset reference-count lookup failure. AttachmentEntity.uri and asset URIs must preserve URI semantics.
 - Documentation-only. Do not move files, change Room schema, or enable startup migration. Run full JVM tests, assembleDebug, Room schema v6 semantic check and upload schema artifact. No signing/publishing/merges or DreamMemory main writes. Real device/data-retention/formal release acceptance remain open.
+
+Latest follow-up — canvas snapshot and legacy-directory coverage audit:
+- Validate exact DreamMemory source SHA 89878821dc41ec24ca1257fdc366b96beb541561 from design/visual-system-pass-0.7.6; requested SHA must equal checked-out SHA.
+- Verify the documentation-only audit update records that canvas imports save three absolute file paths in create_assets and also store the compressed path independently in create_canvas_elements.sourcePathSnapshot. A complete migration must coordinate all four fields.
+- Verify UserDataPaths.migrateLegacy currently attempts only local_books, book_sources and anime_rules, while the managed data-directory inventory also includes attachments, consumptionImages, createAssets and profile. Do not enable or change migration runtime behavior in this documentation-only pass.
+- Run complete JVM unit tests, assembleDebug and Room schema v6 semantic check; upload schema artifact. No signing, publishing, merges, or DreamMemory main writes. Device migration/data-retention/formal acceptance remain open.
