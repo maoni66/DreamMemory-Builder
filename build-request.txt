@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 1ef4a905a62f0715a93ed1ff237257989451b44e
+Source SHA: fbc9a7658f12f831149caf198b7f0235860b6211
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 1ef4a905a62f0715a93ed1ff237257989451b44e
+Expected source SHA at trigger: fbc9a7658f12f831149caf198b7f0235860b6211
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -14,7 +14,7 @@ Acceptance requirements:
 - Verify the full-backup round trip inserts ReadingNoteEntity ID 4301 linked to shelf item ID 4101, exports the full archive, clears reading notes before restore, and asserts all fields restore exactly: type/body/tags/workTitle/author/sourceIdentifier/sourceVersion/locationType/locationValue/selectedText/anchorStart/anchorEnd/colorKey/linkedShelfItemId/createdAt/updatedAt plus stable ID.
 - Build the Debug APK with assembleDebug.
 - Enforce Room schema version discipline for current schema v6; upload the generated schema artifact.
-- Verify docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, and docs/BUG_HISTORY.md consistently record selective branch-integration decisions, the 81 unchecked checklist rows, 11 [~] rows, 9 [T] rows, 36 [x] rows, 1 [!] row and reconciliation method, and distinguish the last successful CI snapshot from the exact SHA being validated.
+- Verify docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, and docs/BUG_HISTORY.md consistently record selective branch-integration decisions, the current 139-item checklist counts (82 [ ] rows, 11 [~] rows, 9 [T] rows, 36 [x] rows, 1 [!] row; 93 open total), and distinguish historical CI snapshots from the exact SHA being validated.
 - Do not merge PR #2 or PR #3, do not write to DreamMemory main, and do not sign or publish.
 - Verify new video downloads no longer call DownloadManager.enqueue and instead use BoundedVideoDownloadService with the application-controlled downloader.
 - Verify downloadResourceToFileBounded manually validates every HTTP(S) redirect (maximum 5; no HTTPS-to-HTTP downgrade), checks Content-Length early, enforces a strict 1 GiB streamed-byte cap even when Content-Length is absent or dishonest, writes to a sibling .part file and only publishes a complete file after successful completion.
@@ -266,3 +266,10 @@ Additional validation for managed data-health directory coverage:
 - Verify DataHealthScanner includes consumptionImages and profile in the managed-directory orphan scan, in addition to attachments, createAssets, local_books, book_sources, and anime_rules. Referenced consumption images and profile paths must be recognized from current records/preferences; scan remains read-only and does not create missing directories.
 - Run DataHealthScannerTest including exact seven-directory coverage, DataHealthScannerReadOnlyTest, and the complete JVM suite; run assembleDebug and Room schema v6 semantic discipline; upload schema artifact.
 - Keep real-device, real third-party source, backup/restore and formal acceptance open. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
+
+
+
+Latest validation and documentation synchronization (2026-10-21):
+- Builder #277 (run 39606324570) passed the exact source SHA 1ef4a905a62f0715a93ed1ff237257989451b44e: full JVM unit tests, assembleDebug, Room schema v6 semantic discipline; requested and actual checkout SHAs matched; schema artifact 12348596211.
+- This request targets the subsequent documentation-synchronized source SHA fbc9a7658f12f831149caf198b7f0235860b6211. Re-run the complete JVM suite, assembleDebug, and Room schema v6 discipline against this exact SHA; confirm requested and actual checkout SHAs match. Verify the current checklist counts are 139 total, 82 [ ], 11 [~], 9 [T], 36 [x], 1 [!], with 93 open total. Verify DataHealthScannerTest covers all seven managed directories including consumptionImages and profile, and scanning remains read-only.
+- No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main. Real-device, real third-party source, migration and backup/restore acceptance remain open.
