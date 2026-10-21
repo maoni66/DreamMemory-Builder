@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 268b65c4df5b1bee3e1c8b3bc9c5745011b64658
+Source SHA: 2a137af0ab4d2ac284d2149dc4bf8e73a5963a70
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 268b65c4df5b1bee3e1c8b3bc9c5745011b64658
+Expected source SHA at trigger: 2a137af0ab4d2ac284d2149dc4bf8e73a5963a70
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -324,3 +324,8 @@ Latest migration runtime-audit follow-up (2026-10-21):
 - Verify docs/PROJECT_CHANGE_AND_MIGRATION_LEDGER.md records direct source findings: UserDataPaths.migrateLegacy is a best-effort rename-only helper with no result report, file verification, resumable phase marker, or DB-reference updates; DreamMemoryApplication.onCreate does not invoke it; ShelfRepository/ShelfDao consume shelf_items.localPath; resource_sources.location is a free-form string; download_tasks.localPath still requires call-site tracing; UserDataPaths.root creates directories and must not be used as a strictly read-only preflight probe.
 - Documentation-only change. Do not move user files, alter Room schema, or enable startup migration. Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main.
 - Continue distinguishing automated validation from real-device upgrade/data-retention acceptance; migration, backup/restore interruption and formal release acceptance remain open.
+
+Latest follow-up — download and backup path audit (2026-10-21):
+- Validate exact DreamMemory source SHA 2a137af0ab4d2ac284d2149dc4bf8e73a5963a70 from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match exactly.
+- Verify docs/PROJECT_CHANGE_AND_MIGRATION_LEDGER.md records that DownloadRepository only wraps DAO operations and download_tasks.localPath call sites remain to be traced; ResourceSourceDao treats location as a free-form string; AutoBackupRepository light backups exclude user media/downloads; BackupRepository interrupted full-restore recovery is a separate protocol from legacy-directory migration; UserDataPaths root helpers create directories and must not be used for read-only preflight.
+- Documentation-only change. Do not move user files, alter Room schema, or enable startup migration. Run full JVM tests, assembleDebug, Room schema v6 semantic discipline and upload schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main. Device upgrade, data retention, backup/restore interruption and formal release acceptance remain open.
