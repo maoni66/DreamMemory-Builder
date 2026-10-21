@@ -1,12 +1,12 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 30c9d1b870978ad12ddbbc7d921a26cf111914e4
+Source SHA: 1a92ff4ec0cc2042617724afd707dddf36f5c8af
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 30c9d1b870978ad12ddbbc7d921a26cf111914e4
+Expected source SHA at trigger: 1a92ff4ec0cc2042617724afd707dddf36f5c8af
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- The requested source SHA and actual checked-out source SHA must exactly match 30c9d1b870978ad12ddbbc7d921a26cf111914e4. Do not substitute the current branch tip or a historical SHA.
+- The requested source SHA and actual checked-out source SHA must exactly match 1a92ff4ec0cc2042617724afd707dddf36f5c8af. Do not substitute the current branch tip or a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only.
@@ -92,3 +92,7 @@ Additional validation for startup orphan cleanup serialization:
 - Verify CreateAssetCleanupGate begins one process-wide cleanup session, exposes its completion to all CreateViewModel instances, and always completes in finally.
 - Verify CreateCanvasViewModel.importImageToCanvas awaits the shared gate before creating its asset row/files, so startup cleanup cannot delete a file created after its reference snapshot.
 - Run the full JVM suite including CanvasTransientFileReferencesTest, CreateCanvasOperationsTest.fileCleanupReferencesIncludeLiveUndoAndRedoSnapshots, and CreateAssetCleanupGateTest, assembleDebug, and Room schema v6 discipline against exact SHA 30c9d1b870978ad12ddbbc7d921a26cf111914e4. Keep startup-time import and process-restart cleanup device checks open.
+
+
+Final documentation synchronization validation (2026-10-21):
+- Source SHA 30c9d1b870978ad12ddbbc7d921a26cf111914e4 passed Builder run 39524423936. The subsequent commits only append the latest validation snapshot and cleanup-gate test notes to PROJECT_CONTEXT.md, PROJECT_GAP_CHECKLIST_2026-10-18.md, BUG_HISTORY.md, and DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md. Validate the exact documentation-synchronized source SHA 1a92ff4ec0cc2042617724afd707dddf36f5c8af with the complete JVM test suite, assembleDebug, and Room schema v6 discipline; confirm requested SHA equals checked-out SHA. No signing, publishing, merges, or writes to DreamMemory main.
