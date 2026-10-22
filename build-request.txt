@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 6ea65db049071633c631bd2415b184f2d843d6e9
+Source SHA: 6472c8bd6b34fedc9b2984d9753016ca8110d65d
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 6ea65db049071633c631bd2415b184f2d843d6e9
+Expected source SHA at trigger: 6472c8bd6b34fedc9b2984d9753016ca8110d65d
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -398,3 +398,10 @@ Latest legacy path planner hardening validation (2026-10-22):
 - The planner rejects explicit '..' path segments even when canonicalization would resolve them inside a legacy root, rejects source-side symlink aliases within a legacy root, and rejects target-side symlinks inside a target root.
 - Run LegacyPathRewritePlanTest, the complete JVM unit suite, assembleDebug, Room schema v6 discipline, and upload the generated schema artifact. Confirm the new tests for internal '..', source symlink alias, and target symlink alias are actually executed; symlink-specific tests may skip only when the runner cannot create symbolic links.
 - Keep migration disabled. No actual file moves, DB/SharedPreferences rewriting, schema changes, signing, publishing, PR #2/#3 merges, or writes to DreamMemory main. Device and historical-upgrade acceptance remain open.
+
+
+Latest planner input validation (2026-10-22):
+- Validate exact DreamMemory source SHA 6472c8bd6b34fedc9b2984d9753016ca8110d65d on design/visual-system-pass-0.7.6; requested and checked-out SHA must match.
+- Run LegacyPathRewritePlanTest, the full JVM suite, assembleDebug, and Room schema v6 discipline; upload the generated schema artifact.
+- Verify malformed filesystem path input fails closed without throwing. Migration remains disabled; do not move files, rewrite DB or SharedPreferences, change schema, sign, publish, merge PRs, or write DreamMemory main.
+- Complete path-reference inventory, coordinator recovery tests, target conflicts, real-device acceptance and historical-upgrade acceptance remain open.
