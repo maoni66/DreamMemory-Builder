@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 8047732741e642b372e65710a464184511380b17
+Source SHA: 6ea65db049071633c631bd2415b184f2d843d6e9
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 8047732741e642b372e65710a464184511380b17
+Expected source SHA at trigger: 6ea65db049071633c631bd2415b184f2d843d6e9
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -389,3 +389,12 @@ Latest documentation synchronization after Builder #297 (2026-10-22):
 - Confirm checklist totals remain 139 items: 82 [ ], 11 [~], 9 [T], 36 [x], 1 [!]; 93 open total. Do not change feature/device acceptance states based on CI alone.
 - Run the complete JVM unit test suite, assembleDebug, and Room schema v6 discipline, and upload the generated schema artifact. No signing, publishing, merging PR #2/#3, or writes to DreamMemory main.
 - The legacy path planner remains read-only and startup migration remains disabled. Real-device acceptance, complete path-reference inventory, migration conflict handling, transactional reference rewriting, interruption/retry testing, and historical upgrade acceptance remain open.
+
+
+
+
+Latest legacy path planner hardening validation (2026-10-22):
+- Validate exact DreamMemory source SHA 6ea65db049071633c631bd2415b184f2d843d6e9 on design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match exactly.
+- The planner rejects explicit '..' path segments even when canonicalization would resolve them inside a legacy root, rejects source-side symlink aliases within a legacy root, and rejects target-side symlinks inside a target root.
+- Run LegacyPathRewritePlanTest, the complete JVM unit suite, assembleDebug, Room schema v6 discipline, and upload the generated schema artifact. Confirm the new tests for internal '..', source symlink alias, and target symlink alias are actually executed; symlink-specific tests may skip only when the runner cannot create symbolic links.
+- Keep migration disabled. No actual file moves, DB/SharedPreferences rewriting, schema changes, signing, publishing, PR #2/#3 merges, or writes to DreamMemory main. Device and historical-upgrade acceptance remain open.
