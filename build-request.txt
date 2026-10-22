@@ -1,8 +1,8 @@
-Validate bounded Media3 streaming responses and final synchronized project snapshot.
+Revalidate bounded Media3 streaming responses after Int/Long compile fix.
 
-Source SHA: 2405cee6098cdbe55db6d42e2f84fdb766b50b80
+Source SHA: 7efc12c0c8bae787ba055345c41d3c102d9cb132
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 2405cee6098cdbe55db6d42e2f84fdb766b50b80
+Expected source SHA at trigger: 7efc12c0c8bae787ba055345c41d3c102d9cb132
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -627,3 +627,11 @@ Final synchronized snapshot validation (2026-10-22):
 - Run BoundedMediaDataSourceTest cases for declared Content-Length overflow, unknown-length overflow, exact-limit EOF, and manifest limits; run full JVM suite, assembleDebug, Room schema v6 semantic/version discipline, and upload schema artifact.
 - Reconfirm DreamScreenNavigationTest, RecordDaoUpdateHistoryTest, and ThemeContrastTest all pass.
 - No signing, publishing, PR merges, or writes to DreamMemory main. Device playback lifecycle and real streaming compatibility remain for user acceptance.
+
+
+Retry after Builder #337 compile failure:
+- Exact requested and checked-out DreamMemory SHA: 7efc12c0c8bae787ba055345c41d3c102d9cb132.
+- Root cause from #337: Media3 C.LENGTH_UNSET is Int while DataSpec.length/open response length are Long. The production comparisons and tests now explicitly convert C.LENGTH_UNSET to Long.
+- Verify the new SHA compiles, then run BoundedMediaDataSourceTest cases for declared Content-Length overflow, unknown-length overflow, exact-limit EOF, and manifest limits; full JVM suite; assembleDebug; Room schema v6 semantic/version discipline; upload schema artifact.
+- Reconfirm DreamScreenNavigationTest, RecordDaoUpdateHistoryTest, and ThemeContrastTest.
+- No signing, publishing, PR merges, or writes to DreamMemory main. Do not treat #337 as successful; device streaming compatibility remains untested until user acceptance.
