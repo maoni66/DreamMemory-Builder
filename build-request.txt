@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: 96ba83d352856d3be7b1a3278808a01347d668bd
+Source SHA: 590292d4cddf5977448e8669d1674d22ba9a9cdd
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 96ba83d352856d3be7b1a3278808a01347d668bd
+Expected source SHA at trigger: 590292d4cddf5977448e8669d1674d22ba9a9cdd
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -443,3 +443,9 @@ Additional validation for focus-skin UI wiring:
 Final documentation-snapshot validation after Builder #310/#311:
 - Validate exact source SHA 96ba83d352856d3be7b1a3278808a01347d668bd. Confirm PROJECT_CONTEXT.md, DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, PROJECT_GAP_CHECKLIST_2026-10-18.md, BUG_HISTORY.md, and PROJECT_CHANGE_AND_MIGRATION_LEDGER.md record Builder #310/#311 outcomes accurately and keep real-device/formal-release acceptance open.
 - Run full JVM unit tests, assembleDebug, Room schema v6 semantic discipline, and upload the schema artifact. Confirm requested SHA equals actual checked-out SHA. No signing, publishing, PR merges, or writes to DreamMemory main.
+
+
+Additional validation for external movie restore collision protection:
+- Inspect preflightExternalMovieTargets: validate every movies: path against the staged external_movies root and target external Movies root before swapping the active data directory. Existing targets may be reused only when file bytes match exactly; a different existing file must fail closed before any swap or copy.
+- Verify restoreLocalPath does not overwrite an existing external movie and uses a temporary sibling file for new copies. Run LegacyPathBackupCompatibilityTest.restoreRejectsConflictingExternalMovieWithoutOverwritingExistingFile and the full JVM suite, assembleDebug, and Room schema v6 discipline for this exact SHA.
+- Keep real-device full restore, restore interruption/rollback, SAF provider, and media playback acceptance open. No signing, publishing, merges, or DreamMemory main writes.
