@@ -1,8 +1,8 @@
-Validate the consolidated DreamMemory development baseline after transaction-coordinated source cleanup and the legacy-directory migration safety guard.
+Revalidate the legacy-directory migration safety guard after fixing its Robolectric SDK configuration.
 
-Source SHA: 759d1b5a67d33ac54464782808aa4645078a6be0
+Source SHA: 7008a620e0df1d70e8615d4f5e08ff6def8cb551
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 759d1b5a67d33ac54464782808aa4645078a6be0
+Expected source SHA at trigger: 7008a620e0df1d70e8615d4f5e08ff6def8cb551
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
