@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 318f71fe1f93e813be42084fac342d35a38ed2ae
+Source SHA: f12e563112713cc3e8a29272545a2a040dd6318e
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 318f71fe1f93e813be42084fac342d35a38ed2ae
+Expected source SHA at trigger: f12e563112713cc3e8a29272545a2a040dd6318e
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -351,3 +351,10 @@ Latest follow-up — profile image path and recovery-file audit:
 - Validate exact DreamMemory SHA 318f71fe1f93e813be42084fac342d35a38ed2ae; requested and checked-out SHA must match.
 - Confirm the audit covers SharedPreferences dream_profile keys avatar_path/background_path and the .tmp/.bak transaction files used by ProfileViewModel. Migration planning must coordinate these preferences and preserve interruption-recovery semantics; do not treat profile transaction files as automatically disposable or rewrite ordinary HTTP(S) resource source URLs.
 - Run full JVM tests, assembleDebug, Room schema v6 semantic check, upload schema artifact. Documentation-only, no startup migration behavior changes, no signing/publishing/merges, no DreamMemory main writes.
+
+
+Latest migration audit synchronization (2026-10-22):
+- Validate exact DreamMemory source SHA f12e563112713cc3e8a29272545a2a040dd6318e from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match exactly.
+- Verify docs/PROJECT_CHANGE_AND_MIGRATION_LEDGER.md records the full-backup portable path transformations and restore boundaries: profile image paths use dm: relative references; attachments, consumption images, record covers, canvas snapshots/assets, shelf local paths and resource-source locations have field-specific export/restore rules; download media under app-specific external Movies are not under filesDir legacy roots; resource source locations are free-form and must preserve HTTP(S)/non-local URIs; full-restore staging/marker protocol is distinct from legacy directory migration.
+- Confirm UserDataPaths root/subdirectory helpers create directories and cannot be used for strictly read-only preflight. Startup legacy migration remains disabled; do not move files, change Room schema, or enable migration.
+- Run full JVM unit tests, assembleDebug, Room schema v6 semantic comparison, and upload the generated schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main. Real device, real third-party source, legacy upgrade/data-retention, backup/restore interruption and formal release acceptance remain open.
