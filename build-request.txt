@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: a7710a02897c59fe06c64df1d167eca2db14138c
+Source SHA: 55654598e5fda88b9e78849f637b2bba2ea0e26b
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: a7710a02897c59fe06c64df1d167eca2db14138c
+Expected source SHA at trigger: 55654598e5fda88b9e78849f637b2bba2ea0e26b
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -492,3 +492,10 @@ Follow-up validation for ordinary rollback temp-file cleanup:
 - In the ordinary failure catch path, cleanup temp files only after the original data tree is confirmed restored. Clear the restore marker only if temp cleanup succeeds; if cleanup fails, keep the marker so startup recovery can retry. Preserve the original restore exception and attach cleanup failure as suppressed.
 - Re-run LegacyPathBackupCompatibilityTest.interruptedRestoreRecoveryCleansOnlyMoviesWhoseMoveCompleted and all existing external movie rollback/conflict tests, then full JVM tests, assembleDebug, Room schema v6 semantic check, and upload schema artifact for this exact SHA.
 - The latest full suite/build/schema run on the preceding SHA 4c176a643d15b870fd2d542846da7198f94c8487 passed as Builder #318 (run 39775542139), but this SHA is newer and must be validated independently. No signing/publishing/merges/main writes.
+
+
+Final documentation-snapshot validation after Builder #319:
+- Validate exact DreamMemory source SHA 55654598e5fda88b9e78849f637b2bba2ea0e26b on design/visual-system-pass-0.7.6; requested SHA and checked-out SHA must match exactly.
+- Confirm all five project docs record Builder #319 success for source SHA a7710a02897c59fe06c64df1d167eca2db14138c and accurately keep real-device/SAF, actual process-kill acceptance, historical database upgrade, six-tab UI/accessibility and formal release gates open.
+- Confirm PROJECT_GAP_CHECKLIST counts raw markers as 142 (85 [ ], 11 [~], 9 [T], 36 [x], 1 [!]) and explicitly does not present this as unique requirement count or overall completion percentage.
+- Run complete JVM tests, assembleDebug, Room schema v6 semantic comparison and upload schema artifact for this exact documentation-synchronized SHA. No signing/publishing, PR merges, or writes to DreamMemory main.
