@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: 4c176a643d15b870fd2d542846da7198f94c8487
+Source SHA: a7710a02897c59fe06c64df1d167eca2db14138c
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 4c176a643d15b870fd2d542846da7198f94c8487
+Expected source SHA at trigger: a7710a02897c59fe06c64df1d167eca2db14138c
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -485,3 +485,10 @@ Additional validation for crash-safe external movie restore:
 - Run LegacyPathBackupCompatibilityTest.interruptedRestoreRecoveryCleansOnlyMoviesWhoseMoveCompleted, plus restoreRollbackRemovesExternalMovieCreatedByFailedRestore, restoreRejectsConflictingExternalMovieWithoutOverwritingExistingFile, and restoreRejectsLegacyBookCollisionWithoutOverwritingManagedFile. Run the full JVM suite, assembleDebug, Room schema v6 semantic check, and upload schema artifact for this exact source SHA.
 - Verify the marker writer preserves the original pre-restore SharedPreferences snapshot across later state/operation updates, rather than re-snapshotting restored preferences.
 - Do not sign, publish, merge PRs, or write to DreamMemory main. Device/SAF/process-kill real-device acceptance remains open; legacy-directory migration remains disabled.
+
+
+Follow-up validation for ordinary rollback temp-file cleanup:
+- Inspect cleanupPendingExternalMovieTemporaryFiles. It must validate each recorded temp path against the canonical app-specific external Movies root, delete only the unique .restore-*.tmp file, and never delete final movie targets.
+- In the ordinary failure catch path, cleanup temp files only after the original data tree is confirmed restored. Clear the restore marker only if temp cleanup succeeds; if cleanup fails, keep the marker so startup recovery can retry. Preserve the original restore exception and attach cleanup failure as suppressed.
+- Re-run LegacyPathBackupCompatibilityTest.interruptedRestoreRecoveryCleansOnlyMoviesWhoseMoveCompleted and all existing external movie rollback/conflict tests, then full JVM tests, assembleDebug, Room schema v6 semantic check, and upload schema artifact for this exact SHA.
+- The latest full suite/build/schema run on the preceding SHA 4c176a643d15b870fd2d542846da7198f94c8487 passed as Builder #318 (run 39775542139), but this SHA is newer and must be validated independently. No signing/publishing/merges/main writes.
