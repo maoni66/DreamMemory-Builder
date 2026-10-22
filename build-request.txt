@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: 524205e23c0af674df7fdd39be42858698ab7953
+Source SHA: e6e5ca667aa51cf7b813463d7fac479674a3d162
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 524205e23c0af674df7fdd39be42858698ab7953
+Expected source SHA at trigger: e6e5ca667aa51cf7b813463d7fac479674a3d162
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -501,7 +501,7 @@ Final documentation-snapshot validation after Builder #319:
 - Run complete JVM tests, assembleDebug, Room schema v6 semantic comparison and upload schema artifact for this exact documentation-synchronized SHA. No signing/publishing, PR merges, or writes to DreamMemory main.
 
 
-Validate global-search discoverability update at exact source SHA 524205e23c0af674df7fdd39be42858698ab7953 on design/visual-system-pass-0.7.6:
+Validate global-search discoverability update at exact source SHA e6e5ca667aa51cf7b813463d7fac479674a3d162 on design/visual-system-pass-0.7.6:
 - Requested SHA must equal checked-out source SHA.
 - Run full JVM unit test suite, assembleDebug, Room schema v6 semantic check and upload schema artifact.
 - Confirm GlobalResourceSourceSearchTest covers name, kind, location, format (JSON), and checkStatus matching; confirm GlobalSearchScreen search placeholder, category help, and blank-query hint all explicitly mention resource sources.
@@ -510,7 +510,15 @@ Validate global-search discoverability update at exact source SHA 524205e23c0af6
 
 
 Final documentation-snapshot validation after Builder #321:
-- Validate exact DreamMemory source SHA 524205e23c0af674df7fdd39be42858698ab7953 from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match exactly.
+- Validate exact DreamMemory source SHA e6e5ca667aa51cf7b813463d7fac479674a3d162 from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match exactly.
 - Confirm all five project docs record Builder #321 success for code SHA ed8202f33f00350f0e5b46ccf0be70dc2522bb07, with the real-device/SAF, actual process-kill, historical database upgrade, six-tab UI/accessibility and formal-release acceptance gates still open.
 - Confirm the checklist describes 142 as raw status-marker occurrences, not unique requirements or an overall completion percentage.
 - Run the complete JVM unit suite, assembleDebug, Room schema v6 semantic discipline, and upload the schema artifact for this exact docs-synchronized SHA. No signing, publishing, PR merges, or writes to DreamMemory main.
+
+
+Final status-summary correction after Builder #322:
+- Validate exact DreamMemory source SHA e6e5ca667aa51cf7b813463d7fac479674a3d162 from design/visual-system-pass-0.7.6; requested SHA and actual checked-out SHA must match exactly.
+- Confirm PROJECT_GAP_CHECKLIST_2026-10-18.md header now records Builder #322 success for source SHA 524205e23c0af674df7fdd39be42858698ab7953, while the resource-source global search entry records Builder #321 success for code SHA ed8202f33f00350f0e5b46ccf0be70dc2522bb07. Neither entry may claim device acceptance.
+- Confirm all five project docs record Builder #322 success and retain open real-device/SAF, process-kill, historical database upgrade, six-tab UI/accessibility and formal-release gates.
+- Confirm raw checklist markers remain documented as 142 occurrences (85 [ ], 11 [~], 9 [T], 36 [x], 1 [!]), not unique requirements or a completion percentage.
+- Run complete JVM unit tests, assembleDebug, Room schema v6 semantic discipline, and upload the schema artifact for this exact final docs-synchronized SHA. No signing, publishing, PR merges, or writes to DreamMemory main.
