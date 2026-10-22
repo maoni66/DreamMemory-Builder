@@ -1,8 +1,8 @@
-Validate record stale-update atomicity and final synchronized project snapshot.
+Validate Builder #329 result and final synchronized documentation snapshot.
 
-Source SHA: ed43ac64a1a8d45222cca89c686560d40c786eb8
+Source SHA: 76a543c198c9a6ef0543a6cab09605adf6a9231b
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: ed43ac64a1a8d45222cca89c686560d40c786eb8
+Expected source SHA at trigger: 76a543c198c9a6ef0543a6cab09605adf6a9231b
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -561,3 +561,11 @@ Final synchronized snapshot: record stale-update atomicity (2026-10-22):
 - Run RecordDaoUpdateHistoryTest.staleEditorDoesNotCreateStatusHistoryForDeletedRecord and the complete JVM test suite, then assembleDebug, enforce Room schema v6 semantic/version discipline, and upload the generated schema artifact.
 - Verify RecordRepository.update and RecordViewModel.update propagate the false result through the existing save-failure path and do not delete the old cover file or report save success.
 - This batch makes no Room schema change. No signing, publishing, PR merges, or writes to DreamMemory main. Real-device/SAF, process-kill recovery, historical database upgrade, six-tab UI/accessibility, and formal release acceptance remain open.
+
+
+Final synchronized documentation snapshot validation (2026-10-22):
+- Exact DreamMemory source SHA: 76a543c198c9a6ef0543a6cab09605adf6a9231b on design/visual-system-pass-0.7.6; requested and checked-out SHA must match.
+- Verify the five synchronized docs record Builder #329 accurately: the build job succeeded for source SHA ed43ac64a1a8d45222cca89c686560d40c786eb8, all JVM tests, Debug APK, and Room schema v6 checks passed, schema artifact 12429809292 uploaded; publish job skipped. The run-level status endpoint may lag, so inspect job conclusion and step conclusions.
+- Verify stale-update regression test RecordDaoUpdateHistoryTest.staleEditorDoesNotCreateStatusHistoryForDeletedRecord and RecordDao.updateWithHistory only inserts status history after an affected-row update.
+- Run the full JVM suite, assembleDebug, enforce Room schema v6 semantic/version discipline, upload the schema artifact.
+- No signing, publishing, PR merges, or writes to DreamMemory main. Real-device concurrency, SAF/restore, process-kill recovery, historical DB upgrade, six-tab UI/accessibility, and formal release acceptance remain open.
