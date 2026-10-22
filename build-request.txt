@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: e0771f118cb83f8d45674cb629e527c61d0546a2
+Source SHA: 42983fa10da0af484617b66ba80457b8a5036f06
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: e0771f118cb83f8d45674cb629e527c61d0546a2
+Expected source SHA at trigger: 42983fa10da0af484617b66ba80457b8a5036f06
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -432,3 +432,9 @@ Additional validation for dangling creative-asset owners:
 - Inspect DataHealthScanner to ensure it queries all CreateAssetEntity rows via CreateAssetDao.getAll(), rather than only rows returned for owners that still exist.
 - Verify findAssetsWithMissingOwners reports assets whose (ownerType, ownerId) is absent from the current WORK/ALBUM/REFERENCE/CANVAS owner inventory; valid canvas-owned assets must not be reported.
 - Run DataHealthScannerTest.assetRowsWithMissingOwnersAreStillScannedAndReported plus the complete JVM suite, assembleDebug, and Room schema v6 discipline for this exact SHA. Keep device data-health acceptance open; no signing, publishing, merges, or DreamMemory main writes.
+
+
+Additional validation for focus-skin UI wiring:
+- Verify the active TimedToolListDialog focus list actually renders FocusSkinCard for each focus item, using the currently selected persisted FocusSkin; do not rely on the unreferenced LifeItemRow helper as evidence of a visible UI.
+- Verify focus list retains edit/delete/pause/resume controls and countdown items keep their existing simple countdown rendering. Confirm ambient sound is managed once by the active focus list, not independently by each card.
+- Run the complete JVM suite, assembleDebug, and Room schema v6 discipline against this exact source SHA. Keep real-device visual/theme/font/lock-screen and audio-lifecycle acceptance open. No signing, publishing, merges, or DreamMemory main writes.
