@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: f12e563112713cc3e8a29272545a2a040dd6318e
+Source SHA: 062b04d24067dcb4af48e5f45950d24b30022a87
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: f12e563112713cc3e8a29272545a2a040dd6318e
+Expected source SHA at trigger: 062b04d24067dcb4af48e5f45950d24b30022a87
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -358,3 +358,10 @@ Latest migration audit synchronization (2026-10-22):
 - Verify docs/PROJECT_CHANGE_AND_MIGRATION_LEDGER.md records the full-backup portable path transformations and restore boundaries: profile image paths use dm: relative references; attachments, consumption images, record covers, canvas snapshots/assets, shelf local paths and resource-source locations have field-specific export/restore rules; download media under app-specific external Movies are not under filesDir legacy roots; resource source locations are free-form and must preserve HTTP(S)/non-local URIs; full-restore staging/marker protocol is distinct from legacy directory migration.
 - Confirm UserDataPaths root/subdirectory helpers create directories and cannot be used for strictly read-only preflight. Startup legacy migration remains disabled; do not move files, change Room schema, or enable migration.
 - Run full JVM unit tests, assembleDebug, Room schema v6 semantic comparison, and upload the generated schema artifact. No signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main. Real device, real third-party source, legacy upgrade/data-retention, backup/restore interruption and formal release acceptance remain open.
+
+
+Read-only legacy path planner validation (2026-10-22):
+- Validate exact DreamMemory source SHA 062b04d24067dcb4af48e5f45950d24b30022a87 from design/visual-system-pass-0.7.6; requested and checked-out SHAs must match.
+- Run full JVM unit tests, assembleDebug, Room schema v6 semantic comparison and upload generated schema artifact.
+- Specifically verify LegacyPathRewritePlanTest: mapping under only the three legacy roots; preserve content://, HTTP(S), relative paths and unrelated absolute paths; reject sibling-prefix/traversal/source symlink/legacy-root symlink/target-root symlink escapes; planner must not create target directories or move/modify source files.
+- This is a read-only planning primitive only. Do not wire migration into startup, move user files, rewrite DB/SharedPreferences references, change Room schema, sign or publish builds, merge PRs, or write DreamMemory main.
