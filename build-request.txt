@@ -1,8 +1,8 @@
-Validate all built-in theme surface/accent contrast pairs and final synchronized snapshot.
+Validate final theme contrast and compile-safe synchronized project snapshot.
 
-Source SHA: a39c0489be748cd8fed905d816a020ce636a3730
+Source SHA: 66a7477ac46fa734c578cb2ab74734db04490e86
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: a39c0489be748cd8fed905d816a020ce636a3730
+Expected source SHA at trigger: 66a7477ac46fa734c578cb2ab74734db04490e86
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -600,6 +600,15 @@ Final synchronized snapshot validation (2026-10-22):
 - Requested and checked-out DreamMemory SHA must both exactly equal a39c0489be748cd8fed905d816a020ce636a3730 on design/visual-system-pass-0.7.6.
 - Verify ThemeContrastTest.everyBuiltInLightAndDarkPresetMeetsNormalTextContrastForAccentColors across all DreamThemePreset light/dark schemes: primary/onPrimary, secondary/onSecondary, tertiary/onTertiary, primary/surface, onSurface/surface, and onSurfaceVariant/surfaceVariant each >= 4.5.
 - Verify each light preset has a deliberate surfaceVariant coordinated with its onSurfaceVariant, and DREAM/SCRAPBOOK primary colors meet the surface contrast threshold.
+- Run the full JVM suite including DreamScreenNavigationTest and RecordDaoUpdateHistoryTest; assembleDebug; Room schema v6 semantic/version discipline; upload generated schema artifact.
+- Verify UUID-suffixed light-backup temp/final filenames remain compatible with latest() and prune().
+- No signing, publishing, PR merges, or writes to DreamMemory main. Real-device acceptance remains with the user.
+
+
+Final synchronized snapshot validation (2026-10-22):
+- Requested and checked-out DreamMemory SHA must both exactly equal 66a7477ac46fa734c578cb2ab74734db04490e86 on design/visual-system-pass-0.7.6.
+- Verify Kotlin compilation and ThemeContrastTest for every DreamThemePreset in light/dark mode: primary/onPrimary, secondary/onSecondary, tertiary/onTertiary, primary/surface, onSurface/surface, onSurfaceVariant/surfaceVariant all >= 4.5 contrast.
+- Verify every light preset defines a single themed surfaceVariant paired with onSurfaceVariant; DREAM surfaceVariant must be #F8EBDD without duplicate named arguments.
 - Run the full JVM suite including DreamScreenNavigationTest and RecordDaoUpdateHistoryTest; assembleDebug; Room schema v6 semantic/version discipline; upload generated schema artifact.
 - Verify UUID-suffixed light-backup temp/final filenames remain compatible with latest() and prune().
 - No signing, publishing, PR merges, or writes to DreamMemory main. Real-device acceptance remains with the user.
