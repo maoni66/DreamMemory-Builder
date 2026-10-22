@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: 55654598e5fda88b9e78849f637b2bba2ea0e26b
+Source SHA: ed8202f33f00350f0e5b46ccf0be70dc2522bb07
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 55654598e5fda88b9e78849f637b2bba2ea0e26b
+Expected source SHA at trigger: ed8202f33f00350f0e5b46ccf0be70dc2522bb07
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -499,3 +499,11 @@ Final documentation-snapshot validation after Builder #319:
 - Confirm all five project docs record Builder #319 success for source SHA a7710a02897c59fe06c64df1d167eca2db14138c and accurately keep real-device/SAF, actual process-kill acceptance, historical database upgrade, six-tab UI/accessibility and formal release gates open.
 - Confirm PROJECT_GAP_CHECKLIST counts raw markers as 142 (85 [ ], 11 [~], 9 [T], 36 [x], 1 [!]) and explicitly does not present this as unique requirement count or overall completion percentage.
 - Run complete JVM tests, assembleDebug, Room schema v6 semantic comparison and upload schema artifact for this exact documentation-synchronized SHA. No signing/publishing, PR merges, or writes to DreamMemory main.
+
+
+Validate global-search discoverability update at exact source SHA ed8202f33f00350f0e5b46ccf0be70dc2522bb07 on design/visual-system-pass-0.7.6:
+- Requested SHA must equal checked-out source SHA.
+- Run full JVM unit test suite, assembleDebug, Room schema v6 semantic check and upload schema artifact.
+- Confirm GlobalResourceSourceSearchTest covers name, kind, location, format (JSON), and checkStatus matching; confirm GlobalSearchScreen search placeholder, category help, and blank-query hint all explicitly mention resource sources.
+- Confirm resource result route still opens ResourceManagerScreen with focusSourceId.
+- No signing/publishing, PR merges, or writes to DreamMemory main.
