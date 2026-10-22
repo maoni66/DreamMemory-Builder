@@ -1,14 +1,15 @@
-Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
+Validate the consolidated DreamMemory development baseline after transaction-coordinated source cleanup and the legacy-directory migration safety guard.
 
-Source SHA: 92538efcac265e3993b84b4df674f5c7b8fd080b
+Source SHA: 759d1b5a67d33ac54464782808aa4645078a6be0
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 92538efcac265e3993b84b4df674f5c7b8fd080b
+Expected source SHA at trigger: 759d1b5a67d33ac54464782808aa4645078a6be0
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
 - The requested source SHA and actual checked-out source SHA must exactly match the Source SHA at the top of this request. Do not substitute a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
+- Verify UserDataPathsMigrationGuardTest confirms migrateLegacy is a no-op: legacy local_books/book_sources/anime_rules folders and files remain in place, and DreamMemoryData is not created by the disabled migration.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit, and asserts all seven managed data directories are included: attachments, consumptionImages, createAssets, profile, local_books, book_sources, anime_rules. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only. Confirm the orphan scan now covers consumption-image and profile folders as well as the original five managed folders.
 - Verify the full-backup round trip sets dream_focus.skin to NIGHT before export, changes it to APPLE before restore, and asserts restore returns NIGHT; test cleanup clears the focus preferences.
 - Verify the full-backup round trip inserts ReadingNoteEntity ID 4301 linked to shelf item ID 4101, exports the full archive, clears reading notes before restore, and asserts all fields restore exactly: type/body/tags/workTitle/author/sourceIdentifier/sourceVersion/locationType/locationValue/selectedText/anchorStart/anchorEnd/colorKey/linkedShelfItemId/createdAt/updatedAt plus stable ID.
