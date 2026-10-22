@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: b7d1b61ce9d2bc7fc4d9fa5c8de3b3a2515b5275
+Source SHA: e889508f1ff0f1a82ab63cfa155a90ee892e6727
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: b7d1b61ce9d2bc7fc4d9fa5c8de3b3a2515b5275
+Expected source SHA at trigger: e889508f1ff0f1a82ab63cfa155a90ee892e6727
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -540,3 +540,10 @@ Final documentation synchronization after Builder #325 (2026-10-22):
 - Validate exact DreamMemory source SHA b7d1b61ce9d2bc7fc4d9fa5c8de3b3a2515b5275 from design/visual-system-pass-0.7.6. The five required project documents now record the Builder #325 result for the previous exact SHA 42eb1f0077b7e0fc3177b9a550530aac2b686a86; do not attribute that prior result to this new snapshot.
 - Confirm requested SHA equals actual checked-out SHA. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic discipline, and upload the generated schema artifact.
 - Keep real-device/SAF, actual process-kill recovery, historical database upgrade, six-tab UI/accessibility, and formal release acceptance open. No signing, publishing, merges, PR #2/#3 merges, or writes to DreamMemory main.
+
+
+Validate record-delete failure feedback patch at exact DreamMemory source SHA e889508f1ff0f1a82ab63cfa155a90ee892e6727:
+- Confirm RecordViewModel.delete reports success only after repository deletion returns, rethrows CancellationException, and reports non-cancellation failures as failure.
+- Confirm RecordScreen does not close record detail until delete success and presents a clear failure message without implying the record was deleted.
+- Run the complete JVM test suite, assembleDebug, Room schema v6 semantic discipline and upload the generated schema artifact. Requested SHA must equal actual checked-out SHA exactly.
+- This source SHA also includes the synchronized five-document record of Builder #325 and #326 results. Do not treat prior run results as validation for this SHA. No signing, publishing, PR merges, or writes to DreamMemory main. Device-side delete-failure interaction remains open.
