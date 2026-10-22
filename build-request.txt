@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: cd916d3c5daaa39fecf0753e366af65f9abe307e
+Source SHA: 2d9b7d0e73bc79fd33cc2c3a3f13957bb2fa5024
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: cd916d3c5daaa39fecf0753e366af65f9abe307e
+Expected source SHA at trigger: 2d9b7d0e73bc79fd33cc2c3a3f13957bb2fa5024
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -372,3 +372,10 @@ Final containment-hardening validation (2026-10-22):
 - Run full JVM unit tests, assembleDebug, Room schema v6 semantic comparison, and upload the generated Room schema artifact.
 - Verify LegacyPathRewritePlanTest and LegacyPathRewritePlan: only absolute paths under direct canonical legacy roots are mapped; URI/URL, relative and unrelated paths remain unchanged; source and target roots must be direct children of their expected parents; traversal, sibling-prefix and symlink escapes are rejected; planning remains read-only.
 - No startup migration, file moves, DB/SharedPreferences rewrites, Room schema changes, signing/publishing, PR merges, or writes to DreamMemory main.
+
+
+Latest validation additions (2026-10-22):
+- Validate exact DreamMemory source SHA 2d9b7d0e73bc79fd33cc2c3a3f13957bb2fa5024; requested and checked-out SHAs must match.
+- Verify the latest LegacyPathRewritePlan change: only existing regular files under direct canonical legacy roots receive a rewrite plan; dangling legacy references return null and are not redirected to a nonexistent target.
+- Run LegacyPathRewritePlanTest, all JVM unit tests, assembleDebug, Room schema v6 semantic comparison, and upload the generated schema artifact.
+- Confirm migration remains disabled: do not call UserDataPaths.migrateLegacy, move files, rewrite database or SharedPreferences paths, change Room schema, sign or publish, merge PRs, or write to DreamMemory main.
