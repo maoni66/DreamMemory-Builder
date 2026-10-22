@@ -1,8 +1,8 @@
-Validate complete built-in theme contrast coverage and final synchronized project snapshot.
+Validate all built-in theme surface/accent contrast pairs and final synchronized snapshot.
 
-Source SHA: af6e53e2b681ff2cafb2f28fe2ba2394fc31365a
+Source SHA: a39c0489be748cd8fed905d816a020ce636a3730
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: af6e53e2b681ff2cafb2f28fe2ba2394fc31365a
+Expected source SHA at trigger: a39c0489be748cd8fed905d816a020ce636a3730
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -594,3 +594,12 @@ Final synchronized snapshot validation (2026-10-22):
 - Run full JVM suite including DreamScreenNavigationTest and RecordDaoUpdateHistoryTest; assembleDebug; enforce Room schema v6 semantic/version discipline; upload generated schema artifact.
 - Verify UUID-suffixed light backup temporary/final file naming remains compatible with latest() and prune().
 - No signing, publishing, PR merges, or writes to DreamMemory main. Real-device testing remains with the user.
+
+
+Final synchronized snapshot validation (2026-10-22):
+- Requested and checked-out DreamMemory SHA must both exactly equal a39c0489be748cd8fed905d816a020ce636a3730 on design/visual-system-pass-0.7.6.
+- Verify ThemeContrastTest.everyBuiltInLightAndDarkPresetMeetsNormalTextContrastForAccentColors across all DreamThemePreset light/dark schemes: primary/onPrimary, secondary/onSecondary, tertiary/onTertiary, primary/surface, onSurface/surface, and onSurfaceVariant/surfaceVariant each >= 4.5.
+- Verify each light preset has a deliberate surfaceVariant coordinated with its onSurfaceVariant, and DREAM/SCRAPBOOK primary colors meet the surface contrast threshold.
+- Run the full JVM suite including DreamScreenNavigationTest and RecordDaoUpdateHistoryTest; assembleDebug; Room schema v6 semantic/version discipline; upload generated schema artifact.
+- Verify UUID-suffixed light-backup temp/final filenames remain compatible with latest() and prune().
+- No signing, publishing, PR merges, or writes to DreamMemory main. Real-device acceptance remains with the user.
