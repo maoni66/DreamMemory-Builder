@@ -1,8 +1,8 @@
-Validate final theme contrast and compile-safe synchronized project snapshot.
+Validate final synchronized documentation snapshot after Builder 335.
 
-Source SHA: 66a7477ac46fa734c578cb2ab74734db04490e86
+Source SHA: 400c54a91cf7c3628fd57387df277d17e7c5aa7e
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 66a7477ac46fa734c578cb2ab74734db04490e86
+Expected source SHA at trigger: 400c54a91cf7c3628fd57387df277d17e7c5aa7e
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -612,3 +612,10 @@ Final synchronized snapshot validation (2026-10-22):
 - Run the full JVM suite including DreamScreenNavigationTest and RecordDaoUpdateHistoryTest; assembleDebug; Room schema v6 semantic/version discipline; upload generated schema artifact.
 - Verify UUID-suffixed light-backup temp/final filenames remain compatible with latest() and prune().
 - No signing, publishing, PR merges, or writes to DreamMemory main. Real-device acceptance remains with the user.
+
+
+Final synchronized documentation snapshot (2026-10-22):
+- Requested and checked-out DreamMemory SHA must both exactly equal 400c54a91cf7c3628fd57387df277d17e7c5aa7e on design/visual-system-pass-0.7.6.
+- Verify the five project docs accurately record Builder #330 (SHA 76a543c198c9a6ef0543a6cab09605adf6a9231b, artifact 12431276993), #331 (SHA e1c1b97b43d06acfc223c536bf5511c8f83f81c7, artifact 12431845454), and #335 (SHA 66a7477ac46fa734c578cb2ab74734db04490e86, artifact 12431263253).
+- Run full JVM tests, including DreamScreenNavigationTest, RecordDaoUpdateHistoryTest and ThemeContrastTest; assembleDebug; enforce Room schema v6 semantic/version discipline; upload generated schema artifact.
+- Confirm the source SHA and checked-out SHA exactly match. No signing, publishing, PR merges, or writes to DreamMemory main. Do not claim device acceptance is complete.
