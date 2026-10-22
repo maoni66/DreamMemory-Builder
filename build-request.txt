@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 6472c8bd6b34fedc9b2984d9753016ca8110d65d
+Source SHA: 615197c4f0663f382a8a9f253422f2f006496661
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 6472c8bd6b34fedc9b2984d9753016ca8110d65d
+Expected source SHA at trigger: 615197c4f0663f382a8a9f253422f2f006496661
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -405,3 +405,12 @@ Latest planner input validation (2026-10-22):
 - Run LegacyPathRewritePlanTest, the full JVM suite, assembleDebug, and Room schema v6 discipline; upload the generated schema artifact.
 - Verify malformed filesystem path input fails closed without throwing. Migration remains disabled; do not move files, rewrite DB or SharedPreferences, change schema, sign, publish, merge PRs, or write DreamMemory main.
 - Complete path-reference inventory, coordinator recovery tests, target conflicts, real-device acceptance and historical-upgrade acceptance remain open.
+
+
+Latest guarded source-definition cleanup validation (2026-10-22):
+- Validate exact DreamMemory source SHA 615197c4f0663f382a8a9f253422f2f006496661 from design/visual-system-pass-0.7.6. The requested SHA and actual checkout SHA must match exactly.
+- Verify both source deletion paths (ResourceRepository.delete and DiscoverViewModel.delete) call the shared deleteSourceAndCleanup helper.
+- Verify only direct, existing, app-owned DreamMemoryData/book_sources LEGADO_JSON and DreamMemoryData/anime_rules KAZUMI_RULE files are eligible. Reject media files, CMS/TVBox sources, remote URLs, content URIs, relative/unrelated/nested/traversal paths, symlinked roots/files and missing files; do not create directories during cleanup checks.
+- Verify cleanup deletes the DB source row first and deletes the definition file only when no remaining resource_sources row references the same location. A shared definition must survive deletion of the first reference and be removed only after the final reference is deleted. Shelf media, downloads, progress, chapter caches and other user data must remain untouched.
+- Run OwnedSourceDefinitionCleanupTest, the complete JVM test suite, assembleDebug, Room schema v6 semantic discipline, and upload the generated schema artifact.
+- Migration remains disabled. No file moves, DB/SharedPreferences path rewrites, Room schema changes, signing, publishing, merges, PR #2/#3 merge, or writes to DreamMemory main. Real-device acceptance and formal release checks remain open.
