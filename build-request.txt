@@ -1,8 +1,8 @@
-Validate Builder #329 result and final synchronized documentation snapshot.
+Validate six-tab navigation regression guard and concurrent light-backup filename safety.
 
-Source SHA: 76a543c198c9a6ef0543a6cab09605adf6a9231b
+Source SHA: e1c1b97b43d06acfc223c536bf5511c8f83f81c7
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 76a543c198c9a6ef0543a6cab09605adf6a9231b
+Expected source SHA at trigger: e1c1b97b43d06acfc223c536bf5511c8f83f81c7
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -569,3 +569,11 @@ Final synchronized documentation snapshot validation (2026-10-22):
 - Verify stale-update regression test RecordDaoUpdateHistoryTest.staleEditorDoesNotCreateStatusHistoryForDeletedRecord and RecordDao.updateWithHistory only inserts status history after an affected-row update.
 - Run the full JVM suite, assembleDebug, enforce Room schema v6 semantic/version discipline, upload the schema artifact.
 - No signing, publishing, PR merges, or writes to DreamMemory main. Real-device concurrency, SAF/restore, process-kill recovery, historical DB upgrade, six-tab UI/accessibility, and formal release acceptance remain open.
+
+
+Final synchronized snapshot validation (2026-10-22):
+- Requested and checked-out DreamMemory SHA must both exactly equal e1c1b97b43d06acfc223c536bf5511c8f83f81c7 on design/visual-system-pass-0.7.6.
+- Run the complete JVM unit suite, including DreamScreenNavigationTest. Verify exact bottom-tab order and labels: home/首页, life/生活, shelf/书架, memory/记录, create/创作, discover/发现; profile must remain a secondary route and not a bottom tab.
+- Verify AutoBackupRepository.createLightBackup now includes a unique UUID in both temporary and final archive names so concurrent manual/scheduled backups cannot share a temp file. Ensure latest() and prune() still discover the new archive naming convention.
+- Reconfirm RecordDaoUpdateHistoryTest.staleEditorDoesNotCreateStatusHistoryForDeletedRecord, full JVM tests, assembleDebug, Room schema v6 semantic/version discipline, and schema artifact upload.
+- No signing, publishing, PR merges, or writes to DreamMemory main. Device-only acceptance remains with the user; the app-side work should minimize that checklist but must not claim real-device completion.
