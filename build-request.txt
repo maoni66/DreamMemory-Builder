@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: 8637df8c8287e6c6e76b647085d5d01568237091
+Source SHA: 09bb75623242bbddec27452d1ed8e0e020fbb8e8
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 8637df8c8287e6c6e76b647085d5d01568237091
+Expected source SHA at trigger: 09bb75623242bbddec27452d1ed8e0e020fbb8e8
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -454,3 +454,11 @@ Additional validation for external movie restore collision protection:
 Final documentation snapshot after Builder #313:
 - Validate exact source SHA 8637df8c8287e6c6e76b647085d5d01568237091. Confirm all five project status documents record Builder #313 success and retain real-device/full-restore/SAF/legacy-upgrade/formal-release acceptance as open.
 - Run complete JVM unit tests, assembleDebug, Room schema v6 semantic check, and upload the schema artifact. Verify requested SHA equals actual checked-out SHA. No signing/publishing, no PR merges, no DreamMemory main writes.
+
+
+Validate external movie rollback cleanup after restore failure:
+- Exact source SHA: 09bb75623242bbddec27452d1ed8e0e020fbb8e8. Confirm requested SHA equals actual checked-out SHA.
+- Run full JVM unit tests, assembleDebug, Room schema v6 semantic discipline, and upload the schema artifact.
+- Verify LegacyPathBackupCompatibilityTest.restoreRollbackRemovesExternalMovieCreatedByFailedRestore: a failed restore transaction must restore the original data tree and remove only an external movie created by that restore whose bytes still match the staged source. Existing/reused movies must remain untouched.
+- Also rerun restoreRejectsConflictingExternalMovieWithoutOverwritingExistingFile and restoreRejectsLegacyBookCollisionWithoutOverwritingManagedFile.
+- No signing, publishing, PR merges, or DreamMemory main writes. Real-device/SAF, process-kill recovery, and legacy DB upgrade remain open.
