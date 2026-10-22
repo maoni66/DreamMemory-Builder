@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: d0ef193fbcc0051a3ddd09b842c0b083c5df49da
+Source SHA: e6e33afd0facac28f4bf57ec2d9c1ece14abeb61
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: d0ef193fbcc0051a3ddd09b842c0b083c5df49da
+Expected source SHA at trigger: e6e33afd0facac28f4bf57ec2d9c1ece14abeb61
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -11,7 +11,7 @@ Acceptance requirements:
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
 - Verify LegacyPathBackupCompatibilityTest exports and restores both managed and legacy local books, book-source definitions, and anime rules; archive entry names must be unique, old path markers must map to DreamMemoryData after restore, file bytes must remain exact, and a same-relative-path collision between old/new local books must fail closed.
 - Verify UserDataPathsMigrationGuardTest confirms migrateLegacy is a no-op: legacy local_books/book_sources/anime_rules folders and files remain in place, and DreamMemoryData is not created by the disabled migration.
-- Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit, and asserts all seven managed data directories are included: attachments, consumptionImages, createAssets, profile, local_books, book_sources, anime_rules. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only. Confirm the orphan scan now covers consumption-image and profile folders as well as the original five managed folders.
+- Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit, asserts all seven managed data directories (attachments, consumptionImages, createAssets, profile, local_books, book_sources, anime_rules), and includes both createAssetOwnerInventoryIncludesCanvasOwners and assetRowsWithMissingOwnersAreStillScannedAndReported. Inspect DataHealthScanner to ensure it reads every create_assets row via CreateAssetDao.getAll(), reports missing/unknown owners, checks their file references, and includes them in the referenced-file set; pending crash diagnostics must expose only a bounded exception type, not raw exception message/stack trace. Scan remains read-only. Confirm orphan scan covers consumption-image and profile folders as well as the original five managed folders.
 - Verify the full-backup round trip sets dream_focus.skin to NIGHT before export, changes it to APPLE before restore, and asserts restore returns NIGHT; test cleanup clears the focus preferences.
 - Verify the full-backup round trip inserts ReadingNoteEntity ID 4301 linked to shelf item ID 4101, exports the full archive, clears reading notes before restore, and asserts all fields restore exactly: type/body/tags/workTitle/author/sourceIdentifier/sourceVersion/locationType/locationValue/selectedText/anchorStart/anchorEnd/colorKey/linkedShelfItemId/createdAt/updatedAt plus stable ID.
 - Build the Debug APK with assembleDebug.
@@ -426,3 +426,9 @@ Follow-up race-safety validation (2026-10-22):
 
 - Verify `LegacyPathBackupCompatibilityTest.restoreRejectsLegacyBookCollisionWithoutOverwritingManagedFile`: a crafted ZIP containing both managed and legacy book entries with the same relative path must fail closed, restore the original data directory after failure, and preserve original sentinel file bytes.
 - Verify `DataHealthScannerTest.createAssetOwnerInventoryIncludesCanvasOwners` and ensure DataHealthScanner includes CANVAS-owned creative assets in broken-reference and orphan-reference accounting, alongside WORK, ALBUM, and REFERENCE.
+
+
+Additional validation for dangling creative-asset owners:
+- Inspect DataHealthScanner to ensure it queries all CreateAssetEntity rows via CreateAssetDao.getAll(), rather than only rows returned for owners that still exist.
+- Verify findAssetsWithMissingOwners reports assets whose (ownerType, ownerId) is absent from the current WORK/ALBUM/REFERENCE/CANVAS owner inventory; valid canvas-owned assets must not be reported.
+- Run DataHealthScannerTest.assetRowsWithMissingOwnersAreStillScannedAndReported plus the complete JVM suite, assembleDebug, and Room schema v6 discipline for this exact SHA. Keep device data-health acceptance open; no signing, publishing, merges, or DreamMemory main writes.
