@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: ed0922fc65d5ca8e18f80b6a0f6adce56da9b2d8
+Source SHA: 4c176a643d15b870fd2d542846da7198f94c8487
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: ed0922fc65d5ca8e18f80b6a0f6adce56da9b2d8
+Expected source SHA at trigger: 4c176a643d15b870fd2d542846da7198f94c8487
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -16,7 +16,7 @@ Acceptance requirements:
 - Verify the full-backup round trip inserts ReadingNoteEntity ID 4301 linked to shelf item ID 4101, exports the full archive, clears reading notes before restore, and asserts all fields restore exactly: type/body/tags/workTitle/author/sourceIdentifier/sourceVersion/locationType/locationValue/selectedText/anchorStart/anchorEnd/colorKey/linkedShelfItemId/createdAt/updatedAt plus stable ID.
 - Build the Debug APK with assembleDebug.
 - Enforce Room schema version discipline for current schema v6; upload the generated schema artifact.
-- Verify docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_CONTEXT.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, and docs/BUG_HISTORY.md consistently record selective branch-integration decisions, the current 139-item checklist counts (82 [ ] rows, 11 [~] rows, 9 [T] rows, 36 [x] rows, 1 [!] row; 93 open total), and distinguish historical CI snapshots from the exact SHA being validated.
+- Verify all five project docs consistently record selective branch-integration decisions and the corrected raw checklist marker counts: 142 total markers (85 [ ] rows, 11 [~] rows, 9 [T] rows, 36 [x] rows, 1 [!] row; 96 [ ] + [~] markers). Explicitly state these are marker occurrences, not unique requirements; do not calculate an overall completion percentage until unique acceptance groups are de-duplicated. Distinguish historical CI snapshots from the exact SHA being validated.
 - Do not merge PR #2 or PR #3, do not write to DreamMemory main, and do not sign or publish.
 - Verify new video downloads no longer call DownloadManager.enqueue and instead use BoundedVideoDownloadService with the application-controlled downloader.
 - Verify downloadResourceToFileBounded manually validates every HTTP(S) redirect (maximum 5; no HTTPS-to-HTTP downgrade), checks Content-Length early, enforces a strict 1 GiB streamed-byte cap even when Content-Length is absent or dishonest, writes to a sibling .part file and only publishes a complete file after successful completion.
@@ -476,3 +476,12 @@ Latest final documentation snapshot after Builder #316:
 - Validate exact DreamMemory source SHA ed0922fc65d5ca8e18f80b6a0f6adce56da9b2d8 on design/visual-system-pass-0.7.6; requested SHA and checked-out SHA must match exactly.
 - Confirm all five project docs record Builder #316 success for source SHA f6d5d1fae21b7c554169159d06727b4184ba3c46 and preserve open real-device/SAF, process-kill restore, historical-upgrade, six-Tab UI/accessibility, and formal-release acceptance gates. Confirm the test trigger is accurately documented as one valid movie item plus malformed required life row, not duplicate shelf IDs.
 - Run complete JVM tests, assembleDebug, Room schema v6 semantic comparison and upload schema artifact. No signing, publishing, PR merges, or writes to DreamMemory main. Keep legacy-directory migration disabled.
+
+
+Additional validation for crash-safe external movie restore:
+- Inspect BackupRepository.recoverInterruptedRestore and restoreLocalPath. Each new external movie must be recorded in the restore marker before copying, including its relative target path, unique temporary path, source path inside DreamMemoryData/external_movies, and temporaryReady state.
+- Verify temporaryReady begins false and is persisted true only after createNewFile succeeds. During recovery, delete a target only for an uncommitted restore when temporaryReady is true, the unique temp file no longer exists, the staged source and target are regular files, and their SHA-256 digests match. If temp still exists, delete only that temp and preserve the final target. If temporaryReady is false, preserve the final target even if its bytes happen to match.
+- Verify all marker paths are canonicalized and constrained to the managed external Movies root or the active restore tree. DB_COMMITTED recovery must preserve committed targets and only clean leftover temporary files.
+- Run LegacyPathBackupCompatibilityTest.interruptedRestoreRecoveryCleansOnlyMoviesWhoseMoveCompleted, plus restoreRollbackRemovesExternalMovieCreatedByFailedRestore, restoreRejectsConflictingExternalMovieWithoutOverwritingExistingFile, and restoreRejectsLegacyBookCollisionWithoutOverwritingManagedFile. Run the full JVM suite, assembleDebug, Room schema v6 semantic check, and upload schema artifact for this exact source SHA.
+- Verify the marker writer preserves the original pre-restore SharedPreferences snapshot across later state/operation updates, rather than re-snapshotting restored preferences.
+- Do not sign, publish, merge PRs, or write to DreamMemory main. Device/SAF/process-kill real-device acceptance remains open; legacy-directory migration remains disabled.
