@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: 707c61ade5d183d89e9fa1d3d1f40a848130c6ff
+Source SHA: f3dace7d5fe9d2d1e56db59dbe27d467e2a2c969
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 707c61ade5d183d89e9fa1d3d1f40a848130c6ff
+Expected source SHA at trigger: f3dace7d5fe9d2d1e56db59dbe27d467e2a2c969
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -423,3 +423,6 @@ Follow-up race-safety validation (2026-10-22):
 - The shared cleanup sequence must run inside the same Room database transaction as source inserts, keeping delete + remaining-reference check + file deletion in one serialized transaction. Confirm both ResourceRepository and DiscoverViewModel pass their database transaction wrapper.
 - Run the complete JVM suite, especially OwnedSourceDefinitionCleanupTest, then assembleDebug and Room schema v6 semantic check; upload the generated schema artifact.
 - Confirm no source migration is enabled, no files are moved, no DB/SharedPreferences path rewrites or schema changes are made, and no signing/publishing/merge/main-branch operations occur.
+
+- Verify `LegacyPathBackupCompatibilityTest.restoreRejectsLegacyBookCollisionWithoutOverwritingManagedFile`: a crafted ZIP containing both managed and legacy book entries with the same relative path must fail closed, restore the original data directory after failure, and preserve original sentinel file bytes.
+- Verify `DataHealthScannerTest.createAssetOwnerInventoryIncludesCanvasOwners` and ensure DataHealthScanner includes CANVAS-owned creative assets in broken-reference and orphan-reference accounting, alongside WORK, ALBUM, and REFERENCE.
