@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: 7d70293f696a993fbd8d8915d9491d7a65004812
+Source SHA: 707c61ade5d183d89e9fa1d3d1f40a848130c6ff
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 7d70293f696a993fbd8d8915d9491d7a65004812
+Expected source SHA at trigger: 707c61ade5d183d89e9fa1d3d1f40a848130c6ff
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
