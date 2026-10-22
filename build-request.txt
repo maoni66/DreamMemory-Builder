@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: e889508f1ff0f1a82ab63cfa155a90ee892e6727
+Source SHA: f0d3c722c8d384224b7807f80c0e1997dc4f20bc
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: e889508f1ff0f1a82ab63cfa155a90ee892e6727
+Expected source SHA at trigger: f0d3c722c8d384224b7807f80c0e1997dc4f20bc
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -547,3 +547,9 @@ Validate record-delete failure feedback patch at exact DreamMemory source SHA e8
 - Confirm RecordScreen does not close record detail until delete success and presents a clear failure message without implying the record was deleted.
 - Run the complete JVM test suite, assembleDebug, Room schema v6 semantic discipline and upload the generated schema artifact. Requested SHA must equal actual checked-out SHA exactly.
 - This source SHA also includes the synchronized five-document record of Builder #325 and #326 results. Do not treat prior run results as validation for this SHA. No signing, publishing, PR merges, or writes to DreamMemory main. Device-side delete-failure interaction remains open.
+
+
+Final synchronized documentation snapshot after Builder #327 (2026-10-22):
+- Validate exact DreamMemory source SHA f0d3c722c8d384224b7807f80c0e1997dc4f20bc from design/visual-system-pass-0.7.6. The five project documents now record Builder #325, #326, and #327 evidence; PROJECT_CONTEXT's opening status now directs readers to this request and the corresponding Actions run for the current SHA.
+- Verify the record-delete feedback patch remains present in RecordViewModel and RecordScreen. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic discipline, and upload the schema artifact. Requested SHA and actual checked-out SHA must match exactly.
+- CI is not device acceptance. Keep real-device/SAF, process-kill recovery, historical database upgrade, six-tab UI/accessibility, and formal release acceptance open. No signing, publishing, merges, PR #2/#3 merges, or writes to DreamMemory main.
