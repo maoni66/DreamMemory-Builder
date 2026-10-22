@@ -1,8 +1,8 @@
-Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
+Validate record stale-update atomicity and final synchronized project snapshot.
 
-Source SHA: f0d3c722c8d384224b7807f80c0e1997dc4f20bc
+Source SHA: ed43ac64a1a8d45222cca89c686560d40c786eb8
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: f0d3c722c8d384224b7807f80c0e1997dc4f20bc
+Expected source SHA at trigger: ed43ac64a1a8d45222cca89c686560d40c786eb8
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -553,3 +553,11 @@ Final synchronized documentation snapshot after Builder #327 (2026-10-22):
 - Validate exact DreamMemory source SHA f0d3c722c8d384224b7807f80c0e1997dc4f20bc from design/visual-system-pass-0.7.6. The five project documents now record Builder #325, #326, and #327 evidence; PROJECT_CONTEXT's opening status now directs readers to this request and the corresponding Actions run for the current SHA.
 - Verify the record-delete feedback patch remains present in RecordViewModel and RecordScreen. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic discipline, and upload the schema artifact. Requested SHA and actual checked-out SHA must match exactly.
 - CI is not device acceptance. Keep real-device/SAF, process-kill recovery, historical database upgrade, six-tab UI/accessibility, and formal release acceptance open. No signing, publishing, merges, PR #2/#3 merges, or writes to DreamMemory main.
+
+
+Final synchronized snapshot: record stale-update atomicity (2026-10-22):
+- Validate exact DreamMemory source SHA ed43ac64a1a8d45222cca89c686560d40c786eb8 from design/visual-system-pass-0.7.6. Requested SHA and actual checked-out SHA must match exactly.
+- Verify RecordDao.update returns the actual affected-row count. RecordDao.updateWithHistory must return false and must not insert RecordStatusHistoryEntity when a stale editor attempts to update a record row that no longer exists.
+- Run RecordDaoUpdateHistoryTest.staleEditorDoesNotCreateStatusHistoryForDeletedRecord and the complete JVM test suite, then assembleDebug, enforce Room schema v6 semantic/version discipline, and upload the generated schema artifact.
+- Verify RecordRepository.update and RecordViewModel.update propagate the false result through the existing save-failure path and do not delete the old cover file or report save success.
+- This batch makes no Room schema change. No signing, publishing, PR merges, or writes to DreamMemory main. Real-device/SAF, process-kill recovery, historical database upgrade, six-tab UI/accessibility, and formal release acceptance remain open.
