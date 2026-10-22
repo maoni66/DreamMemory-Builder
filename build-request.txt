@@ -1,14 +1,15 @@
-Revalidate the legacy-directory migration safety guard after fixing its Robolectric SDK configuration.
+Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: 7008a620e0df1d70e8615d4f5e08ff6def8cb551
+Source SHA: 7d70293f696a993fbd8d8915d9491d7a65004812
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 7008a620e0df1d70e8615d4f5e08ff6def8cb551
+Expected source SHA at trigger: 7d70293f696a993fbd8d8915d9491d7a65004812
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
 - The requested source SHA and actual checked-out source SHA must exactly match the Source SHA at the top of this request. Do not substitute a historical SHA.
 - Run all JVM unit tests, including LifeOccurrenceNoteTest, DataHealthScannerTest, the extended BackupRoundTripTest covering both focus-skin and reading-note round trips, GlobalResourceSourceSearchTest, and FocusSessionRecoveryTest, plus the completed-life-item reminder guard regression test and LifeItemUpdatePolicyTest.
 - Verify LifeOccurrenceNoteTest: editing a check-in occurrence note preserves its owner, occurrence time, createdAt, and life-item count; a missing occurrence returns 0; the DAO persists the supplied note string exactly, including leading/trailing spaces.
+- Verify LegacyPathBackupCompatibilityTest exports and restores both managed and legacy local books, book-source definitions, and anime rules; archive entry names must be unique, old path markers must map to DreamMemoryData after restore, file bytes must remain exact, and a same-relative-path collision between old/new local books must fail closed.
 - Verify UserDataPathsMigrationGuardTest confirms migrateLegacy is a no-op: legacy local_books/book_sources/anime_rules folders and files remain in place, and DreamMemoryData is not created by the disabled migration.
 - Verify DataHealthScannerTest covers blank exception type fallback and the 160-character limit, and asserts all seven managed data directories are included: attachments, consumptionImages, createAssets, profile, local_books, book_sources, anime_rules. Inspect DataHealthScanner to ensure pending crash diagnostics show only a bounded exception type, not raw exception message/stack trace; scan remains read-only. Confirm the orphan scan now covers consumption-image and profile folders as well as the original five managed folders.
 - Verify the full-backup round trip sets dream_focus.skin to NIGHT before export, changes it to APPLE before restore, and asserts restore returns NIGHT; test cleanup clears the focus preferences.
