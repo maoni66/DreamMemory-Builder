@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: 42983fa10da0af484617b66ba80457b8a5036f06
+Source SHA: 96ba83d352856d3be7b1a3278808a01347d668bd
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 42983fa10da0af484617b66ba80457b8a5036f06
+Expected source SHA at trigger: 96ba83d352856d3be7b1a3278808a01347d668bd
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -438,3 +438,8 @@ Additional validation for focus-skin UI wiring:
 - Verify the active TimedToolListDialog focus list actually renders FocusSkinCard for each focus item, using the currently selected persisted FocusSkin; do not rely on the unreferenced LifeItemRow helper as evidence of a visible UI.
 - Verify focus list retains edit/delete/pause/resume controls and countdown items keep their existing simple countdown rendering. Confirm ambient sound is managed once by the active focus list, not independently by each card.
 - Run the complete JVM suite, assembleDebug, and Room schema v6 discipline against this exact source SHA. Keep real-device visual/theme/font/lock-screen and audio-lifecycle acceptance open. No signing, publishing, merges, or DreamMemory main writes.
+
+
+Final documentation-snapshot validation after Builder #310/#311:
+- Validate exact source SHA 96ba83d352856d3be7b1a3278808a01347d668bd. Confirm PROJECT_CONTEXT.md, DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, PROJECT_GAP_CHECKLIST_2026-10-18.md, BUG_HISTORY.md, and PROJECT_CHANGE_AND_MIGRATION_LEDGER.md record Builder #310/#311 outcomes accurately and keep real-device/formal-release acceptance open.
+- Run full JVM unit tests, assembleDebug, Room schema v6 semantic discipline, and upload the schema artifact. Confirm requested SHA equals actual checked-out SHA. No signing, publishing, PR merges, or writes to DreamMemory main.
