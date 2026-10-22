@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 062b04d24067dcb4af48e5f45950d24b30022a87
+Source SHA: cd916d3c5daaa39fecf0753e366af65f9abe307e
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 062b04d24067dcb4af48e5f45950d24b30022a87
+Expected source SHA at trigger: cd916d3c5daaa39fecf0753e366af65f9abe307e
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -365,3 +365,10 @@ Read-only legacy path planner validation (2026-10-22):
 - Run full JVM unit tests, assembleDebug, Room schema v6 semantic comparison and upload generated schema artifact.
 - Specifically verify LegacyPathRewritePlanTest: mapping under only the three legacy roots; preserve content://, HTTP(S), relative paths and unrelated absolute paths; reject sibling-prefix/traversal/source symlink/legacy-root symlink/target-root symlink escapes; planner must not create target directories or move/modify source files.
 - This is a read-only planning primitive only. Do not wire migration into startup, move user files, rewrite DB/SharedPreferences references, change Room schema, sign or publish builds, merge PRs, or write DreamMemory main.
+
+
+Final containment-hardening validation (2026-10-22):
+- Validate exact DreamMemory source SHA cd916d3c5daaa39fecf0753e366af65f9abe307e from design/visual-system-pass-0.7.6; requested and checked-out SHA must match.
+- Run full JVM unit tests, assembleDebug, Room schema v6 semantic comparison, and upload the generated Room schema artifact.
+- Verify LegacyPathRewritePlanTest and LegacyPathRewritePlan: only absolute paths under direct canonical legacy roots are mapped; URI/URL, relative and unrelated paths remain unchanged; source and target roots must be direct children of their expected parents; traversal, sibling-prefix and symlink escapes are rejected; planning remains read-only.
+- No startup migration, file moves, DB/SharedPreferences rewrites, Room schema changes, signing/publishing, PR merges, or writes to DreamMemory main.
