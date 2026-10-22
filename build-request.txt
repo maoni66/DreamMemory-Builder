@@ -1,8 +1,8 @@
 Validate the consolidated DreamMemory development baseline after selective branch integration, reconciliation of the first three batches of open checklist items, and complete project-document synchronization.
 
-Source SHA: 2d9b7d0e73bc79fd33cc2c3a3f13957bb2fa5024
+Source SHA: 8047732741e642b372e65710a464184511380b17
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 2d9b7d0e73bc79fd33cc2c3a3f13957bb2fa5024
+Expected source SHA at trigger: 8047732741e642b372e65710a464184511380b17
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -379,3 +379,13 @@ Latest validation additions (2026-10-22):
 - Verify the latest LegacyPathRewritePlan change: only existing regular files under direct canonical legacy roots receive a rewrite plan; dangling legacy references return null and are not redirected to a nonexistent target.
 - Run LegacyPathRewritePlanTest, all JVM unit tests, assembleDebug, Room schema v6 semantic comparison, and upload the generated schema artifact.
 - Confirm migration remains disabled: do not call UserDataPaths.migrateLegacy, move files, rewrite database or SharedPreferences paths, change Room schema, sign or publish, merge PRs, or write to DreamMemory main.
+
+
+
+
+Latest documentation synchronization after Builder #297 (2026-10-22):
+- The exact source snapshot is 8047732741e642b372e65710a464184511380b17 on design/visual-system-pass-0.7.6. Confirm requested SHA and actual checked-out SHA match exactly.
+- This docs-only synchronization records Builder #297 success for source SHA 2d9b7d0e73bc79fd33cc2c3a3f13957bb2fa5024 in PROJECT_CONTEXT.md, PROJECT_GAP_CHECKLIST_2026-10-18.md, DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, BUG_HISTORY.md, and PROJECT_CHANGE_AND_MIGRATION_LEDGER.md.
+- Confirm checklist totals remain 139 items: 82 [ ], 11 [~], 9 [T], 36 [x], 1 [!]; 93 open total. Do not change feature/device acceptance states based on CI alone.
+- Run the complete JVM unit test suite, assembleDebug, and Room schema v6 discipline, and upload the generated schema artifact. No signing, publishing, merging PR #2/#3, or writes to DreamMemory main.
+- The legacy path planner remains read-only and startup migration remains disabled. Real-device acceptance, complete path-reference inventory, migration conflict handling, transactional reference rewriting, interruption/retry testing, and historical upgrade acceptance remain open.
