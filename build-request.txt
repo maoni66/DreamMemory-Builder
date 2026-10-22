@@ -1,8 +1,8 @@
 Validate full-backup compatibility for legacy path references and duplicate ZIP entry protection.
 
-Source SHA: 09bb75623242bbddec27452d1ed8e0e020fbb8e8
+Source SHA: f6d5d1fae21b7c554169159d06727b4184ba3c46
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 09bb75623242bbddec27452d1ed8e0e020fbb8e8
+Expected source SHA at trigger: f6d5d1fae21b7c554169159d06727b4184ba3c46
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -462,3 +462,11 @@ Validate external movie rollback cleanup after restore failure:
 - Verify LegacyPathBackupCompatibilityTest.restoreRollbackRemovesExternalMovieCreatedByFailedRestore: a failed restore transaction must restore the original data tree and remove only an external movie created by that restore whose bytes still match the staged source. Existing/reused movies must remain untouched.
 - Also rerun restoreRejectsConflictingExternalMovieWithoutOverwritingExistingFile and restoreRejectsLegacyBookCollisionWithoutOverwritingManagedFile.
 - No signing, publishing, PR merges, or DreamMemory main writes. Real-device/SAF, process-kill recovery, and legacy DB upgrade remain open.
+
+
+Final synchronized snapshot for external movie rollback cleanup:
+- Exact source SHA: f6d5d1fae21b7c554169159d06727b4184ba3c46; verify requested SHA equals actual checked-out SHA.
+- Run full JVM unit tests, assembleDebug, Room schema v6 semantic discipline, and upload schema artifact.
+- Confirm LegacyPathBackupCompatibilityTest.restoreRollbackRemovesExternalMovieCreatedByFailedRestore: one valid movie shelf item plus malformed required life entity causes restore failure after movie staging; original data tree must return and the newly created external movie must be removed.
+- Rerun restoreRejectsConflictingExternalMovieWithoutOverwritingExistingFile and restoreRejectsLegacyBookCollisionWithoutOverwritingManagedFile.
+- No signing/publishing, PR merges, or DreamMemory main writes. Real-device/SAF and process-kill recovery remain open.
