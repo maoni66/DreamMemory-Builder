@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: d527704f07ee2e8f3eec3ec8638791600be7361b
+Source SHA: 406829ec046864d11e261d6e3e11918ac28f0dbc
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: d527704f07ee2e8f3eec3ec8638791600be7361b
+Expected source SHA at trigger: 406829ec046864d11e261d6e3e11918ac28f0dbc
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -18,3 +18,5 @@ Acceptance requirements:
 - Invalid CSS selectors and XPath expressions in imported book-source rules must raise a safe parsing failure instead of being silently treated as an empty result; valid no-match rules must continue to return an empty list. Verify CSS extraction suffixes such as h1@text and a@href, uppercase @XPath prefixes, XPath text nodes and attribute rules such as //a/@href, and the existing search → detail → catalog → chapter local-HTTP integration flow. Preserve valid no-match behavior and do not claim full Legado compatibility.
 - Real-device back-stack, six-tab page-by-page navigation/accessibility, narrow-screen/large-font layout, theme switching, timezone/day-boundary behavior, SAF restore, historical database migration, and formal release acceptance remain open.
 - Do not merge any PR, do not write to DreamMemory main, do not sign or publish. Do not expose the private APK as a public artifact.
+
+- Validate bounded canvas image import: exact-limit byte copy succeeds, over-limit copy throws, and bytes written never exceed the configured limit. Canvas import uses a 64 MiB actual-stream cap and retains existing failure cleanup.
