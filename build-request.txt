@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: 981aaf303420768a69ec4aba38e692a21437dbe4
+Source SHA: 3d1299818cfe7f6b7f682ae6c99c63270fe7ea6a
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 981aaf303420768a69ec4aba38e692a21437dbe4
+Expected source SHA at trigger: 3d1299818cfe7f6b7f682ae6c99c63270fe7ea6a
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -14,6 +14,6 @@ Acceptance requirements:
 - Confirm requested source SHA and actual checked-out source SHA match exactly.
 - The navigation regression test must verify Profile is rendered over the selected pager page without becoming a bottom tab.
 - Focus-skin selection from Profile and Life must share one state owner so a selection in either screen updates the other immediately and remains persisted. Existing six skin renderers and SharedPreferences storage must be reused; do not duplicate them.
-- Invalid CSS selectors and XPath expressions in imported book-source rules must raise a safe parsing failure instead of being silently treated as an empty result; valid no-match rules must continue to return an empty list. Also verify Legado CSS extraction suffixes such as h1@text and a@href are stripped before CSS selection, while XPath predicates remain intact; the existing search → detail → catalog → chapter local-HTTP integration test must pass.
+- Invalid CSS selectors and XPath expressions in imported book-source rules must raise a safe parsing failure instead of being silently treated as an empty result; valid no-match rules must continue to return an empty list. Verify CSS extraction suffixes such as h1@text and a@href, uppercase @XPath prefixes, XPath text nodes and attribute rules such as //a/@href, and the existing search → detail → catalog → chapter local-HTTP integration flow. Preserve valid no-match behavior and do not claim full Legado compatibility.
 - Real-device back-stack, six-tab page-by-page navigation/accessibility, narrow-screen/large-font layout, theme switching, timezone/day-boundary behavior, SAF restore, historical database migration, and formal release acceptance remain open.
 - Do not merge any PR, do not write to DreamMemory main, do not sign or publish. Do not expose the private APK as a public artifact.
