@@ -1,8 +1,8 @@
-Validate final documentation-synchronized source after Builder 338 passed.
+Validate bounded Media3 overflow cleanup and unknown-length manifest regression.
 
-Source SHA: 8f7eaf839c7bac3a4e0bd744da353c263ec3a831
+Source SHA: 9debd0c8a7a41f9af139c3776497c90bc5c65c83
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 8f7eaf839c7bac3a4e0bd744da353c263ec3a831
+Expected source SHA at trigger: 9debd0c8a7a41f9af139c3776497c90bc5c65c83
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -642,3 +642,11 @@ Final documentation-synchronized snapshot after Builder #338 success:
 - Five project docs now record Builder #338 success for SHA 7efc12c0c8bae787ba055345c41d3c102d9cb132 (artifact 12432541618) and explicitly distinguish the failed #337 run.
 - Re-run full JVM tests including BoundedMediaDataSourceTest, DreamScreenNavigationTest, RecordDaoUpdateHistoryTest, and ThemeContrastTest; assembleDebug; enforce Room schema v6 semantic/version discipline; upload schema artifact.
 - Confirm requested SHA equals actual checkout SHA. No signing, publishing, PR merges, or writes to DreamMemory main. Do not claim device acceptance.
+
+
+Additional player streaming cleanup hardening (2026-10-23):
+- Exact requested and checked-out SHA: 9debd0c8a7a41f9af139c3776497c90bc5c65c83.
+- On an unknown-length response, if the one-byte overflow probe detects more data after the configured limit, close the upstream Media3 DataSource before throwing IOException.
+- New regression test unknownLengthManifestUsesContentTypeLimitAndClosesOnOverflow uses a URL without a manifest extension and application/vnd.apple.mpegurl response Content-Type; it verifies the stricter manifest cap and upstream close on overflow.
+- Run the full JVM suite, BoundedMediaDataSourceTest, DreamScreenNavigationTest, RecordDaoUpdateHistoryTest, ThemeContrastTest; assembleDebug; Room schema v6 semantic/version discipline; upload schema artifact.
+- No signing, publishing, PR merges, or writes to DreamMemory main. Device playback remains for user acceptance.
