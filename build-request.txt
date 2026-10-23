@@ -1,15 +1,16 @@
-Validate latest DreamMemory branch after recording Builder #357 evidence in all six project documents.
+Validate the latest DreamMemory branch snapshot including the Home daily schedule summary.
 
-Source SHA: 34e3ff5d91585564abf02ac9eb12818a0e555238
+Source SHA: 8bb7db9aa49b873abf26d5c7cb257f9ae122e21f
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 34e3ff5d91585564abf02ac9eb12818a0e555238
+Expected source SHA at trigger: 8bb7db9aa49b873abf26d5c7cb257f9ae122e21f
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
 - Requested source SHA and actual checked-out source SHA must exactly match.
-- Run the complete JVM unit test suite.
+- Run the complete JVM unit test suite, including HomeSummaryTest today-schedule sorting/filtering tests, ThemeContrastTest, and existing project regressions.
 - Build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload the generated schema artifact.
-- Confirm the six project docs contain the exact evidence from Builder #357 for source SHA 44e243693f2e3a5e9327788ed18474cfccb2a703 (run 39945999937, artifact 12497928709).
-- Custom-theme contrast and focus-skin narrow-screen layout remain locally/CI validated; real-device theme switching, narrow-screen/large-font UI, SAF restore, historical database migration, six-tab page-by-page accessibility, and formal release acceptance remain open.
-- Do not merge any PR, do not write to DreamMemory main, do not sign or publish. This workflow must not expose the private APK as a public artifact.
+- Confirm the six project docs describe the home "今天的安排" summary: up to three overdue/today-due TODO/shopping/pickup items, enabled reminder time takes precedence over targetAt, no database/schema change.
+- Earlier verified code SHA 44e243693f2e3a5e9327788ed18474cfccb2a703 passed Builder #357 (run 39945999937); current request validates the new home feature and current documentation at the exact SHA above.
+- Real-device timezone/day-boundary behavior, UI navigation, narrow-screen/large-font layout, theme switching, SAF restore, historical database migration, six-tab page-by-page accessibility, and formal release acceptance remain open.
+- Do not merge any PR, do not write to DreamMemory main, do not sign or publish. Do not expose the private APK as a public artifact.
