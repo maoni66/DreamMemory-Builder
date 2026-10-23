@@ -1,8 +1,8 @@
 Validate final synchronized docs after Builder 347 backup collision regression.
 
-Source SHA: 3b7e280376c48c05a821936d4e4b718b68d4d487
+Source SHA: 69a78eac9e5338a187888e2620a71364ac4800a7
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 3b7e280376c48c05a821936d4e4b718b68d4d487
+Expected source SHA at trigger: 69a78eac9e5338a187888e2620a71364ac4800a7
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -698,3 +698,10 @@ Previously validated regression, included in source SHA 3b7e280376c48c05a821936d
 - The malicious archive contains both files/local_books/shared.epub and files/legacy_local_books/shared.epub, with managed and legacy shelf rows resolving to the same final target. Restore must fail closed, preserve the original consumption row, and preserve original local-book bytes.
 - Run the complete JVM test suite, assembleDebug, Room schema v6 semantic/version discipline, and upload the schema artifact. Verify requested SHA equals actual checked-out SHA exactly.
 - Five required project docs record the test as pending validation. Do not mark the test passed until this exact SHA's job and steps succeed. No signing, publishing, PR merges, or DreamMemory main writes.
+
+
+Additional validation for light-restore recovery hardening (2026-10-23):
+- Verify LightRestoreRecovery validates known restore states and requires oldDb to equal the dedicated dreammemory.db.light-restore-old path via RestoreMarkerPathValidation before any deletion/rename.
+- Verify interrupted rollback restores dream_reader_appearance preferences.
+- Verify both rollback and COMMITTED recovery clear stale WAL/SHM/temp files and reconcile reminders, auto-backup scheduling, and widgets.
+- Run complete JVM tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the schema artifact for this exact SHA. Keep real-device process-kill/SAF recovery acceptance open. No signing, publishing, merges, or writes to DreamMemory main.
