@@ -1,16 +1,15 @@
-Validate custom-theme contrast and responsive focus skin selection.
+Validate latest DreamMemory branch after recording Builder #357 evidence in all six project documents.
 
-Source SHA: 44e243693f2e3a5e9327788ed18474cfccb2a703
+Source SHA: 34e3ff5d91585564abf02ac9eb12818a0e555238
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 44e243693f2e3a5e9327788ed18474cfccb2a703
-Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
+Expected source SHA at trigger: 34e3ff5d91585564abf02ac9eb12818a0e555238
+Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- Requested source SHA and actual checked-out source SHA must exactly match the Source SHA above.
-- Run the complete JVM unit test suite, including ThemeContrastTest.customDarkSurfaceForegroundMeetsNormalTextContrast.
-- Verify custom-theme background/surface/variant surface foreground roles meet normal text contrast when users choose dark custom colors.
-- Compile and test the focus skin picker layout change: six skin choices are arranged in two rows of three equal-width chips, without changing skin selection/persistence behavior.
-- Run assembleDebug and Room schema v6 semantic/version discipline checks, and upload the generated schema artifact.
-- Keep all six project docs synchronized with this exact patch.
-- Real device UI, custom-theme mode switching, focus skin narrow-screen/large-font layout, SAF restore, historical database migration, and formal release acceptance remain open.
-- Do not merge any PR, do not write to DreamMemory main, and do not sign or publish.
+- Requested source SHA and actual checked-out source SHA must exactly match.
+- Run the complete JVM unit test suite.
+- Build the Debug APK.
+- Enforce Room schema v6 semantic/version discipline and upload the generated schema artifact.
+- Confirm the six project docs contain the exact evidence from Builder #357 for source SHA 44e243693f2e3a5e9327788ed18474cfccb2a703 (run 39945999937, artifact 12497928709).
+- Custom-theme contrast and focus-skin narrow-screen layout remain locally/CI validated; real-device theme switching, narrow-screen/large-font UI, SAF restore, historical database migration, six-tab page-by-page accessibility, and formal release acceptance remain open.
+- Do not merge any PR, do not write to DreamMemory main, do not sign or publish. This workflow must not expose the private APK as a public artifact.
