@@ -1,16 +1,16 @@
-Validate custom-theme text contrast in dark mode, including the new accent-on-dark-surface regression test and synchronized project ledger.
+Validate Profile route rendering and return navigation alongside the existing custom-theme text-contrast regression.
 
-Source SHA: 63c0d8b16d883b752103b94128f6e3697c8dff86
+Source SHA: 5a59312f0a97164497f6f9e5111e6d690eea813e
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 63c0d8b16d883b752103b94128f6e3697c8dff86
+Expected source SHA at trigger: 5a59312f0a97164497f6f9e5111e6d690eea813e
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
 - Requested source SHA and actual checked-out source SHA must exactly match.
-- Run the complete JVM unit test suite, including ThemeContrastTest and existing project regressions.
+- Run the complete JVM unit test suite, including DreamScreenNavigationTest, ThemeContrastTest, and existing project regressions.
 - Specifically verify custom dark-mode primary, secondary, and tertiary colors remain readable on the lightest dark surface container at a minimum 4.5:1 contrast ratio, without modifying the saved theme values.
 - Build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload the generated schema artifact.
 - Confirm requested source SHA and actual checked-out source SHA match exactly.
-- Real-device timezone/day-boundary behavior, UI navigation, narrow-screen/large-font layout, theme switching, SAF restore, historical database migration, six-tab page-by-page accessibility, and formal release acceptance remain open.
+- The new navigation regression test must verify Profile is rendered over the selected pager page without becoming a bottom tab. Real-device back-stack, six-tab page-by-page navigation/accessibility, narrow-screen/large-font layout, theme switching, timezone/day-boundary behavior, SAF restore, historical database migration, and formal release acceptance remain open.
 - Do not merge any PR, do not write to DreamMemory main, do not sign or publish. Do not expose the private APK as a public artifact.
