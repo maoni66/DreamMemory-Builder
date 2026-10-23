@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: 4d63847e67c3ca0d376632f761ea2388eb9e1145
+Source SHA: 390039a90bb5e8b6cfbc66f5599364777a951f38
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 4d63847e67c3ca0d376632f761ea2388eb9e1145
+Expected source SHA at trigger: 390039a90bb5e8b6cfbc66f5599364777a951f38
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -30,3 +30,5 @@ Acceptance requirements:
 - Validate bounded Life consumption image import: 32 MiB stream cap, exact-limit success, oversize refusal before writing bytes beyond the cap, and negative-limit rejection. Run full JVM tests, Debug APK build, and Room schema version discipline.
 
 - Retry bounded consumption image import after correcting the boundary test: the input stream may return a whole chunk larger than the limit, so the invariant is output size never exceeds the limit, not that a partial chunk must be written. Also validate locale-independent shelf identity keys under Turkish locale. Run full JVM tests, Debug APK build, and Room schema version discipline.
+
+- Validate centralized Shelf local-file cleanup: deletes only unreferenced canonical files under app-owned local-books or movies roots; refuses outside-root files and root-prefix siblings; preserves a file referenced by another Shelf row. Run full JVM tests, Debug APK build, and Room schema version discipline.
