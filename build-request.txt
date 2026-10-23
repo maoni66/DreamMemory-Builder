@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: 34da05cf56f625bfb0e542dfebacb360dbf775b2
+Source SHA: 1a8603f28be1231a1dea70072b7a96143167bb2c
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 34da05cf56f625bfb0e542dfebacb360dbf775b2
+Expected source SHA at trigger: 1a8603f28be1231a1dea70072b7a96143167bb2c
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -24,3 +24,5 @@ Acceptance requirements:
 - Validate full restore recovery integration tests: interrupted SWAPPING restores original data directory; retry after ROLLING_BACK rename preserves original external movie even when staged source bytes are identical; recovery markers and staged directory are cleaned only after successful reconciliation.
 
 - Validate global search integration for ExperienceEventEntity: searches event notes/type/status, returns the parent work RecordEntity as a stable navigation target, and ignores unrelated/blank queries. Run full JVM suite, Debug APK build, and Room schema version discipline.
+
+- Validate full restore recovery preference rollback integration: interrupted SWAPPING restores the old typed SharedPreferences snapshot and removes keys introduced by the uncommitted restore. Run full JVM tests, Debug APK build, and Room schema version discipline.
