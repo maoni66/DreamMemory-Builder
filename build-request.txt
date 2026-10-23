@@ -1,17 +1,15 @@
-Validate crash-safe full-restore rollback recovery.
+Validate canonical TVBox API URL deduplication and cycle detection.
 
-Source SHA: 96907e4d5622805dc48cfc1bbe32c9ef9b1de087
+Source SHA: a373e3fe6c125be1421798763af5d702fbc5dd12
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 96907e4d5622805dc48cfc1bbe32c9ef9b1de087
-Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
+Expected source SHA at trigger: a373e3fe6c125be1421798763af5d702fbc5dd12
+Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- Requested source SHA and actual checked-out source SHA must exactly match the Source SHA above. Do not substitute a historical SHA.
-- Verify RestoreMarkerPathValidationTest accepts ROLLING_BACK and retains rejection of unknown full/light restore states.
-- Inspect BackupRepository.recoverInterruptedRestore: it must persist a dedicated rollback-intent sidecar before deleting the active uncommitted restore tree; prefer the sidecar on retry; recognize rollback as complete only when state is ROLLING_BACK, oldDir is absent, and rootDir is a directory; restore the preference snapshot and finish cleanup idempotently.
-- Verify rollback sidecar is removed last, after the ordinary restore marker is cleared, so interruption during cleanup still leaves authoritative recovery metadata.
-- Verify external movie cleanup is skipped when rollback already completed, so original external videos in the restored old tree are not deleted merely because their bytes match the staged backup source.
-- Run the complete JVM suite, including BackupRoundTripTest, RestoreMarkerPathValidationTest, and all existing backup/restore, source import, navigation, theme contrast, bounded media, and record consistency regressions; assembleDebug; enforce Room schema v6 semantic/version discipline; upload schema artifact.
-- Verify all six project docs consistently record this exact patch and clearly distinguish CI from device acceptance: docs/DEVELOPMENT_INTEGRATION_STATUS_2026-10-19.md, docs/PROJECT_GAP_CHECKLIST_2026-10-18.md, docs/BUG_HISTORY.md, docs/PROJECT_CHANGE_AND_MIGRATION_LEDGER.md, docs/PROJECT_CONTEXT.md, docs/UI_UX_AUDIT.md.
-- Real-device process-kill/SAF restore, historical DB migration, six-tab UI/accessibility, and formal release acceptance remain open. Do not claim device acceptance.
+- Requested source SHA and actual checked-out source SHA must exactly match the Source SHA above.
+- Run SourceImportFeedbackTest, including canonicalization of HTTP(S) scheme/host case, default ports, trailing slash and fragment removal, query-string preservation, and cycle detection across equivalent URL forms.
+- Verify normalizeTvBoxApiKey does not collapse different query strings, since they may identify distinct API endpoints or tokens.
+- Run the complete JVM test suite, assembleDebug, Room schema v6 semantic/version discipline checks, and upload the generated schema artifact.
+- Keep all six project docs synchronized with the exact patch and retain real external-source/device compatibility as not yet accepted.
+- Real imported-source compatibility, device UI, SAF restore, historical database migration, and formal release acceptance remain open.
 - Do not merge PR #2 or #3, do not write to DreamMemory main, and do not sign or publish.
