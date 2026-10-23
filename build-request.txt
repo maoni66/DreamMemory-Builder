@@ -1,8 +1,8 @@
-Validate final synchronized documentation after Builder 341 success.
+Validate player media-key fix preventing repeated stream reloads during progress updates.
 
-Source SHA: b954084e7b13b2663b526641c11e4546a4a59cfe
+Source SHA: 31d6a35ce174ad6607baca4650e0adefe6458f86
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: b954084e7b13b2663b526641c11e4546a4a59cfe
+Expected source SHA at trigger: 31d6a35ce174ad6607baca4650e0adefe6458f86
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -664,3 +664,10 @@ Final documentation snapshot after Builder #341 success:
 - Five docs record Builder #341 success for SHA 0a4a87af331c522300c9be885a2c52477f2c8acf (artifact 12471460910). The gap checklist header now identifies #341 as the most recently verified snapshot and is dated 2026-10-23.
 - Run the full JVM test suite including BoundedMediaDataSourceTest.unknownLengthManifestUsesContentTypeLimitAndClosesOnOverflow, DreamScreenNavigationTest, RecordDaoUpdateHistoryTest, ThemeContrastTest; assembleDebug; Room schema v6 semantic/version discipline; upload schema artifact.
 - Confirm requested and checked-out source SHA match exactly. No signing, publishing, PR merges, or writes to DreamMemory main. Device acceptance remains open.
+
+
+New player playback stability regression (2026-10-23):
+- Exact requested and checked-out SHA: 31d6a35ce174ad6607baca4650e0adefe6458f86.
+- Static audit found initialProgress was a LaunchedEffect key, but playback reports progress every 3 seconds; each progress update could reset the same media item and call prepare again. The effect now keys on VideoPlaybackRequestKey(playUrl, isSafePlayUrl), deliberately excluding progress.
+- Verify VideoPlaybackProgressTest.playbackRequestIdentityChangesOnlyWhenUrlOrSafetyChanges and the full JVM suite; assembleDebug; enforce Room schema v6 semantic/version discipline; upload schema artifact.
+- Reconfirm exact requested/checked-out SHA match. No signing, publishing, PR merges, or writes to DreamMemory main. Device continuous-playback acceptance remains open.
