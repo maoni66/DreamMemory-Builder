@@ -1,8 +1,8 @@
-Validate final synchronized docs after Builder 347 backup collision regression.
+Validate full restore startup recovery marker-path hardening.
 
-Source SHA: 7a25c30151d1323df302b1f2d6aa8099b7be9f05
+Source SHA: f9732d55491719e498dd3c01bee5af936e8f7692
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 7a25c30151d1323df302b1f2d6aa8099b7be9f05
+Expected source SHA at trigger: f9732d55491719e498dd3c01bee5af936e8f7692
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -712,3 +712,10 @@ Final synchronized snapshot validation for light-restore recovery hardening:
 - Validate LightRestoreRecovery state/path guard, reader appearance preference rollback, and post-recovery WAL/SHM/temp cleanup plus reminder, auto-backup and widget reconciliation.
 - Verify all five project documents record the change and clearly leave real-device/process-kill/SAF acceptance open.
 - Run complete JVM tests, assembleDebug, Room schema v6 semantic/version discipline, and upload schema artifact. No signing, publishing, merges, or DreamMemory main writes.
+
+
+Additional validation for full restore startup recovery:
+- Verify RestoreRecovery.recover() invokes RestoreMarkerPathValidation.validateFullRestoreState(state) before any recovery branch and invokes validateFullRestoreDirectories(oldDir, stageDir, root) before any deletion or rename.
+- Run RestoreMarkerPathValidationTest and confirm invalid state, active-directory alias, overlapping paths, unexpected names and invalid UUID suffixes are rejected before destructive recovery. Do not claim Context-level recovery integration tests unless such tests exist.
+- Confirm the exact requested SHA and actual checked-out SHA match; run the complete JVM suite, assembleDebug and Room schema v6 version discipline, then upload the schema artifact. No signing/publishing.
+- The preceding SHA 7a25c30151d1323df302b1f2d6aa8099b7be9f05 passed Builder #350; this new source SHA is not verified until this run succeeds. Device/process-death validation remains open.
