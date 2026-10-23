@@ -1,8 +1,8 @@
-Validate unified full restore startup recovery implementation.
+Validate light restore failure diagnostics.
 
-Source SHA: c977fdc47bbb4084f72af758e4f7c5cee7720364
+Source SHA: b22d2dcbb3fcb2968702e6193b213bc4999613f9
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: c977fdc47bbb4084f72af758e4f7c5cee7720364
+Expected source SHA at trigger: b22d2dcbb3fcb2968702e6193b213bc4999613f9
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -726,3 +726,8 @@ Additional validation for unified startup recovery:
 - Confirm recovery failures are logged and the app startup remains best-effort; the recovery marker must remain available for retry when the canonical recovery returns failure.
 - Ensure the canonical recovery handles external movie operations, restores the complete preference snapshot, and reconciles reminders, auto-backup scheduling and widgets. Run all JVM tests, assembleDebug, Room schema v6 discipline and upload schema artifact for this exact SHA.
 - The immediately preceding SHA f9732d55491719e498dd3c01bee5af936e8f7692 passed Builder #351; this new SHA is unverified until its own run completes. No signing or publishing; device/process-death acceptance remains open.
+
+
+Additional validation:
+- Confirm LightRestoreRecovery logs exceptions through Log.e while preserving best-effort startup behavior and retaining its marker after failure.
+- Run all JVM tests, assembleDebug, Room schema v6 discipline and upload schema artifact against this exact source SHA. No signing/publishing; device/process-death recovery remains open.
