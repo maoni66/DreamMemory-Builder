@@ -1,8 +1,8 @@
-Validate player media-key fix preventing repeated stream reloads during progress updates.
+Validate final synchronized docs after Builder 343 player-progress fix.
 
-Source SHA: 31d6a35ce174ad6607baca4650e0adefe6458f86
+Source SHA: 2f2a9c3797be85670a329cdb6d8000e14f4934dd
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 31d6a35ce174ad6607baca4650e0adefe6458f86
+Expected source SHA at trigger: 2f2a9c3797be85670a329cdb6d8000e14f4934dd
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -671,3 +671,10 @@ New player playback stability regression (2026-10-23):
 - Static audit found initialProgress was a LaunchedEffect key, but playback reports progress every 3 seconds; each progress update could reset the same media item and call prepare again. The effect now keys on VideoPlaybackRequestKey(playUrl, isSafePlayUrl), deliberately excluding progress.
 - Verify VideoPlaybackProgressTest.playbackRequestIdentityChangesOnlyWhenUrlOrSafetyChanges and the full JVM suite; assembleDebug; enforce Room schema v6 semantic/version discipline; upload schema artifact.
 - Reconfirm exact requested/checked-out SHA match. No signing, publishing, PR merges, or writes to DreamMemory main. Device continuous-playback acceptance remains open.
+
+
+Documentation sync after Builder #343:
+- Five required project documents now record Builder #343 validation of source SHA 31d6a35ce174ad6607baca4650e0adefe6458f86, including artifact 12471870691 and player progress/media-request-key fix.
+- Validate exact documentation snapshot SHA 2f2a9c3797be85670a329cdb6d8000e14f4934dd; requested and checked-out source must match.
+- Run full JVM suite including VideoPlaybackProgressTest, BoundedMediaDataSourceTest, DreamScreenNavigationTest, RecordDaoUpdateHistoryTest, ThemeContrastTest, backup/restore and source import regression tests; assembleDebug; Room schema v6 semantic/version discipline; upload schema artifact.
+- No signing, publishing, PR merges, or DreamMemory main writes. User performs final release/device acceptance; report only automated checks as CI evidence.
