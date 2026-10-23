@@ -1,13 +1,14 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: 3d1299818cfe7f6b7f682ae6c99c63270fe7ea6a
+Source SHA: cfd20ec47e252f6701b76efd91c1c65a5876ef5f
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 3d1299818cfe7f6b7f682ae6c99c63270fe7ea6a
+Expected source SHA at trigger: cfd20ec47e252f6701b76efd91c1c65a5876ef5f
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
 - Requested source SHA and actual checked-out source SHA must exactly match.
 - Run the complete JVM unit test suite, including DreamScreenNavigationTest, ThemeContrastTest, and existing project regressions.
+- Verify XPath attribute predicates using @page are preserved (for example, `//div[@class='book' and @page='1']`) and the trailing `@page` pagination suffix is still removed case-insensitively.
 - Specifically verify custom dark-mode primary, secondary, and tertiary colors remain readable on the lightest dark surface container at a minimum 4.5:1 contrast ratio, without modifying the saved theme values.
 - Build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload the generated schema artifact.
