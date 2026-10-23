@@ -1,8 +1,8 @@
-Revalidate bounded Media3 streaming responses after Int/Long compile fix.
+Validate final documentation-synchronized source after Builder 338 passed.
 
-Source SHA: 7efc12c0c8bae787ba055345c41d3c102d9cb132
+Source SHA: 8f7eaf839c7bac3a4e0bd744da353c263ec3a831
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 7efc12c0c8bae787ba055345c41d3c102d9cb132
+Expected source SHA at trigger: 8f7eaf839c7bac3a4e0bd744da353c263ec3a831
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -635,3 +635,10 @@ Retry after Builder #337 compile failure:
 - Verify the new SHA compiles, then run BoundedMediaDataSourceTest cases for declared Content-Length overflow, unknown-length overflow, exact-limit EOF, and manifest limits; full JVM suite; assembleDebug; Room schema v6 semantic/version discipline; upload schema artifact.
 - Reconfirm DreamScreenNavigationTest, RecordDaoUpdateHistoryTest, and ThemeContrastTest.
 - No signing, publishing, PR merges, or writes to DreamMemory main. Do not treat #337 as successful; device streaming compatibility remains untested until user acceptance.
+
+
+Final documentation-synchronized snapshot after Builder #338 success:
+- Requested and checked-out DreamMemory SHA must both exactly equal 8f7eaf839c7bac3a4e0bd744da353c263ec3a831 on design/visual-system-pass-0.7.6.
+- Five project docs now record Builder #338 success for SHA 7efc12c0c8bae787ba055345c41d3c102d9cb132 (artifact 12432541618) and explicitly distinguish the failed #337 run.
+- Re-run full JVM tests including BoundedMediaDataSourceTest, DreamScreenNavigationTest, RecordDaoUpdateHistoryTest, and ThemeContrastTest; assembleDebug; enforce Room schema v6 semantic/version discipline; upload schema artifact.
+- Confirm requested SHA equals actual checkout SHA. No signing, publishing, PR merges, or writes to DreamMemory main. Do not claim device acceptance.
