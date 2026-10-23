@@ -1,8 +1,8 @@
-Validate TVBox API deduplication fix and synchronized project docs after Builder 344.
+Validate final synchronized documentation after Builder 345 TVBox deduplication success.
 
-Source SHA: ae063a16924a8b7ae4d65e7726d4e358806631ad
+Source SHA: 3fc5a98d46e1f2c67a0a87488b644f5cfdeb2d60
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: ae063a16924a8b7ae4d65e7726d4e358806631ad
+Expected source SHA at trigger: 3fc5a98d46e1f2c67a0a87488b644f5cfdeb2d60
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -684,3 +684,10 @@ Additional regression for this exact snapshot:
 - Verify SourceImportFeedbackTest.duplicateTvBoxApisAreSkippedAcrossSlashVariants. Existing TVBOX_API entries must be seeded into the import deduplication set, and nested TVBox configs must share the same set.
 - Confirm requested and checked-out source SHA both equal ae063a16924a8b7ae4d65e7726d4e358806631ad.
 - Full JVM suite, assembleDebug, Room schema v6 semantic/version discipline, schema artifact upload. No signing, publishing, merges, or DreamMemory main writes.
+
+
+Final documentation snapshot after Builder #345:
+- Five docs record Builder #345 validation of exact SHA ae063a16924a8b7ae4d65e7726d4e358806631ad; artifact 12490327842. The TVBox duplicate API regression test passed in the full JVM suite.
+- Validate exact docs snapshot SHA 3fc5a98d46e1f2c67a0a87488b644f5cfdeb2d60, with exact requested/checked-out equality.
+- Run full JVM suite, assembleDebug, Room schema v6 semantic/version discipline, and upload schema artifact.
+- No signing, publishing, merges, or DreamMemory main writes. Do not claim device or formal release acceptance.
