@@ -1,8 +1,8 @@
-Validate Profile route rendering and return navigation alongside the existing custom-theme text-contrast regression.
+Validate focus-skin preference synchronization alongside the existing Profile navigation and custom-theme text-contrast regressions.
 
-Source SHA: 5a59312f0a97164497f6f9e5111e6d690eea813e
+Source SHA: 429c25f3dfda8742766a2f5cc8d9c12cae605c9f
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 5a59312f0a97164497f6f9e5111e6d690eea813e
+Expected source SHA at trigger: 429c25f3dfda8742766a2f5cc8d9c12cae605c9f
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -12,5 +12,7 @@ Acceptance requirements:
 - Build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload the generated schema artifact.
 - Confirm requested source SHA and actual checked-out source SHA match exactly.
-- The new navigation regression test must verify Profile is rendered over the selected pager page without becoming a bottom tab. Real-device back-stack, six-tab page-by-page navigation/accessibility, narrow-screen/large-font layout, theme switching, timezone/day-boundary behavior, SAF restore, historical database migration, and formal release acceptance remain open.
+- The navigation regression test must verify Profile is rendered over the selected pager page without becoming a bottom tab.
+- Focus-skin selection from Profile and Life must share one state owner so a selection in either screen updates the other immediately and remains persisted. Existing six skin renderers and SharedPreferences storage must be reused; do not duplicate them.
+- Real-device back-stack, six-tab page-by-page navigation/accessibility, narrow-screen/large-font layout, theme switching, timezone/day-boundary behavior, SAF restore, historical database migration, and formal release acceptance remain open.
 - Do not merge any PR, do not write to DreamMemory main, do not sign or publish. Do not expose the private APK as a public artifact.
