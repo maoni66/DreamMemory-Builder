@@ -1,8 +1,8 @@
-Validate final synchronized documentation and CI-gap checklist after Builder 340 success.
+Validate final synchronized documentation after Builder 341 success.
 
-Source SHA: 0a4a87af331c522300c9be885a2c52477f2c8acf
+Source SHA: b954084e7b13b2663b526641c11e4546a4a59cfe
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 0a4a87af331c522300c9be885a2c52477f2c8acf
+Expected source SHA at trigger: b954084e7b13b2663b526641c11e4546a4a59cfe
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -657,3 +657,10 @@ Final synchronized documentation snapshot after Builder #340 success:
 - Five docs record Builder #340 for SHA 9debd0c8a7a41f9af139c3776497c90bc5c65c83 (artifact 12471057074), and the gap checklist now marks CI-verified navigation structure, backup unique naming, theme contrast, and bounded Media3 response handling as automated-CI complete while retaining device/SAF/real-release acceptance gaps.
 - Run full JVM suite including BoundedMediaDataSourceTest.unknownLengthManifestUsesContentTypeLimitAndClosesOnOverflow, DreamScreenNavigationTest, RecordDaoUpdateHistoryTest, ThemeContrastTest; assembleDebug; Room schema v6 semantic/version discipline; upload schema artifact.
 - Verify exact source SHA equality. No signing, publishing, PR merges, or writes to DreamMemory main. Do not claim device acceptance.
+
+
+Final documentation snapshot after Builder #341 success:
+- Exact requested and checked-out DreamMemory SHA: b954084e7b13b2663b526641c11e4546a4a59cfe.
+- Five docs record Builder #341 success for SHA 0a4a87af331c522300c9be885a2c52477f2c8acf (artifact 12471460910). The gap checklist header now identifies #341 as the most recently verified snapshot and is dated 2026-10-23.
+- Run the full JVM test suite including BoundedMediaDataSourceTest.unknownLengthManifestUsesContentTypeLimitAndClosesOnOverflow, DreamScreenNavigationTest, RecordDaoUpdateHistoryTest, ThemeContrastTest; assembleDebug; Room schema v6 semantic/version discipline; upload schema artifact.
+- Confirm requested and checked-out source SHA match exactly. No signing, publishing, PR merges, or writes to DreamMemory main. Device acceptance remains open.
