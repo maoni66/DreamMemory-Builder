@@ -1,8 +1,8 @@
-Validate backup path-collision regression and synchronized docs after Builder 346.
+Validate final synchronized docs after Builder 347 backup collision regression.
 
-Source SHA: 647466620f02089f733a9098902968e9c4f3c7db
+Source SHA: 3b7e280376c48c05a821936d4e4b718b68d4d487
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 647466620f02089f733a9098902968e9c4f3c7db
+Expected source SHA at trigger: 3b7e280376c48c05a821936d4e4b718b68d4d487
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -693,7 +693,7 @@ Final documentation snapshot after Builder #345:
 - No signing, publishing, merges, or DreamMemory main writes. Do not claim device or formal release acceptance.
 
 
-Latest requested regression on source SHA 647466620f02089f733a9098902968e9c4f3c7db:
+Previously validated regression, included in source SHA 3b7e280376c48c05a821936d4e4b718b68d4d487:
 - Run BackupRoundTripTest.legacyAndManagedBookPathCollisionFailsClosedWithoutOverwritingOriginalData.
 - The malicious archive contains both files/local_books/shared.epub and files/legacy_local_books/shared.epub, with managed and legacy shelf rows resolving to the same final target. Restore must fail closed, preserve the original consumption row, and preserve original local-book bytes.
 - Run the complete JVM test suite, assembleDebug, Room schema v6 semantic/version discipline, and upload the schema artifact. Verify requested SHA equals actual checked-out SHA exactly.
