@@ -1,8 +1,8 @@
-Validate full restore startup recovery marker-path hardening.
+Validate unified full restore startup recovery implementation.
 
-Source SHA: f9732d55491719e498dd3c01bee5af936e8f7692
+Source SHA: c977fdc47bbb4084f72af758e4f7c5cee7720364
 Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: f9732d55491719e498dd3c01bee5af936e8f7692
+Expected source SHA at trigger: c977fdc47bbb4084f72af758e4f7c5cee7720364
 Build mode: branch validation only. Run the complete JVM unit test suite, assembleDebug, Room schema v6 version discipline, and upload the generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -719,3 +719,10 @@ Additional validation for full restore startup recovery:
 - Run RestoreMarkerPathValidationTest and confirm invalid state, active-directory alias, overlapping paths, unexpected names and invalid UUID suffixes are rejected before destructive recovery. Do not claim Context-level recovery integration tests unless such tests exist.
 - Confirm the exact requested SHA and actual checked-out SHA match; run the complete JVM suite, assembleDebug and Room schema v6 version discipline, then upload the schema artifact. No signing/publishing.
 - The preceding SHA 7a25c30151d1323df302b1f2d6aa8099b7be9f05 passed Builder #350; this new source SHA is not verified until this run succeeds. Device/process-death validation remains open.
+
+
+Additional validation for unified startup recovery:
+- Inspect RestoreRecovery.recover(): it must delegate to BackupRepository.recoverInterruptedRestore() rather than maintain a separate full-restore recovery algorithm.
+- Confirm recovery failures are logged and the app startup remains best-effort; the recovery marker must remain available for retry when the canonical recovery returns failure.
+- Ensure the canonical recovery handles external movie operations, restores the complete preference snapshot, and reconciles reminders, auto-backup scheduling and widgets. Run all JVM tests, assembleDebug, Room schema v6 discipline and upload schema artifact for this exact SHA.
+- The immediately preceding SHA f9732d55491719e498dd3c01bee5af936e8f7692 passed Builder #351; this new SHA is unverified until its own run completes. No signing or publishing; device/process-death acceptance remains open.
