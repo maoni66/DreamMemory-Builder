@@ -1,16 +1,17 @@
-Validate cross-origin redirect request-body protection at exact source SHA 44854c4233feb728fbd55f5642d63daae951a8e2.
+Validate cross-origin redirect request-body protection at exact source SHA 16ccdbe595c10ee1ce0b295237ea2b54841ebdb5.
 
-Source SHA: 44854c4233feb728fbd55f5642d63daae951a8e2
+Source SHA: 16ccdbe595c10ee1ce0b295237ea2b54841ebdb5
 Source ref: fix/block-cross-origin-redirect-body
-Expected source SHA at trigger: 44854c4233feb728fbd55f5642d63daae951a8e2
+Expected source SHA at trigger: 16ccdbe595c10ee1ce0b295237ea2b54841ebdb5
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
 - ResourceHttpSafety rejects cross-origin redirects that would forward a non-empty POST/PUT/PATCH request body (307/308, and 301/302 for non-POST methods). Request bodies may carry credentials even after sensitive headers are stripped.
+- Integration test crossOrigin307RedirectDoesNotForwardRequestBody confirms the cross-origin destination server receives no request.
 - Same-origin redirects remain supported.
 - Redirects that intentionally drop the body (303, and POST 301/302 conversion to GET) remain supported.
 - Verify shouldBlockCrossOriginRedirectBody cases for 307 POST, 308 PATCH, 302 PUT, same-origin redirects, GET, 303 POST, POST 302, and empty body.
-- Run complete JVM tests, including ResourceHttpSafetyTest and all project regressions; build Debug APK; enforce Room schema v6 semantic/version discipline; upload schema artifact.
+- Run complete JVM tests, including ResourceHttpSafetyTest, ResourceHttpSafetyIntegrationTest and all project regressions; build Debug APK; enforce Room schema v6 semantic/version discipline; upload schema artifact.
 - Confirm requested source SHA equals actual checked-out source SHA exactly.
 - Keep all real-device acceptance open: six-tab page-by-page UI/accessibility, SAF/restore, historical database migration, external source compatibility, reader lifecycle, theme/skin behavior, and formal release readiness.
 - Do not merge any PR, do not write to DreamMemory main, do not sign or publish. Do not expose the private APK as a public artifact.
