@@ -1,109 +1,16 @@
-Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
+Validate cross-origin redirect request-body protection at exact source SHA 44854c4233feb728fbd55f5642d63daae951a8e2.
 
-Source SHA: 6e8ad71765b9cc0f111df0b1577303bb08c337d8
-Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 6e8ad71765b9cc0f111df0b1577303bb08c337d8
+Source SHA: 44854c4233feb728fbd55f5642d63daae951a8e2
+Source ref: fix/block-cross-origin-redirect-body
+Expected source SHA at trigger: 44854c4233feb728fbd55f5642d63daae951a8e2
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-
-- EPUB local-reader progress fix at exact source SHA 79aed9f5521b45d3ff4f953db8c790c983588dd2: saved progress must include both chapter index and scroll fraction within the chapter; restore waits for chapter content/layout; chapter switches reset scroll; missing/invalid note anchors fall back to saved reading progress. Validate epubProgressPercent for in-chapter movement, chapter boundaries, empty books, and non-scrollable chapters. Run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-- EPUB invalid-anchor fallback fix at exact source SHA 6e8ad71765b9cc0f111df0b1577303bb08c337d8: fallback chapter selection must use the same overall progress normalization as initial restore (`progress * chapterCount / 100`, clamped to the last chapter), not `lastIndex * progress / 100`, which selects an earlier chapter. Validate 0%, 25%, 50%, 99%, 100%, one/zero chapters, and out-of-range percentages. Run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-- Requested source SHA and actual checked-out source SHA must exactly match.
-- Run the complete JVM unit test suite, including DreamScreenNavigationTest, ThemeContrastTest, and existing project regressions.
-- Verify XPath attribute predicates using @page are preserved in both search and chapter catalog rules (for example, `//div[@class='book' and @page='1']`) and the trailing `@page` pagination suffix is still removed case-insensitively, including when it follows a valid XPath predicate.
-- Specifically verify custom dark-mode primary, secondary, and tertiary colors remain readable on the lightest dark surface container at a minimum 4.5:1 contrast ratio, without modifying the saved theme values.
-- Build the Debug APK.
-- Enforce Room schema v6 semantic/version discipline and upload the generated schema artifact.
-- Confirm requested source SHA and actual checked-out source SHA match exactly.
-- The navigation regression test must verify Profile is rendered over the selected pager page without becoming a bottom tab.
-- Focus-skin selection from Profile and Life must share one state owner so a selection in either screen updates the other immediately and remains persisted. Existing six skin renderers and SharedPreferences storage must be reused; do not duplicate them.
-- Invalid CSS selectors and XPath expressions in imported book-source rules must raise a safe parsing failure instead of being silently treated as an empty result; valid no-match rules must continue to return an empty list. Verify CSS extraction suffixes such as h1@text and a@href, uppercase @XPath prefixes, XPath text nodes and attribute rules such as //a/@href, and the existing search → detail → catalog → chapter local-HTTP integration flow. Preserve valid no-match behavior and do not claim full Legado compatibility.
-- Real-device back-stack, six-tab page-by-page navigation/accessibility, narrow-screen/large-font layout, theme switching, timezone/day-boundary behavior, SAF restore, historical database migration, and formal release acceptance remain open.
+- ResourceHttpSafety rejects cross-origin redirects that would forward a non-empty POST/PUT/PATCH request body (307/308, and 301/302 for non-POST methods). Request bodies may carry credentials even after sensitive headers are stripped.
+- Same-origin redirects remain supported.
+- Redirects that intentionally drop the body (303, and POST 301/302 conversion to GET) remain supported.
+- Verify shouldBlockCrossOriginRedirectBody cases for 307 POST, 308 PATCH, 302 PUT, same-origin redirects, GET, 303 POST, POST 302, and empty body.
+- Run complete JVM tests, including ResourceHttpSafetyTest and all project regressions; build Debug APK; enforce Room schema v6 semantic/version discipline; upload schema artifact.
+- Confirm requested source SHA equals actual checked-out source SHA exactly.
+- Keep all real-device acceptance open: six-tab page-by-page UI/accessibility, SAF/restore, historical database migration, external source compatibility, reader lifecycle, theme/skin behavior, and formal release readiness.
 - Do not merge any PR, do not write to DreamMemory main, do not sign or publish. Do not expose the private APK as a public artifact.
-
-- Validate bounded canvas image import: exact-limit byte copy succeeds, over-limit copy throws, and bytes written never exceed the configured limit. Canvas import uses a 64 MiB actual-stream cap and retains existing failure cleanup.
-
-- Validate full restore recovery integration tests: interrupted SWAPPING restores original data directory; retry after ROLLING_BACK rename preserves original external movie even when staged source bytes are identical; recovery markers and staged directory are cleaned only after successful reconciliation.
-
-- Validate global search integration for ExperienceEventEntity: searches event notes/type/status, returns the parent work RecordEntity as a stable navigation target, and ignores unrelated/blank queries. Run full JVM suite, Debug APK build, and Room schema version discipline.
-
-- Validate full restore recovery preference rollback integration: interrupted SWAPPING restores the old typed SharedPreferences snapshot and removes keys introduced by the uncommitted restore. Run full JVM tests, Debug APK build, and Room schema version discipline.
-
-- Validate bounded Life consumption image import: 32 MiB stream cap, exact-limit success, oversize refusal before writing bytes beyond the cap, and negative-limit rejection. Run full JVM tests, Debug APK build, and Room schema version discipline.
-
-- Retry bounded consumption image import after correcting the boundary test: the input stream may return a whole chunk larger than the limit, so the invariant is output size never exceeds the limit, not that a partial chunk must be written. Also validate locale-independent shelf identity keys under Turkish locale. Run full JVM tests, Debug APK build, and Room schema version discipline.
-
-- Validate centralized Shelf local-file cleanup: deletes only unreferenced canonical files under app-owned local-books or movies roots; refuses outside-root files and root-prefix siblings; preserves a file referenced by another Shelf row. Run full JVM tests, Debug APK build, and Room schema version discipline.
-
-- Evaluate Coil 3.2.0 local-only raster preview pilot in Create asset preview: local app-owned File model only, asynchronous size-aware decoding, 360dp preview height cap, no arbitrary network model. Keep hardened AndroidSVG XML/DTD validation for SVG. Validate dependency resolution, full JVM suite, Debug APK, Room schema v6 discipline, and exact source SHA.
-
-- Retry after adding the missing Compose `remember`, `mutableStateOf`, and `setValue` imports required by the Coil preview state handling. Re-run full JVM suite, assembleDebug, Room schema v6 discipline, and verify exact requested/checked-out source SHA.
-
-
-- Correct the third-party notice module coordinate/version for Coil 3.2.0; confirm no stale 3.6.3 reference remains. Re-run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out source SHA verification.
-
-- Module-focused change: Shelf delete and clear-local-content operations now report database failure to the UI; destructive dialogs stay open on failure; completion callbacks dispatch on Main; best-effort file/cache cleanup does not falsely turn a committed row deletion into a reported failure. Run full JVM tests, assembleDebug, Room schema version discipline, and verify requested/checked-out SHA.
-
-
-- Follow-up module reliability validation: Life occurrence-note persistence now preserves coroutine cancellation while converting ordinary DAO failures to a visible unsuccessful save result. Run the new LifeOccurrenceNoteUpdateTest cases for successful row update, missing row, ordinary persistence exception, and CancellationException propagation. Include Shelf reliability changes already covered by the preceding request. Run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out source SHA verification; do not sign, publish, merge, or write DreamMemory main.
-
-
-- Record deletion reliability: RecordDao.deleteWithHistory returns false when a stale row was already deleted, removes status history only after a successful parent-row delete in the same transaction, and the repository/ViewModel/UI propagate failure without closing the confirmation dialog. Validate stale-delete and successful-delete DAO tests. Include the previously validated Life occurrence-note cancellation-safety and Shelf delete/clear feedback changes. Run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Validate latest module closure fixes at exact source SHA 4b31f5377fbd617e0bc3f5fcdbc5cfc4f0af8014: Record DAO deletion reports whether the parent row actually existed, status history is deleted only after a successful parent deletion, and failed record/experience deletion dialogs remain open for retry. Consumption deletion now reports stale/failed deletes, removes only its relation rows while preserving independent possessions, and shows an accurate failure message. Consumption totals are labelled “累计支出” to distinguish paid amount from the current value of possessions. Run the full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Include prior Life occurrence-note cancellation-safety and Shelf delete/clear feedback changes. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Latest module reliability batch at exact source SHA e78e973b511932edf33d7c16564fac1b4c13dae5: bounded Record cover picker imports to 32 MiB using actual stream byte counts, clean up partial files on failure, and show user feedback when import fails; test exact-limit success, over-limit refusal without writing beyond limit, and negative limit. Life item deletion now cancels AlarmManager reminders unconditionally to recover from stale persisted reminder flags. Include Record and Consumption stale-delete transactions, record/experience deletion-dialog retry behavior, accurate consumption-spending label, and prior Shelf/Life fixes. Run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Validate shared bounded-stream import batch at exact source SHA a446e291982c45d787d9894953ddac37a1f1f832: common copier checks actual stream bytes and never writes beyond the limit; record covers remain capped at 32 MiB, profile avatar/background at 32 MiB, memory attachments at 64 MiB, and Create assets at 64 MiB. Verify `BoundedStreamCopyTest` exact-limit, over-limit and negative-limit cases plus `RecordCoverImageImportTest`. Profile image import now rethrows `CancellationException` instead of swallowing coroutine cancellation, while still cleaning its temporary file. Include all previously documented Shelf, Life, Record, Consumption, and cover-import changes; run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Revalidate the shared bounded-import batch and failure feedback at exact source SHA d4d9fdd7debb15177379700effc6489915f4da7b: profile avatar/background import preserves coroutine cancellation, removes temp files and displays a failure notice; memory attachment import displays a failure notice and removes partial/unreferenced files. The common stream copier enforces actual-byte limits: profile/avatar and record cover 32 MiB, memory attachments and Create assets 64 MiB. Run `BoundedStreamCopyTest`, `RecordCoverImageImportTest`, full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Retry the shared bounded-import batch after correcting the malformed import/delegation in `RecordCoverImageImport.kt` found by the previous CI compile failure (run 40048841197). The corrected wrapper delegates to `copyBoundedStream` and keeps the 32 MiB cap. Re-run all bounded import tests, full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Include profile/avatar, memory attachment, Create asset limits and profile cancellation handling. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Documentation-only verification sync: `docs/BUG_HISTORY.md` now records the exact successful Builder #400490 evidence for source SHA `9693f7e3cd797d1b25054fa0915bf0d2b7683154`, including the corrected record-cover copier retry. Re-run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification on the documentation-updated source SHA 58ef3672fe4d9bff96754c60e3386ea14c67967a. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Validate local book import stream bound at exact source SHA 106ad1992bcbfba4ed4c2a13e924f9c81656fc46: local TXT/MD/EPUB/PDF/MOBI/AZW3/CBZ/CBR imports use actual-byte counting and reject streams exceeding 1 GiB, cleaning temp/target files and retaining the existing import failure UI. Include the previously successful shared bounded-stream tests and module reliability changes; run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Validate book-source identity deduplication at exact source SHA ddc38cf7af704765fab219b0db52491e566db8c2: normalize URI dot segments, treat explicit HTTP :80 and HTTPS :443 as equivalent to their implicit default ports, preserve non-default ports and path case, and reject equivalent duplicate imports during preview. Run full JVM tests, assembleDebug, Room schema v6 discipline, and verify requested source SHA equals checked-out source SHA. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Validate the integrated Discover + Create reliability batch at exact source SHA ef792c21ef8613488215aba56fa250f3e0c4a7e0. Discover: source identity canonicalizes URI dot segments and default HTTP/HTTPS ports, and equivalent duplicate sources are explicitly marked duplicate/invalidAddress=false/not selected. Create: collection reload reads all three collections into snapshots before replacing visible lists; ordinary DAO failures preserve the last usable lists and surface a retry message, while coroutine cancellation is rethrown. Validate compilation of the Create screen retry UI. Run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Revalidate the complete Create reliability batch at exact source SHA 875800e4fd372c0ca779173743a1d3f4f08e751c: Create collections retain the last successful snapshot if reload fails; load errors expose a retry state; Work/Album/Reference saves keep edit mode open until persistence succeeds and preserve cancellation semantics; create and delete failures are caught and surfaced without deleting files before the Room transaction commits. Include Discover source identity duplicate normalization. Run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Validate the integrated Create + Life + Discover batch at exact source SHA d7fafcf2b5f7805a1b42a2509d2f421b4c583cee. Create: DAO update queries return affected-row counts; stale Work/Album/Reference saves are rejected, editor closes only after successful persistence, and the new CreateDaoUpdateResultTest covers missing and existing rows. Create CRUD/reload errors retain data, display retry/close feedback, and cancellation is rethrown. Life: add/update/delete catch ordinary persistence/system-operation failures, preserve CancellationException, report accurate saved-vs-failed outcomes, and surface messages through the Scaffold snackbar. Discover default-port duplicate identity tests remain included. Run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Validate the expanded Life reliability and Create stale-edit batch at exact source SHA d68b84372533cae9de48ef202822372166d1b9b8. Life: add/update/delete preserve coroutine cancellation, catch ordinary persistence/reminder/widget exceptions, distinguish operations that may already have committed, surface messages through the Life snackbar, and CycleViewModel catches errors for person CRUD, date toggles and reminder scheduling with visible feedback in the active cycle dialog. Create: update DAO row counts and stale-target tests, save callbacks, CRUD/reload error recovery. Discover source identity normalization remains included. Run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Validate Life + Cycle + Notebook reliability at exact source SHA 07fffd71b790c7f3e200fddfdb9324a6bd2fd15b. Life CRUD, reminder, focus, check-in and possession operations preserve coroutine cancellation and surface ordinary failures without falsely claiming persistence did not occur. Cycle person CRUD, date toggles and reminder scheduling report failures in the active cycle dialog. Notebook CRUD, pinning, ordering and stack operations catch ordinary persistence failures and expose them via Snackbar; cancellation is rethrown. Include Create stale-update affected-row checks and tests, and Discover source identity normalization. Run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-
-- Shelf data-preservation fix at exact source SHA 07fffd71b790c7f3e200fddfdb9324a6bd2fd15b: remove automatic startup purge of unsupported legacy shelf rows and their local files. Until a complete data-preserving migration to Memory records is implemented, startup must not delete legacy user rows, unlink reading notes, delete local files, or clear retained chapter caches. Verify requested source SHA exactly matches checked-out source SHA; run full JVM suite, assembleDebug, and Room schema v6 version discipline. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-
-- Retry after the previous compile failure at 76b84fe0e5310fbb74700905636376c776c83816: the startup purge block was removed, but shared imports/DAO fields still used by explicit user-triggered Shelf delete and clear-local-content operations were also removed accidentally. They have now been restored; verify compile, full JVM suite, assembleDebug, Room schema v6, and exact requested/checked-out source SHA at 07fffd71b790c7f3e200fddfdb9324a6bd2fd15b. Preserve the explicit delete/clear behavior; only automatic startup purge is disabled.
-
-- Shelf reader progress reliability at exact source SHA 07fffd71b790c7f3e200fddfdb9324a6bd2fd15b: ShelfDao.updateProgress returns affected-row count; repository forwards it; ShelfViewModel checks stale/deleted item and catches ordinary persistence failures while rethrowing cancellation; navigation root shows an app Snackbar for progress-save failures. Verify exact requested/checked-out SHA, full JVM suite, assembleDebug, and Room schema v6. No merge, signing, publishing, or main-branch writes.
-
-- Memory/记本 write reliability at exact source SHA 07fffd71b790c7f3e200fddfdb9324a6bd2fd15b: Room update/delete/move queries return affected-row counts; stale memory edits report failure rather than false success; delete dialog stays open if DB delete fails; move/rename/delete failures surface via Snackbar. Verify exact source SHA, full JVM suite, assembleDebug, Room schema v6. No merge, signing, publishing, or main-branch writes.
-
-- Added MemoryDaoUpdateResultTest at 07fffd71b790c7f3e200fddfdb9324a6bd2fd15b to verify update/move/delete queries report affected-row counts for both missing and existing records. Run full JVM suite including the new test, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. No merge, signing, publishing, or main-branch writes.
-
-- Discover source management and shelf-write reliability at 07fffd71b790c7f3e200fddfdb9324a6bd2fd15b: ResourceSourceDao.update returns affected-row count; add/toggle/delete/test operations catch ordinary failures and surface actionable messages; online book-to-shelf and video-progress writes also report failures. Verify exact source SHA, full JVM suite including MemoryDaoUpdateResultTest, assembleDebug, Room schema v6. No merge, signing, publishing, or main-branch writes.
-
-- Retry after source-management compile failure at dab52e4c535b61cf4d2b6cad8d1a065a8ed126ba: operationMessage state was referenced by Discover UI/ViewModel methods but the state declaration was not inserted because the ViewModel had no isLoaded anchor; declaration is now added beside imported flow. DiscoverScreen now imports LaunchedEffect. Also includes LifeViewModel cancellation-safe focus-session reconciliation failure feedback. Verify exact source SHA, full JVM suite, assembleDebug, Room schema v6. No merge, signing, publishing, or main-branch writes.
-
-- Retry after JVM test compilation failure at 8244d64c15688040e6d43586732212ce1fd9a3cd: ResourceSourceDao.update now returns Int and OwnedSourceDefinitionCleanupTest.FakeResourceSourceDao has been updated to return 1/0 affected rows. This source also includes ResourceSourceDaoUpdateResultTest and the Discover operation state/import fixes. Verify exact source SHA, full JVM suite, assembleDebug, Room schema v6. No merge, signing, publishing, or main-branch writes.
