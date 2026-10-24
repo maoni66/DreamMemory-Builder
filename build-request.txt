@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: 24ff3369981b0acc74c63f5a4d857fbc78bbabce
+Source SHA: 63897d3a677d8b8fe0d874babe4c7f346da143ee
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 24ff3369981b0acc74c63f5a4d857fbc78bbabce
+Expected source SHA at trigger: 63897d3a677d8b8fe0d874babe4c7f346da143ee
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -39,3 +39,5 @@ Acceptance requirements:
 
 
 - Correct the third-party notice module coordinate/version for Coil 3.2.0; confirm no stale 3.6.3 reference remains. Re-run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out source SHA verification.
+
+- Module-focused change: Shelf delete and clear-local-content operations now report database failure to the UI; destructive dialogs stay open on failure; completion callbacks dispatch on Main; best-effort file/cache cleanup does not falsely turn a committed row deletion into a reported failure. Run full JVM tests, assembleDebug, Room schema version discipline, and verify requested/checked-out SHA.
