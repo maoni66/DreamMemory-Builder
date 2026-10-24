@@ -280,7 +280,7 @@ jobs:
   
   publish:
     needs: build
-    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.source_ref == 'main'
+    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.source_ref == 'main' && needs.build.outputs.deliver_apk != 'verify'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
