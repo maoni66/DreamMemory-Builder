@@ -1,14 +1,14 @@
-Validate DreamMemory cross-module shelf file-ownership protection and synchronized docs at exact SHA.
+Validate DreamMemory 0.7.6 candidate metadata and the full self-review integration branch at exact SHA.
 
-Source SHA: d9091d29168a7f97d93d78744dcd8d183a9318ec
+Source SHA: 38451e356b62602b846f4cc292e27036745b4962
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: d9091d29168a7f97d93d78744dcd8d183a9318ec
+Expected source SHA at trigger: 38451e356b62602b846f4cc292e27036745b4962
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
-- Run complete JVM tests, including import cancellation guards, shelf stale-row cleanup and cross-module resource-source/download path reference tests.
-- Build Debug APK.
+- Run complete JVM tests including all integrated safety/UI regressions and cross-module shelf file-owner protection.
+- Build Debug APK with versionName 0.7.6 / versionCode 1018.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Do not sign or publish any APK.
-- Real-device acceptance remains for the final user checklist. Do not merge any PR or write DreamMemory main.
+- This is a validation build, not yet the final user delivery build; device acceptance remains for the final checklist.
