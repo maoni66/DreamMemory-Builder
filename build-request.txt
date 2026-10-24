@@ -1,16 +1,15 @@
-FINAL PRIVATE TEST APK DELIVERY — exact validated DreamMemory 0.7.6 candidate.
+DreamMemory module pass — validate current source changes for 我的 / 首页 / 主题.
 
-Source SHA: 18768e603bcfcb62488e559ccfddefd3d9db2801
+Source SHA: 564b369800f12c139a514f94acc33e7cfb6e0672
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 18768e603bcfcb62488e559ccfddefd3d9db2801
-Deliver APK: yes
-Build mode: full final validation and private test APK delivery. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, upload generated schema artifact, encrypt APK/schema package, decrypt and verify on isolated delivery runner, then upload the verified installable Debug APK to a private release in the private DreamMemory source repository targeting this exact SHA. No production signing, no merge, no DreamMemory main-branch writes, no public release.
+Expected source SHA at trigger: 564b369800f12c139a514f94acc33e7cfb6e0672
+Deliver APK: no
+Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
-- Run the complete JVM test suite.
-- Build Debug APK with versionName 0.7.6 / versionCode 1018.
+- Run the complete JVM test suite, including ThemeContrastTest for all built-in light/dark presets.
+- Build Debug APK with the candidate source's committed version metadata.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
-- Encrypt the package and verify isolated-runner decryption plus APK signature.
-- Because Deliver APK is explicitly yes, publish only to the private source repository release targeting this exact SHA. Do not use the main-branch production publishing job.
-- Final artifact is a private installable Debug APK for the owner's device testing, not a production-signed release.
+- Do not publish any APK or change signing configuration.
+- Report exact source SHA, test/build/schema outcomes, and any failures; CI success is not device acceptance.
