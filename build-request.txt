@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: d4d9fdd7debb15177379700effc6489915f4da7b
+Source SHA: 9693f7e3cd797d1b25054fa0915bf0d2b7683154
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: d4d9fdd7debb15177379700effc6489915f4da7b
+Expected source SHA at trigger: 9693f7e3cd797d1b25054fa0915bf0d2b7683154
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -59,3 +59,6 @@ Acceptance requirements:
 
 
 - Revalidate the shared bounded-import batch and failure feedback at exact source SHA d4d9fdd7debb15177379700effc6489915f4da7b: profile avatar/background import preserves coroutine cancellation, removes temp files and displays a failure notice; memory attachment import displays a failure notice and removes partial/unreferenced files. The common stream copier enforces actual-byte limits: profile/avatar and record cover 32 MiB, memory attachments and Create assets 64 MiB. Run `BoundedStreamCopyTest`, `RecordCoverImageImportTest`, full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
+
+
+- Retry the shared bounded-import batch after correcting the malformed import/delegation in `RecordCoverImageImport.kt` found by the previous CI compile failure (run 40048841197). The corrected wrapper delegates to `copyBoundedStream` and keeps the 32 MiB cap. Re-run all bounded import tests, full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Include profile/avatar, memory attachment, Create asset limits and profile cancellation handling. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
