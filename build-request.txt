@@ -1,8 +1,8 @@
-Re-validate DreamMemory PR #9 after fixing the nullable URI compile error, at exact source SHA.
+Validate latest DreamMemory PR #9 canvas asset file URI handling at exact source SHA.
 
-Source SHA: bf79ff2a4aba03a8bace2257e708debbd5121913
+Source SHA: b220c9ac6685d57ad8c04c1ec4fa24768ba03775
 Source ref: fix/create-asset-cleanup-file-uri
-Expected source SHA at trigger: bf79ff2a4aba03a8bace2257e708debbd5121913
+Expected source SHA at trigger: b220c9ac6685d57ad8c04c1ec4fa24768ba03775
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
