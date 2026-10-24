@@ -1,15 +1,14 @@
-Validate the DreamMemory completion integration branch after porting independently validated safety fixes.
+Validate the DreamMemory completion integration branch after porting independently validated safety and UI fixes.
 
-Source SHA: 80cf2e26566bc4954334557febe732790af583cd
+Source SHA: 09bca63d7a3493d6dbe34753e3ab9042530bc7b0
 Source ref: work/2026-10-24-completion
-Expected source SHA at trigger: 80cf2e26566bc4954334557febe732790af583cd
+Expected source SHA at trigger: 09bca63d7a3493d6dbe34753e3ab9042530bc7b0
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
-- Run the complete JVM unit test suite, including shelf cleanup race, canvas source-path reference, create asset file URI, record stale-snapshot history, and resource HTTP/download ownership regression tests.
-- Build the Debug APK.
+- Run complete JVM unit tests, including shelf cleanup race, canvas source-path references, create asset file URI, record stale-snapshot history, HTTP redirect body/download ownership, home schedule/DST and custom theme contrast tests.
+- Build Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Do not sign or publish any APK.
-- This is a development integration branch. Keep user-device acceptance open; do not merge any PR or write DreamMemory main.
-Retry note: allowlist updated in builder workflow; rerun exact source SHA after validation-gate fix.
+- Keep all user-device acceptance open and do not merge any PR or write DreamMemory main.
