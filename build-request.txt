@@ -1,8 +1,8 @@
-DreamMemory illustration redesign pass — validate contrast-corrected palettes and focus apple silhouette.
+DreamMemory object-specific empty-state illustration pass — validate native Compose illustrations integrated into Shelf and Record.
 
-Source SHA: 3461138fe98f320085561326c24a4dffebae9ccc
+Source SHA: 585d7e6d6f0ceec43e8538de354ca5fd7c1a3529
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 3461138fe98f320085561326c24a4dffebae9ccc
+Expected source SHA at trigger: 585d7e6d6f0ceec43e8538de354ca5fd7c1a3529
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
