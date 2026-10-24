@@ -24,6 +24,7 @@ jobs:
       source_sha: ${{ steps.source.outputs.source_sha }}
       source_ref: ${{ steps.request.outputs.source_ref }}
       needs_build: ${{ steps.request.outputs.needs_build }}
+      deliver_apk: ${{ steps.request.outputs.deliver_apk }}
     steps:
       - name: Checkout build request
         uses: actions/checkout@v7
@@ -47,10 +48,17 @@ jobs:
             echo "Source SHA must be a full 40-character commit SHA."
             exit 1
           fi
+          deliver_apk="$(awk -F': ' '/^Deliver APK:/ {print $2; exit}' builder/build-request.txt)"
+          deliver_apk="${deliver_apk:-no}"
+          case "$deliver_apk" in
+            yes|no) ;;
+            *) echo "Deliver APK must be yes or no."; exit 1 ;;
+          esac
           echo "source_ref=$source_ref" >> "$GITHUB_OUTPUT"
           echo "requested_source_sha=$requested_source_sha" >> "$GITHUB_OUTPUT"
           echo "needs_build=true" >> "$GITHUB_OUTPUT"
-          echo "Explicit build requested for source ref: $source_ref at $requested_source_sha"
+          echo "deliver_apk=$deliver_apk" >> "$GITHUB_OUTPUT"
+          echo "Explicit build requested for source ref: $source_ref at $requested_source_sha (deliver APK: $deliver_apk)"
 
       - name: Checkout private DreamMemory source
         uses: actions/checkout@v7
@@ -180,7 +188,7 @@ jobs:
       # Room's generated schema is part of the release contract. Carry it encrypted
       # to the isolated publisher so it can be versioned in the private source repo.
       - name: Encrypt APK and Room schema for isolated publishing runner
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.source_ref == 'main'
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.source_ref == 'main' || steps.request.outputs.deliver_apk == 'yes')
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
         shell: bash
@@ -198,7 +206,7 @@ jobs:
             -pass env:ARTIFACT_PASSWORD
 
       - name: Upload encrypted release package only
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.source_ref == 'main'
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.source_ref == 'main' || steps.request.outputs.deliver_apk == 'yes')
         uses: actions/upload-artifact@v6
         with:
           name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
@@ -206,6 +214,66 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
+  deliver-private-branch-apk:
+    needs: build
+    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.source_ref != 'main' && needs.build.outputs.deliver_apk == 'yes'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      # The publisher runner never checks out or executes project source code.
+      - name: Download encrypted APK package
+        uses: actions/download-artifact@v6
+        with:
+          name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/encrypted
+
+      - name: Decrypt package and verify debug APK
+        env:
+          ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
+          SOURCE_SHA: ${{ needs.build.outputs.source_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${ARTIFACT_PASSWORD:-}" || { echo "Missing repository secret DREAMMEMORY_ARTIFACT_PASSWORD"; exit 1; }
+          openssl enc -d -aes-256-cbc -pbkdf2 -salt \
+            -in "$RUNNER_TEMP/encrypted/dreammemory-package.enc" \
+            -out "$RUNNER_TEMP/dreammemory-package.tar.gz" \
+            -pass env:ARTIFACT_PASSWORD
+          mkdir -p "$RUNNER_TEMP/package"
+          tar -xzf "$RUNNER_TEMP/dreammemory-package.tar.gz" -C "$RUNNER_TEMP/package"
+          apk_path="$(find "$RUNNER_TEMP/package" -type f -name app-debug.apk -print -quit)"
+          schema_path="$(find "$RUNNER_TEMP/package" -type f -name '*.json' -path '*/app/schemas/*' -print -quit)"
+          test -n "$apk_path" && test -s "$apk_path" || { echo "APK missing from encrypted package"; exit 1; }
+          test -n "$schema_path" && test -s "$schema_path" || { echo "Room schema missing from encrypted package"; exit 1; }
+          apksigner="$ANDROID_HOME/build-tools/36.0.0/apksigner"
+          if [ ! -x "$apksigner" ]; then
+            yes | sdkmanager --licenses > /dev/null || true
+            sdkmanager "build-tools;36.0.0"
+          fi
+          "$apksigner" verify --verbose "$apk_path"
+          cp "$apk_path" "$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-debug.apk"
+
+      - name: Publish APK to private source repository release
+        env:
+          GH_TOKEN: ${{ secrets.PRIVATE_RELEASE_TOKEN }}
+          SOURCE_SHA: ${{ needs.build.outputs.source_sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${GH_TOKEN:-}" || { echo "Missing repository secret PRIVATE_RELEASE_TOKEN"; exit 1; }
+          apk="$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-debug.apk"
+          test -s "$apk" || { echo "Verified debug APK is missing"; exit 1; }
+          tag="private-test-${SOURCE_SHA:0:12}-${RUN_ID}-${RUN_ATTEMPT}"
+          gh release create "$tag" "$apk" \
+            --repo maoni66/DreamMemory \
+            --target "$SOURCE_SHA" \
+            --title "DreamMemory private test APK ${SOURCE_SHA:0:12}" \
+            --notes "Private test build from exact source commit $SOURCE_SHA. This is an installable Android Debug APK produced by assembleDebug and verified on the isolated delivery runner. It is not a release-signed production build. No source branch or main-branch writes were performed by this delivery job."
+  
   publish:
     needs: build
     if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.source_ref == 'main'
