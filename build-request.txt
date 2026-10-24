@@ -1,8 +1,8 @@
 DreamMemory module pass — validate current source changes for 我的 / 首页 / 主题.
 
-Source SHA: 564b369800f12c139a514f94acc33e7cfb6e0672
+Source SHA: 975624cf4688b5a9e3a181effa0f46213d0a4bec
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 564b369800f12c139a514f94acc33e7cfb6e0672
+Expected source SHA at trigger: 975624cf4688b5a9e3a181effa0f46213d0a4bec
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
