@@ -1,8 +1,8 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: 935eed4bfc9661650584f4605b3e37618aa1c6ba
+Source SHA: 4d6b42c495afdbace2e20aba075d6fb26a1b5e90
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 935eed4bfc9661650584f4605b3e37618aa1c6ba
+Expected source SHA at trigger: 4d6b42c495afdbace2e20aba075d6fb26a1b5e90
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
@@ -13,7 +13,7 @@ Acceptance requirements:
 - Validate bounded theme bitmap decoding and unit tests.
 - Validate bounded SVG header reading for imported theme images, including long leading comments, standard SVG DOCTYPE declarations, strict read-size budget, and zero-progress bulk-read fallback.
 - Validate the custom-theme preview foreground now uses the shared contrast-aware foreground resolver; run the existing full ThemeContrastTest suite.
-- Validate custom-theme asset reference collection, save/cancel cleanup, persisted-before-cleanup saved-theme asset reconciliation, safe local/import directory checks, unified bubble defaults for legacy theme data, dynamic theme precedence, background-aware system bar icon mode, and bounded profile avatar/background sampling; confirm full JVM tests, Debug APK, and Room schema checks on this exact SHA.
+- Validate custom-theme asset reference collection, save/cancel cleanup, persisted-before-cleanup saved-theme asset reconciliation, safe local/import directory checks, unified bubble defaults for legacy theme data, shared bounded SVG validation for direct and package imports, dynamic theme precedence, background-aware system bar icon mode, and bounded profile avatar/background sampling; confirm full JVM tests, Debug APK, and Room schema checks on this exact SHA.
 - Verify per-domain device acceptance policy and project progress docs do not disturb source validation.
 - Do not publish any APK or change signing configuration in this validation-only run.
 - Report exact source SHA, test/build/schema outcomes, and failures; CI success is not device acceptance.
