@@ -1,14 +1,14 @@
-Validate current DreamMemory PR #5 head at its exact source SHA.
+Validate the latest DreamMemory integration/audit branch at its exact current SHA.
 
-Source SHA: ee66391b2146529dc12d52d53d87d0327520c2db
-Source ref: fix/block-cross-origin-redirect-body
-Expected source SHA at trigger: ee66391b2146529dc12d52d53d87d0327520c2db
+Source SHA: a373e3fe6c125be1421798763af5d702fbc5dd12
+Source ref: design/visual-system-pass-0.7.6
+Expected source SHA at trigger: a373e3fe6c125be1421798763af5d702fbc5dd12
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- Verify the requested source SHA equals the actual checked-out source SHA.
+- Verify requested source SHA equals actual checked-out source SHA.
 - Run the complete JVM unit test suite.
 - Build the Debug APK.
-- Enforce Room schema v6 semantic/version discipline and upload the schema artifact.
+- Enforce Room schema v6 semantic/version discipline and upload the generated schema artifact.
 - Do not sign or publish any APK.
-- This validates the exact PR head; it does not constitute real-device or formal release acceptance.
+- This branch is a development/audit branch; results do not imply PR #5/#6 are merged or that real-device/formal release acceptance is complete.
