@@ -1,15 +1,15 @@
-Validate final-candidate workflow behavior and documentation at exact source SHA.
+Verify the private APK delivery pipeline without publishing a release, at exact candidate SHA.
 
-Source SHA: ec68986394a04c13ee7f6ebe288c8f66946dcf7c
+Source SHA: 3cc0e566bb389d86f0f8308390a0e84e29b35d2f
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: ec68986394a04c13ee7f6ebe288c8f66946dcf7c
-Deliver APK: no
-Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
+Expected source SHA at trigger: 3cc0e566bb389d86f0f8308390a0e84e29b35d2f
+Deliver APK: verify
+Build mode: validation plus encrypted transfer verification only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, upload generated schema artifact, encrypt APK/schema package, decrypt on isolated delivery runner, and verify APK signature. Do not create a release, sign with production key, merge, or write DreamMemory main.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
 - Run complete JVM tests.
 - Build Debug APK with versionName 0.7.6 / versionCode 1018.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
-- Deliver APK must remain disabled for this validation run; private delivery is only enabled by an explicit separate request after final self-review.
-- Do not sign or publish any APK.
+- Encrypt and upload only the temporary encrypted package to the Builder artifact store; isolated delivery runner must decrypt it, find APK and schema, and verify APK signature.
+- Deliver APK mode is verify: no private release or APK publication must occur.
