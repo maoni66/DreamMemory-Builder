@@ -1,8 +1,8 @@
-DreamMemory illustration system pass 2 — validate canvas collage illustration integration.
+DreamMemory illustration system pass 2 — validate fixed record cover material mapping.
 
-Source SHA: 76bd1a853cdba1639439cd910653a26fa32c7434
+Source SHA: 37dc72247225cefd963c9e7d9d1f50aed51c3ece
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 76bd1a853cdba1639439cd910653a26fa32c7434
+Expected source SHA at trigger: 37dc72247225cefd963c9e7d9d1f50aed51c3ece
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
