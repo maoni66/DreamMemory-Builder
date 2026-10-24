@@ -1,15 +1,16 @@
-Validate safe ownership and cleanup for bounded media downloads at exact source SHA 209c75e32452d88e6e98423eb5f1dcec2653847b.
+Validate bounded media download ownership and cleanup at exact source SHA d18a4886a7e0137a98f583ae5bfada3be0b69a42.
 
-Source SHA: 209c75e32452d88e6e98423eb5f1dcec2653847b
+Source SHA: d18a4886a7e0137a98f583ae5bfada3be0b69a42
 Source ref: fix/block-cross-origin-redirect-body
-Expected source SHA at trigger: 209c75e32452d88e6e98423eb5f1dcec2653847b
+Expected source SHA at trigger: d18a4886a7e0137a98f583ae5bfada3be0b69a42
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- Bounded media download uses a unique sibling temporary file instead of deleting a predictable destination.part path that may be user-owned.
-- Failed download cleanup removes only the temporary file created by this invocation and never deletes destination.
-- Finalization must not overwrite a destination file created during the network transfer.
-- Run tests boundedMediaDownloadPreservesExistingSiblingPartFile and boundedMediaDownloadDoesNotDeleteDestinationCreatedDuringTransfer, plus all ResourceHttpSafety tests and full project JVM suite.
+- Bounded media download uses a unique sibling temporary file rather than deleting a predictable destination.part path.
+- Failed download cleanup removes only the invocation-owned temporary file and never deletes destination.
+- Finalization does not overwrite a destination file created during the transfer.
+- BoundedVideoDownloadService must not delete destination or a predictable .part path on cancellation/failure; downloadResourceToFileBounded owns temporary-file cleanup.
+- Run boundedMediaDownloadPreservesExistingSiblingPartFile and boundedMediaDownloadDoesNotDeleteDestinationCreatedDuringTransfer, plus all ResourceHttpSafety tests and full project JVM suite.
 - Keep cross-origin redirect request-body protection tests and ResourceHttpSafetyIntegrationTest in the full test run.
 - Build Debug APK and enforce Room schema v6 semantic/version discipline; upload schema artifact.
 - Confirm requested source SHA equals actual checked-out source SHA exactly.
