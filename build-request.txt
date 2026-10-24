@@ -1,8 +1,8 @@
-DreamMemory theme asset validation — validate imported image signatures.
+DreamMemory theme asset validation — validate direct and package image imports.
 
-Source SHA: d138e2891eb4bd18d0bbd144a0a8bafd9cec4139
+Source SHA: 56586311f8a3f6a40ca6f965c1489288d49278c4
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: d138e2891eb4bd18d0bbd144a0a8bafd9cec4139
+Expected source SHA at trigger: 56586311f8a3f6a40ca6f965c1489288d49278c4
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
