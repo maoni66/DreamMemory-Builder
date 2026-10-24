@@ -229,6 +229,9 @@ jobs:
           name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/encrypted
 
+      - name: Set up Android SDK tools
+        uses: android-actions/setup-android@v4
+
       - name: Decrypt package and verify debug APK
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
