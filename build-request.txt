@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: 764cbf4819b54681e6b1704a2a52bcc12c8407b2
+Source SHA: 76b84fe0e5310fbb74700905636376c776c83816
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 764cbf4819b54681e6b1704a2a52bcc12c8407b2
+Expected source SHA at trigger: 76b84fe0e5310fbb74700905636376c776c83816
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -85,4 +85,7 @@ Acceptance requirements:
 - Validate the expanded Life reliability and Create stale-edit batch at exact source SHA d68b84372533cae9de48ef202822372166d1b9b8. Life: add/update/delete preserve coroutine cancellation, catch ordinary persistence/reminder/widget exceptions, distinguish operations that may already have committed, surface messages through the Life snackbar, and CycleViewModel catches errors for person CRUD, date toggles and reminder scheduling with visible feedback in the active cycle dialog. Create: update DAO row counts and stale-target tests, save callbacks, CRUD/reload error recovery. Discover source identity normalization remains included. Run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
 
 
-- Validate Life + Cycle + Notebook reliability at exact source SHA 764cbf4819b54681e6b1704a2a52bcc12c8407b2. Life CRUD, reminder, focus, check-in and possession operations preserve coroutine cancellation and surface ordinary failures without falsely claiming persistence did not occur. Cycle person CRUD, date toggles and reminder scheduling report failures in the active cycle dialog. Notebook CRUD, pinning, ordering and stack operations catch ordinary persistence failures and expose them via Snackbar; cancellation is rethrown. Include Create stale-update affected-row checks and tests, and Discover source identity normalization. Run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
+- Validate Life + Cycle + Notebook reliability at exact source SHA 76b84fe0e5310fbb74700905636376c776c83816. Life CRUD, reminder, focus, check-in and possession operations preserve coroutine cancellation and surface ordinary failures without falsely claiming persistence did not occur. Cycle person CRUD, date toggles and reminder scheduling report failures in the active cycle dialog. Notebook CRUD, pinning, ordering and stack operations catch ordinary persistence failures and expose them via Snackbar; cancellation is rethrown. Include Create stale-update affected-row checks and tests, and Discover source identity normalization. Run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
+
+
+- Shelf data-preservation fix at exact source SHA 76b84fe0e5310fbb74700905636376c776c83816: remove automatic startup purge of unsupported legacy shelf rows and their local files. Until a complete data-preserving migration to Memory records is implemented, startup must not delete legacy user rows, unlink reading notes, delete local files, or clear retained chapter caches. Verify requested source SHA exactly matches checked-out source SHA; run full JVM suite, assembleDebug, and Room schema v6 version discipline. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
