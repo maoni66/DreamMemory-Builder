@@ -1,8 +1,8 @@
 DreamMemory progress gates and current material-surface contrast validation
 
-Source SHA: 022ff2be949b0343eb791786de2dbaa02407e252
+Source SHA: d7a4c0f1800f2d6065f44765ac62ff3c7e9b0c56
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 022ff2be949b0343eb791786de2dbaa02407e252
+Expected source SHA at trigger: d7a4c0f1800f2d6065f44765ac62ff3c7e9b0c56
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
@@ -10,6 +10,6 @@ Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
 - Run complete JVM unit tests and build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
-- Confirm the progress-tracking documentation changes do not disturb source validation.
+- Confirm the full-app 40-point progress tracker and context changes do not disturb source validation.
 - Do not publish any APK or change signing configuration.
 - Report exact source SHA, test/build/schema outcomes, and failures; CI success is not device acceptance.
