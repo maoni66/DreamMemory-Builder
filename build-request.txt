@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: ef792c21ef8613488215aba56fa250f3e0c4a7e0
+Source SHA: 875800e4fd372c0ca779173743a1d3f4f08e751c
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: ef792c21ef8613488215aba56fa250f3e0c4a7e0
+Expected source SHA at trigger: 875800e4fd372c0ca779173743a1d3f4f08e751c
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -74,3 +74,6 @@ Acceptance requirements:
 
 
 - Validate the integrated Discover + Create reliability batch at exact source SHA ef792c21ef8613488215aba56fa250f3e0c4a7e0. Discover: source identity canonicalizes URI dot segments and default HTTP/HTTPS ports, and equivalent duplicate sources are explicitly marked duplicate/invalidAddress=false/not selected. Create: collection reload reads all three collections into snapshots before replacing visible lists; ordinary DAO failures preserve the last usable lists and surface a retry message, while coroutine cancellation is rethrown. Validate compilation of the Create screen retry UI. Run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
+
+
+- Revalidate the complete Create reliability batch at exact source SHA 875800e4fd372c0ca779173743a1d3f4f08e751c: Create collections retain the last successful snapshot if reload fails; load errors expose a retry state; Work/Album/Reference saves keep edit mode open until persistence succeeds and preserve cancellation semantics; create and delete failures are caught and surfaced without deleting files before the Room transaction commits. Include Discover source identity duplicate normalization. Run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
