@@ -1,14 +1,14 @@
-Validate DreamMemory PR #6 record stale-delete result propagation at exact source SHA.
+Validate DreamMemory PR #8 canvas source-path references at exact source SHA.
 
-Source SHA: 67b3add095fc86e527b666d960a6094d88b2a529
-Source ref: fix/record-update-stale-snapshot
-Expected source SHA at trigger: 67b3add095fc86e527b666d960a6094d88b2a529
+Source SHA: de81b588b62bb3356ec7a07fbfefd69832f06f81
+Source ref: fix/data-health-canvas-path-references
+Expected source SHA at trigger: de81b588b62bb3356ec7a07fbfefd69832f06f81
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
-- Run the complete JVM unit test suite, including RecordRepositoryDeleteTest.
+- Run the complete JVM unit test suite, including the new canvas source-path orphan regression test.
 - Build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Do not sign or publish any APK.
-- PR #6 targets fix/block-cross-origin-redirect-body; it remains draft-only and requires real-device acceptance separately.
+- PR #8 targets design/visual-system-pass-0.7.6; it is draft-only and requires real-device acceptance separately.
