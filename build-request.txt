@@ -11,5 +11,13 @@ Acceptance requirements:
 - Run complete JVM unit tests and build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Verify per-domain device acceptance policy and project progress docs do not disturb source validation.
-- Do not publish any APK or change signing configuration.
+- Do not publish any APK or change signing configuration in this validation-only run.
 - Report exact source SHA, test/build/schema outcomes, and failures; CI success is not device acceptance.
+
+Future APK/device-test delivery requirements (do not execute in this validation-only run):
+- Each domain's device-test APK must be built from the exact reviewed source SHA and linked to that domain's acceptance record.
+- The eventual candidate/release APK must be built from DreamMemory's main branch after the intended changes are merged and reviewed; do not treat a feature-branch build as the final release artifact.
+- Signing identity must remain consistent across upgrade-test APKs and the final APK. Before enabling APK delivery, inspect the repository's existing signing/release setup and verify whether a production signing configuration and keystore already exist. Do not assume they exist and do not generate or replace a keystore.
+- Never commit keystore files, passwords, or private signing material. Use protected GitHub Actions secrets or an existing approved secure signing mechanism. If no approved key/configuration is available, stop and report the blocker rather than silently signing with a different key.
+- Verify the delivered APK's signer certificate fingerprint with apksigner and record it with the exact source SHA, versionCode/versionName, artifact link, and build run. A Debug APK signed with the debug key is not interchangeable with a release APK signed with the production key.
+- Do not merge to main, publish, sign with production credentials, or deliver an APK until a separate delivery request explicitly enables that mode.
