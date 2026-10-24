@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: 972982877a1d9cd14c955961f5295ea820d5d8e4
+Source SHA: 559462a3fb95f1b1be6a2135ecbd6a1b0dfb74ac
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 972982877a1d9cd14c955961f5295ea820d5d8e4
+Expected source SHA at trigger: 559462a3fb95f1b1be6a2135ecbd6a1b0dfb74ac
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -35,4 +35,4 @@ Acceptance requirements:
 
 - Evaluate Coil 3.2.0 local-only raster preview pilot in Create asset preview: local app-owned File model only, asynchronous size-aware decoding, 360dp preview height cap, no arbitrary network model. Keep hardened AndroidSVG XML/DTD validation for SVG. Validate dependency resolution, full JVM suite, Debug APK, Room schema v6 discipline, and exact source SHA.
 
-- Retry after adding the missing Compose `remember` and `mutableStateOf` imports required by the Coil preview state handling. Re-run full JVM suite, assembleDebug, Room schema v6 discipline, and verify exact requested/checked-out source SHA.
+- Retry after adding the missing Compose `remember`, `mutableStateOf`, and `setValue` imports required by the Coil preview state handling. Re-run full JVM suite, assembleDebug, Room schema v6 discipline, and verify exact requested/checked-out source SHA.
