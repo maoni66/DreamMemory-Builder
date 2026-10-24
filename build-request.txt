@@ -1,8 +1,8 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: 6bea67c398203beefe8c5aef0540cb13b20e7271
+Source SHA: 6ae1804ee60fe36b823b445ee757caecb52b07ad
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 6bea67c398203beefe8c5aef0540cb13b20e7271
+Expected source SHA at trigger: 6ae1804ee60fe36b823b445ee757caecb52b07ad
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
