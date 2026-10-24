@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: ddc38cf7af704765fab219b0db52491e566db8c2
+Source SHA: ef792c21ef8613488215aba56fa250f3e0c4a7e0
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: ddc38cf7af704765fab219b0db52491e566db8c2
+Expected source SHA at trigger: ef792c21ef8613488215aba56fa250f3e0c4a7e0
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -71,3 +71,6 @@ Acceptance requirements:
 
 
 - Validate book-source identity deduplication at exact source SHA ddc38cf7af704765fab219b0db52491e566db8c2: normalize URI dot segments, treat explicit HTTP :80 and HTTPS :443 as equivalent to their implicit default ports, preserve non-default ports and path case, and reject equivalent duplicate imports during preview. Run full JVM tests, assembleDebug, Room schema v6 discipline, and verify requested source SHA equals checked-out source SHA. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
+
+
+- Validate the integrated Discover + Create reliability batch at exact source SHA ef792c21ef8613488215aba56fa250f3e0c4a7e0. Discover: source identity canonicalizes URI dot segments and default HTTP/HTTPS ports, and equivalent duplicate sources are explicitly marked duplicate/invalidAddress=false/not selected. Create: collection reload reads all three collections into snapshots before replacing visible lists; ordinary DAO failures preserve the last usable lists and surface a retry message, while coroutine cancellation is rethrown. Validate compilation of the Create screen retry UI. Run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
