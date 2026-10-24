@@ -1,16 +1,14 @@
-Revalidate Discover download file ownership and import-cancellation safety at exact source SHA ee66391b2146529dc12d52d53d87d0327520c2db.
+Validate stale record-editor snapshot protection at exact source SHA 353338f20004f842ed1aca036c1de20f25a51ad9.
 
-Source SHA: ee66391b2146529dc12d52d53d87d0327520c2db
-Source ref: fix/block-cross-origin-redirect-body
-Expected source SHA at trigger: ee66391b2146529dc12d52d53d87d0327520c2db
+Source SHA: 353338f20004f842ed1aca036c1de20f25a51ad9
+Source ref: fix/record-update-stale-snapshot
+Expected source SHA at trigger: 353338f20004f842ed1aca036c1de20f25a51ad9
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- Validate the exact source SHA and branch checkout.
-- Unique temporary media-download files; no clobbering a pre-existing .part file or a destination created during transfer; only clean up invocation-owned temp files.
-- Negative-ID bounded-download failure/reconciliation paths never delete pre-existing destinations or predictable .part paths.
-- Cross-origin redirect request-body protections and local HTTP integration tests pass.
-- Local book, Legado source-batch, and Kazumi rule imports preserve files once their Room rows/transactions commit; cancellation before commit cleans uncommitted files.
-- Full JVM suite, Debug APK build, Room schema v6 semantic/version discipline, and schema artifact upload must pass.
-- Real-device acceptance remains open: six-tab UI/accessibility, SAF/restore, historical database migration, external source compatibility, reader lifecycle, theme/skin behavior, import/download cancellation and restart, and formal release readiness.
-- Do not merge any PR, do not write to DreamMemory main, do not sign or publish. Do not expose the private APK as a public artifact.
+- RecordRepository.update derives status history and completion metadata from the latest persisted record, not the stale editor snapshot.
+- The latest-row read, entity update, and status-history insert occur in one Room transaction.
+- RecordDaoUpdateHistoryTest.editUsesLatestPersistedStatusForHistoryAndCompletionTimestamp passes, alongside all existing RecordCompletionStatusTest and DAO tests.
+- Run complete JVM test suite, build Debug APK, enforce Room schema v6 semantic/version discipline, upload schema artifact, and verify exact requested/checked-out source SHA.
+- This is a stacked draft PR based on fix/block-cross-origin-redirect-body; no merge to DreamMemory main, no signing or publishing.
+- Real-device acceptance remains open, including record CRUD, repeated experience events, status timeline, cover file lifecycle, six-tab navigation, backups/restores, and formal release readiness.
