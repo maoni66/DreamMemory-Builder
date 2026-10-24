@@ -1,8 +1,8 @@
-DreamMemory life empty-state illustration — validate check-in sprout integration.
+DreamMemory theme asset validation — validate imported image signatures.
 
-Source SHA: db3b20e8660d0d946029ca2c6779416b1dd1fece
+Source SHA: d138e2891eb4bd18d0bbd144a0a8bafd9cec4139
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: db3b20e8660d0d946029ca2c6779416b1dd1fece
+Expected source SHA at trigger: d138e2891eb4bd18d0bbd144a0a8bafd9cec4139
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
