@@ -1,8 +1,8 @@
-DreamMemory illustration system pass 2 — validate editorial shelf and record covers.
+DreamMemory visual accessibility pass — validate fixed paper preview contrast.
 
-Source SHA: 4d46c14b0687505cfd74e7d6527aa4762093fed1
+Source SHA: d16dc361fb583b38c67aff061ac8c661fa93c29e
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 4d46c14b0687505cfd74e7d6527aa4762093fed1
+Expected source SHA at trigger: d16dc361fb583b38c67aff061ac8c661fa93c29e
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
