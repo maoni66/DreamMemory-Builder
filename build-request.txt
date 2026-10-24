@@ -1,14 +1,14 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: f70d441cc706cba105205a1847ed13a2aa01dcf1
+Source SHA: 6e8ad71765b9cc0f111df0b1577303bb08c337d8
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: f70d441cc706cba105205a1847ed13a2aa01dcf1
+Expected source SHA at trigger: 6e8ad71765b9cc0f111df0b1577303bb08c337d8
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
 
 - EPUB local-reader progress fix at exact source SHA 79aed9f5521b45d3ff4f953db8c790c983588dd2: saved progress must include both chapter index and scroll fraction within the chapter; restore waits for chapter content/layout; chapter switches reset scroll; missing/invalid note anchors fall back to saved reading progress. Validate epubProgressPercent for in-chapter movement, chapter boundaries, empty books, and non-scrollable chapters. Run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
-- EPUB invalid-anchor fallback fix at exact source SHA f70d441cc706cba105205a1847ed13a2aa01dcf1: fallback chapter selection must use the same overall progress normalization as initial restore (`progress * chapterCount / 100`, clamped to the last chapter), not `lastIndex * progress / 100`, which selects an earlier chapter. Validate 0%, 25%, 50%, 99%, 100%, one/zero chapters, and out-of-range percentages. Run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
+- EPUB invalid-anchor fallback fix at exact source SHA 6e8ad71765b9cc0f111df0b1577303bb08c337d8: fallback chapter selection must use the same overall progress normalization as initial restore (`progress * chapterCount / 100`, clamped to the last chapter), not `lastIndex * progress / 100`, which selects an earlier chapter. Validate 0%, 25%, 50%, 99%, 100%, one/zero chapters, and out-of-range percentages. Run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
 
 - Requested source SHA and actual checked-out source SHA must exactly match.
 - Run the complete JVM unit test suite, including DreamScreenNavigationTest, ThemeContrastTest, and existing project regressions.
