@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: e78e973b511932edf33d7c16564fac1b4c13dae5
+Source SHA: a446e291982c45d787d9894953ddac37a1f1f832
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: e78e973b511932edf33d7c16564fac1b4c13dae5
+Expected source SHA at trigger: a446e291982c45d787d9894953ddac37a1f1f832
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -53,3 +53,6 @@ Acceptance requirements:
 
 
 - Latest module reliability batch at exact source SHA e78e973b511932edf33d7c16564fac1b4c13dae5: bounded Record cover picker imports to 32 MiB using actual stream byte counts, clean up partial files on failure, and show user feedback when import fails; test exact-limit success, over-limit refusal without writing beyond limit, and negative limit. Life item deletion now cancels AlarmManager reminders unconditionally to recover from stale persisted reminder flags. Include Record and Consumption stale-delete transactions, record/experience deletion-dialog retry behavior, accurate consumption-spending label, and prior Shelf/Life fixes. Run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
+
+
+- Validate shared bounded-stream import batch at exact source SHA a446e291982c45d787d9894953ddac37a1f1f832: common copier checks actual stream bytes and never writes beyond the limit; record covers remain capped at 32 MiB, profile avatar/background at 32 MiB, memory attachments at 64 MiB, and Create assets at 64 MiB. Verify `BoundedStreamCopyTest` exact-limit, over-limit and negative-limit cases plus `RecordCoverImageImportTest`. Profile image import now rethrows `CancellationException` instead of swallowing coroutine cancellation, while still cleaning its temporary file. Include all previously documented Shelf, Life, Record, Consumption, and cover-import changes; run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
