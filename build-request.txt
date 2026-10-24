@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: a446e291982c45d787d9894953ddac37a1f1f832
+Source SHA: d4d9fdd7debb15177379700effc6489915f4da7b
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: a446e291982c45d787d9894953ddac37a1f1f832
+Expected source SHA at trigger: d4d9fdd7debb15177379700effc6489915f4da7b
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -56,3 +56,6 @@ Acceptance requirements:
 
 
 - Validate shared bounded-stream import batch at exact source SHA a446e291982c45d787d9894953ddac37a1f1f832: common copier checks actual stream bytes and never writes beyond the limit; record covers remain capped at 32 MiB, profile avatar/background at 32 MiB, memory attachments at 64 MiB, and Create assets at 64 MiB. Verify `BoundedStreamCopyTest` exact-limit, over-limit and negative-limit cases plus `RecordCoverImageImportTest`. Profile image import now rethrows `CancellationException` instead of swallowing coroutine cancellation, while still cleaning its temporary file. Include all previously documented Shelf, Life, Record, Consumption, and cover-import changes; run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
+
+
+- Revalidate the shared bounded-import batch and failure feedback at exact source SHA d4d9fdd7debb15177379700effc6489915f4da7b: profile avatar/background import preserves coroutine cancellation, removes temp files and displays a failure notice; memory attachment import displays a failure notice and removes partial/unreferenced files. The common stream copier enforces actual-byte limits: profile/avatar and record cover 32 MiB, memory attachments and Create assets 64 MiB. Run `BoundedStreamCopyTest`, `RecordCoverImageImportTest`, full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
