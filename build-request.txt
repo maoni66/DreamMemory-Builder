@@ -1,19 +1,16 @@
-Validate Discover download file ownership and import-cancellation safety at exact source SHA 29fa454b05fb46ad600e54f736dc2976ceb01f27.
+Revalidate Discover download file ownership and import-cancellation safety at exact source SHA ee66391b2146529dc12d52d53d87d0327520c2db.
 
-Source SHA: 29fa454b05fb46ad600e54f736dc2976ceb01f27
+Source SHA: ee66391b2146529dc12d52d53d87d0327520c2db
 Source ref: fix/block-cross-origin-redirect-body
-Expected source SHA at trigger: 29fa454b05fb46ad600e54f736dc2976ceb01f27
+Expected source SHA at trigger: ee66391b2146529dc12d52d53d87d0327520c2db
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- Bounded media download uses a unique sibling temporary file instead of a predictable destination.part path.
-- Download finalization does not overwrite a destination file created during transfer.
-- Download cleanup removes only the invocation-owned temp file; service and negative-ID reconciliation/failure paths never delete destination or predictable .part files.
-- Run boundedMediaDownloadPreservesExistingSiblingPartFile and boundedMediaDownloadDoesNotDeleteDestinationCreatedDuringTransfer. Their HTTP fixture responses must use actual CRLF line endings, not literal backslash characters.
-- Local book import and Legado source batch import protect files across DB commit/cancellation races: cancellation before commit cleans uncommitted files; once DB rows/transaction commit, cleanup must not delete files already referenced by committed rows.
-- Kazumi rule import writes through a temporary file and protects the file across DB insert/cancellation.
-- Honor cancellation before entering non-cancellable commit sections.
-- Run complete JVM unit suite, build Debug APK, enforce Room schema v6 semantic/version discipline, and upload schema artifact.
-- Confirm requested source SHA equals actual checked-out source SHA exactly.
+- Validate the exact source SHA and branch checkout.
+- Unique temporary media-download files; no clobbering a pre-existing .part file or a destination created during transfer; only clean up invocation-owned temp files.
+- Negative-ID bounded-download failure/reconciliation paths never delete pre-existing destinations or predictable .part paths.
+- Cross-origin redirect request-body protections and local HTTP integration tests pass.
+- Local book, Legado source-batch, and Kazumi rule imports preserve files once their Room rows/transactions commit; cancellation before commit cleans uncommitted files.
+- Full JVM suite, Debug APK build, Room schema v6 semantic/version discipline, and schema artifact upload must pass.
 - Real-device acceptance remains open: six-tab UI/accessibility, SAF/restore, historical database migration, external source compatibility, reader lifecycle, theme/skin behavior, import/download cancellation and restart, and formal release readiness.
 - Do not merge any PR, do not write to DreamMemory main, do not sign or publish. Do not expose the private APK as a public artifact.
