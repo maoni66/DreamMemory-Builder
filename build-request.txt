@@ -12,3 +12,4 @@ Acceptance requirements:
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Do not sign or publish any APK.
 - This is a development integration branch. Keep user-device acceptance open; do not merge any PR or write DreamMemory main.
+Retry note: allowlist updated in builder workflow; rerun exact source SHA after validation-gate fix.
