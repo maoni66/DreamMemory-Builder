@@ -1,8 +1,8 @@
-Validate DreamMemory PR #9 create-asset file URI cleanup safety at exact source SHA.
+Re-validate DreamMemory PR #9 after fixing the nullable URI compile error, at exact source SHA.
 
-Source SHA: ac7541239bf316bf1c241ee178065dc6788c9aa7
+Source SHA: bf79ff2a4aba03a8bace2257e708debbd5121913
 Source ref: fix/create-asset-cleanup-file-uri
-Expected source SHA at trigger: ac7541239bf316bf1c241ee178065dc6788c9aa7
+Expected source SHA at trigger: bf79ff2a4aba03a8bace2257e708debbd5121913
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
