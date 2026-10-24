@@ -1,8 +1,8 @@
-DreamMemory illustration redesign pass — validate palettes, home notebook mark, and focus apple silhouette.
+DreamMemory illustration redesign pass — validate contrast-corrected palettes and focus apple silhouette.
 
-Source SHA: 894261214c517c808be3ac4c5d0d7cb780a9a1ae
+Source SHA: 3461138fe98f320085561326c24a4dffebae9ccc
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 894261214c517c808be3ac4c5d0d7cb780a9a1ae
+Expected source SHA at trigger: 3461138fe98f320085561326c24a4dffebae9ccc
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
