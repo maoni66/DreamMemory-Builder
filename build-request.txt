@@ -1,8 +1,8 @@
 Validate book-source invalid CSS/XPath rule diagnostics alongside the existing focus-skin, Profile navigation, and custom-theme text-contrast regressions.
 
-Source SHA: 875800e4fd372c0ca779173743a1d3f4f08e751c
+Source SHA: d7fafcf2b5f7805a1b42a2509d2f421b4c583cee
 Source ref: fix/custom-theme-text-contrast
-Expected source SHA at trigger: 875800e4fd372c0ca779173743a1d3f4f08e751c
+Expected source SHA at trigger: d7fafcf2b5f7805a1b42a2509d2f421b4c583cee
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
@@ -77,3 +77,6 @@ Acceptance requirements:
 
 
 - Revalidate the complete Create reliability batch at exact source SHA 875800e4fd372c0ca779173743a1d3f4f08e751c: Create collections retain the last successful snapshot if reload fails; load errors expose a retry state; Work/Album/Reference saves keep edit mode open until persistence succeeds and preserve cancellation semantics; create and delete failures are caught and surfaced without deleting files before the Room transaction commits. Include Discover source identity duplicate normalization. Run full JVM tests, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
+
+
+- Validate the integrated Create + Life + Discover batch at exact source SHA d7fafcf2b5f7805a1b42a2509d2f421b4c583cee. Create: DAO update queries return affected-row counts; stale Work/Album/Reference saves are rejected, editor closes only after successful persistence, and the new CreateDaoUpdateResultTest covers missing and existing rows. Create CRUD/reload errors retain data, display retry/close feedback, and cancellation is rethrown. Life: add/update/delete catch ordinary persistence/system-operation failures, preserve CancellationException, report accurate saved-vs-failed outcomes, and surface messages through the Scaffold snackbar. Discover default-port duplicate identity tests remain included. Run full JVM suite, assembleDebug, Room schema v6 discipline, and exact requested/checked-out SHA verification. Branch validation only; no signing, publishing, merge, or DreamMemory main writes.
