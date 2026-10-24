@@ -1,15 +1,14 @@
-Validate the DreamMemory audit/integration branch after the 2026-10-24 parallel safety review and documentation sync.
+Validate the DreamMemory completion integration branch after porting independently validated safety fixes.
 
-Source SHA: 117b0e96a2dff204f2d97fcfd3d5ce9aa2904de6
-Source ref: design/visual-system-pass-0.7.6
-Expected source SHA at trigger: 117b0e96a2dff204f2d97fcfd3d5ce9aa2904de6
-Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
+Source SHA: 80cf2e26566bc4954334557febe732790af583cd
+Source ref: work/2026-10-24-completion
+Expected source SHA at trigger: 80cf2e26566bc4954334557febe732790af583cd
+Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
-- Run the complete JVM unit test suite.
+- Run the complete JVM unit test suite, including shelf cleanup race, canvas source-path reference, create asset file URI, record stale-snapshot history, and resource HTTP/download ownership regression tests.
 - Build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Do not sign or publish any APK.
-- This validates the current audit branch snapshot only; independent draft PR heads #5-#9 retain their own exact-SHA validation records, and no PR is merged by this request.
-- Real-device acceptance and formal release acceptance remain open.
+- This is a development integration branch. Keep user-device acceptance open; do not merge any PR or write DreamMemory main.
