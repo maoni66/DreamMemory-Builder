@@ -1,8 +1,8 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: 6ae1804ee60fe36b823b445ee757caecb52b07ad
+Source SHA: 9bdcc854faefbb5fcbac10939b71eb484f106349
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 6ae1804ee60fe36b823b445ee757caecb52b07ad
+Expected source SHA at trigger: 9bdcc854faefbb5fcbac10939b71eb484f106349
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
@@ -11,7 +11,7 @@ Acceptance requirements:
 - Run complete JVM unit tests and build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Validate bounded theme bitmap decoding and unit tests.
-- Validate bounded SVG header reading for imported theme images, including a long leading comment and a strict read-size budget.
+- Validate bounded SVG header reading for imported theme images, including long leading comments, standard SVG DOCTYPE declarations, strict read-size budget, and zero-progress bulk-read fallback.
 - Verify per-domain device acceptance policy and project progress docs do not disturb source validation.
 - Do not publish any APK or change signing configuration in this validation-only run.
 - Report exact source SHA, test/build/schema outcomes, and failures; CI success is not device acceptance.
