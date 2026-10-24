@@ -1,15 +1,14 @@
-Revalidate record-editor stale-snapshot protection at exact source SHA 17780dbac14d6c65b8c86762c92b67a6afeda9ae.
+Validate current DreamMemory PR #5 head at its exact source SHA.
 
-Source SHA: 17780dbac14d6c65b8c86762c92b67a6afeda9ae
-Source ref: fix/record-update-stale-snapshot
-Expected source SHA at trigger: 17780dbac14d6c65b8c86762c92b67a6afeda9ae
+Source SHA: ee66391b2146529dc12d52d53d87d0327520c2db
+Source ref: fix/block-cross-origin-redirect-body
+Expected source SHA at trigger: ee66391b2146529dc12d52d53d87d0327520c2db
 Build mode: branch validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 version discipline, and upload generated schema artifact. No signing, publishing, merge, or DreamMemory main-branch writes.
 
 Acceptance requirements:
-- RecordRepository.update derives status history and completion metadata from the latest persisted record, not the stale editor snapshot.
-- The latest-row read, entity update, and status-history insert occur in one Room transaction.
-- The legacy updateWithHistory entry point must also derive old status from the current row.
-- RecordDaoUpdateHistoryTest.editUsesLatestPersistedStatusForHistoryAndCompletionTimestamp and legacyUpdateWithHistoryAlsoDerivesOldStatusFromCurrentRow pass, alongside all existing RecordCompletionStatusTest and DAO tests.
-- Run complete JVM suite, build Debug APK, enforce Room schema v6 semantic/version discipline, upload schema artifact, and verify exact requested/checked-out source SHA.
-- This is a stacked draft PR based on fix/block-cross-origin-redirect-body; no merge to DreamMemory main, no signing or publishing.
-- Real-device acceptance remains open, including record CRUD, repeated experience events, status timeline, cover file lifecycle, six-tab navigation, backups/restores, and formal release readiness.
+- Verify the requested source SHA equals the actual checked-out source SHA.
+- Run the complete JVM unit test suite.
+- Build the Debug APK.
+- Enforce Room schema v6 semantic/version discipline and upload the schema artifact.
+- Do not sign or publish any APK.
+- This validates the exact PR head; it does not constitute real-device or formal release acceptance.
