@@ -206,7 +206,7 @@ jobs:
             -pass env:ARTIFACT_PASSWORD
 
       - name: Upload encrypted release package only
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.source_ref == 'main' || steps.request.outputs.deliver_apk == 'yes')
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.source_ref == 'main' || steps.request.outputs.deliver_apk != 'no')
         uses: actions/upload-artifact@v6
         with:
           name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
