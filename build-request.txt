@@ -1,14 +1,14 @@
-DreamMemory theme asset validation — validate direct and package image imports (branch SHA refreshed).
+DreamMemory theme material-surface contrast regression — validate readable default content colors.
 
-Source SHA: 524016a5d310a3d9817ccd9a23579e553a4cd669
+Source SHA: 1227e49ce1f4bb560a19108b8238b78893b0b39f
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 524016a5d310a3d9817ccd9a23579e553a4cd669
+Expected source SHA at trigger: 1227e49ce1f4bb560a19108b8238b78893b0b39f
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
-- Run the complete JVM test suite, including ThemeContrastTest for built-in light/dark presets.
+- Run the complete JVM test suite, including the material-surface contrast regression across all built-in themes, light/dark modes, and seven material types.
 - Build Debug APK with candidate source's committed version metadata.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Do not publish any APK or change signing configuration.
