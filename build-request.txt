@@ -1,8 +1,8 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: 5a6d2245fac2abb04755cb5f5218d983699ea96f
+Source SHA: 5564d2aa2d0f1a4216ae48604d5149e9451e2a24
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 5a6d2245fac2abb04755cb5f5218d983699ea96f
+Expected source SHA at trigger: 5564d2aa2d0f1a4216ae48604d5149e9451e2a24
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
@@ -42,4 +42,4 @@ Future APK/device-test delivery requirements (do not execute in this validation-
 - Verify the delivered APK's signer certificate fingerprint with apksigner and record it with the exact source SHA, versionCode/versionName, artifact link, and build run. A Debug APK signed with the debug key is not interchangeable with a release APK signed with the production key.
 - Do not merge to main, publish, sign with production credentials, or deliver an APK until a separate delivery request explicitly enables that mode.
 
-- Verify ReadingNoteDao.updateCurrentMetadata preserves a concurrently cleared linkedShelfItemId when a stale editor snapshot is saved after shelf deletion; run ReadingNoteSourceLifecycleTest.
+- Verify ReadingNoteDao.updateCurrentMetadata preserves a concurrently cleared linkedShelfItemId and current sourceIdentifier/sourceVersion/selectedText/anchors/color when a stale editor snapshot is saved; run ReadingNoteSourceLifecycleTest.
