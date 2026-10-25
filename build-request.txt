@@ -1,8 +1,8 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: fec52dd4c7327a18e87c429fe4a877dbeb571864
+Source SHA: 5a6d2245fac2abb04755cb5f5218d983699ea96f
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: fec52dd4c7327a18e87c429fe4a877dbeb571864
+Expected source SHA at trigger: 5a6d2245fac2abb04755cb5f5218d983699ea96f
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
@@ -41,3 +41,5 @@ Future APK/device-test delivery requirements (do not execute in this validation-
 - Never commit keystore files, passwords, or private signing material. Use protected GitHub Actions secrets or an existing approved secure signing mechanism. If no approved key/configuration is available, stop and report the blocker rather than silently signing with a different key.
 - Verify the delivered APK's signer certificate fingerprint with apksigner and record it with the exact source SHA, versionCode/versionName, artifact link, and build run. A Debug APK signed with the debug key is not interchangeable with a release APK signed with the production key.
 - Do not merge to main, publish, sign with production credentials, or deliver an APK until a separate delivery request explicitly enables that mode.
+
+- Verify ReadingNoteDao.updateCurrentMetadata preserves a concurrently cleared linkedShelfItemId when a stale editor snapshot is saved after shelf deletion; run ReadingNoteSourceLifecycleTest.
