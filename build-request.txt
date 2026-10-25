@@ -1,8 +1,8 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: be83d4dd6c34b14e039992f3c1ace4e08455ae96
+Source SHA: a452a36fee8a8dfd9f39abbb24aa66a4e00aabe8
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: be83d4dd6c34b14e039992f3c1ace4e08455ae96
+Expected source SHA at trigger: a452a36fee8a8dfd9f39abbb24aa66a4e00aabe8
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
@@ -45,3 +45,5 @@ Future APK/device-test delivery requirements (do not execute in this validation-
 - Verify ReadingNoteDao.updateCurrentMetadata preserves a concurrently cleared linkedShelfItemId and current sourceIdentifier/sourceVersion/selectedText/anchors/color when a stale editor snapshot is saved; run ReadingNoteSourceLifecycleTest.
 - Verify RecordDao.updateCurrentWithHistory preserves the latest persisted coverUri when the editor submits its unchanged original cover snapshot, but still applies an explicit changed cover; run RecordDaoUpdateHistoryTest.
 - Verify resolveDreamMaterialColorScheme preserves contrast against each matching ColorScheme background/surface/surfaceVariant while keeping primary/secondary/tertiary accents readable on the active DreamMaterial surface; run ThemeContrastTest.materialSurfaceSchemePreservesContrastAgainstEachSemanticSurface.
+- Verify full-restore failure rollback persists ROLLING_BACK before removing the uncommitted tree and recognizes a completed rollback after a crash; run RestoreMarkerPathValidationTest.
+- Verify adding an existing creation asset to a canvas checks the current source asset and inserts the canvas element in one Room transaction; run CanvasAssetLinkingTest.
