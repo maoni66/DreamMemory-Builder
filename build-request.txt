@@ -1,8 +1,8 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: a82a709f69487986c9ea14ab536dfd7ce24bc92b
+Source SHA: 6faa09000137d4d38ae1efbc9795af4667085341
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: a82a709f69487986c9ea14ab536dfd7ce24bc92b
+Expected source SHA at trigger: 6faa09000137d4d38ae1efbc9795af4667085341
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
@@ -17,6 +17,9 @@ Acceptance requirements:
 - Validate named-theme replacement persists the updated theme list before unreferenced-asset cleanup; failed persistence must not update the list or delete assets.
 - Validate custom-theme CSS pasted-text save writes, theme CSS reads, and CSS parsing run on Dispatchers.IO; ensure repeated save/close is blocked while saving and failed save cleans up only newly created unreferenced local assets.
 - Validate custom-theme asset reference collection, save/cancel cleanup, persisted-before-cleanup saved-theme asset reconciliation, app-root directory boundary checks, unified bubble defaults for legacy theme data, shared bounded SVG validation for direct and package imports, rejection of SVG internal DTD subsets, dynamic theme precedence, background-aware system bar icon mode, and bounded profile avatar/background sampling; confirm full JVM tests, Debug APK, and Room schema checks on this exact SHA.
+- Validate named-theme package import persists the merged saved-theme list synchronously before UI state changes or resource cleanup.
+- Validate failed named-theme persistence leaves the original saved-theme list intact and performs cleanup only after preserving current/custom and existing saved-theme references.
+- Run SavedDreamThemeMergeTest for same-name replacement ordering and the 20-theme limit; ensure all unreferenced-theme asset reconciliation runs on Dispatchers.IO.
 - Verify per-domain device acceptance policy and project progress docs do not disturb source validation.
 - Do not publish any APK or change signing configuration in this validation-only run.
 - Report exact source SHA, test/build/schema outcomes, and failures; CI success is not device acceptance.
