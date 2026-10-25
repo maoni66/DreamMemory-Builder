@@ -1,8 +1,8 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: 7aab60c8bcead4e051789dcabcaa7b73e940a5af
+Source SHA: 4b2e5b295a98e23d2962a6f98985c6331cd91524
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 7aab60c8bcead4e051789dcabcaa7b73e940a5af
+Expected source SHA at trigger: 4b2e5b295a98e23d2962a6f98985c6331cd91524
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
@@ -19,6 +19,8 @@ Acceptance requirements:
 - Validate custom-theme asset reference collection, save/cancel cleanup, persisted-before-cleanup saved-theme asset reconciliation, app-root directory boundary checks, unified bubble defaults for legacy theme data, shared bounded SVG validation for direct and package imports, rejection of SVG internal DTD subsets, dynamic theme precedence, background-aware system bar icon mode, and bounded profile avatar/background sampling; confirm full JVM tests, Debug APK, and Room schema checks on this exact SHA.
 - Validate named-theme package import persists the merged saved-theme list synchronously before UI state changes or resource cleanup.
 - Validate custom-theme asset import failure handlers rethrow CancellationException instead of converting cancellation into ordinary UI error state.
+- Validate imported local asset references are registered on the IO side before returning to the UI, including CSS files before text reads.
+- Validate cancellation cleanup runs on NonCancellable + Dispatchers.IO, removes unreferenced newly imported files, retains references still used by current editor state for later save/dismiss cleanup, and does not swallow the original CancellationException.
 - Validate failed named-theme persistence leaves the original saved-theme list intact and performs cleanup only after preserving current/custom and existing saved-theme references.
 - Run SavedDreamThemeMergeTest for same-name replacement ordering and the 20-theme limit; ensure all unreferenced-theme asset reconciliation runs on Dispatchers.IO.
 - Verify per-domain device acceptance policy and project progress docs do not disturb source validation.
