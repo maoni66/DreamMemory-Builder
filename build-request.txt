@@ -1,14 +1,15 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: dde4c1086ad6126c93b31c4488ab62cfdd101903
+Source SHA: 98e5fa43d87f637ccc99bf3f4f4c4c77d3dbf325
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: dde4c1086ad6126c93b31c4488ab62cfdd101903
+Expected source SHA at trigger: 98e5fa43d87f637ccc99bf3f4f4c4c77d3dbf325
 Deliver APK: no
-Build mode: validation only for custom-theme color swatch selection and bubble color shortcut refinement. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK in this validation run. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
+Build mode: validation only for custom-theme color swatch selection, bubble color shortcut refinement, and CSS preview parity. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK in this validation run. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
 - Verify opaque ARGB theme color values correctly match six-digit palette swatches, and that all four bubble foreground/border color fields expose the shared color palette without changing unrestricted hex input support.
+- Verify both editable and saved bubble CSS previews use the same 1dp fallback border width as live chat bubbles, so preview and rendered behavior do not disagree when CSS omits a border declaration.
 - Run complete JVM unit tests and build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Validate bounded theme bitmap decoding and unit tests.
