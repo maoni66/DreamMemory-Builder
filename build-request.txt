@@ -1,8 +1,8 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: 6faa09000137d4d38ae1efbc9795af4667085341
+Source SHA: 7aab60c8bcead4e051789dcabcaa7b73e940a5af
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 6faa09000137d4d38ae1efbc9795af4667085341
+Expected source SHA at trigger: 7aab60c8bcead4e051789dcabcaa7b73e940a5af
 Deliver APK: no
 Build mode: validation only. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
@@ -18,6 +18,7 @@ Acceptance requirements:
 - Validate custom-theme CSS pasted-text save writes, theme CSS reads, and CSS parsing run on Dispatchers.IO; ensure repeated save/close is blocked while saving and failed save cleans up only newly created unreferenced local assets.
 - Validate custom-theme asset reference collection, save/cancel cleanup, persisted-before-cleanup saved-theme asset reconciliation, app-root directory boundary checks, unified bubble defaults for legacy theme data, shared bounded SVG validation for direct and package imports, rejection of SVG internal DTD subsets, dynamic theme precedence, background-aware system bar icon mode, and bounded profile avatar/background sampling; confirm full JVM tests, Debug APK, and Room schema checks on this exact SHA.
 - Validate named-theme package import persists the merged saved-theme list synchronously before UI state changes or resource cleanup.
+- Validate custom-theme asset import failure handlers rethrow CancellationException instead of converting cancellation into ordinary UI error state.
 - Validate failed named-theme persistence leaves the original saved-theme list intact and performs cleanup only after preserving current/custom and existing saved-theme references.
 - Run SavedDreamThemeMergeTest for same-name replacement ordering and the 20-theme limit; ensure all unreferenced-theme asset reconciliation runs on Dispatchers.IO.
 - Verify per-domain device acceptance policy and project progress docs do not disturb source validation.
