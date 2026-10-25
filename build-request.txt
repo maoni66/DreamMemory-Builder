@@ -1,6 +1,6 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: c8f17a57610f7fd9ea6e551c7cba92a1192ca9f2
+Source SHA: d7bbdcb433d3d3d692fbf5b990418527f7d8a798
 Source ref: work/2026-10-24-data-ownership
 Expected source SHA at trigger: d053b5154d2e81c823036ed2350084439f09ce5d
 Deliver APK: no
