@@ -1,15 +1,16 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: 98e5fa43d87f637ccc99bf3f4f4c4c77d3dbf325
+Source SHA: d38ed840af52decf0a9a75b9cbc5921ee79a4ba2
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 98e5fa43d87f637ccc99bf3f4f4c4c77d3dbf325
+Expected source SHA at trigger: d38ed840af52decf0a9a75b9cbc5921ee79a4ba2
 Deliver APK: no
-Build mode: validation only for custom-theme color swatch selection, bubble color shortcut refinement, and CSS preview parity. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK in this validation run. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
+Build mode: validation only for theme editor color/CSS preview parity and profile information-hierarchy refinement. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK in this validation run. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
 - Verify opaque ARGB theme color values correctly match six-digit palette swatches, and that all four bubble foreground/border color fields expose the shared color palette without changing unrestricted hex input support.
 - Verify both editable and saved bubble CSS previews use the same 1dp fallback border width as live chat bubbles, so preview and rendered behavior do not disagree when CSS omits a border declaration.
+- Verify the profile usage-days metric remains visible after being moved into the profile identity block, and the redundant standalone usage-days card is removed without changing stats data or any settings actions.
 - Run complete JVM unit tests and build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Validate bounded theme bitmap decoding and unit tests.
