@@ -1,16 +1,17 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: d38ed840af52decf0a9a75b9cbc5921ee79a4ba2
+Source SHA: 1cb55f52f0ad647fc3b58ab267d287d7e969a3a6
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: d38ed840af52decf0a9a75b9cbc5921ee79a4ba2
+Expected source SHA at trigger: 1cb55f52f0ad647fc3b58ab267d287d7e969a3a6
 Deliver APK: no
-Build mode: validation only for theme editor color/CSS preview parity and profile information-hierarchy refinement. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK in this validation run. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
+Build mode: validation only for theme editor color/CSS preview parity, profile information hierarchy, and concise home schedule status. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK in this validation run. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
 - Verify opaque ARGB theme color values correctly match six-digit palette swatches, and that all four bubble foreground/border color fields expose the shared color palette without changing unrestricted hex input support.
 - Verify both editable and saved bubble CSS previews use the same 1dp fallback border width as live chat bubbles, so preview and rendered behavior do not disagree when CSS omits a border declaration.
 - Verify the profile usage-days metric remains visible after being moved into the profile identity block, and the redundant standalone usage-days card is removed without changing stats data or any settings actions.
+- Verify non-overdue home schedule rows display the concise status “今天” instead of repeating “今天的安排”; overdue rows remain “已逾期”, with scheduling order, due times, source navigation, and data unchanged.
 - Run complete JVM unit tests and build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Validate bounded theme bitmap decoding and unit tests.
