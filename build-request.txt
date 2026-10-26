@@ -1,10 +1,10 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: 434381fdc280fb55bbff7d2866a4b9f6eda660a9
+Source SHA: 86a50bc5dedbdf42cd77f4a93934226b41c8c9a4
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 434381fdc280fb55bbff7d2866a4b9f6eda660a9
+Expected source SHA at trigger: 86a50bc5dedbdf42cd77f4a93934226b41c8c9a4
 Deliver APK: no
-Build mode: validation only for theme editor color/CSS preview parity, profile/home information hierarchy, data health scan error feedback and duplicate-scan prevention, profile avatar/background file-operation feedback, backup-operation concurrency/cancellation handling, theme package import/export cancellation semantics, and home daily check-in failure feedback.
+Build mode: validation only for theme editor color/CSS preview parity, profile/home information hierarchy, data health scan error feedback and duplicate-scan prevention, profile avatar/background failure feedback and serialized file operations, backup-operation concurrency/cancellation handling, theme package import/export cancellation semantics, and home daily check-in failure feedback.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
@@ -21,6 +21,8 @@ Acceptance requirements:
 - Verify theme-package import/export rethrows CancellationException rather than showing cancellation as an ordinary failure.
 
 - Verify home daily mood/weather creation and update show the MemoryViewModel write failure inline in the dialog, preserve selected values and keep the dialog open on failure; success closes it and the existing daily record is updated rather than duplicated.
+
+- Verify ProfileViewModel serializes avatar/background save and clear operations with a cancellable mutex so fixed temp/backup paths cannot be concurrently replaced; cancellation must unlock the mutex and leave the previous valid image/reference intact.
 - Run complete JVM unit tests and build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Validate bounded theme bitmap decoding and unit tests.
