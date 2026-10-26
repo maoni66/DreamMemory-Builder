@@ -1,10 +1,10 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: a38ea42002289dadb0b1c8e0a812d4566a5172f8
+Source SHA: cb6559dd7131d8c3c088edf2eacc47cece387def
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: a38ea42002289dadb0b1c8e0a812d4566a5172f8
+Expected source SHA at trigger: cb6559dd7131d8c3c088edf2eacc47cece387def
 Deliver APK: no
-Build mode: validation only for theme editor color/CSS preview parity, profile/home information hierarchy, data health scan error feedback and duplicate-scan prevention, profile avatar/background file-operation feedback, backup-operation concurrency/cancellation handling, and theme package import/export cancellation semantics.
+Build mode: validation only for theme editor color/CSS preview parity, profile/home information hierarchy, data health scan error feedback and duplicate-scan prevention, profile avatar/background file-operation feedback, backup-operation concurrency/cancellation handling, theme package import/export cancellation semantics, and home daily check-in failure feedback.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
@@ -19,6 +19,8 @@ Acceptance requirements:
 
 - Verify all manual light/full backup and restore operations share one busy guard; every exit path resets it in finally, duplicate operations are blocked, and data-health scans/backup settings cannot overlap with a restore.
 - Verify theme-package import/export rethrows CancellationException rather than showing cancellation as an ordinary failure.
+
+- Verify home daily mood/weather creation and update show the MemoryViewModel write failure inline in the dialog, preserve selected values and keep the dialog open on failure; success closes it and the existing daily record is updated rather than duplicated.
 - Run complete JVM unit tests and build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Validate bounded theme bitmap decoding and unit tests.
