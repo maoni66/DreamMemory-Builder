@@ -1,10 +1,10 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: 1cb55f52f0ad647fc3b58ab267d287d7e969a3a6
+Source SHA: 772ef8403b7536a51312dd54e098eb92aa220d37
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 1cb55f52f0ad647fc3b58ab267d287d7e969a3a6
+Expected source SHA at trigger: 772ef8403b7536a51312dd54e098eb92aa220d37
 Deliver APK: no
-Build mode: validation only for theme editor color/CSS preview parity, profile information hierarchy, and concise home schedule status. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK in this validation run. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
+Build mode: validation only for theme editor color/CSS preview parity, profile/home information hierarchy, and data health scan error feedback. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK in this validation run. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
@@ -12,6 +12,7 @@ Acceptance requirements:
 - Verify both editable and saved bubble CSS previews use the same 1dp fallback border width as live chat bubbles, so preview and rendered behavior do not disagree when CSS omits a border declaration.
 - Verify the profile usage-days metric remains visible after being moved into the profile identity block, and the redundant standalone usage-days card is removed without changing stats data or any settings actions.
 - Verify non-overdue home schedule rows display the concise status “今天” instead of repeating “今天的安排”; overdue rows remain “已逾期”, with scheduling order, due times, source navigation, and data unchanged.
+- Verify data health scan failures are surfaced inline rather than silently discarded, cancellation is rethrown, and the scanning flag resets in all outcomes.
 - Run complete JVM unit tests and build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Validate bounded theme bitmap decoding and unit tests.
