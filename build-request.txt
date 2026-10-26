@@ -1,10 +1,10 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: 772ef8403b7536a51312dd54e098eb92aa220d37
+Source SHA: e9ff8b6fa23126c6d1f5fc50d3a3580df2ccc45c
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 772ef8403b7536a51312dd54e098eb92aa220d37
+Expected source SHA at trigger: e9ff8b6fa23126c6d1f5fc50d3a3580df2ccc45c
 Deliver APK: no
-Build mode: validation only for theme editor color/CSS preview parity, profile/home information hierarchy, and data health scan error feedback. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK in this validation run. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
+Build mode: validation only for theme editor color/CSS preview parity, profile/home information hierarchy, data health scan error feedback, and duplicate-scan prevention. Run complete JVM unit tests, assembleDebug, Room schema v6 semantic/version discipline, and upload the generated schema artifact. Do not encrypt or publish an APK in this validation run. No production signing, no merge, no DreamMemory main-branch writes, no public/private release.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
@@ -13,6 +13,7 @@ Acceptance requirements:
 - Verify the profile usage-days metric remains visible after being moved into the profile identity block, and the redundant standalone usage-days card is removed without changing stats data or any settings actions.
 - Verify non-overdue home schedule rows display the concise status “今天” instead of repeating “今天的安排”; overdue rows remain “已逾期”, with scheduling order, due times, source navigation, and data unchanged.
 - Verify data health scan failures are surfaced inline rather than silently discarded, cancellation is rethrown, and the scanning flag resets in all outcomes.
+- Verify the data health scan action is disabled while scanning and its label communicates the in-progress state, preventing repeated taps from launching concurrent scans.
 - Run complete JVM unit tests and build the Debug APK.
 - Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
 - Validate bounded theme bitmap decoding and unit tests.
