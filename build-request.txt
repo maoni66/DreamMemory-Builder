@@ -1,8 +1,8 @@
 DreamMemory per-domain device acceptance workflow gate
 
-Source SHA: 86a50bc5dedbdf42cd77f4a93934226b41c8c9a4
+Source SHA: 989ca1e09a2446c61041e3d9c02380996efa85f3
 Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 86a50bc5dedbdf42cd77f4a93934226b41c8c9a4
+Expected source SHA at trigger: 989ca1e09a2446c61041e3d9c02380996efa85f3
 Deliver APK: no
 Build mode: validation only for theme editor color/CSS preview parity, profile/home information hierarchy, data health scan error feedback and duplicate-scan prevention, profile avatar/background failure feedback and serialized file operations, backup-operation concurrency/cancellation handling, theme package import/export cancellation semantics, and home daily check-in failure feedback.
 
