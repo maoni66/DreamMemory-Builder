@@ -1,31 +1,30 @@
-DreamMemory audit-fixes validation batch — corrected BackupRepository compile blockers and aligned tab creation entries
+DreamMemory integrated audit validation batch
 
-Source SHA: e7400e1c3f31c4d97d87df27330c4fc6f44d10f9
-Source ref: work/2026-10-27-audit-fixes
-Expected source SHA at trigger: e7400e1c3f31c4d97d87df27330c4fc6f44d10f9
+Source SHA: e137297bc203a39b01e17e97577b6973f2608946
+Source ref: work/2026-10-27-integrated-audit
+Expected source SHA at trigger: e137297bc203a39b01e17e97577b6973f2608946
 Deliver APK: no
-Build mode: validation only for the 2026-10-27 audit-fixes batch. Do not sign for release, publish, or deliver an APK.
+Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
 Acceptance requirements:
-- Verify requested source SHA equals actual checked-out source SHA.
-- Run the complete JVM unit-test suite with ./gradlew testDebugUnitTest --stacktrace --console=plain.
-- Build the Debug APK with ./gradlew assembleDebug --stacktrace --console=plain.
-- Run the Builder's Room schema/version discipline checks and preserve generated schema output as a validation artifact.
-- Verify the full restore and light restore code compiles, including WAL snapshot/restore, marker state transitions, rollback, COMMITTED handling, and path validation.
-- Run FullRestoreCrashRecoveryTest, AutoBackupRepositoryTest, RestoreMarkerPathValidationTest, and BackupArchivePathValidationTest.
-- Run the new AutoBackupRepositoryTest.committedMarkerOnlyReportsSuccessWhenInstalledDatabaseIsValid case; missing/corrupt committed databases must not be reported as successful restore.
-- Run DataHealthScannerReadOnlyTest and verify the missing assertEquals import is fixed and scans do not create missing user-data directories.
-- Run ReminderSchedulerIdentityTest to check PendingIntent identity and cancellation isolation across reminder domains.
-- Run RecordShelfRelationTest to verify experiences may exist without a Shelf item and deleting a Shelf item removes links but preserves the experience.
-- Run ConsumptionMultiplePossessionsTest to verify one purchase remains one consumption record while multiple independently managed possessions can be linked to it.
-- Check Kotlin compilation of the ShelfViewModel Flow initialization fix and the Records editor's Shelf association picker, detail display, and safe handling when association loading fails.
-- Verify Records main-list creation uses a top borderless quick-entry affordance, not a global floating action button.
-- Verify no database schema change was introduced by the relation work; the relation uses the existing memory_node_links table.
-- Report exact source SHA, individual test/build/schema outcomes, and failures. Do not infer success from source inspection.
-- Do not publish any APK or change signing configuration in this validation-only run.
+- Verify the checked-out source SHA exactly matches the requested SHA.
+- Run the complete JVM unit-test suite: ./gradlew testDebugUnitTest --stacktrace --console=plain.
+- Build the Debug APK: ./gradlew assembleDebug --stacktrace --console=plain.
+- Run the Builder's Room schema/version discipline checks and preserve generated schema output as a validation artifact. The source schema is version 6; migration chain 1→2→3→4→5→6 must remain intact.
+- Run RestoreCommittedDatabaseValidationTest. A COMMITTED marker must not permit cleanup/success when the live SQLite database is corrupt; light restore must roll back from a valid snapshot and preserve marker/snapshot when the snapshot is missing.
+- Run BackupRoundTripTest, BackupArchivePathValidationTest, RestoreMarkerPathValidationTest, and LegacyPathBackupCompatibilityTest.
+- Run RecordShelfRelationTest: an experience may exist without a Shelf item; deleting a Shelf item must remove the relation but preserve the experience.
+- Run ConsumptionMultiplePossessionsTest: one purchase remains one consumption record while multiple possessions can be linked and independently removed.
+- Run ReminderSchedulerIdentityTest: life, cycle, and project-task PendingIntents with the same numeric request code remain independent; cancelling one domain must not cancel another.
+- Run DataHealthScannerReadOnlyTest and LifeOccurrenceNoteTest.
+- Verify CanvasDocument/Canvas editor sources compile with the existing normalized canvas entities and that no duplicate parallel canvas schema is introduced.
+- Report exact source SHA, individual test/build/schema outcomes, and all failures. Do not infer success from source inspection.
+- Do not publish an APK or change signing configuration in this validation-only run.
 
-Device acceptance requirements (not covered by this CI run):
-- On Android, create a standalone Records experience, link it to a Shelf resource, change/clear the link, delete the Shelf resource, and confirm the experience survives.
-- From one consumption record, create two possessions and verify each can be independently edited/deleted while the purchase record remains.
-- Force-stop during full/light restore at representative marker states and verify startup recovery.
-- Verify reminder delivery, cancellation, restart recovery, and widget refresh on a real device.
+Device acceptance requirements (not covered by CI):
+- Force-stop during light restore at PREPARED, OLD_DB_MOVED, NEW_DB_INSTALLED, PREFERENCES_RESTORED, COMMITTED, and ROLLING_BACK; verify safe retry.
+- Force-stop during full restore around SWAPPING, FILES_SWAPPED, DB_COMMITTING, DB_COMMITTED, and ROLLING_BACK; verify committed database and file tree are never mixed.
+- On Android, verify reminder delivery/cancellation/restart recovery and widget refresh.
+- On Android, create a standalone Records experience, link/unlink a Shelf item, delete the Shelf item, and confirm the experience survives.
+- From one consumption record, create two possessions and independently edit/delete each while preserving the purchase record.
+- Open a blank canvas, add/move text, shapes, stickers, and images, save, close, and reopen.
