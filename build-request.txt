@@ -1,8 +1,8 @@
-DreamMemory audit-fixes validation batch
+DreamMemory audit-fixes validation batch — corrected BackupRepository compile blockers and aligned tab creation entries
 
-Source SHA: 6ab7b9e60b3308f90d9029760915feaa736b21ae
+Source SHA: e7400e1c3f31c4d97d87df27330c4fc6f44d10f9
 Source ref: work/2026-10-27-audit-fixes
-Expected source SHA at trigger: 6ab7b9e60b3308f90d9029760915feaa736b21ae
+Expected source SHA at trigger: e7400e1c3f31c4d97d87df27330c4fc6f44d10f9
 Deliver APK: no
 Build mode: validation only for the 2026-10-27 audit-fixes batch. Do not sign for release, publish, or deliver an APK.
 
