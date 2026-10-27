@@ -1,64 +1,31 @@
-DreamMemory per-domain device acceptance workflow gate
+DreamMemory audit-fixes validation batch
 
-Source SHA: 989ca1e09a2446c61041e3d9c02380996efa85f3
-Source ref: work/2026-10-24-data-ownership
-Expected source SHA at trigger: 989ca1e09a2446c61041e3d9c02380996efa85f3
+Source SHA: 6ab7b9e60b3308f90d9029760915feaa736b21ae
+Source ref: work/2026-10-27-audit-fixes
+Expected source SHA at trigger: 6ab7b9e60b3308f90d9029760915feaa736b21ae
 Deliver APK: no
-Build mode: validation only for theme editor color/CSS preview parity, profile/home information hierarchy, data health scan error feedback and duplicate-scan prevention, profile avatar/background failure feedback and serialized file operations, backup-operation concurrency/cancellation handling, theme package import/export cancellation semantics, and home daily check-in failure feedback.
+Build mode: validation only for the 2026-10-27 audit-fixes batch. Do not sign for release, publish, or deliver an APK.
 
 Acceptance requirements:
 - Verify requested source SHA equals actual checked-out source SHA.
-- Verify opaque ARGB theme color values correctly match six-digit palette swatches, and that all four bubble foreground/border color fields expose the shared color palette without changing unrestricted hex input support.
-- Verify both editable and saved bubble CSS previews use the same 1dp fallback border width as live chat bubbles, so preview and rendered behavior do not disagree when CSS omits a border declaration.
-- Verify the profile usage-days metric remains visible after being moved into the profile identity block, and the redundant standalone usage-days card is removed without changing stats data or any settings actions.
-- Verify non-overdue home schedule rows display the concise status “今天” instead of repeating “今天的安排”; overdue rows remain “已逾期”, with scheduling order, due times, source navigation, and data unchanged.
-- Verify data health scan failures are surfaced inline rather than silently discarded, cancellation is rethrown, and the scanning flag resets in all outcomes.
-- Verify the data health scan action is disabled while scanning and its label communicates the in-progress state, preventing repeated taps from launching concurrent scans.
-
-- Verify profile avatar/background import and clear operations return explicit success/failure results, propagate coroutine cancellation, reject unreadable URI/empty input, clean temporary files, and preserve the previous image on replacement failure; UI must show the result instead of silently swallowing errors.
-
-- Verify all manual light/full backup and restore operations share one busy guard; every exit path resets it in finally, duplicate operations are blocked, and data-health scans/backup settings cannot overlap with a restore.
-- Verify theme-package import/export rethrows CancellationException rather than showing cancellation as an ordinary failure.
-
-- Verify home daily mood/weather creation and update show the MemoryViewModel write failure inline in the dialog, preserve selected values and keep the dialog open on failure; success closes it and the existing daily record is updated rather than duplicated.
-
-- Verify ProfileViewModel serializes avatar/background save and clear operations with a cancellable mutex so fixed temp/backup paths cannot be concurrently replaced; cancellation must unlock the mutex and leave the previous valid image/reference intact.
-- Run complete JVM unit tests and build the Debug APK.
-- Enforce Room schema v6 semantic/version discipline and upload generated schema artifact.
-- Validate bounded theme bitmap decoding and unit tests.
-- Validate bounded SVG header reading for imported theme images, including long leading comments, standard SVG DOCTYPE declarations, strict read-size budget, and zero-progress bulk-read fallback.
-- Validate the custom-theme preview foreground now uses the shared contrast-aware foreground resolver; run the existing full ThemeContrastTest suite.
-- Validate saved-theme replacement/deletion performs unreferenced-asset reconciliation on Dispatchers.IO only after persistence succeeds.
-- Validate named-theme replacement persists the updated theme list before unreferenced-asset cleanup; failed persistence must not update the list or delete assets.
-- Validate custom-theme CSS pasted-text save writes, theme CSS reads, and CSS parsing run on Dispatchers.IO; ensure repeated save/close is blocked while saving and failed save cleans up only newly created unreferenced local assets.
-- Validate custom-theme asset reference collection, save/cancel cleanup, persisted-before-cleanup saved-theme asset reconciliation, app-root directory boundary checks, unified bubble defaults for legacy theme data, shared bounded SVG validation for direct and package imports, rejection of SVG internal DTD subsets, dynamic theme precedence, background-aware system bar icon mode, and bounded profile avatar/background sampling; confirm full JVM tests, Debug APK, and Room schema checks on this exact SHA.
-- Validate named-theme package import persists the merged saved-theme list synchronously before UI state changes or resource cleanup.
-- Validate custom-theme asset import failure handlers rethrow CancellationException instead of converting cancellation into ordinary UI error state.
-- Validate imported local asset references are registered on the IO side before returning to the UI, including CSS files before text reads.
-- Validate cancellation cleanup runs on NonCancellable + Dispatchers.IO, removes unreferenced newly imported files, retains references still used by current editor state for later save/dismiss cleanup, and does not swallow the original CancellationException.
-- Validate theme editor close/save cleanup is performed on NonCancellable + Dispatchers.IO and does not run file deletion on the UI thread.
-- Validate CSS assets created while saving are tracked immediately on IO, cleanup failure retains tracking, and failed-save cleanup does not swallow the original failure.
-- Validate failed named-theme persistence leaves the original saved-theme list intact and performs cleanup only after preserving current/custom and existing saved-theme references.
-- Run SavedDreamThemeMergeTest for same-name replacement ordering and the 20-theme limit; ensure all unreferenced-theme asset reconciliation runs on Dispatchers.IO.
-- Verify per-domain device acceptance policy and project progress docs do not disturb source validation.
-- Verify shelf deletion and clear-local-content paths check file references from shelf items, resource sources, and download tasks before deleting a managed local file.
-- Verify Shelf metadata edits re-read the current row inside a Room transaction, preserve a localPath written by a concurrent download while editing title/status/note, and return failure if the row disappeared; run ShelfRepositoryUpdateTest.
-- Verify ConsumptionRecordDao.updateCurrentMetadata reads the latest row in a transaction, preserves transferredToPossession and a concurrently updated imageUri when the editor leaves the image unchanged; run ConsumptionRecordDaoUpdateTest.
-- Verify expired focus recovery uses a conditional update against the current row, preserves concurrent metadata edits, and does not complete a session paused after startup snapshot; run LifeItemDaoFocusRecoveryTest.
-- Verify RecordViewModel reports failure and skips cover cleanup when repository deletion returns false for a stale record.
+- Run the complete JVM unit-test suite with ./gradlew testDebugUnitTest --stacktrace --console=plain.
+- Build the Debug APK with ./gradlew assembleDebug --stacktrace --console=plain.
+- Run the Builder's Room schema/version discipline checks and preserve generated schema output as a validation artifact.
+- Verify the full restore and light restore code compiles, including WAL snapshot/restore, marker state transitions, rollback, COMMITTED handling, and path validation.
+- Run FullRestoreCrashRecoveryTest, AutoBackupRepositoryTest, RestoreMarkerPathValidationTest, and BackupArchivePathValidationTest.
+- Run the new AutoBackupRepositoryTest.committedMarkerOnlyReportsSuccessWhenInstalledDatabaseIsValid case; missing/corrupt committed databases must not be reported as successful restore.
+- Run DataHealthScannerReadOnlyTest and verify the missing assertEquals import is fixed and scans do not create missing user-data directories.
+- Run ReminderSchedulerIdentityTest to check PendingIntent identity and cancellation isolation across reminder domains.
+- Run RecordShelfRelationTest to verify experiences may exist without a Shelf item and deleting a Shelf item removes links but preserves the experience.
+- Run ConsumptionMultiplePossessionsTest to verify one purchase remains one consumption record while multiple independently managed possessions can be linked to it.
+- Check Kotlin compilation of the ShelfViewModel Flow initialization fix and the Records editor's Shelf association picker, detail display, and safe handling when association loading fails.
+- Verify Records main-list creation uses a top borderless quick-entry affordance, not a global floating action button.
+- Verify no database schema change was introduced by the relation work; the relation uses the existing memory_node_links table.
+- Report exact source SHA, individual test/build/schema outcomes, and failures. Do not infer success from source inspection.
 - Do not publish any APK or change signing configuration in this validation-only run.
-- Report exact source SHA, test/build/schema outcomes, and failures; CI success is not device acceptance.
 
-Future APK/device-test delivery requirements (do not execute in this validation-only run):
-- Each domain's device-test APK must be built from the exact reviewed source SHA and linked to that domain's acceptance record.
-- The eventual candidate/release APK must be built from DreamMemory's main branch after the intended changes are merged and reviewed; do not treat a feature-branch build as the final release artifact.
-- Signing identity must remain consistent across upgrade-test APKs and the final APK. Before enabling APK delivery, inspect the repository's existing signing/release setup and verify whether a production signing configuration and keystore already exist. Do not assume they exist and do not generate or replace a keystore.
-- Never commit keystore files, passwords, or private signing material. Use protected GitHub Actions secrets or an existing approved secure signing mechanism. If no approved key/configuration is available, stop and report the blocker rather than silently signing with a different key.
-- Verify the delivered APK's signer certificate fingerprint with apksigner and record it with the exact source SHA, versionCode/versionName, artifact link, and build run. A Debug APK signed with the debug key is not interchangeable with a release APK signed with the production key.
-- Do not merge to main, publish, sign with production credentials, or deliver an APK until a separate delivery request explicitly enables that mode.
-
-- Verify ReadingNoteDao.updateCurrentMetadata preserves a concurrently cleared linkedShelfItemId and current sourceIdentifier/sourceVersion/selectedText/anchors/color when a stale editor snapshot is saved; run ReadingNoteSourceLifecycleTest.
-- Verify RecordDao.updateCurrentWithHistory preserves the latest persisted coverUri when the editor submits its unchanged original cover snapshot, but still applies an explicit changed cover; run RecordDaoUpdateHistoryTest.
-- Verify resolveDreamMaterialColorScheme preserves contrast against each matching ColorScheme background/surface/surfaceVariant while keeping primary/secondary/tertiary accents readable on the active DreamMaterial surface; run ThemeContrastTest.materialSurfaceSchemePreservesContrastAgainstEachSemanticSurface.
-- Verify full-restore failure rollback persists ROLLING_BACK before removing the uncommitted tree and recognizes a completed rollback after a crash; run RestoreMarkerPathValidationTest.
-- Verify adding an existing creation asset to a canvas checks the current source asset and inserts the canvas element in one Room transaction; run CanvasAssetLinkingTest.
+Device acceptance requirements (not covered by this CI run):
+- On Android, create a standalone Records experience, link it to a Shelf resource, change/clear the link, delete the Shelf resource, and confirm the experience survives.
+- From one consumption record, create two possessions and verify each can be independently edited/deleted while the purchase record remains.
+- Force-stop during full/light restore at representative marker states and verify startup recovery.
+- Verify reminder delivery, cancellation, restart recovery, and widget refresh on a real device.
