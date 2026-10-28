@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: 426ef7dc2d58fc02f2ff41fe71b799a28fe40a16
+Source SHA: a615dbaaf2d0d4ab651c3adbb6ac9101b47edae5
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 426ef7dc2d58fc02f2ff41fe71b799a28fe40a16
+Expected source SHA at trigger: a615dbaaf2d0d4ab651c3adbb6ac9101b47edae5
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -12,6 +12,8 @@ Acceptance requirements:
 - Run ResourceHtmlRulesTest for bounded XPath extraction and NianMarkdownStructureTest for short-date timestamp year inference.
 - Run BoundedInputCopyTest and EpubContentLimitsTest for zero-progress stream handling and strict byte limits.
 - Run RecordEditorGuidanceTest, RecordStatusOptionsTest, and RecordMaterialTest for distinct TV-series and podcast support.
+- Run GlobalRecordShelfSearchTest to verify localized type/status search and stable result routes.
+- Run QuickCaptureDialogTest to ensure quick-capture record types remain aligned with the full Records taxonomy.
 - Run the complete JVM unit-test suite: ./gradlew testDebugUnitTest --stacktrace --console=plain.
 - Build the Debug APK: ./gradlew assembleDebug --stacktrace --console=plain.
 - Run the Builder's Room schema/version discipline checks and preserve generated schema output as a validation artifact. The source schema is version 6; migration chain 1→2→3→4→5→6 must remain intact.
