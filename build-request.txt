@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch
 
-Source SHA: a69ab9ee0f352ff18f656494c61f6256b5cdcbca
+Source SHA: 983c835628ea8c5e8eab95ae5f1cc858d0b930fe
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: a69ab9ee0f352ff18f656494c61f6256b5cdcbca
+Expected source SHA at trigger: 983c835628ea8c5e8eab95ae5f1cc858d0b930fe
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
