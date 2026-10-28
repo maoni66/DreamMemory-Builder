@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch
 
-Source SHA: aef2b7309277f3ae8340da38d6fc67d3d479b483
+Source SHA: d6580003f086eabe14681ece1d53c13ce86b1c90
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: aef2b7309277f3ae8340da38d6fc67d3d479b483
+Expected source SHA at trigger: d6580003f086eabe14681ece1d53c13ce86b1c90
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -13,7 +13,8 @@ Acceptance requirements:
 - Run the Builder's Room schema/version discipline checks and preserve generated schema output as a validation artifact. The source schema is version 6; migration chain 1→2→3→4→5→6 must remain intact.
 - Run RestoreCommittedDatabaseValidationTest. A COMMITTED marker must not permit cleanup/success when the live SQLite database is corrupt; light restore must roll back from a valid snapshot and preserve marker/snapshot when the snapshot is missing.
 - Run BackupRoundTripTest, BackupArchivePathValidationTest, RestoreMarkerPathValidationTest, and LegacyPathBackupCompatibilityTest.
-- Run RecordShelfRelationTest: an experience may exist without a Shelf item; deleting a Shelf item must remove the relation but preserve the experience.
+- Run RecordShelfRelationTest: an experience may exist without a Shelf item; deleting a Shelf item must remove the relation but preserve the experience and independent reading notes.
+- Run BackupRestoreOperationLockTest and DreamScreenTabsTest; confirm lock-wait cancellation is responsive and all six bottom tabs remain in the required order.
 - Run BackupRestoreOperationLockTest and DreamScreenTabsTest; confirm lock-wait cancellation is responsive and all six bottom tabs remain in the required order.
 - Run ConsumptionMultiplePossessionsTest: one purchase remains one consumption record while multiple possessions can be linked and independently removed.
 - Run ReminderSchedulerIdentityTest: life, cycle, and project-task PendingIntents with the same numeric request code remain independent; cancelling one domain must not cancel another.
