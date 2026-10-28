@@ -15,7 +15,7 @@ Acceptance requirements:
 - Run BackupRoundTripTest, BackupArchivePathValidationTest, RestoreMarkerPathValidationTest, and LegacyPathBackupCompatibilityTest.
 - Run RecordShelfRelationTest: an experience may exist without a Shelf item; deleting a Shelf item must remove the relation but preserve the experience and independent reading notes.
 - Run BackupRestoreOperationLockTest and DreamScreenTabsTest; confirm lock-wait cancellation is responsive and all six bottom tabs remain in the required order.
-- Run BackupRestoreOperationLockTest and DreamScreenTabsTest; confirm lock-wait cancellation is responsive and all six bottom tabs remain in the required order.
+
 - Run ConsumptionMultiplePossessionsTest: one purchase remains one consumption record while multiple possessions can be linked and independently removed.
 - Run ReminderSchedulerIdentityTest: life, cycle, and project-task PendingIntents with the same numeric request code remain independent; cancelling one domain must not cancel another.
 - Run DataHealthScannerReadOnlyTest and LifeOccurrenceNoteTest.
