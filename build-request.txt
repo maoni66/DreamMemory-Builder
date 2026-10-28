@@ -12,7 +12,7 @@ Acceptance requirements:
 - Build the Debug APK: ./gradlew assembleDebug --stacktrace --console=plain.
 - Run the Builder's Room schema/version discipline checks and preserve generated schema output as a validation artifact. The source schema is version 6; migration chain 1→2→3→4→5→6 must remain intact.
 - Run RestoreCommittedDatabaseValidationTest. A COMMITTED marker must not permit cleanup/success when the live SQLite database is corrupt; light restore must roll back from a valid snapshot and preserve marker/snapshot when the snapshot is missing.
-- Run BackupRoundTripTest, BackupArchivePathValidationTest, RestoreMarkerPathValidationTest, and LegacyPathBackupCompatibilityTest.
+- Run BackupRoundTripTest, BackupArchivePathValidationTest, RestoreMarkerPathValidationTest, and LegacyPathBackupCompatibilityTest. Also run BackupCanvasReferenceValidationTest for invalid optional references and missing canvas owners.
 - Run RecordShelfRelationTest: an experience may exist without a Shelf item; deleting a Shelf item must remove the relation but preserve the experience and independent reading notes.
 - Run BackupRestoreOperationLockTest and DreamScreenTabsTest; confirm lock-wait cancellation is responsive and all six bottom tabs remain in the required order.
 
