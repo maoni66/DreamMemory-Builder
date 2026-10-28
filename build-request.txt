@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: 6e8b8ee414ac17a682f8c291bb3f03e720269d5b
+Source SHA: 5b989531472ab8eb688b6092818b37da252f8eb2
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 6e8b8ee414ac17a682f8c291bb3f03e720269d5b
+Expected source SHA at trigger: 5b989531472ab8eb688b6092818b37da252f8eb2
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -15,6 +15,7 @@ Acceptance requirements:
 - Run GlobalRecordShelfSearchTest to verify localized type/status search and stable result routes.
 - Run QuickCaptureDialogTest to ensure quick-capture record types remain aligned with the full Records taxonomy.
 - Run DreamScreenNavigationTest to verify Profile renders as a secondary destination while preserving the six-tab order.
+- Run RecordExperienceCalendarTest to verify TV-series and podcast labels appear in experience history.
 - Run DownloadTaskReconciliationTest to ensure startup cleanup preserves files referenced by resource sources or other download tasks.
 - Run the complete JVM unit-test suite: ./gradlew testDebugUnitTest --stacktrace --console=plain.
 - Build the Debug APK: ./gradlew assembleDebug --stacktrace --console=plain.
