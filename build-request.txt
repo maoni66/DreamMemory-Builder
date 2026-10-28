@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch
 
-Source SHA: 7b447a0d8de286e4588800496bdc87012160943a
+Source SHA: 447123ea02bffbeced58bd9b017341c04219df93
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 7b447a0d8de286e4588800496bdc87012160943a
+Expected source SHA at trigger: 447123ea02bffbeced58bd9b017341c04219df93
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -14,6 +14,7 @@ Acceptance requirements:
 - Run RestoreCommittedDatabaseValidationTest. A COMMITTED marker must not permit cleanup/success when the live SQLite database is corrupt; light restore must roll back from a valid snapshot and preserve marker/snapshot when the snapshot is missing.
 - Run BackupRoundTripTest, BackupArchivePathValidationTest, RestoreMarkerPathValidationTest, and LegacyPathBackupCompatibilityTest.
 - Run RecordShelfRelationTest: an experience may exist without a Shelf item; deleting a Shelf item must remove the relation but preserve the experience.
+- Run BackupRestoreOperationLockTest and DreamScreenTabsTest; confirm lock-wait cancellation is responsive and all six bottom tabs remain in the required order.
 - Run ConsumptionMultiplePossessionsTest: one purchase remains one consumption record while multiple possessions can be linked and independently removed.
 - Run ReminderSchedulerIdentityTest: life, cycle, and project-task PendingIntents with the same numeric request code remain independent; cancelling one domain must not cancel another.
 - Run DataHealthScannerReadOnlyTest and LifeOccurrenceNoteTest.
