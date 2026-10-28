@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch
 
-Source SHA: d6580003f086eabe14681ece1d53c13ce86b1c90
+Source SHA: ea8bac6ba90457d638756ec006a099fbb937eafd
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: d6580003f086eabe14681ece1d53c13ce86b1c90
+Expected source SHA at trigger: ea8bac6ba90457d638756ec006a099fbb937eafd
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -20,6 +20,7 @@ Acceptance requirements:
 - Run ReminderSchedulerIdentityTest: life, cycle, and project-task PendingIntents with the same numeric request code remain independent; cancelling one domain must not cancel another.
 - Run DataHealthScannerReadOnlyTest and LifeOccurrenceNoteTest.
 - Verify CanvasDocument/Canvas editor sources compile with the existing normalized canvas entities and that no duplicate parallel canvas schema is introduced.
+- Run CreateCanvasPersistenceTest to verify normalized canvas data and elements survive database close/reopen.
 - Report exact source SHA, individual test/build/schema outcomes, and all failures. Do not infer success from source inspection.
 - Do not publish an APK or change signing configuration in this validation-only run.
 
