@@ -22,6 +22,7 @@ Acceptance requirements:
 - Verify CanvasDocument/Canvas editor sources compile with the existing normalized canvas entities and that no duplicate parallel canvas schema is introduced.
 - Run CreateCanvasPersistenceTest to verify normalized canvas data and elements survive database close/reopen.
 - Run CreateCanvasPersistenceTest's album deletion case; deleting an album must detach and preserve its canvases.
+- Run CreateCanvasPersistenceTest's canvas deletion case; remove graph edges and owned asset rows atomically while returning paths for safe cleanup.
 - Report exact source SHA, individual test/build/schema outcomes, and all failures. Do not infer success from source inspection.
 - Do not publish an APK or change signing configuration in this validation-only run.
 
