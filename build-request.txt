@@ -1,13 +1,14 @@
-DreamMemory integrated audit validation batch
+DreamMemory integrated audit validation batch — import parser regression
 
-Source SHA: 36132ed2457c3be493b7efdbf3cf28d46e03ac5d
+Source SHA: a3ce07285c1d662fc69de3daf5a5ba6a79dc5c7c
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 36132ed2457c3be493b7efdbf3cf28d46e03ac5d
+Expected source SHA at trigger: a3ce07285c1d662fc69de3daf5a5ba6a79dc5c7c
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
 Acceptance requirements:
 - Verify the checked-out source SHA exactly matches the requested SHA.
+- Run BookSourceImportPreviewTest, including stalled InputStream and invalid byte-budget regressions.
 - Run the complete JVM unit-test suite: ./gradlew testDebugUnitTest --stacktrace --console=plain.
 - Build the Debug APK: ./gradlew assembleDebug --stacktrace --console=plain.
 - Run the Builder's Room schema/version discipline checks and preserve generated schema output as a validation artifact. The source schema is version 6; migration chain 1→2→3→4→5→6 must remain intact.
