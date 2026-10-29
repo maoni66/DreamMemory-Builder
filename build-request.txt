@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: e20682f90f730c0aa7029491da7436ab4cd759f4
+Source SHA: a3e0c2d27680097fff9cfab5156680157968d86a
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: e20682f90f730c0aa7029491da7436ab4cd759f4
+Expected source SHA at trigger: a3e0c2d27680097fff9cfab5156680157968d86a
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -77,3 +77,7 @@ Device acceptance requirements (not covered by CI):
 - Verify Life deletion re-reads and identity-checks the current row under the restore gate, catches ordinary database/relationship failures, and surfaces a visible error without claiming deletion succeeded.
 - Verify Life completion toggles and reminder mutations propagate cancellation and do not crash the ViewModel on ordinary operation errors.
 - Verify reminder feedback distinguishes a failed DB write from a committed reminder state whose system alarm scheduling failed; widget refresh remains best-effort.
+
+- Verify Shelf delete distinguishes row-delete failure from post-delete file/cache cleanup failure; failed row deletion must retain files/cache, and cleanup failure after deletion must be surfaced accurately.
+- Verify Shelf clear-local-content reports whether the DB reference was cleared even if file cleanup fails, and progress-update failures do not escape as uncaught ViewModel exceptions.
+- Verify Create canvas metadata is not optimistically published before the Room write succeeds; failure must leave the last persisted title/background visible with an error message.
