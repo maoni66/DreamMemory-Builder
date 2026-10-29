@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: 7caedeafdf1bc3831a3830161fa12c9a3e487c38
+Source SHA: 38756a9befc6b78b64ab318bb4ce97ba0abb1392
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 7caedeafdf1bc3831a3830161fa12c9a3e487c38
+Expected source SHA at trigger: 38756a9befc6b78b64ab318bb4ce97ba0abb1392
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -124,4 +124,4 @@ Device acceptance requirements (not covered by CI):
 - Verify the ShelfViewModel domain boundary rejects malformed, missing-host, file-scheme and javascript-scheme course URLs even if Quick Capture UI validation is bypassed; run ShelfResourceValidationTest plus the full JVM suite.
 - Re-run the full JVM suite, Debug APK compile, and Room schema discipline against exact current source SHA `65222e044b269d09d61151e0b46ec9c8d8710c0f`. Include the public repository helper for kind-scoped Shelf source URL lookup and all Quick Capture Shelf-resource tests.
 
-- Revalidate the documentation checkpoint at exact source SHA 7caedeafdf1bc3831a3830161fa12c9a3e487c38; confirm the documented Builder #684 and #685 results and the open device-acceptance list are consistent. Run the complete JVM unit suite, Debug APK compile, and Room schema discipline checks; keep validation-only mode (no signing or delivery).
+- Validate the current documentation and canvas cleanup regression at exact source SHA 38756a9befc6b78b64ab318bb4ce97ba0abb1392; run CreateCanvasOperationsTest including deletion-failure and missing-file cases, the complete JVM suite, Debug APK compile, and Room schema discipline. Confirm #684/#685 history and open device-acceptance items remain accurate; keep validation-only mode (no signing or delivery).
