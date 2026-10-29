@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: cb1b0388ed8f47d4d0107a6963073aef4cc54aa4
+Source SHA: b846a6851d4e35d62d520699ce3634317138641d
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: cb1b0388ed8f47d4d0107a6963073aef4cc54aa4
+Expected source SHA at trigger: b846a6851d4e35d62d520699ce3634317138641d
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -12,6 +12,7 @@ Acceptance requirements:
 - Run ResourceHtmlRulesTest for bounded XPath extraction and NianMarkdownStructureTest for short-date timestamp year inference.
 - Run ResourceHttpSafetyTest, including `boundedResourceReadMakesProgressWhenBulkReadReturnsZero` and `boundedMediaCopyMakesProgressAndStillEnforcesTheByteLimit`; confirm zero-progress streams cannot spin indefinitely and media output never exceeds the strict byte cap.
 - Also verify the bounded media copy accepts a `Long.MAX_VALUE` byte budget without arithmetic overflow (`boundedMediaCopyMakesProgressAndStillEnforcesTheByteLimit`).
+- Verify LifeViewModel startup focus recovery contains ordinary Room/alarm/widget failures in a localized retryable error and propagates `CancellationException`; then run the complete JVM suite, Debug APK build, and Room schema discipline.
 - Run BoundedInputCopyTest and EpubContentLimitsTest for zero-progress stream handling and strict byte limits.
 - Run CBZ image-count safety tests; enumeration must stop after the configured limit and reject oversized archives without materializing every image path.
 - Run RecordEditorGuidanceTest, RecordStatusOptionsTest, and RecordMaterialTest for distinct TV-series and podcast support.
@@ -126,4 +127,4 @@ Device acceptance requirements (not covered by CI):
 - Verify the ShelfViewModel domain boundary rejects malformed, missing-host, file-scheme and javascript-scheme course URLs even if Quick Capture UI validation is bypassed; run ShelfResourceValidationTest plus the full JVM suite.
 - Re-run the full JVM suite, Debug APK compile, and Room schema discipline against exact current source SHA `65222e044b269d09d61151e0b46ec9c8d8710c0f`. Include the public repository helper for kind-scoped Shelf source URL lookup and all Quick Capture Shelf-resource tests.
 
-- Validate the current documentation and canvas cleanup regressions at exact source SHA cb1b0388ed8f47d4d0107a6963073aef4cc54aa4. Run CreateCanvasOperationsTest including deletion-failure/missing-file cases, the complete JVM suite, Debug APK compile, and Room schema discipline. Verify orphan asset rows remain available for retry after filesystem cleanup failure. Confirm #684/#685 history and open device-acceptance items remain accurate; keep validation-only mode (no signing or delivery).
+- Validate the current documentation and canvas cleanup regressions at exact source SHA b846a6851d4e35d62d520699ce3634317138641d. Run CreateCanvasOperationsTest including deletion-failure/missing-file cases, the complete JVM suite, Debug APK compile, and Room schema discipline. Verify orphan asset rows remain available for retry after filesystem cleanup failure. Confirm #684/#685 history and open device-acceptance items remain accurate; keep validation-only mode (no signing or delivery).
