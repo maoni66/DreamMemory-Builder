@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: 20666dedf2ff4d87da4d855f9f468f2797e07542
+Source SHA: 6dabdd77a48370e421ae00ebd1d3948b2cbb5848
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 20666dedf2ff4d87da4d855f9f468f2797e07542
+Expected source SHA at trigger: 6dabdd77a48370e421ae00ebd1d3948b2cbb5848
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -103,3 +103,5 @@ Device acceptance requirements (not covered by CI):
 - The selected-canvas guard must explicitly check current != null before dereferencing current.id/createdAt; compile the exact current source to verify this path.
 
 - Verify new text/shape, reused-asset and imported-image insertions snapshot undo history and calculate zIndex only after acquiring the canvas write lock; queued inserts must not use stale element snapshots.
+
+- Verify cleanup after deleting a canvas element reacquires the canonical restore-gate-first canvas write lock before checking/deleting unreferenced files.
