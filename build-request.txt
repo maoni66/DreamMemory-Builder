@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: 6169c87b7a3f2c40bc8d27754531d40c15c2d580
+Source SHA: 47f580219a5e72e1430a28c54069875637835434
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 6169c87b7a3f2c40bc8d27754531d40c15c2d580
+Expected source SHA at trigger: 47f580219a5e72e1430a28c54069875637835434
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -108,3 +108,5 @@ Device acceptance requirements (not covered by CI):
 
 
 - Verify concurrent Shelf imports for the same normalized content key are serialized by a Room transaction and return one stable row identity; run the new concurrent-add regression test and the full JVM suite. Confirm Room schema remains unchanged.
+
+- Verify transactional Shelf add-or-merge under concurrent duplicate imports and run the new regression ensuring duplicate imports preserve existing status, rating, notes, preferred source URL, progress, and localPath; run full JVM tests, Debug APK compile, and Room schema discipline at this exact source SHA.
