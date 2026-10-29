@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: 62ce1190d1f575f93328216b5939770b2f3dc4cc
+Source SHA: 12e333e388e7df1ba4e14d303153505c557a525c
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 62ce1190d1f575f93328216b5939770b2f3dc4cc
+Expected source SHA at trigger: 12e333e388e7df1ba4e14d303153505c557a525c
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -52,3 +52,7 @@ Device acceptance requirements (not covered by CI):
 - On Android, create a standalone Records experience, link/unlink a Shelf item, delete the Shelf item, and confirm the experience survives.
 - From one consumption record, create two possessions and independently edit/delete each while preserving the purchase record.
 - Open a blank canvas, add/move text, shapes, stickers, and images, save, close, and reopen.
+
+- Verify Discover anime-detail progress lookup, chapter selection Shelf find-or-create/progress update, and video-playback Shelf find-or-create sequence are coordinated with BackupRestoreOperationLock; chapter selection must revalidate its request after acquiring the gate.
+- Verify Discover chapter-cache database reads, cached-URL refresh, and close-detail cache cleanup are coordinated with restore; network fetches must not hold the restore gate.
+- Verify Shelf legacy-row cleanup propagates CancellationException from suspending DAO/reference checks while retaining best-effort behavior for ordinary cleanup failures.
