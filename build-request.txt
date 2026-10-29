@@ -1,14 +1,15 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: b16f02dceeb5b461788dacd01842a2f20bd44922
+Source SHA: 2ac54f5e63a632797085d5961bd5f713aa3ffba6
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: b16f02dceeb5b461788dacd01842a2f20bd44922
+Expected source SHA at trigger: 2ac54f5e63a632797085d5961bd5f713aa3ffba6
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
 Acceptance requirements:
 - Verify the checked-out source SHA exactly matches the requested SHA.
 - Validate the Create studio reload recovery change: album/work/reference collections publish as one complete snapshot, ordinary load failures retain the previous snapshot and show a retryable message, and CancellationException is rethrown. Run the full JVM unit-test suite, Debug APK build, and Room schema v6 discipline checks; validation-only, no signing or delivery.
+- Validate Create studio relation refresh reads: work-to-reference, reference-to-work, and album-to-work relations must read under the same backup/restore operation lock, then publish the resulting relation list together rather than clearing the UI list before the read completes.
 - Run BookSourceImportPreviewTest, including stalled InputStream and invalid byte-budget regressions.
 - Run ResourceHtmlRulesTest for bounded XPath extraction and NianMarkdownStructureTest for short-date timestamp year inference.
 - Run ResourceHttpSafetyTest, including `boundedResourceReadMakesProgressWhenBulkReadReturnsZero` and `boundedMediaCopyMakesProgressAndStillEnforcesTheByteLimit`; confirm zero-progress streams cannot spin indefinitely and media output never exceeds the strict byte cap.
@@ -137,4 +138,4 @@ Device acceptance requirements (not covered by CI):
 - Verify the ShelfViewModel domain boundary rejects malformed, missing-host, file-scheme and javascript-scheme course URLs even if Quick Capture UI validation is bypassed; run ShelfResourceValidationTest plus the full JVM suite.
 - Re-run the full JVM suite, Debug APK compile, and Room schema discipline against exact current source SHA `65222e044b269d09d61151e0b46ec9c8d8710c0f`. Include the public repository helper for kind-scoped Shelf source URL lookup and all Quick Capture Shelf-resource tests.
 
-- Validate the current integrated-audit branch at exact source SHA b16f02dceeb5b461788dacd01842a2f20bd44922 (the SHA guard must match this exact HEAD). Run the complete JVM unit-test suite, including CreateCanvasOperationsTest deletion-failure/missing-file and orphan-asset retry cases, MemoryViewModel attachment import/delete failure paths, Notebook mutation error handling, and all prior Shelf/Quick Capture/Discover regressions. Compile the Debug APK and enforce Room schema v6/version discipline; upload the schema artifact. Inspect Kotlin compilation and test results for the current MemoryViewModel attachment changes, including lock acquisition failure, missing/unreadable SAF URI, cancellation propagation, DB-first deletion, and preservation of files on DB failure. Keep validation-only mode: no signing, publishing, or delivery. Report device-only acceptance items separately and do not claim release readiness from CI success.
+- Validate the current integrated-audit branch at exact source SHA 2ac54f5e63a632797085d5961bd5f713aa3ffba6 (the SHA guard must match this exact HEAD). Run the complete JVM unit-test suite, including CreateCanvasOperationsTest deletion-failure/missing-file and orphan-asset retry cases, MemoryViewModel attachment import/delete failure paths, Notebook mutation error handling, and all prior Shelf/Quick Capture/Discover regressions. Compile the Debug APK and enforce Room schema v6/version discipline; upload the schema artifact. Inspect Kotlin compilation and test results for the current MemoryViewModel attachment changes, including lock acquisition failure, missing/unreadable SAF URI, cancellation propagation, DB-first deletion, and preservation of files on DB failure. Keep validation-only mode: no signing, publishing, or delivery. Report device-only acceptance items separately and do not claim release readiness from CI success.
