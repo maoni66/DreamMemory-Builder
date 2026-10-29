@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: 8929f5bf26adaa1b2bc8231423c28980aaa1ca33
+Source SHA: 07a23dfaa12ca52c83f97cd3dd98765dd9c3d660
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 8929f5bf26adaa1b2bc8231423c28980aaa1ca33
+Expected source SHA at trigger: 07a23dfaa12ca52c83f97cd3dd98765dd9c3d660
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -61,3 +61,7 @@ Device acceptance requirements (not covered by CI):
 - Verify pasted multi-item shopping and pickup captures use a single Room transaction and do not leave partial rows after a failed batch.
 - Verify the Life add, countdown, and focus dialogs prevent duplicate save taps while saving and preserve input with a retry message after persistence failure.
 - Run LifeInputParserTest and the full JVM test suite after these changes; confirm Room schema remains unchanged.
+
+- Verify LifeItemEditDialog keeps edited fields open on failed persistence, prevents repeated saves while saving, and reports success only after the Room row is committed.
+- Verify Life edit reminder/widget refresh failures do not make a committed database edit appear unsaved.
+- Verify Life shopping and pickup form labels identify their actual domains and do not describe pickup entries as purchases.
