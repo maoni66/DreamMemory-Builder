@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: eb4779dd3a41b37b34b56bfab5130597df113761
+Source SHA: e1f927f8845377e64ae614f93ffc747821a1113f
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: eb4779dd3a41b37b34b56bfab5130597df113761
+Expected source SHA at trigger: e1f927f8845377e64ae614f93ffc747821a1113f
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -71,3 +71,5 @@ Device acceptance requirements (not covered by CI):
 - Verify shopping, pickup, link, and TODO field labels reflect their actual domain and do not confuse pickup records with purchases.
 
 - Verify generic Life link/check-in dialogs expose inline retry errors and disable repeated save taps while their persistence callbacks are pending.
+
+- Revalidate the compiler-driven Life dialog fix: Toast must resolve from android.widget.Toast, ToolCards must use its existing focusContext for link-save feedback, and CheckinListDialog must use its local context. The exact current HEAD must compile before tests are considered.
