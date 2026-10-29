@@ -1,8 +1,8 @@
 DreamMemory integrated validation — profile refresh regression and full suite
 
-Source SHA: 7c9b3d9922eaa888d36c490fbf7fb5042c0855d3
-Source ref: 7c9b3d9922eaa888d36c490fbf7fb5042c0855d3
-Expected source SHA at trigger: 7c9b3d9922eaa888d36c490fbf7fb5042c0855d3
+Source SHA: e614e44989ece5de2b717db181e2dc09dd7fa253
+Source ref: work/2026-10-30-create-module-validation
+Expected source SHA at trigger: e614e44989ece5de2b717db181e2dc09dd7fa253
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
