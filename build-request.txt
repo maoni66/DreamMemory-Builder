@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: 07979ca0b016dc7fdeae927f362d39be179ad759
+Source SHA: 62b3e33dba4759471d7f952a94ecef89f14e9c98
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 07979ca0b016dc7fdeae927f362d39be179ad759
+Expected source SHA at trigger: 62b3e33dba4759471d7f952a94ecef89f14e9c98
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -115,3 +115,4 @@ Device acceptance requirements (not covered by CI):
 - Verify Shelf add-or-merge looks up exact nonblank source URL before normalized content key; run the regression where a provider changes display title for the same URL and confirm one row, stable ID, and preserved existing status/progress/note.
 - Source audit note: Home QuickCaptureDialog is implemented with five explicit destinations and retryable validation/persistence feedback; do not treat old documentation saying the entry is absent as current truth. Include QuickCaptureDialogTest in the full JVM suite.
 - Verify Quick Capture's Life TODO, Life log, Records experience, and Create idea persistence failures expose localized retry feedback rather than raw exception messages; preserve the draft and include QuickCaptureDialogTest in the full suite.
+- Verify Quick Capture's new separate Shelf resource destination: kind/status options, course source URL requirement, domain-boundary guidance versus Records experiences, persistence through ShelfViewModel under the restore gate, and QuickCaptureDialogTest coverage. Run the full JVM suite, Debug APK compile, and Room schema discipline at this exact SHA.
