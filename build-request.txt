@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: 8b2338e27f07fa30b8e8ccaea6e4b8cb3eca5e02
+Source SHA: 65222e044b269d09d61151e0b46ec9c8d8710c0f
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 8b2338e27f07fa30b8e8ccaea6e4b8cb3eca5e02
+Expected source SHA at trigger: 65222e044b269d09d61151e0b46ec9c8d8710c0f
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -121,3 +121,4 @@ Device acceptance requirements (not covered by CI):
 - Confirm the current project context, integrated audit, and gap checklist accurately record Builder #678's successful exact-SHA validation while keeping all device-only acceptance items open; run the full JVM suite, Debug APK compile, and Room schema discipline at this documentation-synced SHA.
 - Also validate the repository convenience API for kind-scoped URL lookup and ensure both Shelf identity regression tests pass at this exact SHA.
 - Validate strict Quick Capture course source URLs: reject malformed, missing-host, file-scheme and javascript-scheme values; accept absolute HTTP/HTTPS URLs. Run the full JVM suite including the new QuickCaptureDialogTest at this exact SHA.
+- Verify the ShelfViewModel domain boundary rejects malformed, missing-host, file-scheme and javascript-scheme course URLs even if Quick Capture UI validation is bypassed; run ShelfResourceValidationTest plus the full JVM suite.
