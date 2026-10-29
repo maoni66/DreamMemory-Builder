@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: 158b4e4bf75552b4ffb2dfd8ab759cb901644026
+Source SHA: 5eff3d70afcb335c3105f5c2668cfcf366b2262d
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 158b4e4bf75552b4ffb2dfd8ab759cb901644026
+Expected source SHA at trigger: 5eff3d70afcb335c3105f5c2668cfcf366b2262d
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -99,3 +99,5 @@ Device acceptance requirements (not covered by CI):
 - Verify Create image import awaits CreateAssetCleanupGate completion before acquiring BackupRestoreOperationLock; startup cleanup takes the restore gate before completing the cleanup gate, so the opposite order would deadlock.
 
 - Verify canvas add-element, add-existing-asset and image-import actions revalidate the selected canvas ID + createdAt after waiting for the restore/local write lock; an action captured for a prior canvas must not mutate the newly selected canvas's in-memory elements.
+
+- The selected-canvas guard must explicitly check current != null before dereferencing current.id/createdAt; compile the exact current source to verify this path.
