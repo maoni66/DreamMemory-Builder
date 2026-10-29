@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: a3e0c2d27680097fff9cfab5156680157968d86a
+Source SHA: f1152f81824bee41d7cbc87f5c0c05a1ed281d4f
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: a3e0c2d27680097fff9cfab5156680157968d86a
+Expected source SHA at trigger: f1152f81824bee41d7cbc87f5c0c05a1ed281d4f
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -81,3 +81,5 @@ Device acceptance requirements (not covered by CI):
 - Verify Shelf delete distinguishes row-delete failure from post-delete file/cache cleanup failure; failed row deletion must retain files/cache, and cleanup failure after deletion must be surfaced accurately.
 - Verify Shelf clear-local-content reports whether the DB reference was cleared even if file cleanup fails, and progress-update failures do not escape as uncaught ViewModel exceptions.
 - Verify Create canvas metadata is not optimistically published before the Room write succeeds; failure must leave the last persisted title/background visible with an error message.
+
+- Verify Create canvas deletion distinguishes database deletion failure from post-commit file cleanup failure: once the canvas row is deleted, any later cleanup error must not falsely claim the canvas itself still exists.
