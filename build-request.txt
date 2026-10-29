@@ -1,8 +1,8 @@
 DreamMemory integrated audit validation batch — full-app audit regression
 
-Source SHA: 1ba8e15056d4a942e06d97b7c9d1d38d9249f121
+Source SHA: 5b5cc174a0a5f1f61921d00d4097db33b3b7f703
 Source ref: work/2026-10-27-integrated-audit
-Expected source SHA at trigger: 1ba8e15056d4a942e06d97b7c9d1d38d9249f121
+Expected source SHA at trigger: 5b5cc174a0a5f1f61921d00d4097db33b3b7f703
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -19,6 +19,7 @@ Acceptance requirements:
 - Verify ResourceManagerScreen observes and displays ResourceViewModel mutation errors; toggle/delete coroutines must rethrow CancellationException and surface ordinary failures without crashing. Run full JVM tests, Debug APK, Room schema v6 checks, and upload schema. Validation-only; do not sign, publish, or deliver.
 - Run `ResourceSourceDaoIdentityTest.staleSourceSnapshotCannotToggleRestoredRowThatReusedId` and `OwnedSourceDefinitionCleanupTest.staleDeleteCannotRemoveRestoredSourceOrItsDefinitionFile`; confirm both mutations use `id + createdAt` and stale deletion never stages file cleanup. Re-run full JVM suite, Debug APK, and Room schema v6 discipline; validation-only.
 - Previous run #696 stopped during test compilation because the fake DAO retained an obsolete `updateEnabled` override; that override has been removed. Confirm this compile fix, run the named identity regressions and full JVM suite, then Debug APK and Room schema v6 discipline. Validation-only; no signing or delivery.
+- Compile and run tests after ProjectManagementScreen's seven mutation coroutines were routed through cancellation-safe error handling; confirm localized operation errors render and `CancellationException` is rethrown. Full JVM suite, Debug APK, Room schema v6 checks and schema upload; validation-only, no signing or delivery.
 - Run BoundedInputCopyTest and EpubContentLimitsTest for zero-progress stream handling and strict byte limits.
 - Run CBZ image-count safety tests; enumeration must stop after the configured limit and reject oversized archives without materializing every image path.
 - Run RecordEditorGuidanceTest, RecordStatusOptionsTest, and RecordMaterialTest for distinct TV-series and podcast support.
@@ -133,4 +134,4 @@ Device acceptance requirements (not covered by CI):
 - Verify the ShelfViewModel domain boundary rejects malformed, missing-host, file-scheme and javascript-scheme course URLs even if Quick Capture UI validation is bypassed; run ShelfResourceValidationTest plus the full JVM suite.
 - Re-run the full JVM suite, Debug APK compile, and Room schema discipline against exact current source SHA `65222e044b269d09d61151e0b46ec9c8d8710c0f`. Include the public repository helper for kind-scoped Shelf source URL lookup and all Quick Capture Shelf-resource tests.
 
-- Validate the current documentation and canvas cleanup regressions at exact source SHA 1ba8e15056d4a942e06d97b7c9d1d38d9249f121. Run CreateCanvasOperationsTest including deletion-failure/missing-file cases, the complete JVM suite, Debug APK compile, and Room schema discipline. Verify orphan asset rows remain available for retry after filesystem cleanup failure. Confirm #684/#685 history and open device-acceptance items remain accurate; keep validation-only mode (no signing or delivery).
+- Validate the current documentation and canvas cleanup regressions at exact source SHA 5b5cc174a0a5f1f61921d00d4097db33b3b7f703. Run CreateCanvasOperationsTest including deletion-failure/missing-file cases, the complete JVM suite, Debug APK compile, and Room schema discipline. Verify orphan asset rows remain available for retry after filesystem cleanup failure. Confirm #684/#685 history and open device-acceptance items remain accurate; keep validation-only mode (no signing or delivery).
