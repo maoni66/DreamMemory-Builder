@@ -1,16 +1,18 @@
-DreamMemory full-app UI audit checkpoint — latest responsive dialog/list fixes
+DreamMemory main-branch APK build after merging responsive UI audit fixes
 
-Source SHA: fcd009908ed2eda187baf51cb92a829a28b453ab
-Source ref: fix/full-app-ui-audit-2026-10-30
-Expected source SHA at trigger: fcd009908ed2eda187baf51cb92a829a28b453ab
-Deliver APK: no
-Build mode: full JVM unit tests, Debug APK compilation, Android instrumented UI test APK compilation, Room schema discipline. No APK release for this audit checkpoint.
+Source SHA: dab3d51aab6e94329f68d942a25ae125249f4119
+Source ref: main
+Expected source SHA at trigger: dab3d51aab6e94329f68d942a25ae125249f4119
+Deliver APK: yes
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Room schema v6 semantic check, APK signature verification, and private GitHub Release publication.
 
 Acceptance:
-- Checkout must match the exact source SHA above.
+- Checkout must match the exact main source SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug.
-- Compile :app:assembleDebugAndroidTest to validate Compose UI regression test sources.
+- Compile :app:assembleDebugAndroidTest.
 - Confirm Room schema v6 semantic JSON is unchanged.
+- Verify the generated APK signature on the isolated publishing runner.
+- Publish the installable Debug APK to a private-test release for this exact main SHA.
 - Preserve the existing app version, signing configuration, database schema, and six-tab product navigation.
-- This build is a source/CI checkpoint only; it does not constitute device UI acceptance.
+- This is a main-branch Debug APK, not a production/release-signed APK.
