@@ -303,9 +303,9 @@ jobs:
         run: |
           set -euo pipefail
           test -n "${ARTIFACT_PASSWORD:-}" || { echo "Missing repository secret DREAMMEMORY_ARTIFACT_PASSWORD"; exit 1; }
-          openssl enc -d -aes-256-cbc -pbkdf2 -salt \\
-            -in "$RUNNER_TEMP/encrypted/dreammemory-package.enc" \\
-            -out "$RUNNER_TEMP/dreammemory-package.tar.gz" \\
+          openssl enc -d -aes-256-cbc -pbkdf2 -salt \
+            -in "$RUNNER_TEMP/encrypted/dreammemory-package.enc" \
+            -out "$RUNNER_TEMP/dreammemory-package.tar.gz" \
             -pass env:ARTIFACT_PASSWORD
           mkdir -p "$RUNNER_TEMP/package"
           tar -xzf "$RUNNER_TEMP/dreammemory-package.tar.gz" -C "$RUNNER_TEMP/package"
