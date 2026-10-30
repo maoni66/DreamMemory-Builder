@@ -19,7 +19,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 55
     outputs:
       source_sha: ${{ steps.source.outputs.source_sha }}
       source_ref: ${{ steps.request.outputs.source_ref }}
@@ -139,6 +139,17 @@ jobs:
         if: steps.request.outputs.needs_build == 'true'
         shell: bash
         run: ./gradlew assembleDebugAndroidTest --stacktrace --console=plain
+
+      - name: Run Android instrumented UI tests on emulator
+        if: steps.request.outputs.needs_build == 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          script: ./gradlew connectedDebugAndroidTest --stacktrace --console=plain
 
       - name: Enforce Room schema version discipline
         if: steps.request.outputs.needs_build == 'true'
