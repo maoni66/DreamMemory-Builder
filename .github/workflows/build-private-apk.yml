@@ -188,7 +188,7 @@ jobs:
       # Room's generated schema is part of the release contract. Carry it encrypted
       # to the isolated publisher so it can be versioned in the private source repo.
       - name: Encrypt APK and Room schema for isolated publishing runner
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.source_ref == 'main' || steps.request.outputs.deliver_apk != 'no')
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.deliver_apk != 'no'
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
         shell: bash
@@ -206,7 +206,7 @@ jobs:
             -pass env:ARTIFACT_PASSWORD
 
       - name: Upload encrypted release package only
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.source_ref == 'main' || steps.request.outputs.deliver_apk != 'no')
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.deliver_apk != 'no'
         uses: actions/upload-artifact@v6
         with:
           name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
@@ -278,9 +278,49 @@ jobs:
             --title "DreamMemory private test APK ${SOURCE_SHA:0:12}" \
             --notes "Private test build from exact source commit $SOURCE_SHA. This is an installable Android Debug APK produced by assembleDebug and verified on the isolated delivery runner. It is not a release-signed production build. No source branch or main-branch writes were performed by this delivery job."
   
+  verify-main-apk:
+    needs: build
+    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.source_ref == 'main' && needs.build.outputs.deliver_apk == 'verify'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Download encrypted APK package
+        uses: actions/download-artifact@v6
+        with:
+          name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/encrypted
+
+      - name: Set up Android SDK tools
+        uses: android-actions/setup-android@v4
+
+      - name: Decrypt package and verify APK without publishing
+        env:
+          ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
+          SOURCE_SHA: ${{ needs.build.outputs.source_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${ARTIFACT_PASSWORD:-}" || { echo "Missing repository secret DREAMMEMORY_ARTIFACT_PASSWORD"; exit 1; }
+          openssl enc -d -aes-256-cbc -pbkdf2 -salt \\
+            -in "$RUNNER_TEMP/encrypted/dreammemory-package.enc" \\
+            -out "$RUNNER_TEMP/dreammemory-package.tar.gz" \\
+            -pass env:ARTIFACT_PASSWORD
+          mkdir -p "$RUNNER_TEMP/package"
+          tar -xzf "$RUNNER_TEMP/dreammemory-package.tar.gz" -C "$RUNNER_TEMP/package"
+          apk_path="$(find "$RUNNER_TEMP/package" -type f -name app-debug.apk -print -quit)"
+          schema_path="$(find "$RUNNER_TEMP/package" -type f -name '*.json' -path '*/app/schemas/*' -print -quit)"
+          test -n "$apk_path" && test -s "$apk_path" || { echo "APK missing from encrypted package"; exit 1; }
+          test -n "$schema_path" && test -s "$schema_path" || { echo "Room schema missing from encrypted package"; exit 1; }
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "build-tools;36.0.0"
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose "$apk_path"
+          echo "Verified non-published main-branch APK for source SHA $SOURCE_SHA"
+
   publish:
     needs: build
-    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.source_ref == 'main' && needs.build.outputs.deliver_apk != 'verify'
+    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.source_ref == 'main' && needs.build.outputs.deliver_apk == 'yes'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
