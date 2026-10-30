@@ -1,18 +1,16 @@
-DreamMemory main-branch APK build after merging responsive UI audit fixes
+DreamMemory validation build for Shelf identity regression fix
 
-Source SHA: dab3d51aab6e94329f68d942a25ae125249f4119
-Source ref: main
-Expected source SHA at trigger: dab3d51aab6e94329f68d942a25ae125249f4119
-Deliver APK: yes
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Room schema v6 semantic check, APK signature verification, and private GitHub Release publication.
+Source SHA: 5a6955140ed532388396c16181aa2f2d36901e7f
+Source ref: fix/shelf-identity-no-title-merge-2026-10-30
+Expected source SHA at trigger: 5a6955140ed532388396c16181aa2f2d36901e7f
+Deliver APK: no
+Build mode: full JVM unit tests, Debug APK compilation, Android instrumented UI test APK compilation, and Room schema v6 semantic check.
 
 Acceptance:
-- Checkout must match the exact main source SHA above.
-- Run the complete JVM unit-test suite.
+- Checkout must match the exact fix branch SHA above.
+- Run the complete JVM unit-test suite, including ShelfRepositoryUpdateTest.
 - Build :app:assembleDebug.
 - Compile :app:assembleDebugAndroidTest.
 - Confirm Room schema v6 semantic JSON is unchanged.
-- Verify the generated APK signature on the isolated publishing runner.
-- Publish the installable Debug APK to a private-test release for this exact main SHA.
-- Preserve the existing app version, signing configuration, database schema, and six-tab product navigation.
-- This is a main-branch Debug APK, not a production/release-signed APK.
+- Do not publish an APK from this validation build.
+- No schema or app-version changes are expected.
