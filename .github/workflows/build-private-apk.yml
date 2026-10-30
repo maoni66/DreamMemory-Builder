@@ -135,6 +135,11 @@ jobs:
         shell: bash
         run: ./gradlew assembleDebug --stacktrace --console=plain
 
+      - name: Compile Android instrumented UI tests
+        if: steps.request.outputs.needs_build == 'true'
+        shell: bash
+        run: ./gradlew assembleDebugAndroidTest --stacktrace --console=plain
+
       - name: Enforce Room schema version discipline
         if: steps.request.outputs.needs_build == 'true'
         shell: bash
