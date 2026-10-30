@@ -1,15 +1,16 @@
-DreamMemory full-app UI audit validation — bottom navigation safe-area fix
+DreamMemory full-app UI audit checkpoint — compile Compose UI regression tests
 
 Source SHA: 55695f9e45a02d2ae5031c00bd179d1dea800389
 Source ref: fix/full-app-ui-audit-2026-10-30
 Expected source SHA at trigger: 55695f9e45a02d2ae5031c00bd179d1dea800389
 Deliver APK: no
-Build mode: full JVM unit tests, Debug APK compilation, Room schema discipline. No APK release for this audit checkpoint.
+Build mode: full JVM unit tests, Debug APK compilation, Android instrumented UI test APK compilation, Room schema discipline. No APK release for this audit checkpoint.
 
 Acceptance:
 - Checkout must match the exact source SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug.
+- Compile :app:assembleDebugAndroidTest to validate Compose UI regression test sources.
 - Confirm Room schema v6 semantic JSON is unchanged.
 - Preserve the existing app version, signing configuration, database schema, and six-tab product navigation.
 - This build is a source/CI checkpoint only; it does not constitute device UI acceptance.
