@@ -1,17 +1,16 @@
-DreamMemory reader lifecycle validation
+DreamMemory final main APK build — EPUB reader lifecycle closure
 
-Source SHA: 13363cb7d2a5eacfafad8c302e1cee22e0ad9ee4
-Source ref: work/2026-10-30-epub-cancellation
-Expected source SHA at trigger: 13363cb7d2a5eacfafad8c302e1cee22e0ad9ee4
-Deliver APK: no
-Build mode: full JVM unit tests, Debug APK build, and Room schema discipline only. Do not sign, encrypt, transfer, publish, or modify the private source repository.
+Source SHA: 3d1de22e4b090eddf5f2d160a42a14bb197f7b5d
+Source ref: main
+Expected source SHA at trigger: 3d1de22e4b090eddf5f2d160a42a14bb197f7b5d
+Deliver APK: yes
+Build mode: full JVM unit tests, Debug APK, Room schema discipline, isolated APK decryption and signature verification, and private Release publication. Do not modify application source during the build.
 
 Acceptance:
-- Preserve CancellationException through local text and EPUB file loading.
-- Keep visible errors for ordinary read failures.
-- Begin EPUB progress tracking only after the initial restored scroll or note anchor position has been applied.
-- Do not overwrite progress when the chapter file cannot be read.
+- Checkout must match the exact main SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug.
-- Confirm Room schema v6 is semantically unchanged.
-- Do not change version metadata, signing configuration, migrations, or six-tab navigation.
+- Confirm Room schema v6 semantic JSON is unchanged.
+- Verify the APK on the isolated publisher using the configured private Debug signing identity.
+- Publish the private Debug APK against the exact source SHA.
+- Do not change version metadata, signing configuration, Room schema, migrations, or six-tab navigation.
