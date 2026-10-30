@@ -1,18 +1,16 @@
-DreamMemory development validation — EPUB reading progress closure
+DreamMemory final main APK build — EPUB reading progress fix
 
-Source SHA: 3b1b7632909282e8075b6dfd90cbacd7af184e15
-Source ref: work/2026-10-30-epub-progress
-Expected source SHA at trigger: 3b1b7632909282e8075b6dfd90cbacd7af184e15
-Deliver APK: no
-Build mode: run the full JVM unit-test suite, build the Debug APK, and enforce Room schema discipline only. Do not encrypt, transfer, sign, publish, or write to the private source repository.
+Source SHA: de3dddd214621f29f5f0e6d7acb2f9dd1075daca
+Source ref: main
+Expected source SHA at trigger: de3dddd214621f29f5f0e6d7acb2f9dd1075daca
+Deliver APK: yes
+Build mode: full JVM unit tests, Debug APK, Room schema discipline, isolated APK decryption and signature verification, and private Release publication. Do not modify application source during the build.
 
 Acceptance:
-- Confirm EPUB progress is represented by chapter index plus within-chapter scroll fraction.
-- Confirm single-chapter EPUB files report and restore progress.
-- Confirm multi-chapter EPUB files restore within the selected chapter.
-- Confirm explicit EPUB reading-note anchor navigation remains higher priority; saved progress is the fallback when the anchor cannot be resolved.
-- Confirm progress tracking resumes after leaving an anchor-linked chapter.
-- Do not overwrite saved progress when EPUB parsing or chapter loading fails.
-- Run EpubProgressTest and the complete JVM unit-test suite.
-- Confirm Room schema v6 is semantically unchanged.
-- Do not change six-tab navigation, version metadata, or signing configuration.
+- Checkout must match the exact main SHA above.
+- Run the complete JVM unit-test suite.
+- Build :app:assembleDebug.
+- Confirm Room schema v6 semantic JSON is unchanged.
+- Verify the APK on the isolated publisher using the configured private Debug signing identity.
+- Publish the private Debug APK against the exact source SHA.
+- Do not change version metadata, signing configuration, Room schema, migrations, or six-tab navigation.
