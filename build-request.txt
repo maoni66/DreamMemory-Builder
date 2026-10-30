@@ -1,8 +1,8 @@
-DreamMemory final main APK build after audit closure documentation
+DreamMemory final main APK build after audit closure and release-link correction
 
-Source SHA: 10176ea60a5cf94be86841444d83ef1d2d2469de
+Source SHA: 5c21ed17d728fb4fb96097243823ae61c09a33ac
 Source ref: main
-Expected source SHA at trigger: 10176ea60a5cf94be86841444d83ef1d2d2469de
+Expected source SHA at trigger: 5c21ed17d728fb4fb96097243823ae61c09a33ac
 Deliver APK: yes
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Room schema v6 semantic check, APK signature verification, and private GitHub Release publication.
 
