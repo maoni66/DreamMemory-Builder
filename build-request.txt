@@ -1,8 +1,8 @@
-DreamMemory full-app UI audit checkpoint — compile Compose UI regression tests
+DreamMemory full-app UI audit checkpoint — corrected Compose UI test semantics
 
-Source SHA: 55695f9e45a02d2ae5031c00bd179d1dea800389
+Source SHA: 4acd6a4f81c0786fc32c87e6b13499292ceeadbc
 Source ref: fix/full-app-ui-audit-2026-10-30
-Expected source SHA at trigger: 55695f9e45a02d2ae5031c00bd179d1dea800389
+Expected source SHA at trigger: 4acd6a4f81c0786fc32c87e6b13499292ceeadbc
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK compilation, Android instrumented UI test APK compilation, Room schema discipline. No APK release for this audit checkpoint.
 
