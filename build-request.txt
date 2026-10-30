@@ -1,16 +1,18 @@
-DreamMemory full audit and visual design pass — development validation
+DreamMemory main — full audit and visual design integration release build
 
-Source SHA: 8f12cef98d23bb44cdcb3b68208fe4147f517ab1
-Source ref: work/2026-10-30-visual-design-and-audit
-Expected source SHA at trigger: 8f12cef98d23bb44cdcb3b68208fe4147f517ab1
-Deliver APK: no
-Build mode: run the full JVM unit-test suite, assemble the Debug APK, and enforce the committed Room schema discipline. This is branch validation only: do not sign, publish, or deliver an APK.
+Source SHA: c51991005263f888c70048eaac2bbf488e905ab7
+Source ref: main
+Expected source SHA at trigger: c51991005263f888c70048eaac2bbf488e905ab7
+Deliver APK: yes
+Build mode: run the full JVM unit-test suite, build the Debug APK, enforce Room schema discipline, verify the APK in the isolated runner using the existing signing identity, and publish the private DreamMemory APK Release. Do not change signing configuration or distribute publicly.
 
-Validation focus:
-- Confirm all six primary destinations remain：首页、生活、书架、记录、创作、发现.
-- Compile the new theme-aware discovery illustration and its page-header integration across Life, Shelf, Record, Create, and Discover.
-- Compile the purchase receipt-paper surface in the consumption list.
-- Confirm the custom Home search entry uses the reduced-motion-aware press interaction.
-- Confirm completion strike/stamp and press feedback respect the existing reduced-motion theme setting.
-- Confirm the source-only design-assets library contains 55 manifest entries, with license/provenance notices; assets are not added to the APK and no unverified SVG renderer behavior is assumed.
-- Confirm Room schema v6 remains unchanged.
+Acceptance:
+- The checked-out source SHA must exactly match the requested main SHA.
+- Confirm six primary tabs remain 首页 / 生活 / 书架 / 记录 / 创作 / 发现; 我的 remains a secondary page.
+- Compile the new page artwork for Life, Shelf, Record, Create and Discover; Home retains its existing brand mark.
+- Compile the consumption receipt-paper surface and verify its torn edge uses the explicit dialog surface color.
+- Verify the Home custom search press interaction and Life completion strike/stamp respect the existing reduced-motion preference.
+- Confirm QuickCaptureDialog retains its explicit six-destination ViewModel routing and save-failure draft retention.
+- Confirm the 55-entry SVG library is source-only with license/provenance metadata; do not add it to APK assets or assume unverified currentColor rendering.
+- Confirm Room schema v6 is semantically unchanged and no migration is required.
+- Keep version metadata and the existing private debug signing identity unchanged.
