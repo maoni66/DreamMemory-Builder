@@ -1,8 +1,8 @@
-DreamMemory Android instrumentation validation with KVM-enabled emulator
+DreamMemory Android instrumentation validation with aligned AndroidX Test runtime
 
-Source SHA: 8ad3d2711c7aa608a3942febfeabba38b7496433
+Source SHA: de1f78f5404d2bad786472325545fa1ced8fb81e
 Source ref: fix/emulator-navigation-acceptance-2026-10-30
-Expected source SHA at trigger: 8ad3d2711c7aa608a3942febfeabba38b7496433
+Expected source SHA at trigger: de1f78f5404d2bad786472325545fa1ced8fb81e
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, KVM-enabled Android 35 emulator execution of connectedDebugAndroidTest, and Room schema v6 semantic check.
 
@@ -14,6 +14,7 @@ Acceptance:
 - Enable KVM before starting the Android 35 Google APIs x86_64 emulator.
 - Execute :app:connectedDebugAndroidTest on the emulator.
 - The instrumentation suite must launch MainActivity, render all six workspace roots, and select each destination.
+- AndroidX Test runtime dependencies must resolve ActivityScenario and ActivityInvoker without NoClassDefFoundError.
 - Confirm Room schema v6 semantic JSON is unchanged.
 - Do not sign, publish, or write the main source branch for this validation run.
 - Preserve the existing app version, signing configuration, database schema, and six-tab product navigation.
