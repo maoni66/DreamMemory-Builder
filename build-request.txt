@@ -1,8 +1,8 @@
 DreamMemory main integration — cross-module audit fixes and complete validation
 
-Source SHA: 44c19f647a3380f7e9aff166559a471833354e6a
+Source SHA: 041abc78e1d453cf834f21ac604b682998880c19
 Source ref: main
-Expected source SHA at trigger: 44c19f647a3380f7e9aff166559a471833354e6a
+Expected source SHA at trigger: 041abc78e1d453cf834f21ac604b682998880c19
 Deliver APK: yes
 Build mode: run full main-branch validation, build the Debug APK, verify it on the isolated runner, then deliver it through the existing private DreamMemory Release flow. Keep the existing signing identity/configuration unchanged; do not distribute publicly.
 Current run override: this request supersedes historical per-item “validation-only / no delivery” notes below. Private APK delivery is enabled only after all checks pass.
@@ -10,6 +10,7 @@ Current run override: this request supersedes historical per-item “validation-
 Acceptance requirements:
 - Verify the checked-out source SHA exactly matches the requested SHA.
 - Verify `DreamHandDrawnStrike` and `DreamInkStamp` compile and are used only for persisted TODO/SHOPPING/PICKUP completion state; other Life item kinds keep their existing rendering. Confirm the six-tab structure and Room schema v6 remain unchanged.
+- Verify the six focus skins are laid out as two rows of three equal-width options in `FocusDialog`, with no single-row overflow on narrow screens; selection still updates the same persisted preference and no schema change is introduced.
 - Create studio asset cleanup regression: deletion must detect and report files that remain after an unsuccessful delete, while preserving files still referenced by assets/canvases or outside the managed root.
 - Create studio asset feedback regression: image import and style-generation failures must show user-visible feedback; failed processing or persistence must not replace existing assets, and successful persistence refreshes the current asset list.
 - Validate the Create studio reload recovery change: album/work/reference collections publish as one complete snapshot, ordinary load failures retain the previous snapshot and show a retryable message, and CancellationException is rethrown. Run the full JVM unit-test suite, Debug APK build, and Room schema v6 discipline checks; validation-only, no signing or delivery.
