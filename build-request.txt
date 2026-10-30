@@ -1,8 +1,8 @@
 DreamMemory main integration — cross-module audit fixes and complete validation
 
-Source SHA: 5bf41d6dc3cbbeeca6be93e2273eeafb0dabe9f4
+Source SHA: 9c87209d623802bfd799c588d8a4f96754bff7d6
 Source ref: main
-Expected source SHA at trigger: 5bf41d6dc3cbbeeca6be93e2273eeafb0dabe9f4
+Expected source SHA at trigger: 9c87209d623802bfd799c588d8a4f96754bff7d6
 Deliver APK: yes
 Build mode: run full main-branch validation, build the Debug APK, verify it on the isolated runner, then deliver it through the existing private DreamMemory Release flow. Keep the existing signing identity/configuration unchanged; do not distribute publicly.
 Current run override: this request supersedes historical per-item “validation-only / no delivery” notes below. Private APK delivery is enabled only after all checks pass.
