@@ -1,19 +1,16 @@
-DreamMemory main — full audit, visual design and Shelf identity fix release build
+DreamMemory development validation — EPUB reading progress closure
 
-Source SHA: d1b84b5b2c1335f4f8b3838a7a3db0add1da852b
-Source ref: main
-Expected source SHA at trigger: d1b84b5b2c1335f4f8b3838a7a3db0add1da852b
-Deliver APK: yes
-Build mode: run the full JVM unit-test suite, build the Debug APK, enforce Room schema discipline, verify the APK in the isolated runner using the existing signing identity, and publish the private DreamMemory APK Release. Do not change signing configuration or distribute publicly.
+Source SHA: 3f4919a12cc416d05beb5161e7c7fba0be872c15
+Source ref: work/2026-10-30-epub-progress
+Expected source SHA at trigger: 3f4919a12cc416d05beb5161e7c7fba0be872c15
+Deliver APK: no
+Build mode: run the full JVM unit-test suite, build the Debug APK, and enforce Room schema discipline only. Do not encrypt, transfer, sign, publish, or write to the private source repository.
 
 Acceptance:
-- The checked-out source SHA must exactly match the requested main SHA.
-- Confirm six primary tabs remain 首页 / 生活 / 书架 / 记录 / 创作 / 发现; 我的 remains a secondary page.
-- Compile page artwork for Life, Shelf, Record, Create and Discover; Home retains its existing brand mark.
-- Compile the consumption receipt-paper surface and explicit dialog cutout color.
-- Verify Home custom search press feedback and Life completion strike/stamp respect the existing reduced-motion preference.
-- Confirm QuickCaptureDialog retains its explicit six-destination ViewModel routing and save-failure draft retention.
-- Confirm Shelf identity normalization uses Locale.ROOT for both title and kind, with Turkish-locale regression coverage.
-- Confirm the 55-entry SVG library is source-only with license/provenance metadata; do not add it to APK assets or assume unverified currentColor rendering.
-- Confirm Room schema v6 is semantically unchanged and no migration is required.
-- Keep version metadata and the existing private debug signing identity unchanged.
+- Confirm EPUB progress is represented by chapter index plus within-chapter scroll fraction.
+- Confirm single-chapter EPUB files report and restore progress.
+- Confirm multi-chapter EPUB files restore within the selected chapter.
+- Confirm explicit EPUB reading-note anchor navigation remains higher priority; saved progress is the fallback when the anchor cannot be resolved.
+- Run EpubProgressTest and the complete JVM unit-test suite.
+- Confirm Room schema v6 is semantically unchanged.
+- Do not change six-tab navigation, version metadata, or signing configuration.
