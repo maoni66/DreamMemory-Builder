@@ -1,8 +1,8 @@
 DreamMemory main integration — cross-module audit fixes and complete validation
 
-Source SHA: 6082e0c5dc7b1063f90a975bb2c468015c29062a
+Source SHA: accbb32dccf1ad4959957903b1d9e56d36ac8e69
 Source ref: main
-Expected source SHA at trigger: 6082e0c5dc7b1063f90a975bb2c468015c29062a
+Expected source SHA at trigger: accbb32dccf1ad4959957903b1d9e56d36ac8e69
 Deliver APK: verify
 Build mode: main-branch build and isolated APK signature verification only. Do not publish a Release, write source main, or change signing identity.
 
