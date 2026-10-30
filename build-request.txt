@@ -1,8 +1,8 @@
-DreamMemory full-app UI audit checkpoint — corrected tab semantics and responsive dialogs
+DreamMemory full-app UI audit checkpoint — expanded responsive dialog/list fixes
 
-Source SHA: 2908038479a9a434a2072a19155245eda84fb873
+Source SHA: 54ff82fbf168e30deed434c5402ffc603c1dc861
 Source ref: fix/full-app-ui-audit-2026-10-30
-Expected source SHA at trigger: 2908038479a9a434a2072a19155245eda84fb873
+Expected source SHA at trigger: 54ff82fbf168e30deed434c5402ffc603c1dc861
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK compilation, Android instrumented UI test APK compilation, Room schema discipline. No APK release for this audit checkpoint.
 
