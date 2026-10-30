@@ -1,17 +1,18 @@
-DreamMemory Android instrumentation validation for all six MainActivity workspace destinations
+DreamMemory Android instrumentation validation with KVM-enabled emulator
 
 Source SHA: 8ad3d2711c7aa608a3942febfeabba38b7496433
 Source ref: fix/emulator-navigation-acceptance-2026-10-30
 Expected source SHA at trigger: 8ad3d2711c7aa608a3942febfeabba38b7496433
 Deliver APK: no
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 35 emulator execution of connectedDebugAndroidTest, and Room schema v6 semantic check.
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, KVM-enabled Android 35 emulator execution of connectedDebugAndroidTest, and Room schema v6 semantic check.
 
 Acceptance:
 - Checkout must match the exact source SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug.
 - Compile :app:assembleDebugAndroidTest.
-- Execute :app:connectedDebugAndroidTest on an Android 35 Google APIs x86_64 emulator.
+- Enable KVM before starting the Android 35 Google APIs x86_64 emulator.
+- Execute :app:connectedDebugAndroidTest on the emulator.
 - The instrumentation suite must launch MainActivity, render all six workspace roots, and select each destination.
 - Confirm Room schema v6 semantic JSON is unchanged.
 - Do not sign, publish, or write the main source branch for this validation run.
