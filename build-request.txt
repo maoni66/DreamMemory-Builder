@@ -1,16 +1,15 @@
-DreamMemory final main APK build — EPUB reader lifecycle closure
+DreamMemory full-app UI audit validation — bottom navigation safe-area fix
 
-Source SHA: 3d1de22e4b090eddf5f2d160a42a14bb197f7b5d
-Source ref: main
-Expected source SHA at trigger: 3d1de22e4b090eddf5f2d160a42a14bb197f7b5d
-Deliver APK: yes
-Build mode: full JVM unit tests, Debug APK, Room schema discipline, isolated APK decryption and signature verification, and private Release publication. Do not modify application source during the build.
+Source SHA: 55695f9e45a02d2ae5031c00bd179d1dea800389
+Source ref: fix/full-app-ui-audit-2026-10-30
+Expected source SHA at trigger: 55695f9e45a02d2ae5031c00bd179d1dea800389
+Deliver APK: no
+Build mode: full JVM unit tests, Debug APK compilation, Room schema discipline. No APK release for this audit checkpoint.
 
 Acceptance:
-- Checkout must match the exact main SHA above.
+- Checkout must match the exact source SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug.
 - Confirm Room schema v6 semantic JSON is unchanged.
-- Verify the APK on the isolated publisher using the configured private Debug signing identity.
-- Publish the private Debug APK against the exact source SHA.
-- Do not change version metadata, signing configuration, Room schema, migrations, or six-tab navigation.
+- Preserve the existing app version, signing configuration, database schema, and six-tab product navigation.
+- This build is a source/CI checkpoint only; it does not constitute device UI acceptance.
