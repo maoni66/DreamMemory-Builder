@@ -1,8 +1,8 @@
 DreamMemory validation build for Shelf identity regression fix
 
-Source SHA: 5a6955140ed532388396c16181aa2f2d36901e7f
+Source SHA: a7bcd64df97381b984a603fc5b72395961a11b5e
 Source ref: fix/shelf-identity-no-title-merge-2026-10-30
-Expected source SHA at trigger: 5a6955140ed532388396c16181aa2f2d36901e7f
+Expected source SHA at trigger: a7bcd64df97381b984a603fc5b72395961a11b5e
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK compilation, Android instrumented UI test APK compilation, and Room schema v6 semantic check.
 
