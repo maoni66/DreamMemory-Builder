@@ -1,8 +1,8 @@
 DreamMemory development validation — EPUB reading progress closure
 
-Source SHA: 3f4919a12cc416d05beb5161e7c7fba0be872c15
+Source SHA: 3641a3e0679a16615474a4be754d2e445110eb59
 Source ref: work/2026-10-30-epub-progress
-Expected source SHA at trigger: 3f4919a12cc416d05beb5161e7c7fba0be872c15
+Expected source SHA at trigger: 3641a3e0679a16615474a4be754d2e445110eb59
 Deliver APK: no
 Build mode: run the full JVM unit-test suite, build the Debug APK, and enforce Room schema discipline only. Do not encrypt, transfer, sign, publish, or write to the private source repository.
 
@@ -11,6 +11,7 @@ Acceptance:
 - Confirm single-chapter EPUB files report and restore progress.
 - Confirm multi-chapter EPUB files restore within the selected chapter.
 - Confirm explicit EPUB reading-note anchor navigation remains higher priority; saved progress is the fallback when the anchor cannot be resolved.
+- Confirm progress tracking resumes after leaving an anchor-linked chapter.
 - Run EpubProgressTest and the complete JVM unit-test suite.
 - Confirm Room schema v6 is semantically unchanged.
 - Do not change six-tab navigation, version metadata, or signing configuration.
