@@ -1,8 +1,8 @@
 DreamMemory integrated validation — profile refresh regression and full suite
 
-Source SHA: e614e44989ece5de2b717db181e2dc09dd7fa253
+Source SHA: b3acf3c58d8401c4cfbde3d45cc726d682653887
 Source ref: work/2026-10-30-create-module-validation
-Expected source SHA at trigger: e614e44989ece5de2b717db181e2dc09dd7fa253
+Expected source SHA at trigger: b3acf3c58d8401c4cfbde3d45cc726d682653887
 Deliver APK: no
 Build mode: validation only. Do not sign for release, publish, or deliver an APK.
 
@@ -145,3 +145,5 @@ Device acceptance requirements (not covered by CI):
 - Re-run the full JVM suite, Debug APK compile, and Room schema discipline against exact current source SHA `65222e044b269d09d61151e0b46ec9c8d8710c0f`. Include the public repository helper for kind-scoped Shelf source URL lookup and all Quick Capture Shelf-resource tests.
 
 - Validate the current integrated-audit branch at exact source SHA c9900a218511815aa95a0644992110157042c1b0 (the SHA guard must match this exact HEAD). Run the complete JVM unit-test suite, including CreateCanvasOperationsTest deletion-failure/missing-file and orphan-asset retry cases, MemoryViewModel attachment import/delete failure paths, Notebook mutation error handling, and all prior Shelf/Quick Capture/Discover regressions. Compile the Debug APK and enforce Room schema v6/version discipline; upload the schema artifact. Inspect Kotlin compilation and test results for the current MemoryViewModel attachment changes, including lock acquisition failure, missing/unreadable SAF URI, cancellation propagation, DB-first deletion, and preservation of files on DB failure. Keep validation-only mode: no signing, publishing, or delivery. Report device-only acceptance items separately and do not claim release readiness from CI success.
+
+- Compile and test the Record detail cross-domain relation UI: show existing linked Shelf resources, allow explicit manual link/unlink, keep standalone experiences valid, validate both owner rows inside a Room transaction under BackupRestoreOperationLock, and propagate CancellationException. Run RecordShelfRelationTest plus the complete JVM suite, Debug APK build, and Room schema v6 discipline. Validation-only; no signing, publishing, or APK delivery.
