@@ -1,18 +1,17 @@
-DreamMemory final main APK build after audit closure and release-link correction
+DreamMemory Android instrumentation validation for six-tab MainActivity navigation
 
-Source SHA: 5c21ed17d728fb4fb96097243823ae61c09a33ac
-Source ref: main
-Expected source SHA at trigger: 5c21ed17d728fb4fb96097243823ae61c09a33ac
-Deliver APK: yes
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Room schema v6 semantic check, APK signature verification, and private GitHub Release publication.
+Source SHA: 299ff32c55ff3536e867eeff5f7b59fc0b2fcdf3
+Source ref: fix/emulator-navigation-acceptance-2026-10-30
+Expected source SHA at trigger: 299ff32c55ff3536e867eeff5f7b59fc0b2fcdf3
+Deliver APK: no
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 35 emulator execution of connectedDebugAndroidTest, and Room schema v6 semantic check.
 
 Acceptance:
-- Checkout must match the exact main source SHA above.
+- Checkout must match the exact source SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug.
 - Compile :app:assembleDebugAndroidTest.
+- Execute :app:connectedDebugAndroidTest on an Android 35 Google APIs x86_64 emulator.
 - Confirm Room schema v6 semantic JSON is unchanged.
-- Verify the generated APK signature on the isolated publishing runner.
-- Publish the installable Debug APK to a private release for this exact main SHA.
+- Do not sign, publish, or write the main source branch for this validation run.
 - Preserve the existing app version, signing configuration, database schema, and six-tab product navigation.
-- This is a main-branch Debug APK, not a production/Play Store release-signed APK.
