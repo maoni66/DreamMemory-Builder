@@ -180,7 +180,6 @@ jobs:
             adb shell settings get system font_scale
             adb shell wm size
             ./gradlew connectedDebugAndroidTest --stacktrace --console=plain
-            adb shell settings put system user_rotation 1
             adb shell wm size 1280x720
             echo "Short landscape / font scale:"
             adb shell settings get system font_scale
