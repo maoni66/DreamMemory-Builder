@@ -1,8 +1,8 @@
 DreamMemory canvas editor and image-rendering regression validation
 
-Source SHA: 8d742a287211a39f81f8fe41bc6c45d65d30144a
-Source ref: fix/canvas-validation-center-only
-Expected source SHA at trigger: 8d742a287211a39f81f8fe41bc6c45d65d30144a
+Source SHA: 441a2d1cf2e007736a450cb1d39020cfcb3a3d64
+Source ref: fix/canvas-validation-corner-tolerance
+Expected source SHA at trigger: 441a2d1cf2e007736a450cb1d39020cfcb3a3d64
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of navigation, Quick Capture and canvas image-rendering instrumentation, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
@@ -15,7 +15,7 @@ Acceptance:
 - Execute :app:connectedDebugAndroidTest on Android 15 Pixel 2 emulator.
 - Execute the instrumentation suite at 720x1280 and 1280x720 with enlarged font scale.
 - Verify CreateCanvasRendererInstrumentedTest.imageExportCenterCropsTheSourceBitmapOnDevice on the real Android graphics stack.
-- Verify the stable center pixel of the center crop and capture the actual ARGB value at the rounded image corner if the background assertion fails.
+- Verify the stable center pixel of the center crop and verify the rounded corner remains near-white with bounded antialiasing tolerance (minimum RGB channel >=220 and channel spread <=24).
 - Verify center-crop transform geometry for landscape and portrait source images in JVM tests.
 - Verify text wrapping preserves surrogate pairs, emoji ZWJ family sequences, and combining marks.
 - Verify preview text size is independent of system font scale and matches export canvas scaling.
