@@ -1,8 +1,8 @@
 DreamMemory Quick Capture instrumentation validation
 
-Source SHA: a63de3c0af2ec06512fa54308926aeeb88abe4bc
+Source SHA: 6e86c2c5a2529038ed07198bd863b7d4554fcc8b
 Source ref: fix/quick-capture-dialog-instrumentation-2026-10-31-r2
-Expected source SHA at trigger: a63de3c0af2ec06512fa54308926aeeb88abe4bc
+Expected source SHA at trigger: 6e86c2c5a2529038ed07198bd863b7d4554fcc8b
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of all instrumentation tests including Quick Capture record/shelf destination and failed-save retry cases, and Room schema v6 semantic check.
 
