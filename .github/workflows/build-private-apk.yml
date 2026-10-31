@@ -407,6 +407,7 @@ jobs:
       - name: Decrypt APK and Room schema on isolated publishing runner
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
+          SOURCE_SHA: ${{ needs.build.outputs.source_sha }}
         shell: bash
         run: |
           set -euo pipefail
