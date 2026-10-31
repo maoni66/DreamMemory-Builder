@@ -1,10 +1,10 @@
 DreamMemory canvas editor and image-rendering regression validation
 
-Source SHA: 4b58d652a92b1edbabd9430b3b26497650443e1f
-Source ref: fix/canvas-element-style-controls-v8
-Expected source SHA at trigger: 4b58d652a92b1edbabd9430b3b26497650443e1f
+Source SHA: 7164a0f2f39a38ae9389740c4e0fd3b80a1be045
+Source ref: feat/canvas-element-style-controls
+Expected source SHA at trigger: 7164a0f2f39a38ae9389740c4e0fd3b80a1be045
 Deliver APK: no
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of current navigation and Quick Capture instrumentation suite, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of navigation, Quick Capture and canvas image-rendering instrumentation, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
 Acceptance:
 - Checkout must match the exact source SHA above.
@@ -13,10 +13,10 @@ Acceptance:
 - Compile :app:assembleDebugAndroidTest.
 - Enable KVM before emulator startup.
 - Execute :app:connectedDebugAndroidTest on Android 15 Pixel 2 emulator.
-- Execute the same instrumentation suite at 720x1280 and 1280x720 with enlarged font scale.
-- Verify DreamImageDecoder returns the known 3x1 PNG pixels.
-- Verify transform-based center crop and clip preserve the center image pixels in direct Canvas drawing and CreateCanvasRenderer output.
-- Verify center crop transforms for landscape and portrait source images.
+- Execute the instrumentation suite at 720x1280 and 1280x720 with enlarged font scale.
+- Verify CreateCanvasRendererInstrumentedTest.imageExportCenterCropsTheSourceBitmapOnDevice using the real Android graphics stack.
+- Verify the 5x1 source image's center crop preserves the two green center pixels across the rendered canvas.
+- Verify center crop transform geometry for landscape and portrait source images in JVM tests.
 - Verify Unicode grapheme-safe canvas text wrapping and font-scale-independent preview sizing.
 - Verify line style controls cannot save a zero-width line that is still rendered at one pixel.
 - Confirm six-tab order, data ownership, app version, signing configuration, and Room schema v6 remain unchanged.
