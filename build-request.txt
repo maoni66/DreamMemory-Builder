@@ -1,8 +1,8 @@
 DreamMemory Shelf resource removal preserves independent experience records
 
-Source SHA: 3cc81ca22e913a5a0d1e05ebbb3b507888ad2257
+Source SHA: 0e5c11f13b16480d7911126d53642707ecf9899a
 Source ref: work/shelf-resource-independence-ui-followup
-Expected source SHA at trigger: 3cc81ca22e913a5a0d1e05ebbb3b507888ad2257
+Expected source SHA at trigger: 0e5c11f13b16480d7911126d53642707ecf9899a
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
@@ -16,7 +16,7 @@ Acceptance:
 - Seed one uniquely identified ShelfItemEntity and one RecordEntity through Room; create and assert their explicit RECORD_TO_SHELF relation before removal. Remove only the seeded shelf row through the production ShelfScreen UI and production Activity-scoped ShelfViewModel. Assert the shelf row is gone, the RecordEntity remains, and the relation edge is detached.
 - Isolate ShelfScreen by replacing content on MainActivity's existing ComposeView; do not call ActivityComposeTestRule.setContent after Activity content has been set.
 - Assert the shelf remove action is enabled and activate the real Material TextButton through Compose performClick semantics; do not describe this as a physical touch gesture.
-- After the click, wait for the actual visible confirmation title in the unmerged Compose semantics tree, then verify the confirmation action. This avoids depending on merged container semantics that may vary at enlarged font scales.
+- After the click, wait for the actual visible confirmation title in the unmerged Compose semantics tree, then verify the confirmation action. If the title does not appear, dump the full unmerged root semantics tree and dialog-tag semantics to the job log before failing.
 - Assert the shelf row is removed and the independent record remains.
 - Clean up only the two rows and relation edges created by this test; never call clearAll().
 - Confirm Room schema v6 semantic JSON is unchanged.
