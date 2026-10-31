@@ -1,8 +1,8 @@
 DreamMemory canvas editor and image-rendering regression validation
 
-Source SHA: 0e8924fe057a657343774e11045c620eb768244c
-Source ref: fix/canvas-validation-20261031
-Expected source SHA at trigger: 0e8924fe057a657343774e11045c620eb768244c
+Source SHA: 8e0614309a396b25010b09d15f1a7b343827716f
+Source ref: fix/canvas-validation-final-20261031
+Expected source SHA at trigger: 8e0614309a396b25010b09d15f1a7b343827716f
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of navigation, Quick Capture and canvas image-rendering instrumentation, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
@@ -14,10 +14,11 @@ Acceptance:
 - Enable KVM before emulator startup.
 - Execute :app:connectedDebugAndroidTest on Android 15 Pixel 2 emulator.
 - Execute the instrumentation suite at 720x1280 and 1280x720 with enlarged font scale.
-- Verify CreateCanvasRendererInstrumentedTest.imageExportCenterCropsTheSourceBitmapOnDevice using the real Android graphics stack.
-- Verify the 5x1 source image's center crop preserves the two green center pixels across the rendered canvas.
-- Verify center crop transform geometry for landscape and portrait source images in JVM tests.
-- Verify Unicode grapheme-safe canvas text wrapping and font-scale-independent preview sizing.
+- Verify CreateCanvasRendererInstrumentedTest.imageExportCenterCropsTheSourceBitmapOnDevice on the real Android graphics stack.
+- Verify center-crop pixels away from the filtered source boundary and confirm rounded image corners reveal the canvas background.
+- Verify center-crop transform geometry for landscape and portrait source images in JVM tests.
+- Verify text wrapping preserves surrogate pairs, emoji ZWJ family sequences, and combining marks.
+- Verify preview text size is independent of system font scale and matches export canvas scaling.
 - Verify line style controls cannot save a zero-width line that is still rendered at one pixel.
 - Confirm six-tab order, data ownership, app version, signing configuration, and Room schema v6 remain unchanged.
 - Do not sign, publish, or write the main source branch.
