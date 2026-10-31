@@ -4,6 +4,7 @@ Source SHA: 19db8d9954dec30c083d26875a8717cb48b458fa
 Source ref: main
 Expected source SHA at trigger: 19db8d9954dec30c083d26875a8717cb48b458fa
 Deliver APK: no
+Run nonce: matrix-2026-10-31-02
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, default Android 15 emulator navigation smoke tests, additional Android 15 short portrait and short landscape runs at 1.3 font scale, and Room schema v6 semantic check.
 
 Acceptance:
