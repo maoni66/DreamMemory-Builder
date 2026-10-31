@@ -1,10 +1,10 @@
-DreamMemory Quick Capture instrumentation validation
+DreamMemory cross-module language and reminder-feedback validation
 
-Source SHA: 6e86c2c5a2529038ed07198bd863b7d4554fcc8b
-Source ref: fix/quick-capture-dialog-instrumentation-2026-10-31-r2
-Expected source SHA at trigger: 6e86c2c5a2529038ed07198bd863b7d4554fcc8b
+Source SHA: b10ae520f01f263fed402db9688086ecb96016d8
+Source ref: fix/life-reminder-update-feedback
+Expected source SHA at trigger: b10ae520f01f263fed402db9688086ecb96016d8
 Deliver APK: no
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of all instrumentation tests including Quick Capture record/shelf destination and failed-save retry cases, and Room schema v6 semantic check.
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of the current navigation and Quick Capture instrumentation suite, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
 Acceptance:
 - Checkout must match the exact source SHA above.
@@ -13,8 +13,7 @@ Acceptance:
 - Compile :app:assembleDebugAndroidTest.
 - Enable KVM before emulator startup.
 - Execute :app:connectedDebugAndroidTest on Android 15 Pixel 2 emulator.
-- All existing five navigation tests and all three new Quick Capture UI tests must pass.
-- Confirm work-record destination maps to WORK_RECORD, shelf-resource destination maps to SHELF_RESOURCE, and failed save retains dialog input for retry.
-- Confirm Room schema v6 semantic JSON is unchanged.
+- Execute the same instrumentation suite at 720x1280 and 1280x720 with enlarged font scale.
+- Confirm reminder schedule failure after a successful database save is surfaced as non-fatal feedback; successful or disabled reminders show no error.
+- Confirm six-tab order, data ownership, app version, signing configuration, and Room schema v6 remain unchanged.
 - Do not sign, publish, or write the main source branch.
-- Preserve app version, signing configuration, database schema, and six-tab product navigation.
