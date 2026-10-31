@@ -1,22 +1,20 @@
-DreamMemory responsive Android emulator validation
+DreamMemory Quick Capture instrumentation validation
 
-Source SHA: 19db8d9954dec30c083d26875a8717cb48b458fa
-Source ref: main
-Expected source SHA at trigger: 19db8d9954dec30c083d26875a8717cb48b458fa
+Source SHA: bfd26363748016da238fc139bc2975497b3ee93a
+Source ref: fix/quick-capture-dialog-instrumentation-2026-10-31
+Expected source SHA at trigger: bfd26363748016da238fc139bc2975497b3ee93a
 Deliver APK: no
-Run nonce: matrix-2026-10-31-02
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, default Android 15 emulator navigation smoke tests, additional Android 15 short portrait and short landscape runs at 1.3 font scale, and Room schema v6 semantic check.
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of all instrumentation tests including Quick Capture record/shelf destination and failed-save retry cases, and Room schema v6 semantic check.
 
 Acceptance:
-- Checkout must match the exact main source SHA above.
+- Checkout must match the exact source SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug.
 - Compile :app:assembleDebugAndroidTest.
 - Enable KVM before emulator startup.
-- Run all five Android instrumented tests on the default Pixel 2 Android 15 emulator.
-- Run all five Android instrumented tests on a 720x1280 portrait display at 320 dpi and font scale 1.3.
-- Run all five Android instrumented tests on a 1280x720 landscape display at 320 dpi and font scale 1.3.
-- Confirm all six workspace roots render and all six destinations remain selectable in each configuration.
+- Execute :app:connectedDebugAndroidTest on Android 15 Pixel 2 emulator.
+- All existing five navigation tests and all three new Quick Capture UI tests must pass.
+- Confirm work-record destination maps to WORK_RECORD, shelf-resource destination maps to SHELF_RESOURCE, and failed save retains dialog input for retry.
 - Confirm Room schema v6 semantic JSON is unchanged.
-- Do not sign, publish, or change the main source branch.
+- Do not sign, publish, or write the main source branch.
 - Preserve app version, signing configuration, database schema, and six-tab product navigation.
