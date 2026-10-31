@@ -1,8 +1,8 @@
 DreamMemory final mainline validation and private release package
 
-Source SHA: f3d3435c8acceb7d73d04646835de002bf580431
+Source SHA: 30075dd5afe018842b0bb83d0aba32ed265a9aed
 Source ref: main
-Expected source SHA at trigger: f3d3435c8acceb7d73d04646835de002bf580431
+Expected source SHA at trigger: 30075dd5afe018842b0bb83d0aba32ed265a9aed
 Deliver APK: yes
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, Room schema v6 semantic check, exact source ZIP packaging, isolated APK signing and private release publication.
 
@@ -20,4 +20,5 @@ Acceptance:
 - Confirm app version 0.7.6 and versionCode 1018 remain unchanged.
 - Package a ZIP of the exact checked-out source SHA, include it encrypted with the APK/schema for isolated transfer, verify it on the isolated publisher, and attach it to the same private release as the APK.
 - Sign and verify the APK on the isolated publisher runner; publish only after exact source SHA and Room schema checks pass.
+- Confirm the publisher receives SOURCE_SHA from the build job and locates both the APK and source ZIP by the exact source revision.
 - Do not alter product source code during this build; only version a generated Room schema if the semantic check requires it (expected unchanged).
