@@ -1,7 +1,7 @@
 DreamMemory canvas editor and image-rendering regression validation
 
 Source SHA: 7736b526e174afe0785ec0c89f03908a9f904ea0
-Source ref: feat/canvas-element-style-controls
+Source ref: fix/canvas-element-style-controls
 Expected source SHA at trigger: 7736b526e174afe0785ec0c89f03908a9f904ea0
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of current navigation and Quick Capture instrumentation suite, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
