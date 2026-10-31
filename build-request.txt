@@ -1,8 +1,8 @@
 DreamMemory canvas editor and image-rendering regression validation
 
-Source SHA: e3cd51ae5db6f52140bcefac51f05c287057e546
-Source ref: fix/canvas-element-style-controls-v6
-Expected source SHA at trigger: e3cd51ae5db6f52140bcefac51f05c287057e546
+Source SHA: 44d5ce9ce3967d6081af2d41bf98f5881a601568
+Source ref: fix/canvas-element-style-controls-v7
+Expected source SHA at trigger: 44d5ce9ce3967d6081af2d41bf98f5881a601568
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of current navigation and Quick Capture instrumentation suite, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
@@ -14,9 +14,9 @@ Acceptance:
 - Enable KVM before emulator startup.
 - Execute :app:connectedDebugAndroidTest on Android 15 Pixel 2 emulator.
 - Execute the same instrumentation suite at 720x1280 and 1280x720 with enlarged font scale.
-- Verify the generated PNG uses the centered crop rectangle and the same crop center as the source image.
-- Verify preview image decoding uses DreamImageDecoder with bounded max dimension.
-- Verify crop bounds remain centered for landscape and portrait source images.
+- Verify DreamImageDecoder returns the known 3x1 PNG pixels.
+- Verify direct Canvas drawing of the center-cropped 1x1 source region produces the expected center pixel.
+- Verify CreateCanvasRenderer traverses and renders the image element, not only the standalone Canvas call.
 - Verify Unicode grapheme-safe canvas text wrapping and font-scale-independent preview sizing.
 - Verify line style controls cannot save a zero-width line that is still rendered at one pixel.
 - Confirm six-tab order, data ownership, app version, signing configuration, and Room schema v6 remain unchanged.
