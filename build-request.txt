@@ -1,20 +1,21 @@
-DreamMemory Android instrumentation validation with aligned AndroidX Test runtime
+DreamMemory final main-branch build and Android emulator acceptance
 
-Source SHA: de1f78f5404d2bad786472325545fa1ced8fb81e
-Source ref: fix/emulator-navigation-acceptance-2026-10-30
-Expected source SHA at trigger: de1f78f5404d2bad786472325545fa1ced8fb81e
-Deliver APK: no
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, KVM-enabled Android 35 emulator execution of connectedDebugAndroidTest, and Room schema v6 semantic check.
+Source SHA: 111cf357fed3bf1a24b1410c8203cc84962a8b93
+Source ref: main
+Expected source SHA at trigger: 111cf357fed3bf1a24b1410c8203cc84962a8b93
+Deliver APK: yes
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, KVM-enabled Android 35 emulator execution of connectedDebugAndroidTest, Room schema v6 semantic check, isolated signing verification, and private release publishing.
 
 Acceptance:
-- Checkout must match the exact source SHA above.
+- Checkout must match the exact main source SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug.
 - Compile :app:assembleDebugAndroidTest.
 - Enable KVM before starting the Android 35 Google APIs x86_64 emulator.
-- Execute :app:connectedDebugAndroidTest on the emulator.
+- Execute :app:connectedDebugAndroidTest on the emulator; all five current instrumentation tests must pass.
 - The instrumentation suite must launch MainActivity, render all six workspace roots, and select each destination.
 - AndroidX Test runtime dependencies must resolve ActivityScenario and ActivityInvoker without NoClassDefFoundError.
 - Confirm Room schema v6 semantic JSON is unchanged.
-- Do not sign, publish, or write the main source branch for this validation run.
+- Sign and verify the final APK using the Builder's existing isolated signing process.
+- Publish the APK to the private DreamMemory release.
 - Preserve the existing app version, signing configuration, database schema, and six-tab product navigation.
