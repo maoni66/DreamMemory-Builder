@@ -1,8 +1,8 @@
 DreamMemory Shelf resource removal preserves independent experience records
 
-Source SHA: ab387677681cfe17b9f44eaad9f8a13641812483
+Source SHA: b6abe8b88bb685cb3671b09af527696fcf59b1a7
 Source ref: work/shelf-resource-independence-ui-followup
-Expected source SHA at trigger: ab387677681cfe17b9f44eaad9f8a13641812483
+Expected source SHA at trigger: b6abe8b88bb685cb3671b09af527696fcf59b1a7
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
@@ -16,7 +16,7 @@ Acceptance:
 - Seed one uniquely identified ShelfItemEntity and one RecordEntity through Room; create and assert their explicit RECORD_TO_SHELF relation before removal. Remove only the seeded shelf row through the production ShelfScreen UI and production Activity-scoped ShelfViewModel. Assert the shelf row is gone, the RecordEntity remains, and the relation edge is detached.
 - Isolate ShelfScreen by replacing content on MainActivity's existing ComposeView; do not call ActivityComposeTestRule.setContent after Activity content has been set.
 - Assert the shelf remove action is enabled and activate the real Material TextButton through Compose performClick semantics; do not describe this as a physical touch gesture.
-- After the click, wait for the actual visible confirmation title in the unmerged Compose semantics tree, then verify the confirmation action. If the title does not appear, dump the full unmerged root semantics tree and dialog-tag semantics to the job log before failing.
+- After the click, wait for the actual visible confirmation title in the unmerged Compose semantics tree, then verify the confirmation action. If the title does not appear, include the full unmerged root semantics tree, target remove-button bounds/config, and dialog-tag semantics in the Gradle failure report before failing.
 - Assert the shelf row is removed and the independent record remains.
 - Clean up only the two rows and relation edges created by this test; never call clearAll().
 - Confirm Room schema v6 semantic JSON is unchanged.
