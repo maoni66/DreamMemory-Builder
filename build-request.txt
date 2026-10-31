@@ -1,24 +1,20 @@
-DreamMemory canvas editor and image-rendering regression validation
+DreamMemory notebook pager reduced-motion regression validation
 
-Source SHA: 441a2d1cf2e007736a450cb1d39020cfcb3a3d64
-Source ref: fix/canvas-validation-corner-tolerance
-Expected source SHA at trigger: 441a2d1cf2e007736a450cb1d39020cfcb3a3d64
+Source SHA: 4d2603fbe46569bcaf6c32ac7deaf342bcd622ca
+Source ref: fix/notebook-pager-reduced-motion
+Expected source SHA at trigger: 4d2603fbe46569bcaf6c32ac7deaf342bcd622ca
 Deliver APK: no
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of navigation, Quick Capture and canvas image-rendering instrumentation, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
 Acceptance:
 - Checkout must match the exact source SHA above.
-- Run the complete JVM unit-test suite, including CreateCanvasRendererTest and CreateCanvasOperationsTest.
+- Run the complete JVM unit-test suite.
 - Build :app:assembleDebug.
 - Compile :app:assembleDebugAndroidTest.
 - Enable KVM before emulator startup.
 - Execute :app:connectedDebugAndroidTest on Android 15 Pixel 2 emulator.
 - Execute the instrumentation suite at 720x1280 and 1280x720 with enlarged font scale.
-- Verify CreateCanvasRendererInstrumentedTest.imageExportCenterCropsTheSourceBitmapOnDevice on the real Android graphics stack.
-- Verify the stable center pixel of the center crop and verify the rounded corner remains near-white with bounded antialiasing tolerance (minimum RGB channel >=220 and channel spread <=24).
-- Verify center-crop transform geometry for landscape and portrait source images in JVM tests.
-- Verify text wrapping preserves surrogate pairs, emoji ZWJ family sequences, and combining marks.
-- Verify preview text size is independent of system font scale and matches export canvas scaling.
-- Verify line style controls cannot save a zero-width line that is still rendered at one pixel.
+- Confirm NotebookDetailScreen compiles with LocalDreamReduceMotion and PagerDefaults fling behavior.
+- Reduced-motion button navigation uses scrollToPage; swipe paging remains available with snap() landing; normal mode uses PagerDefaults default spring/fling behavior.
 - Confirm six-tab order, data ownership, app version, signing configuration, and Room schema v6 remain unchanged.
 - Do not sign, publish, or write the main source branch.
