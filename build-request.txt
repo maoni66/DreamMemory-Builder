@@ -1,18 +1,19 @@
-DreamMemory shared managed attachment cleanup regression (refactor ref enabled)
+DreamMemory shared managed attachment cleanup final regression
 
-Source SHA: d03cc9d47df84d2d2dc08629120850b31a2aea9f
+Source SHA: 7011f182caf16755d76501d09d421e9d3a93acde
 Source ref: refactor/shared-attachment-file-cleanup
-Expected source SHA at trigger: d03cc9d47df84d2d2dc08629120850b31a2aea9f
+Expected source SHA at trigger: 7011f182caf16755d76501d09d421e9d3a93acde
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
 Acceptance:
 - Checkout must match the exact source SHA above.
-- Run the complete JVM unit-test suite and ManagedPathSafetyTest coverage.
+- Run the complete JVM unit-test suite, including ManagedPathSafetyTest file-URI candidate cleanup.
 - Build :app:assembleDebug.
 - Compile :app:assembleDebugAndroidTest.
 - Execute the Android 15 default emulator instrumentation suite.
 - Execute the full instrumentation suite at 720x1280 portrait and 1280x720 landscape with 1.3x font scale.
 - Verify managed-root-only deletion, shared-reference preservation, canonical path/symlink escape protection, fail-closed reference lookup, and cancellation propagation.
+- Verify attachment and cover cleanup file I/O runs off the main thread.
 - Confirm Room schema v6 semantic JSON is unchanged.
 - Do not sign, publish, or write the main source branch.
