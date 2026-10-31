@@ -160,6 +160,32 @@ jobs:
           disable-animations: true
           script: ./gradlew connectedDebugAndroidTest --stacktrace --console=plain
 
+      - name: Run Android UI tests at enlarged font scale and short portrait/landscape sizes
+        if: steps.request.outputs.needs_build == 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          script: |
+            set -euo pipefail
+            adb shell settings put system font_scale 1.3
+            adb shell settings put system accelerometer_rotation 0
+            adb shell settings put system user_rotation 0
+            adb shell wm density 320
+            adb shell wm size 720x1280
+            echo "Short portrait / font scale:"
+            adb shell settings get system font_scale
+            adb shell wm size
+            ./gradlew connectedDebugAndroidTest --stacktrace --console=plain
+            adb shell wm size 1280x720
+            echo "Short landscape / font scale:"
+            adb shell settings get system font_scale
+            adb shell wm size
+            ./gradlew connectedDebugAndroidTest --stacktrace --console=plain
+
       - name: Enforce Room schema version discipline
         if: steps.request.outputs.needs_build == 'true'
         shell: bash
