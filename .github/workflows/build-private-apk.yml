@@ -97,6 +97,18 @@ jobs:
           fi
 
 
+      - name: Package exact source ZIP for private release
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.deliver_apk != 'no'
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.source_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-source.zip"
+          git archive --format=zip --prefix="DreamMemory-$SOURCE_SHA/" "$SOURCE_SHA" > "$archive"
+          unzip -t "$archive" >/dev/null
+          test -s "$archive"
+
       - name: Set up JDK 17
         if: steps.request.outputs.needs_build == 'true'
         uses: actions/setup-java@v6
@@ -238,10 +250,11 @@ jobs:
 
       # Room's generated schema is part of the release contract. Carry it encrypted
       # to the isolated publisher so it can be versioned in the private source repo.
-      - name: Encrypt APK and Room schema for isolated publishing runner
+      - name: Encrypt APK, source ZIP and Room schema for isolated publishing runner
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.deliver_apk != 'no'
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
+          SOURCE_SHA: ${{ steps.source.outputs.source_sha }}
         shell: bash
         run: |
           set -euo pipefail
@@ -250,7 +263,9 @@ jobs:
           test -f "$apk" || { echo "APK not found: $apk"; exit 1; }
           test -n "$(find app/schemas -type f -name '*.json' -print -quit)" || { echo "Room schema snapshot missing; refusing release without a versioned database contract."; exit 1; }
           mkdir -p "$RUNNER_TEMP/dreammemory-transfer"
-          tar -czf "$RUNNER_TEMP/dreammemory-transfer/dreammemory-package.tar.gz" "$apk" app/schemas
+          source_zip="$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-source.zip"
+          test -s "$source_zip" || { echo "Exact source ZIP is missing"; exit 1; }
+          tar -czf "$RUNNER_TEMP/dreammemory-transfer/dreammemory-package.tar.gz" "$apk" app/schemas "$source_zip"
           openssl enc -aes-256-cbc -pbkdf2 -salt \
             -in "$RUNNER_TEMP/dreammemory-transfer/dreammemory-package.tar.gz" \
             -out "$RUNNER_TEMP/dreammemory-transfer/dreammemory-package.enc" \
@@ -299,8 +314,10 @@ jobs:
           tar -xzf "$RUNNER_TEMP/dreammemory-package.tar.gz" -C "$RUNNER_TEMP/package"
           apk_path="$(find "$RUNNER_TEMP/package" -type f -name app-debug.apk -print -quit)"
           schema_path="$(find "$RUNNER_TEMP/package" -type f -name '*.json' -path '*/app/schemas/*' -print -quit)"
+          source_zip="$(find "$RUNNER_TEMP/package" -type f -name "DreamMemory-$SOURCE_SHA-source.zip" -print -quit)"
           test -n "$apk_path" && test -s "$apk_path" || { echo "APK missing from encrypted package"; exit 1; }
           test -n "$schema_path" && test -s "$schema_path" || { echo "Room schema missing from encrypted package"; exit 1; }
+          test -n "$source_zip" && test -s "$source_zip" || { echo "Source ZIP missing from encrypted package"; exit 1; }
           apksigner="$ANDROID_HOME/build-tools/36.0.0/apksigner"
           if [ ! -x "$apksigner" ]; then
             yes | sdkmanager --licenses > /dev/null || true
@@ -308,6 +325,7 @@ jobs:
           fi
           "$apksigner" verify --verbose "$apk_path"
           cp "$apk_path" "$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-debug.apk"
+          cp "$source_zip" "$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-source.zip"
 
       - name: Publish APK to private source repository release
         if: needs.build.outputs.deliver_apk == 'yes'
@@ -323,7 +341,9 @@ jobs:
           apk="$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-debug.apk"
           test -s "$apk" || { echo "Verified debug APK is missing"; exit 1; }
           tag="private-test-${SOURCE_SHA:0:12}-${RUN_ID}-${RUN_ATTEMPT}"
-          gh release create "$tag" "$apk" \
+          source_zip="$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-source.zip"
+          test -s "$source_zip" || { echo "Verified source ZIP is missing"; exit 1; }
+          gh release create "$tag" "$apk" "$source_zip" \
             --repo maoni66/DreamMemory \
             --target "$SOURCE_SHA" \
             --title "DreamMemory private test APK ${SOURCE_SHA:0:12}" \
@@ -399,9 +419,12 @@ jobs:
           tar -xzf "$RUNNER_TEMP/dreammemory-package.tar.gz" -C "$RUNNER_TEMP/package"
           apk_path="$(find "$RUNNER_TEMP/package" -type f -name app-debug.apk -print -quit)"
           schema_path="$(find "$RUNNER_TEMP/package" -type d -path '*/app/schemas' -print -quit)"
+          source_zip="$(find "$RUNNER_TEMP/package" -type f -name "DreamMemory-$SOURCE_SHA-source.zip" -print -quit)"
           test -n "$apk_path" && test -s "$apk_path" || { echo "APK missing from encrypted package"; exit 1; }
           test -n "$schema_path" && test -n "$(find "$schema_path" -type f -name '*.json' -print -quit)" || { echo "Room schema missing from encrypted package"; exit 1; }
+          test -n "$source_zip" && test -s "$source_zip" || { echo "Source ZIP missing from encrypted package"; exit 1; }
           cp "$apk_path" "$RUNNER_TEMP/app-debug.apk"
+          cp "$source_zip" "$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-source.zip"
           cp -a "$schema_path" "$RUNNER_TEMP/room-schemas"
           test -s "$RUNNER_TEMP/app-debug.apk"
 
@@ -466,7 +489,7 @@ jobs:
           fi
 
           tag="build-${SOURCE_SHA:0:12}-${RUN_ID}-${RUN_ATTEMPT}"
-          gh release create "$tag" "$RUNNER_TEMP/app-debug.apk" \
+          gh release create "$tag" "$RUNNER_TEMP/app-debug.apk" "$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-source.zip" \
             --repo maoni66/DreamMemory \
             --target "$SOURCE_SHA" \
             --title "DreamMemory build ${SOURCE_SHA:0:12} (run ${RUN_ID}.${RUN_ATTEMPT})" \
