@@ -1,8 +1,8 @@
 DreamMemory Shelf resource removal preserves independent experience records
 
-Source SHA: 8cea2dcddca23ec8ceb995f3e385f63914ef1c57
+Source SHA: fa3d9e56a4421c40091808220e279028e5373dad
 Source ref: work/shelf-resource-independence-ui
-Expected source SHA at trigger: 8cea2dcddca23ec8ceb995f3e385f63914ef1c57
+Expected source SHA at trigger: fa3d9e56a4421c40091808220e279028e5373dad
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
