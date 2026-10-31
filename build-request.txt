@@ -1,19 +1,21 @@
-DreamMemory cross-module language and reminder-feedback validation
+DreamMemory canvas editor and image-rendering regression validation
 
-Source SHA: b10ae520f01f263fed402db9688086ecb96016d8
-Source ref: fix/life-reminder-update-feedback
-Expected source SHA at trigger: b10ae520f01f263fed402db9688086ecb96016d8
+Source SHA: 7736b526e174afe0785ec0c89f03908a9f904ea0
+Source ref: feat/canvas-element-style-controls
+Expected source SHA at trigger: 7736b526e174afe0785ec0c89f03908a9f904ea0
 Deliver APK: no
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of the current navigation and Quick Capture instrumentation suite, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution of current navigation and Quick Capture instrumentation suite, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
 Acceptance:
 - Checkout must match the exact source SHA above.
-- Run the complete JVM unit-test suite.
+- Run the complete JVM unit-test suite, including CreateCanvasRendererTest and CreateCanvasOperationsTest.
 - Build :app:assembleDebug.
 - Compile :app:assembleDebugAndroidTest.
 - Enable KVM before emulator startup.
 - Execute :app:connectedDebugAndroidTest on Android 15 Pixel 2 emulator.
 - Execute the same instrumentation suite at 720x1280 and 1280x720 with enlarged font scale.
-- Confirm reminder schedule failure after a successful database save is surfaced as non-fatal feedback; successful or disabled reminders show no error.
+- Verify image PNG export center-crops to the destination aspect ratio, matching Compose ContentScale.Crop preview rather than stretching the source.
+- Verify canvas preview image decoding uses DreamImageDecoder with bounded max dimension.
+- Verify line style controls cannot save a zero-width line that is still rendered at one pixel.
 - Confirm six-tab order, data ownership, app version, signing configuration, and Room schema v6 remain unchanged.
 - Do not sign, publish, or write the main source branch.
