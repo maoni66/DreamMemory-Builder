@@ -1,24 +1,19 @@
-DreamMemory final mainline validation and private release package
+DreamMemory Quick Capture short-landscape error visibility regression
 
-Source SHA: 80293d0d8704e5a9d5c74dfa11607c1eae8bf0ff
-Source ref: main
-Expected source SHA at trigger: 80293d0d8704e5a9d5c74dfa11607c1eae8bf0ff
-Deliver APK: yes
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, Room schema v6 semantic check, exact source ZIP packaging, isolated APK signing and private release publication.
+Source SHA: 1c14fe521de2c04123ad124aabaf6f3e723af5aa
+Source ref: fix/quick-capture-error-scroll
+Expected source SHA at trigger: 1c14fe521de2c04123ad124aabaf6f3e723af5aa
+Deliver APK: no
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
 Acceptance:
-- Checkout must match the exact main source SHA above; abort if main advances before checkout or publication.
+- Checkout must match the exact source SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug.
 - Compile :app:assembleDebugAndroidTest.
-- Enable KVM before emulator startup.
-- Execute :app:connectedDebugAndroidTest on Android 15 Pixel 2 emulator.
-- Execute the full instrumentation suite at 720x1280 and 1280x720 with 1.3x font scale.
-- Include merged Quick Capture destination/retry tests, canvas preview/export rendering test, Record experience attachment FileProvider test, and reduced-motion NotebookDetailScreen button/swipe interaction test.
-- Confirm Room schema v6 semantic JSON is unchanged; do not rewrite released schema snapshots or bump version without migration.
-- Confirm six-tab order：首页 / 生活 / 书架 / 记录 / 创作 / 发现; 我的 remains a secondary page.
-- Confirm app version 0.7.6 and versionCode 1018 remain unchanged.
-- Package a ZIP of the exact checked-out source SHA, include it encrypted with the APK/schema for isolated transfer, verify it on the isolated publisher, and attach it to the same private release as the APK.
-- Sign and verify the APK on the isolated publisher runner; publish only after exact source SHA and Room schema checks pass.
-- Confirm the publisher receives SOURCE_SHA from the build job and locates both the APK and source ZIP by the exact source revision.
-- Do not alter product source code during this build; only version a generated Room schema if the semantic check requires it (expected unchanged).
+- Execute the Android 15 default emulator instrumentation suite.
+- Execute the full instrumentation suite at 720x1280 portrait and 1280x720 landscape with 1.3x font scale.
+- Keep QuickCaptureDialogInstrumentationTest.failedSaveKeepsTheDialogAndEnteredContentAvailableForRetry unchanged; it must pass in all three configurations.
+- Verify the failure message is visible after the content scroll range expands in short landscape; entered draft remains available for retry.
+- Confirm Room schema v6 semantic JSON is unchanged and no version/navigation/data-model changes are introduced.
+- Do not sign, publish, or write the main source branch.
