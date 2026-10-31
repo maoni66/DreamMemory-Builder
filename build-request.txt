@@ -1,8 +1,8 @@
 DreamMemory Shelf resource removal preserves independent experience records
 
-Source SHA: 8fb5cb9eef82b96ac55865db65459f62b0e6c363
+Source SHA: b401d4b3fb63698f6bc553b22f4aa6f68928d12c
 Source ref: work/shelf-resource-independence-ui
-Expected source SHA at trigger: 8fb5cb9eef82b96ac55865db65459f62b0e6c363
+Expected source SHA at trigger: b401d4b3fb63698f6bc553b22f4aa6f68928d12c
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
@@ -12,11 +12,11 @@ Acceptance:
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
 - Execute the Android 15 default emulator instrumentation suite.
 - Execute the full instrumentation suite at 720x1280 portrait and 1280x720 landscape with 1.3x font scale.
-- Execute ShelfResourceIndependenceInstrumentationTest.removingShelfResourceDoesNotDeleteIndependentExperienceRecord. The short-landscape ShelfScreen layout must keep the seeded row reachable; the existing QuickCapture failure/retry UI test must verify retained input/error while the keyboard is open and title visibility after IME dismissal.
+- Execute ShelfResourceIndependenceInstrumentationTest.removingShelfResourceDoesNotDeleteIndependentExperienceRecord. The short-screen ShelfScreen layout must keep the seeded row reachable; the existing QuickCapture failure/retry UI test must verify retained input/error while the keyboard is open and title visibility after IME dismissal.
 - Seed one uniquely identified ShelfItemEntity and one RecordEntity through Room; create and assert their explicit RECORD_TO_SHELF relation before removal. Remove only the seeded shelf row through the production ShelfScreen UI and production Activity-scoped ShelfViewModel. Assert the shelf row is gone, the RecordEntity remains, and the relation edge is detached.
 - Isolate ShelfScreen by replacing content on MainActivity's existing ComposeView; do not call ActivityComposeTestRule.setContent after Activity content has been set.
-- Use a physical touch gesture on the uniquely identified ShelfCard remove control.
-- Wait for the tagged actual AlertDialog surface after the click.
+- Assert the shelf remove action is enabled and activate the real Material TextButton through Compose performClick semantics; do not describe this as a physical touch gesture.
+- Wait for the tagged actual AlertDialog surface after the click, then verify the dialog title and confirmation action.
 - Assert the shelf row is removed and the independent record remains.
 - Clean up only the two rows and relation edges created by this test; never call clearAll().
 - Confirm Room schema v6 semantic JSON is unchanged.
