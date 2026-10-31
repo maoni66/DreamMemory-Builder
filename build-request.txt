@@ -1,8 +1,8 @@
 DreamMemory Shelf resource removal preserves independent experience records
 
-Source SHA: 2bab91ad99877c8f5ebeb4db87a3132ca20d1a81
+Source SHA: eb6d587f5352bf498790682891b75fee4be49186
 Source ref: work/shelf-resource-independence-ui
-Expected source SHA at trigger: 2bab91ad99877c8f5ebeb4db87a3132ca20d1a81
+Expected source SHA at trigger: eb6d587f5352bf498790682891b75fee4be49186
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
@@ -13,6 +13,8 @@ Acceptance:
 - Execute the Android 15 default emulator instrumentation suite.
 - Execute the full instrumentation suite at 720x1280 portrait and 1280x720 landscape with 1.3x font scale.
 - Execute ShelfResourceIndependenceInstrumentationTest.removingShelfResourceDoesNotDeleteIndependentExperienceRecord.
-- Verify the test creates a real Shelf resource through ShelfScreen, removes it through the confirmation UI, and retains the independently seeded RecordEntity.
+- Seed one uniquely identified ShelfItemEntity and one independent RecordEntity through Room; remove only the seeded shelf row through the ShelfScreen UI and confirm dialog.
+- Assert the shelf row is removed and the independent record remains.
+- Clean up only the two rows created by this test; never call clearAll().
 - Confirm Room schema v6 semantic JSON is unchanged.
 - Do not sign, publish, or write the main source branch.
