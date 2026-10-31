@@ -1,7 +1,7 @@
 DreamMemory experience attachment lifecycle and data-health validation
 
 Source SHA: 5148c9d45fae30002419dba9ec9b0b2976be1931
-Source ref: feat/record-experience-attachments
+Source ref: fix/record-experience-attachments-validation-v4
 Expected source SHA at trigger: 5148c9d45fae30002419dba9ec9b0b2976be1931
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
