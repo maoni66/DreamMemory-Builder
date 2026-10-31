@@ -1,8 +1,8 @@
 DreamMemory final mainline validation and private release package
 
-Source SHA: 30075dd5afe018842b0bb83d0aba32ed265a9aed
+Source SHA: 80293d0d8704e5a9d5c74dfa11607c1eae8bf0ff
 Source ref: main
-Expected source SHA at trigger: 30075dd5afe018842b0bb83d0aba32ed265a9aed
+Expected source SHA at trigger: 80293d0d8704e5a9d5c74dfa11607c1eae8bf0ff
 Deliver APK: yes
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, Room schema v6 semantic check, exact source ZIP packaging, isolated APK signing and private release publication.
 
