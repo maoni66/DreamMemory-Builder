@@ -1,19 +1,18 @@
-DreamMemory final mainline validation and private APK/source ZIP delivery
+DreamMemory Shelf resource removal preserves independent experience records
 
-Source SHA: ba1aef6e5d6725de72d51faa8b05523f240327b5
-Source ref: main
-Expected source SHA at trigger: ba1aef6e5d6725de72d51faa8b05523f240327b5
-Deliver APK: yes
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, Room schema v6 semantic check, exact source ZIP packaging, isolated APK signature verification, and private release publication.
+Source SHA: 1700d929b7add6a41ec7072039625c941aa13d1a
+Source ref: work/shelf-resource-independence-ui
+Expected source SHA at trigger: 1700d929b7add6a41ec7072039625c941aa13d1a
+Deliver APK: no
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
 Acceptance:
-- Checkout must match the exact main source SHA above.
+- Checkout must match the exact source SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
 - Execute the Android 15 default emulator instrumentation suite.
 - Execute the full instrumentation suite at 720x1280 portrait and 1280x720 landscape with 1.3x font scale.
-- Verify the Quick Capture failed-save error remains visible in short landscape and entered content remains available for retry.
-- Verify managed attachment cleanup remains restricted to managed roots, preserves shared references, fails closed on reference-query errors, supports file:// aliases, and performs file I/O off the main thread.
+- Execute ShelfResourceIndependenceInstrumentationTest.removingShelfResourceDoesNotDeleteIndependentExperienceRecord.
+- Verify the test creates a real Shelf resource through ShelfScreen, removes it through the confirmation UI, and retains the independently seeded RecordEntity.
 - Confirm Room schema v6 semantic JSON is unchanged.
-- Package the exact source ZIP from this SHA; encrypt artifacts during transfer; verify APK signature on the isolated publisher; publish APK and matching source ZIP to a private release.
-- Do not write application source or schema changes to main during this build.
+- Do not sign, publish, or write the main source branch.
