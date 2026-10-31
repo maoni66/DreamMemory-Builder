@@ -1,4 +1,4 @@
-DreamMemory shared managed attachment cleanup regression
+DreamMemory shared managed attachment cleanup regression (refactor ref enabled)
 
 Source SHA: d03cc9d47df84d2d2dc08629120850b31a2aea9f
 Source ref: refactor/shared-attachment-file-cleanup
