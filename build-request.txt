@@ -1,21 +1,21 @@
-DreamMemory final main-branch build and Android emulator acceptance
+DreamMemory responsive Android emulator validation
 
 Source SHA: 111cf357fed3bf1a24b1410c8203cc84962a8b93
 Source ref: main
 Expected source SHA at trigger: 111cf357fed3bf1a24b1410c8203cc84962a8b93
-Deliver APK: yes
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, KVM-enabled Android 35 emulator execution of connectedDebugAndroidTest, Room schema v6 semantic check, isolated signing verification, and private release publishing.
+Deliver APK: no
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, default Android 15 emulator navigation smoke tests, additional Android 15 short portrait and short landscape runs at 1.3 font scale, and Room schema v6 semantic check.
 
 Acceptance:
 - Checkout must match the exact main source SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug.
 - Compile :app:assembleDebugAndroidTest.
-- Enable KVM before starting the Android 35 Google APIs x86_64 emulator.
-- Execute :app:connectedDebugAndroidTest on the emulator; all five current instrumentation tests must pass.
-- The instrumentation suite must launch MainActivity, render all six workspace roots, and select each destination.
-- AndroidX Test runtime dependencies must resolve ActivityScenario and ActivityInvoker without NoClassDefFoundError.
+- Enable KVM before emulator startup.
+- Run all five Android instrumented tests on the default Pixel 2 Android 15 emulator.
+- Run all five Android instrumented tests on a 720x1280 portrait display at 320 dpi and font scale 1.3.
+- Run all five Android instrumented tests on a 1280x720 landscape display at 320 dpi and font scale 1.3.
+- Confirm all six workspace roots render and all six destinations remain selectable in each configuration.
 - Confirm Room schema v6 semantic JSON is unchanged.
-- Sign and verify the final APK using the Builder's existing isolated signing process.
-- Publish the APK to the private DreamMemory release.
-- Preserve the existing app version, signing configuration, database schema, and six-tab product navigation.
+- Do not sign, publish, or change the main source branch.
+- Preserve app version, signing configuration, database schema, and six-tab product navigation.
