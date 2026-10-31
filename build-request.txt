@@ -1,22 +1,20 @@
-DreamMemory experience attachment lifecycle and data-health validation
+DreamMemory reduced-motion notebook pager interaction regression validation
 
-Source SHA: 5148c9d45fae30002419dba9ec9b0b2976be1931
-Source ref: fix/record-experience-attachments-validation-v4
-Expected source SHA at trigger: 5148c9d45fae30002419dba9ec9b0b2976be1931
+Source SHA: e78f05d99b4644ad399e8c95d51e0d3316dcda94
+Source ref: fix/notebook-pager-reduced-motion
+Expected source SHA at trigger: e78f05d99b4644ad399e8c95d51e0d3316dcda94
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
 
 Acceptance:
 - Checkout must match the exact source SHA above.
-- Run the complete JVM unit-test suite, including experience attachment lifecycle and dangling-owner data-health coverage.
+- Run the complete JVM unit-test suite.
 - Build :app:assembleDebug.
 - Compile :app:assembleDebugAndroidTest.
 - Enable KVM before emulator startup.
 - Execute :app:connectedDebugAndroidTest on Android 15 Pixel 2 emulator.
 - Execute the instrumentation suite at 720x1280 and 1280x720 with enlarged font scale.
-- Verify app-private experience attachments can be opened through the configured FileProvider read-only content URI.
-- Confirm experience attachments are scoped to their owning experience event; deleting an event or record detaches only its own attachment rows and removes only unreferenced app-managed files.
-- Confirm the read-only data-health scan reports missing experience-event attachment owners and missing attachment files without modifying user data.
-- Confirm backup round-trip preserves attachment metadata and bytes.
-- Confirm six-tab order, independent Record/Shelf ownership, no duplicate module or navigation, app version, signing configuration, and Room schema v6 remain unchanged.
+- Run NotebookReducedMotionPagerTest against the actual NotebookDetailScreen: with LocalDreamReduceMotion enabled, the page button changes the selected page and horizontal swipe remains available.
+- Confirm reduced-motion button paging uses scrollToPage, reduced-motion swipe paging uses snap() landing, and normal mode retains PagerDefaults default behavior.
+- Confirm six-tab order, data ownership, app version, signing configuration, and Room schema v6 remain unchanged.
 - Do not sign, publish, or write the main source branch.
