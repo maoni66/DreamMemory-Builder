@@ -1,0 +1,36 @@
+#!/bin/sh
+set -eu
+
+# Invoked as a single-line command by android-emulator-runner.
+# Keeping the matrix in a checked-in file avoids its script-input shell parsing.
+adb shell settings put system font_scale 1.3
+adb shell settings put system accelerometer_rotation 0
+adb shell settings put system user_rotation 0
+adb shell wm density 320
+
+for orientation in portrait landscape; do
+  if [ "$orientation" = portrait ]; then
+    adb shell wm size 720x1280
+  else
+    adb shell wm size 1280x720
+  fi
+
+  echo "Short $orientation / font scale:"
+  adb shell settings get system font_scale
+  adb shell wm size
+
+  for test_class in \
+    com.dreammemory.app.feature.create.CreateCanvasRendererInstrumentedTest \
+    com.dreammemory.app.feature.home.QuickCaptureDialogInstrumentationTest \
+    com.dreammemory.app.feature.memory.NotebookReducedMotionPagerTest \
+    com.dreammemory.app.feature.record.RecordExperienceAttachmentProviderTest \
+    com.dreammemory.app.navigation.DreamBottomBarTest \
+    com.dreammemory.app.navigation.MainActivityNavigationTest \
+    com.dreammemory.app.feature.shelf.ShelfResourceIndependenceInstrumentationTest
+  do
+    echo "Running $orientation instrumentation class: $test_class"
+    timeout --signal=TERM --kill-after=15s 180s ./gradlew connectedDebugAndroidTest \
+      "-Pandroid.testInstrumentationRunnerArguments.class=$test_class" \
+      --stacktrace --console=plain
+  done
+done
