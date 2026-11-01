@@ -60,6 +60,10 @@ jobs:
           echo "deliver_apk=$deliver_apk" >> "$GITHUB_OUTPUT"
           echo "Explicit build requested for source ref: $source_ref at $requested_source_sha (deliver APK: $deliver_apk)"
 
+      - name: Preserve short-screen matrix script before source checkout
+        shell: bash
+        run: cp builder/scripts/short-screen-matrix.sh "$RUNNER_TEMP/short-screen-matrix.sh"
+
       - name: Checkout private DreamMemory source
         uses: actions/checkout@v7
         with:
@@ -184,7 +188,7 @@ jobs:
           profile: pixel_2
           disable-animations: true
           # Keep the action input single-line; run the POSIX matrix from a checked-in script.
-          script: sh builder/scripts/short-screen-matrix.sh
+          script: sh "$RUNNER_TEMP/short-screen-matrix.sh"
 
       - name: Enforce Room schema version discipline
         if: steps.request.outputs.needs_build == 'true'
