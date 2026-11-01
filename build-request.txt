@@ -1,8 +1,8 @@
-DreamMemory feature implementation validation — five-tab navigation, contextual stamp actions, and personal watch calendar
+DreamMemory implementation validation — public/personal watch calendars, reusable stamps, navigation and Room v7
 
-Source SHA: 7786406f43e99deb81ad26e972a76821dd40a2b8
+Source SHA: 1793fc759b1a23619aef6ca7352ca4126f871171
 Source ref: design/theme-material-system-dev
-Expected source SHA at trigger: 7786406f43e99deb81ad26e972a76821dd40a2b8
+Expected source SHA at trigger: 1793fc759b1a23619aef6ca7352ca4126f871171
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, generated Room schema v7 export and semantic migration check.
 
@@ -12,8 +12,8 @@ Acceptance:
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
 - Execute the Android 15 default emulator instrumentation suite.
 - Execute the short portrait/landscape and enlarged-font matrix with per-class isolation.
-- Validate the Room 6→7 migration SQL, watch-calendar DAO invariants, and full-backup round trip for series, episodes, unknown release dates and watched progress.
+- Validate Room 6→7 migration SQL, watch-calendar DAO invariants, TVmaze schedule parsing/timezone handling, and full-backup round trip for series, episodes, unknown dates and watched progress.
 - Generate the canonical Room schema v7 JSON artifact for committing to the source branch.
-- Verify Shelf header calendar navigation keeps the Shelf bottom destination selected.
+- Verify Shelf personal calendar and Discovery public calendar navigation, including keeping each originating bottom tab selected.
 - Verify reusable stamp action callback and check-in history integration.
 - Do not sign, publish, or upload the APK; do not write the main source branch.
