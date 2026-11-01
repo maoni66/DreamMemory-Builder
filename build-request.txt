@@ -1,8 +1,8 @@
-DreamMemory secondary-page hierarchy and visual discovery/creation validation
+DreamMemory full-app product restructure — shelf short-screen instrumentation timeout fix
 
-Source SHA: 3c0e2928e5c61cfec7af7b9548a80f9901bd8969
-Source ref: fix/focus-timer-secondary-screen-2026-11-01
-Expected source SHA at trigger: 3c0e2928e5c61cfec7af7b9548a80f9901bd8969
+Source SHA: c7473dddae8d93ecf4edfbc64f39ccb244d73601
+Source ref: refactor/full-app-product-restructure-2026-11-01
+Expected source SHA at trigger: c7473dddae8d93ecf4edfbc64f39ccb244d73601
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix (each instrumentation class isolated with a 180-second timeout), preserve the POSIX matrix script in runner temp before source checkout, emit filtered emulator logcat and test-step markers when the short-screen matrix fails, and Room schema v6 semantic check.
 
@@ -12,6 +12,6 @@ Acceptance:
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
 - Execute the Android 15 default emulator instrumentation suite.
 - Execute all seven instrumentation test classes at 720x1280 portrait and 1280x720 landscape with 1.3x font scale, one class per Gradle invocation, with a 180-second timeout per class.
-- Include ShelfResourceIndependenceInstrumentationTest diagnostic step markers and failure logcat capture.
+- Verify the shelf resource independence test waits for the fixture row before a single scroll action; preserve diagnostic step markers and failure logcat capture.
 - Confirm Room schema v6 semantic JSON is unchanged.
 - Do not sign, publish, or write the main source branch.
