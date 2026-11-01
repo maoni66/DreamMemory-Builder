@@ -4,7 +4,7 @@ Source SHA: e821082e8e40f340ed27d2fd9b297f34746bba2f
 Source ref: work/shelf-resource-independence-ui-followup
 Expected source SHA at trigger: e821082e8e40f340ed27d2fd9b297f34746bba2f
 Deliver APK: no
-Build mode: checked-in POSIX short-screen matrix script repair; full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix (each instrumentation class isolated with a 180-second timeout), and Room schema v6 semantic check.
+Build mode: preserve POSIX matrix script in runner temp before source checkout; full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix (each instrumentation class isolated with a 180-second timeout), and Room schema v6 semantic check.
 
 Acceptance:
 - Checkout must match the exact source SHA above.
