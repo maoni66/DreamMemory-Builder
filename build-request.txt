@@ -1,8 +1,8 @@
-DreamMemory validation — navigation UI assertion fix, then full short-screen matrix
+DreamMemory validation — final import correction for navigation UI test
 
-Source SHA: 411edc239913e36646bf3a321bf3723f78abe415
+Source SHA: 5627ed2ca440c035787aad46449e83835663d832
 Source ref: design/theme-material-system-dev
-Expected source SHA at trigger: 411edc239913e36646bf3a321bf3723f78abe415
+Expected source SHA at trigger: 5627ed2ca440c035787aad46449e83835663d832
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, generated Room schema v7 export and semantic migration check.
 
