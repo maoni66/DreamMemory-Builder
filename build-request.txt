@@ -4,14 +4,14 @@ Source SHA: e821082e8e40f340ed27d2fd9b297f34746bba2f
 Source ref: work/shelf-resource-independence-ui-followup
 Expected source SHA at trigger: e821082e8e40f340ed27d2fd9b297f34746bba2f
 Deliver APK: no
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, and Room schema v6 semantic check.
+Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix (each instrumentation class isolated with a 180-second timeout), and Room schema v6 semantic check.
 
 Acceptance:
 - Checkout must match the exact source SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
 - Execute the Android 15 default emulator instrumentation suite.
-- Execute the full instrumentation suite at 720x1280 portrait and 1280x720 landscape with 1.3x font scale.
+- Execute all seven instrumentation test classes at 720x1280 portrait and 1280x720 landscape with 1.3x font scale, one class per Gradle invocation, with a 180-second timeout per class; log the class name before execution.
 - Execute ShelfResourceIndependenceInstrumentationTest.removingShelfResourceDoesNotDeleteIndependentExperienceRecord. The short-screen ShelfScreen layout must keep the seeded row reachable; the existing QuickCapture failure/retry UI test must verify retained input/error while the keyboard is open and title visibility after IME dismissal.
 - Seed one uniquely identified ShelfItemEntity and one RecordEntity through Room; create and assert their explicit RECORD_TO_SHELF relation before removal. Remove only the seeded shelf row through the production ShelfScreen UI and production Activity-scoped ShelfViewModel. Assert the shelf row is gone, the RecordEntity remains, and the relation edge is detached.
 - Isolate ShelfScreen by replacing content on MainActivity's existing ComposeView; do not call ActivityComposeTestRule.setContent after Activity content has been set.
