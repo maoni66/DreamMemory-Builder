@@ -1,8 +1,8 @@
-DreamMemory UI secondary pages and visual creation previews validation
+DreamMemory secondary-page hierarchy and visual discovery/creation validation
 
-Source SHA: fe67fa9b11beb39130ea676d7871e2919cc4e613
+Source SHA: b8bfdff0d35e2f0aa879f4ddb5f3d4333c4170e5
 Source ref: fix/focus-timer-secondary-screen-2026-11-01
-Expected source SHA at trigger: fe67fa9b11beb39130ea676d7871e2919cc4e613
+Expected source SHA at trigger: b8bfdff0d35e2f0aa879f4ddb5f3d4333c4170e5
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix (each instrumentation class isolated with a 180-second timeout), preserve the POSIX matrix script in runner temp before source checkout, emit filtered emulator logcat and test-step markers when the short-screen matrix fails, and Room schema v6 semantic check.
 
