@@ -1,8 +1,8 @@
-DreamMemory validation — fixed migration test scope; public/personal watch calendars, stamps and Room v7
+DreamMemory validation — foreign-key migration assertion and experience terminology test fixes
 
-Source SHA: 4c664999d57d6374e74410eba7e61c77e62bf5cc
+Source SHA: b0980f50b4ad4bcd7701ccf3d948786513f7a16a
 Source ref: design/theme-material-system-dev
-Expected source SHA at trigger: 4c664999d57d6374e74410eba7e61c77e62bf5cc
+Expected source SHA at trigger: b0980f50b4ad4bcd7701ccf3d948786513f7a16a
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, generated Room schema v7 export and semantic migration check.
 
