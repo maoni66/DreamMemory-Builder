@@ -1,8 +1,8 @@
-DreamMemory focus timer and notebook secondary-screen validation
+DreamMemory UI secondary pages and visual creation previews validation
 
-Source SHA: a15b9df11e83c1b67efdb2e8c54c1ec98f487f19
+Source SHA: fe67fa9b11beb39130ea676d7871e2919cc4e613
 Source ref: fix/focus-timer-secondary-screen-2026-11-01
-Expected source SHA at trigger: a15b9df11e83c1b67efdb2e8c54c1ec98f487f19
+Expected source SHA at trigger: fe67fa9b11beb39130ea676d7871e2919cc4e613
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix (each instrumentation class isolated with a 180-second timeout), preserve the POSIX matrix script in runner temp before source checkout, emit filtered emulator logcat and test-step markers when the short-screen matrix fails, and Room schema v6 semantic check.
 
@@ -11,7 +11,7 @@ Acceptance:
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
 - Execute the Android 15 default emulator instrumentation suite.
-- Execute all seven instrumentation test classes at 720x1280 portrait and 1280x720 landscape with 1.3x font scale, one class per Gradle invocation, with a 180-second timeout per class; log the class name before execution.
-- Run the ShelfResourceIndependenceInstrumentationTest regression, preserving its diagnostic step markers and failure logcat capture.
+- Execute all seven instrumentation test classes at 720x1280 portrait and 1280x720 landscape with 1.3x font scale, one class per Gradle invocation, with a 180-second timeout per class.
+- Include ShelfResourceIndependenceInstrumentationTest diagnostic step markers and failure logcat capture.
 - Confirm Room schema v6 semantic JSON is unchanged.
 - Do not sign, publish, or write the main source branch.
