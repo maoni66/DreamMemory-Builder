@@ -1,9 +1,9 @@
-DreamMemory validation — complete watch calendar management and navigation test fixes
+DreamMemory full validation and private source ZIP delivery
 
 Source SHA: 54dc80cb1138d7970d9679af16a10548649e70a3
 Source ref: design/theme-material-system-dev
 Expected source SHA at trigger: 54dc80cb1138d7970d9679af16a10548649e70a3
-Deliver APK: no
+Deliver APK: yes
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, generated Room schema v7 export and semantic migration check.
 
 Acceptance:
@@ -13,7 +13,8 @@ Acceptance:
 - Execute the Android 15 default emulator instrumentation suite.
 - Execute the short portrait/landscape and enlarged-font matrix with per-class isolation.
 - Validate Room 6→7 migration SQL, watch-calendar DAO invariants, TVmaze schedule parsing/timezone handling, and full-backup round trip for series, episodes, unknown dates and watched progress.
-- Generate the canonical Room schema v7 JSON artifact for committing to the source branch.
+- Generate the canonical Room schema v7 JSON artifact for branch review.
 - Verify Shelf personal calendar and Discovery public calendar navigation, including keeping each originating bottom tab selected.
 - Verify reusable stamp action callback and check-in history integration.
-- Do not sign, publish, or upload the APK; do not write the main source branch.
+- If all validations pass, publish the exact-source Debug APK and source ZIP as a private test release on the private DreamMemory repository.
+- This is a debug test build, not a production-signed release.
