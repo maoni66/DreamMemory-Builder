@@ -1,8 +1,8 @@
 DreamMemory full validation and private source ZIP delivery
 
-Source SHA: 54dc80cb1138d7970d9679af16a10548649e70a3
+Source SHA: cc1d8c81cfa1099212f6bb50a04841460bf031b8
 Source ref: design/theme-material-system-dev
-Expected source SHA at trigger: 54dc80cb1138d7970d9679af16a10548649e70a3
+Expected source SHA at trigger: cc1d8c81cfa1099212f6bb50a04841460bf031b8
 Deliver APK: yes
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, generated Room schema v7 export and semantic migration check.
 
