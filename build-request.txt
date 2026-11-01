@@ -1,8 +1,8 @@
-DreamMemory implementation validation — public/personal watch calendars, reusable stamps, navigation and Room v7
+DreamMemory validation after Kotlin compile fix — public/personal watch calendars, stamps and Room v7
 
-Source SHA: 1793fc759b1a23619aef6ca7352ca4126f871171
+Source SHA: 00cdcdbc9e2e123a85b29b9c9e076cb8207671ca
 Source ref: design/theme-material-system-dev
-Expected source SHA at trigger: 1793fc759b1a23619aef6ca7352ca4126f871171
+Expected source SHA at trigger: 00cdcdbc9e2e123a85b29b9c9e076cb8207671ca
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, generated Room schema v7 export and semantic migration check.
 
