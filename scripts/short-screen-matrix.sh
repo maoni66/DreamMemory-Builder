@@ -1,6 +1,16 @@
 #!/bin/sh
 set -eu
 
+dump_failure_diagnostics() {
+  status=$?
+  if [ "$status" -ne 0 ]; then
+    echo "Short-screen matrix failed with exit code $status; recent emulator diagnostics:"
+    adb logcat -d -t 5000 | grep -E 'ShelfResourceTest|AndroidRuntime|ActivityTaskManager|Instrumentation|FATAL EXCEPTION|ANR' | tail -n 500 || true
+  fi
+  exit "$status"
+}
+trap dump_failure_diagnostics EXIT
+
 # Invoked as a single-line command by android-emulator-runner.
 # Keeping the matrix in a checked-in file avoids its script-input shell parsing.
 adb shell settings put system font_scale 1.3
