@@ -1,17 +1,19 @@
-DreamMemory full-app product restructure — navigation, capture routing, shelf/record boundaries and short-screen fixes
+DreamMemory feature implementation validation — five-tab navigation, contextual stamp actions, and personal watch calendar
 
-Source SHA: eca1325a15eaf87c39b8dea33a81bc861136a174
-Source ref: refactor/full-app-product-restructure-2026-11-01
-Expected source SHA at trigger: eca1325a15eaf87c39b8dea33a81bc861136a174
+Source SHA: 7786406f43e99deb81ad26e972a76821dd40a2b8
+Source ref: design/theme-material-system-dev
+Expected source SHA at trigger: 7786406f43e99deb81ad26e972a76821dd40a2b8
 Deliver APK: no
-Build mode: full JVM unit tests, Debug APK, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix (each instrumentation class isolated with a 180-second timeout), preserve the POSIX matrix script in runner temp before source checkout, emit filtered emulator logcat and test-step markers when the short-screen matrix fails, and Room schema v6 semantic check.
+Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, generated Room schema v7 export and semantic migration check.
 
 Acceptance:
 - Checkout must match the exact source SHA above.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
 - Execute the Android 15 default emulator instrumentation suite.
-- Execute all seven instrumentation test classes at 720x1280 portrait and 1280x720 landscape with 1.3x font scale, one class per Gradle invocation, with a 180-second timeout per class.
-- Verify the compact shelf card exposes its remove action without requiring a scroll on short screens; preserve diagnostic step markers and failure logcat capture.
-- Confirm Room schema v6 semantic JSON is unchanged.
-- Do not sign, publish, or write the main source branch.
+- Execute the short portrait/landscape and enlarged-font matrix with per-class isolation.
+- Validate the Room 6→7 migration SQL, watch-calendar DAO invariants, and full-backup round trip for series, episodes, unknown release dates and watched progress.
+- Generate the canonical Room schema v7 JSON artifact for committing to the source branch.
+- Verify Shelf header calendar navigation keeps the Shelf bottom destination selected.
+- Verify reusable stamp action callback and check-in history integration.
+- Do not sign, publish, or upload the APK; do not write the main source branch.
