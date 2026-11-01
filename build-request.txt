@@ -1,8 +1,8 @@
-DreamMemory validation — final import correction for navigation UI test
+DreamMemory validation — complete watch calendar management and navigation test fixes
 
-Source SHA: 5627ed2ca440c035787aad46449e83835663d832
+Source SHA: 54dc80cb1138d7970d9679af16a10548649e70a3
 Source ref: design/theme-material-system-dev
-Expected source SHA at trigger: 5627ed2ca440c035787aad46449e83835663d832
+Expected source SHA at trigger: 54dc80cb1138d7970d9679af16a10548649e70a3
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, generated Room schema v7 export and semantic migration check.
 
