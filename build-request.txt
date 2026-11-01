@@ -1,8 +1,8 @@
-DreamMemory validation — foreign-key migration assertion and experience terminology test fixes
+DreamMemory validation — Compose UI test API fix
 
-Source SHA: b0980f50b4ad4bcd7701ccf3d948786513f7a16a
+Source SHA: 3832f3bfe7148c04bbcd18c88cc39ec0da1b34b3
 Source ref: design/theme-material-system-dev
-Expected source SHA at trigger: b0980f50b4ad4bcd7701ccf3d948786513f7a16a
+Expected source SHA at trigger: 3832f3bfe7148c04bbcd18c88cc39ec0da1b34b3
 Deliver APK: no
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, generated Room schema v7 export and semantic migration check.
 
