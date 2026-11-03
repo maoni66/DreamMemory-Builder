@@ -1,8 +1,8 @@
 DreamMemory integrated Shelf validation and private APK delivery
 
-Source SHA: 90f505bf8aa28677a174b22018a17b9c9cde51f2
+Source SHA: 32dbb2f60983c05c3bb55a8ebe50d83ccbc004b0
 Source ref: refactor/five-tab-life-top-nav
-Expected source SHA at trigger: 90f505bf8aa28677a174b22018a17b9c9cde51f2
+Expected source SHA at trigger: 32dbb2f60983c05c3bb55a8ebe50d83ccbc004b0
 Deliver APK: yes
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation.
 
@@ -14,7 +14,7 @@ Acceptance:
 - Execute the short portrait/landscape and enlarged-font UI matrix.
 - Validate the generated Room schema against the committed schema version; do not silently rewrite an existing schema version.
 - Verify Shelf renders ShelfScreen, supports books/comics/films/courses/games, and retains game works through DAO observation and legacy cleanup.
-- Verify recent personal work records appear inside the Shelf overview and open the selected record.
+- Verify recent personal work records appear inside the Shelf overview with readable work-type labels and open the selected record.
 - Verify the full record list is a nested Shelf destination; both the visible back control and Android system back return to Shelf.
 - Verify bottom navigation remains Home / Life / Shelf / Create / Discover, with Life sub-navigation Notebook / Tools / Timeline.
 - If all validations pass, publish the exact-source Debug APK and source ZIP as a private test release on the private DreamMemory repository.
