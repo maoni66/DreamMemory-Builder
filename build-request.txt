@@ -1,24 +1,20 @@
-DreamMemory course metadata preview — exact-source validation
+DreamMemory shelf library management — exact-source validation
 
-Source SHA: f8c552a37c8f3e446699317822a9fa78e2593000
-Source ref: work/shelf-course-metadata-preview
-Expected source SHA at trigger: f8c552a37c8f3e446699317822a9fa78e2593000
+Source SHA: 62a8d9706470adf1a66f60adcc11a0caaf4a63d7
+Source ref: work/shelf-library-management
+Expected source SHA at trigger: 62a8d9706470adf1a66f60adcc11a0caaf4a63d7
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
 
 Acceptance:
 - Checkout must match the exact source SHA above; fail if the branch has moved.
-- Run the complete JVM unit-test suite, including CourseMetadataParserTest, CourseMetadataImageTypeTest, BackupRoundTripTest, ShelfKindOptionsTest, and BackupRestoreStoragePolicyTest.
+- Run the complete JVM unit-test suite, including CourseMetadataParserTest, CourseMetadataImageTypeTest, BackupRoundTripTest, ShelfKindOptionsTest, BackupRestoreStoragePolicyTest, FullRestoreCrashRecoveryTest, ShelfSortTest, and ShelfVideoImportCleanupTest.
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
-- Verify course metadata parser precedence: Open Graph, Twitter Card, HTML title/description fallback; relative image and canonical URL resolution; invalid source/image schemes; absent image.
-- Verify image signature allowlist and 5 MiB limit; use the existing bounded HTTP downloader, safe redirects, bounded image decoder, and JPEG re-encoding.
-- Verify the course editor presents metadata as a preview and only applies title/cover after explicit user confirmation; existing metadata remains unchanged if preview is cancelled or fetch fails.
-- Verify course metadata lookup can be cancelled and failed image retrieval does not block title recognition.
-- Verify covers are persisted under the app-managed shelf_covers directory, displayed on Shelf cards, removed with the owning shelf item, and included in full backup/restore round-trip.
-- Verify cover file I/O runs off the main thread and is serialized with full backup/restore using BackupRestoreOperationLock, so a backup cannot capture the shelf row before its confirmed cover write completes.
-- Verify course source links remain optional when a local video exists and are never presented as video playback URLs.
-- Verify local course video playback reuses Discover Media3 and existing progress persistence.
-- Verify interrupted external Movies restore cleanup: partial temporary copies are removed, and a file moved before DB commit is removed only when its bytes match the staged restore source.
+- Re-run the PR #37 course metadata parser, image signature/size, editor preview, cancellation, cover persistence, backup round-trip, and row-plus-cover BackupRestoreOperationLock checks against the exact stacked source.
+- Verify interrupted external Movies restore cleanup: partial temporary copies are removed; a file moved before DB commit is removed only when its bytes match the staged restore source; existing user files are preserved.
+- Verify the shelf sorting modes: updated time, added time, title, progress, and rating; verify ascending/descending order and deterministic tie handling.
+- Verify type/status/search filters still work with sorting and that the no-results action clears query and filters without changing stored data.
+- Verify course-video import uses cancellation-aware blocking I/O, deletes partial temp files, deletes renamed-but-unclaimed imports only before the callback is delivered, and preserves files after callback delivery.
 - Execute the configured Android emulator instrumentation suite and short portrait/landscape plus enlarged-font matrix using only existing androidTest classes.
 - Validate Room schema version discipline; this feature intentionally adds no Room entity/column or migration.
 - Verify bottom navigation remains Home / Life / Shelf / Create / Discover, with Life sub-navigation Notebook / Tools / Timeline.
