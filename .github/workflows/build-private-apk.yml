@@ -290,9 +290,10 @@ jobs:
       - name: Set up Android SDK tools
         uses: android-actions/setup-android@v4
 
-      - name: Decrypt package and verify debug APK
+      - name: Decrypt package, apply stable test signature and verify debug APK
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
+          DREAMMEMORY_KEYSTORE_B64: ${{ secrets.DREAMMEMORY_KEYSTORE_B64 }}
           SOURCE_SHA: ${{ needs.build.outputs.source_sha }}
         shell: bash
         run: |
@@ -315,7 +316,12 @@ jobs:
             yes | sdkmanager --licenses > /dev/null || true
             sdkmanager "build-tools;36.0.0"
           fi
+          test -n "${DREAMMEMORY_KEYSTORE_B64:-}" || { echo "Missing repository secret DREAMMEMORY_KEYSTORE_B64"; exit 1; }
+          printf '%s' "$DREAMMEMORY_KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/dreammemory-debug.keystore"
+          chmod 600 "$RUNNER_TEMP/dreammemory-debug.keystore"
+          "$apksigner" sign --ks "$RUNNER_TEMP/dreammemory-debug.keystore" --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android "$apk_path"
           "$apksigner" verify --verbose "$apk_path"
+          rm -f "$RUNNER_TEMP/dreammemory-debug.keystore"
           cp "$apk_path" "$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-debug.apk"
           cp "$source_zip" "$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-source.zip"
 
