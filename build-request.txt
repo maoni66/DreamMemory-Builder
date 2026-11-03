@@ -1,8 +1,8 @@
 DreamMemory shelf library management — exact-source validation
 
-Source SHA: 844143d4180a8d48948522645b930e3cc6e4168d
+Source SHA: abb08ddafe7d6f63c8d1376ab9c7626993816281
 Source ref: work/shelf-local-file-revalidation
-Expected source SHA at trigger: 844143d4180a8d48948522645b930e3cc6e4168d
+Expected source SHA at trigger: abb08ddafe7d6f63c8d1376ab9c7626993816281
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
 
@@ -31,3 +31,6 @@ Acceptance:
 - Verify Shelf local-file availability uses a regular-file check, refreshes on Lifecycle ON_RESUME, and rechecks immediately before open/clear actions.
 - Verify a stale missing-file card cannot launch the local reader; if the file reappears before cleanup, the Open action is restored instead of clearing the local path.
 - Run ShelfLocalFileAvailabilityTest for blank, missing, directory, existing, and deleted-file cases.
+
+- Verify the featured in-progress card never silently falls back to its source URL when its configured local file has disappeared; it must route to the existing missing-file cleanup confirmation.
+- Verify the local-file cleanup confirmation explains both existing app-managed file deletion and missing-path-only cleanup accurately.
