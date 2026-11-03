@@ -1,20 +1,19 @@
-DreamMemory full validation and private source ZIP delivery
+DreamMemory branch validation and private APK delivery
 
-Source SHA: cc1d8c81cfa1099212f6bb50a04841460bf031b8
-Source ref: design/theme-material-system-dev
-Expected source SHA at trigger: cc1d8c81cfa1099212f6bb50a04841460bf031b8
+Source SHA: 8d072937fdce2e917e0c751272cb8878cbfcc67e
+Source ref: refactor/five-tab-life-top-nav
+Expected source SHA at trigger: 8d072937fdce2e917e0c751272cb8878cbfcc67e
 Deliver APK: yes
-Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android 15 emulator execution, short portrait/landscape and enlarged-font matrix, generated Room schema v7 export and semantic migration check.
+Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation.
 
 Acceptance:
-- Checkout must match the exact source SHA above.
+- Checkout must match the exact source SHA above; fail if the branch has moved.
 - Run the complete JVM unit-test suite.
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
-- Execute the Android 15 default emulator instrumentation suite.
-- Execute the short portrait/landscape and enlarged-font matrix with per-class isolation.
-- Validate Room 6→7 migration SQL, watch-calendar DAO invariants, TVmaze schedule parsing/timezone handling, and full-backup round trip for series, episodes, unknown dates and watched progress.
-- Generate the canonical Room schema v7 JSON artifact for branch review.
-- Verify Shelf personal calendar and Discovery public calendar navigation, including keeping each originating bottom tab selected.
-- Verify reusable stamp action callback and check-in history integration.
+- Execute the configured Android emulator instrumentation suite.
+- Execute the short portrait/landscape and enlarged-font UI matrix.
+- Validate the generated Room schema against the committed schema version; do not silently rewrite an existing schema version.
+- Verify the Shelf page renders the actual ShelfScreen and retains game works through DAO observation and legacy cleanup.
+- Verify the five-tab navigation remains Home / Life / Shelf / Create / Discover, with Life sub-navigation for Notebook / Tools / Timeline.
 - If all validations pass, publish the exact-source Debug APK and source ZIP as a private test release on the private DreamMemory repository.
 - This is a debug test build, not a production-signed release.
