@@ -1,8 +1,8 @@
 DreamMemory course metadata preview — exact-source validation
 
-Source SHA: 3321f417a0dd12910470b0f91afe47bfc8ea6060
+Source SHA: 0d0a7ea75b5759b74c699c97b2d105adf6f0d76e
 Source ref: work/shelf-course-metadata-preview
-Expected source SHA at trigger: 3321f417a0dd12910470b0f91afe47bfc8ea6060
+Expected source SHA at trigger: 0d0a7ea75b5759b74c699c97b2d105adf6f0d76e
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
 
@@ -15,6 +15,7 @@ Acceptance:
 - Verify the course editor presents metadata as a preview and only applies title/cover after explicit user confirmation; existing metadata remains unchanged if preview is cancelled or fetch fails.
 - Verify course metadata lookup can be cancelled and failed image retrieval does not block title recognition.
 - Verify covers are persisted under the app-managed shelf_covers directory, displayed on Shelf cards, removed with the owning shelf item, and included in full backup/restore round-trip.
+- Verify cover file I/O runs off the main thread and is serialized with full backup/restore using BackupRestoreOperationLock, so a backup cannot capture the shelf row before its confirmed cover write completes.
 - Verify course source links remain optional when a local video exists and are never presented as video playback URLs.
 - Verify local course video playback reuses Discover Media3 and existing progress persistence.
 - Execute the configured Android emulator instrumentation suite and short portrait/landscape plus enlarged-font matrix using only existing androidTest classes.
