@@ -1,14 +1,14 @@
-DreamMemory integrated Shelf validation and private APK delivery
+DreamMemory shelf integration regression fix and signed private test APK
 
-Source SHA: 32dbb2f60983c05c3bb55a8ebe50d83ccbc004b0
+Source SHA: 5afa176f89b58d7b88b52749571808e2da26fc11
 Source ref: refactor/five-tab-life-top-nav
-Expected source SHA at trigger: 32dbb2f60983c05c3bb55a8ebe50d83ccbc004b0
+Expected source SHA at trigger: 5afa176f89b58d7b88b52749571808e2da26fc11
 Deliver APK: yes
-Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation.
+Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification, private test Release delivery.
 
 Acceptance:
 - Checkout must match the exact source SHA above; fail if the branch has moved.
-- Run the complete JVM unit-test suite.
+- Run the complete JVM unit-test suite, including ShareIntakeSuggestionTest; shared-link detail must contain the extracted URL only while the title is derived from surrounding text.
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
 - Execute the configured Android emulator instrumentation suite.
 - Execute the short portrait/landscape and enlarged-font UI matrix.
@@ -17,5 +17,5 @@ Acceptance:
 - Verify recent personal work records appear inside the Shelf overview with readable work-type labels and open the selected record.
 - Verify the full record list is a nested Shelf destination; both the visible back control and Android system back return to Shelf.
 - Verify bottom navigation remains Home / Life / Shelf / Create / Discover, with Life sub-navigation Notebook / Tools / Timeline.
-- If all validations pass, publish the exact-source Debug APK and source ZIP as a private test release on the private DreamMemory repository.
-- This is a debug test build, not a production-signed release.
+- If all validations pass, verify the APK signature and publish the exact-source Debug APK and source ZIP as a private test release on the private DreamMemory repository.
+- This is an installable debug test build, not a production/Play signing identity. Never upload APKs or private source to the public Builder repository.
