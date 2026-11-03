@@ -1,8 +1,8 @@
 DreamMemory shelf library management — exact-source validation
 
-Source SHA: abb08ddafe7d6f63c8d1376ab9c7626993816281
+Source SHA: 29424d23ec91ae59102e63f50d794477b40eb494
 Source ref: work/shelf-local-file-revalidation
-Expected source SHA at trigger: abb08ddafe7d6f63c8d1376ab9c7626993816281
+Expected source SHA at trigger: 29424d23ec91ae59102e63f50d794477b40eb494
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
 
