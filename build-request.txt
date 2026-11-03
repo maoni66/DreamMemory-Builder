@@ -1,8 +1,8 @@
 DreamMemory integrated Shelf validation and private APK delivery
 
-Source SHA: b972489931a6f71ab7b824f06e4f90f1b94571bf
+Source SHA: 048534127916f87955ef21899946f37c404f3e45
 Source ref: refactor/five-tab-life-top-nav
-Expected source SHA at trigger: b972489931a6f71ab7b824f06e4f90f1b94571bf
+Expected source SHA at trigger: 048534127916f87955ef21899946f37c404f3e45
 Deliver APK: yes
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation.
 
