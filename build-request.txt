@@ -1,4 +1,4 @@
-DreamMemory unified shelf course resources validation
+DreamMemory unified shelf course resources validation (short-screen matrix correction rerun)
 
 Source SHA: 24fe5154a6bb186292efbb2ddf4b19edb904478f
 Source ref: work/shelf-course-unified-resources
@@ -12,7 +12,7 @@ Acceptance:
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
 - Run VideoStoragePolicyTest and BoundedMediaDataSourceTest; verify local file playback has no HTTP response cap, remote direct media responses support up to 20 GiB, course imports/downloads are limited by actual Movies-volume free space while preserving a 512 MiB reserve, and backup restore accepts large media within staging/Movies volume free-space limits.
 - Execute the configured Android emulator instrumentation suite.
-- Execute the short portrait/landscape and enlarged-font UI matrix.
+- Execute the short portrait/landscape and enlarged-font UI matrix using only test classes present in app/src/androidTest.
 - Validate the generated Room schema against the committed schema version; do not silently rewrite an existing schema version.
 - Verify Shelf renders ShelfScreen, supports books/comics/films/courses/games, and retains game works through DAO observation and legacy cleanup.
 - Verify recent personal work records appear inside the Shelf overview with readable work-type labels and open the selected record.
