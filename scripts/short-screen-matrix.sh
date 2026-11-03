@@ -5,14 +5,14 @@ dump_failure_diagnostics() {
   status=$?
   if [ "$status" -ne 0 ]; then
     echo "Short-screen matrix failed with exit code $status; recent emulator diagnostics:"
-    adb logcat -d -t 5000 | grep -E 'ShelfResourceTest|AndroidRuntime|ActivityTaskManager|Instrumentation|FATAL EXCEPTION|ANR' | tail -n 500 || true
+    adb logcat -d -t 5000 | grep -E 'AndroidRuntime|ActivityTaskManager|Instrumentation|FATAL EXCEPTION|ANR' | tail -n 500 || true
   fi
   exit "$status"
 }
 trap dump_failure_diagnostics EXIT
 
 # Invoked as a single-line command by android-emulator-runner.
-# Keeping the matrix in a checked-in file avoids its script-input shell parsing.
+# Keep this list limited to instrumentation classes that exist in app/src/androidTest.
 adb shell settings put system font_scale 1.3
 adb shell settings put system accelerometer_rotation 0
 adb shell settings put system user_rotation 0
@@ -35,8 +35,7 @@ for orientation in portrait landscape; do
     com.dreammemory.app.feature.memory.NotebookReducedMotionPagerTest \
     com.dreammemory.app.feature.record.RecordExperienceAttachmentProviderTest \
     com.dreammemory.app.navigation.DreamBottomBarTest \
-    com.dreammemory.app.navigation.MainActivityNavigationTest \
-    com.dreammemory.app.feature.shelf.ShelfResourceIndependenceInstrumentationTest
+    com.dreammemory.app.navigation.MainActivityNavigationTest
   do
     echo "Running $orientation instrumentation class: $test_class"
     timeout --signal=TERM --kill-after=15s 180s ./gradlew connectedDebugAndroidTest \
