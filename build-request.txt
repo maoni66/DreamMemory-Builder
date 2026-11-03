@@ -1,8 +1,8 @@
 DreamMemory course metadata preview — exact-source validation
 
-Source SHA: 0d0a7ea75b5759b74c699c97b2d105adf6f0d76e
+Source SHA: f8c552a37c8f3e446699317822a9fa78e2593000
 Source ref: work/shelf-course-metadata-preview
-Expected source SHA at trigger: 0d0a7ea75b5759b74c699c97b2d105adf6f0d76e
+Expected source SHA at trigger: f8c552a37c8f3e446699317822a9fa78e2593000
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
 
@@ -18,6 +18,7 @@ Acceptance:
 - Verify cover file I/O runs off the main thread and is serialized with full backup/restore using BackupRestoreOperationLock, so a backup cannot capture the shelf row before its confirmed cover write completes.
 - Verify course source links remain optional when a local video exists and are never presented as video playback URLs.
 - Verify local course video playback reuses Discover Media3 and existing progress persistence.
+- Verify interrupted external Movies restore cleanup: partial temporary copies are removed, and a file moved before DB commit is removed only when its bytes match the staged restore source.
 - Execute the configured Android emulator instrumentation suite and short portrait/landscape plus enlarged-font matrix using only existing androidTest classes.
 - Validate Room schema version discipline; this feature intentionally adds no Room entity/column or migration.
 - Verify bottom navigation remains Home / Life / Shelf / Create / Discover, with Life sub-navigation Notebook / Tools / Timeline.
