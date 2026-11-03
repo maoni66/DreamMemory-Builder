@@ -1,8 +1,8 @@
 DreamMemory unified shelf course resources validation
 
-Source SHA: 5e02d0aade9caf2e0487517f6fdadfd7c3999348
+Source SHA: 956163888fd6fbf393d59e4fc46ef7e07aac1617
 Source ref: work/shelf-course-unified-resources
-Expected source SHA at trigger: 5e02d0aade9caf2e0487517f6fdadfd7c3999348
+Expected source SHA at trigger: 956163888fd6fbf393d59e4fc46ef7e07aac1617
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
 
@@ -10,7 +10,7 @@ Acceptance:
 - Checkout must match the exact source SHA above; fail if the branch has moved.
 - Run the complete JVM unit-test suite, including ShareIntakeSuggestionTest; shared-link detail must contain the extracted URL only while the title is derived from surrounding text.
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
-- Run VideoStoragePolicyTest and BoundedMediaDataSourceTest; verify local file playback has no HTTP response cap, remote direct media responses support up to 20 GiB, and course imports/downloads are limited by actual Movies-volume free space while preserving a 512 MiB reserve.
+- Run VideoStoragePolicyTest and BoundedMediaDataSourceTest; verify local file playback has no HTTP response cap, remote direct media responses support up to 20 GiB, course imports/downloads are limited by actual Movies-volume free space while preserving a 512 MiB reserve, and backup restore accepts large media within staging/Movies volume free-space limits.
 - Execute the configured Android emulator instrumentation suite.
 - Execute the short portrait/landscape and enlarged-font UI matrix.
 - Validate the generated Room schema against the committed schema version; do not silently rewrite an existing schema version.
