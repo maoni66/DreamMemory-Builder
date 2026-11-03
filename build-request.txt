@@ -1,8 +1,8 @@
 DreamMemory course metadata preview — exact-source validation
 
-Source SHA: 7b6223d4afd15b6bccc7790ffeb0e34d4d7da1f1
+Source SHA: 3321f417a0dd12910470b0f91afe47bfc8ea6060
 Source ref: work/shelf-course-metadata-preview
-Expected source SHA at trigger: 7b6223d4afd15b6bccc7790ffeb0e34d4d7da1f1
+Expected source SHA at trigger: 3321f417a0dd12910470b0f91afe47bfc8ea6060
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
 
