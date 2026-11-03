@@ -1,9 +1,9 @@
-DreamMemory shelf integration regression fix and signed private test APK
+DreamMemory unified shelf course resources validation
 
-Source SHA: 5afa176f89b58d7b88b52749571808e2da26fc11
-Source ref: refactor/five-tab-life-top-nav
-Expected source SHA at trigger: 5afa176f89b58d7b88b52749571808e2da26fc11
-Deliver APK: yes
+Source SHA: f58a225e57676b52dffc1691350153362f441b2c
+Source ref: work/shelf-course-unified-resources
+Expected source SHA at trigger: f58a225e57676b52dffc1691350153362f441b2c
+Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification, private test Release delivery.
 
 Acceptance:
