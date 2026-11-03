@@ -1,8 +1,8 @@
 DreamMemory unified shelf course resources validation
 
-Source SHA: f58a225e57676b52dffc1691350153362f441b2c
+Source SHA: 3e70f5c08d154cdd269371bca47a013943fed9e0
 Source ref: work/shelf-course-unified-resources
-Expected source SHA at trigger: f58a225e57676b52dffc1691350153362f441b2c
+Expected source SHA at trigger: 3e70f5c08d154cdd269371bca47a013943fed9e0
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification, private test Release delivery.
 
