@@ -1,8 +1,8 @@
 DreamMemory shelf library management — exact-source validation
 
-Source SHA: d3594f2ecea7f0f089ed52db6afbc8e456780134
-Source ref: work/unified-shelf-record-navigation
-Expected source SHA at trigger: d3594f2ecea7f0f089ed52db6afbc8e456780134
+Source SHA: 844143d4180a8d48948522645b930e3cc6e4168d
+Source ref: work/shelf-local-file-revalidation
+Expected source SHA at trigger: 844143d4180a8d48948522645b930e3cc6e4168d
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
 
@@ -27,3 +27,7 @@ Acceptance:
 - Verify RecordScreen detail IDs, editor snapshot, editor fields, and reading-note focus are retained by saveable state across Pager disposal; verify the section switcher is hidden in record detail/editor/reading-note subpages.
 - Verify RecordEditor cover imports are retained while the page is disposed and are cleaned only on explicit cancellation; successful save preserves the cover file.
 - Run MainActivityNavigationTest and DreamBottomBarTest in default, short portrait/enlarged-font, and short landscape/enlarged-font configurations.
+
+- Verify Shelf local-file availability uses a regular-file check, refreshes on Lifecycle ON_RESUME, and rechecks immediately before open/clear actions.
+- Verify a stale missing-file card cannot launch the local reader; if the file reappears before cleanup, the Open action is restored instead of clearing the local path.
+- Run ShelfLocalFileAvailabilityTest for blank, missing, directory, existing, and deleted-file cases.
