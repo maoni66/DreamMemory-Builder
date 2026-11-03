@@ -1,22 +1,22 @@
-DreamMemory unified shelf course resources validation (short-screen matrix correction rerun)
+DreamMemory unified shelf course resources — post-review exact-source verification
 
-Source SHA: 24fe5154a6bb186292efbb2ddf4b19edb904478f
+Source SHA: 990769ad46042d806e1f74ad33dca453322852e7
 Source ref: work/shelf-course-unified-resources
-Expected source SHA at trigger: 24fe5154a6bb186292efbb2ddf4b19edb904478f
+Expected source SHA at trigger: 990769ad46042d806e1f74ad33dca453322852e7
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
 
 Acceptance:
 - Checkout must match the exact source SHA above; fail if the branch has moved.
-- Run the complete JVM unit-test suite, including ShareIntakeSuggestionTest; shared-link detail must contain the extracted URL only while the title is derived from surrounding text.
+- Run the complete JVM unit-test suite, including the new BackupRestoreStoragePolicyTest and ShelfKindOptionsTest.
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
-- Run VideoStoragePolicyTest and BoundedMediaDataSourceTest; verify local file playback has no HTTP response cap, remote direct media responses support up to 20 GiB, course imports/downloads are limited by actual Movies-volume free space while preserving a 512 MiB reserve, and backup restore accepts large media within staging/Movies volume free-space limits.
+- Run VideoStoragePolicyTest and BoundedMediaDataSourceTest; verify local file playback has no HTTP response cap, remote direct media responses support up to 20 GiB, course imports/downloads are limited by actual Movies-volume free space while preserving a 512 MiB reserve.
+- Verify backup restore applies per-chunk free-space checks before writing staged archive files and restored Movies files, preserving at least 512 MiB on each destination volume; run the corresponding restore storage policy boundary tests.
 - Execute the configured Android emulator instrumentation suite.
 - Execute the short portrait/landscape and enlarged-font UI matrix using only test classes present in app/src/androidTest.
 - Validate the generated Room schema against the committed schema version; do not silently rewrite an existing schema version.
-- Verify Shelf renders ShelfScreen, supports books/comics/films/courses/games, and retains game works through DAO observation and legacy cleanup.
-- Verify recent personal work records appear inside the Shelf overview with readable work-type labels and open the selected record.
-- Verify the full record list is a nested Shelf destination; both the visible back control and Android system back return to Shelf.
+- Verify course editor labels the URL as a metadata source for course name/cover, explicitly distinguishes it from a video playback URL, allows local video import without a source URL, and labels the external action as opening the course source page.
+- Verify course source URL and local video remain independent resources on the same ShelfItemEntity; local playback reuses Discover Media3 and the existing progress path.
 - Verify bottom navigation remains Home / Life / Shelf / Create / Discover, with Life sub-navigation Notebook / Tools / Timeline.
 - If all validations pass, verify the exact-source APK signature but do not publish a Release; private release delivery requires a separate explicit build request.
 - This is an installable debug test build, not a production/Play signing identity. Never upload APKs or private source to the public Builder repository.
