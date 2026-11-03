@@ -4,7 +4,7 @@ Source SHA: 3e70f5c08d154cdd269371bca47a013943fed9e0
 Source ref: work/shelf-course-unified-resources
 Expected source SHA at trigger: 3e70f5c08d154cdd269371bca47a013943fed9e0
 Deliver APK: verify
-Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification, private test Release delivery.
+Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
 
 Acceptance:
 - Checkout must match the exact source SHA above; fail if the branch has moved.
@@ -17,5 +17,5 @@ Acceptance:
 - Verify recent personal work records appear inside the Shelf overview with readable work-type labels and open the selected record.
 - Verify the full record list is a nested Shelf destination; both the visible back control and Android system back return to Shelf.
 - Verify bottom navigation remains Home / Life / Shelf / Create / Discover, with Life sub-navigation Notebook / Tools / Timeline.
-- If all validations pass, verify the APK signature and publish the exact-source Debug APK and source ZIP as a private test release on the private DreamMemory repository.
+- If all validations pass, verify the exact-source APK signature but do not publish a Release; private release delivery requires a separate explicit build request.
 - This is an installable debug test build, not a production/Play signing identity. Never upload APKs or private source to the public Builder repository.
