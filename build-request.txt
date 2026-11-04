@@ -1,15 +1,15 @@
 DreamMemory PR #42 — shelf archive and restore exact-source verification
 
-Source SHA: 1a70a8b0ed8561c53125f4a7cb7a7f34f9d93615
+Source SHA: 2fc7991a31ac9816ecd40e9c9658450520e02da9
 Source ref: work/shelf-archive-restore
-Expected source SHA at trigger: 1a70a8b0ed8561c53125f4a7cb7a7f34f9d93615
+Expected source SHA at trigger: 2fc7991a31ac9816ecd40e9c9658450520e02da9
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, AndroidTest compilation including ShelfArchiveUiTest, configured emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema v7 migration validation, APK signature verification in verify-only mode; do not publish a formal Release.
 
 Acceptance:
 - Checkout must match the exact full 40-character source SHA above; fail if the branch has moved.
 - Run the complete JVM unit-test suite, including ShelfArchiveLifecycleTest, DreamMemoryMigrationTest, BackupRoundTripTest, ShelfSortTest, ShelfLocalFileAvailabilityTest, BackupRestoreStoragePolicyTest, and FullRestoreCrashRecoveryTest.
-- Build :app:assembleDebug and compile :app:assembleDebugAndroidTest; confirm ShelfArchiveUiTest compiles.
+- Build :app:assembleDebug and compile :app:assembleDebugAndroidTest; confirm ShelfArchiveUiTest compiles with the project's supported Compose testing APIs.
 - Run the configured Android emulator instrumentation suite, including ShelfArchiveUiTest, and the existing short portrait/landscape enlarged-font matrix.
 - Validate committed Room schema v7 against generated schema JSON; confirm MIGRATION_6_7 adds only shelf_items.archived INTEGER NOT NULL DEFAULT 0.
 - Verify migration from v6 preserves all existing shelf columns and data and defaults archived to false.
@@ -19,7 +19,7 @@ Acceptance:
 - Verify backup version remains 16, exports archived, and restores older backups without archived as false.
 - Verify archive/restore never deletes local media, shelf covers, chapter cache, notes, record links, download tasks, or resource-source references.
 - Verify normal shelf count, filters, search, featured in-progress selection and empty states exclude archived rows.
-- Verify archived list supports search, sorting, restore and the existing safe permanent-delete flow.
+- Verify archived list supports independent search/sort state, restore, return-to-shelf behavior and the existing safe permanent-delete flow.
 - Verify five bottom tabs remain Home / Life / Shelf / Create / Discover; no archive tab is added.
 - Verify short screens and enlarged font retain archive entry, back navigation, restore and delete controls.
 - Verify exact-source APK signature only. Do not publish a formal Release, merge any PR, alter signing configuration, or upload private source to the public Builder repository.
