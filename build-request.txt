@@ -1,8 +1,8 @@
 DreamMemory shelf library management — exact-source validation
 
-Source SHA: 5e7f30bea96a86a731e731ef977187b3db4a568e
+Source SHA: 7c0442ffef8066058a8dea973b3c5f631f9a44de
 Source ref: work/shelf-local-file-revalidation
-Expected source SHA at trigger: 5e7f30bea96a86a731e731ef977187b3db4a568e
+Expected source SHA at trigger: 7c0442ffef8066058a8dea973b3c5f631f9a44de
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
 
@@ -34,4 +34,5 @@ Acceptance:
 
 - Verify the featured in-progress card never silently falls back to its source URL when its configured local file has disappeared; it must route to the existing missing-file cleanup confirmation.
 - Verify the Pager state-retention regression test toggles title sorting from the actual ascending default to descending, switches Shelf → Records → Shelf, and asserts the persisted descending accessibility state.
+- Verify Shelf type and status filter controls remain reachable and selectable at short portrait height with 1.3x font scale; verify the selected status remains selected after switching Shelf → Records → Shelf. The compact Shelf layout must retain the title, search, sorting and both filter rows without hiding essential actions.
 - Verify the local-file cleanup confirmation explains both existing app-managed file deletion and missing-path-only cleanup accurately.
