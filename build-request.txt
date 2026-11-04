@@ -1,8 +1,8 @@
 DreamMemory shelf library management — exact-source validation
 
-Source SHA: 490cde43ac71eb32a7bee9559efb3b0400b0e382
+Source SHA: 6ce16752ae6541a85e402d2ae57d9dc59ce5b8cb
 Source ref: work/shelf-local-file-revalidation
-Expected source SHA at trigger: 490cde43ac71eb32a7bee9559efb3b0400b0e382
+Expected source SHA at trigger: 6ce16752ae6541a85e402d2ae57d9dc59ce5b8cb
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
 
@@ -33,7 +33,7 @@ Acceptance:
 - Run ShelfLocalFileAvailabilityTest for blank, missing, directory, existing, and deleted-file cases.
 
 - Verify the featured in-progress card never silently falls back to its source URL when its configured local file has disappeared; it must route to the existing missing-file cleanup confirmation.
-- Verify the Pager state-retention regression test toggles title sorting from the actual ascending default to descending, switches Shelf → Records → Shelf, and asserts the persisted descending accessibility state. For FilterChip assertions, use Compose toggle-state semantics (`assertIsOn`) rather than selection semantics (`assertIsSelected`).
+- Verify the Pager state-retention regression test toggles title sorting from the actual ascending default to descending, switches Shelf → Records → Shelf, and asserts the persisted descending accessibility state. For Shelf FilterChip assertions, use `assertIsSelected`: the observed semantics expose `Selected=true` and `Role=Checkbox`, but no `ToggleableState`; `assertIsOn` is not supported by this component version. Assert selection both immediately after choosing the status and after returning from Records.
 - Verify Shelf type and status filter controls remain reachable and selectable at short portrait height with 1.3x font scale; verify the selected status remains selected after switching Shelf → Records → Shelf. The compact Shelf layout must retain the title, search, sorting and both filter rows without hiding essential actions.
-- Verify QuickCaptureDialog remains fully usable at short landscape height with 1.3x font scale: dialog title and action buttons remain visible, the content can scroll to the failure message, and the entered title remains available for retry after a failed save.
+- Verify QuickCaptureDialog remains fully usable at short landscape height with 1.3x font scale: dialog title and action buttons remain visible, the failure message is moved to the top of the scrollable form without scrolling the title out of view, and the entered title remains available for retry after a failed save.
 - Verify the local-file cleanup confirmation explains both existing app-managed file deletion and missing-path-only cleanup accurately.
