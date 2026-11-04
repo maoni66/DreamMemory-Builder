@@ -1,15 +1,18 @@
-DreamMemory — shelf archive/restore exact-source verification
+DreamMemory — record/shelf archived-link and duplicate-restore verification
 
-Source SHA: c993cc2a1a1ce0de436d437e47cf1d4e32b20c03
-Source ref: work/shelf-archive-restore
-Expected source SHA at trigger: c993cc2a1a1ce0de436d437e47cf1d4e32b20c03
+Source SHA: b5e3f65e23a7054d89263b3eebeb167ff5a04250
+Source ref: fix/record-archived-shelf-links
+Expected source SHA at trigger: b5e3f65e23a7054d89263b3eebeb167ff5a04250
 Deliver APK: yes
-Build mode: run the complete verification pipeline: JVM unit tests, Debug APK build, Android instrumented test compilation, emulator UI tests, and short-screen/enlarged-font matrix. The ShelfArchiveUiTest now targets the actual archive-entry button; the navigation test opens the status dropdown before selecting a status.
+Build mode: run the complete verification pipeline: JVM unit tests, Debug APK build, Android instrumented test compilation, emulator UI tests, and short-screen/enlarged-font matrix.
 
 Acceptance:
 - Checkout must match the exact full 40-character source SHA above; fail if the branch has moved.
 - Run all JVM unit tests and retain their results.
 - Build :app:assembleDebug and retain the APK as a downloadable workflow artifact.
-- Compile Android instrumented UI tests and run emulator UI tests, including the short portrait/landscape and enlarged-font matrix.
-- Verify Room schema version discipline.
+- Compile Android instrumented UI tests and run emulator UI tests, including short portrait/landscape and enlarged-font matrix.
+- Verify Room schema version discipline and backup compatibility. This change must not alter Room schema or backup format.
+- Verify archived shelf resources remain visible through existing record links; archived resources are excluded from new-link choices and rejected by the transactional link operation.
+- Verify re-adding an archived source requires explicit confirmation and restores the original row without resetting its metadata, files, or relations.
+- Verify restore changes only the archived flag and does not mutate updatedAt or other fields.
 - Do not merge any PR, alter signing configuration, or publish a formal Release.
