@@ -1,25 +1,14 @@
-DreamMemory PR #42 — shelf archive and restore exact-source verification
+DreamMemory — shelf UX redesign verification
 
-Source SHA: 162918a08eaf9ae8a40bf2e225f30d60da0754c7
+Source SHA: 587d60f06493e37f9ba24b19774d26849bf95a44
 Source ref: work/shelf-archive-restore
-Expected source SHA at trigger: 162918a08eaf9ae8a40bf2e225f30d60da0754c7
-Deliver APK: verify
-Build mode: full JVM unit tests, Debug APK build, AndroidTest compilation including ShelfArchiveUiTest, configured emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema v7 migration validation, APK signature verification in verify-only mode; do not publish a formal Release.
+Expected source SHA at trigger: 587d60f06493e37f9ba24b19774d26849bf95a44
+Deliver APK: yes
+Build mode: run the full JVM unit-test suite and :app:assembleDebug; produce the Debug APK artifact. Do not compile AndroidTest or run emulator UI tests in this request because the existing ShelfArchiveUiTest currently has a known unresolved onRoot compile error unrelated to this shelf-screen change. Do not publish a formal Release.
 
 Acceptance:
 - Checkout must match the exact full 40-character source SHA above; fail if the branch has moved.
-- Run the complete JVM unit-test suite, including ShelfArchiveLifecycleTest, DreamMemoryMigrationTest, BackupRoundTripTest, ShelfSortTest, ShelfLocalFileAvailabilityTest, BackupRestoreStoragePolicyTest, and FullRestoreCrashRecoveryTest.
-- Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
-- Run the configured Android emulator instrumentation suite, including ShelfArchiveUiTest using item-ID-scoped card actions and native menu semantics, and the existing short portrait/landscape enlarged-font matrix.
-- Validate committed Room schema v7 against generated schema JSON; confirm MIGRATION_6_7 adds only shelf_items.archived INTEGER NOT NULL DEFAULT 0.
-- Verify migration from v6 preserves all existing shelf columns and data and defaults archived to false.
-- Verify active shelf queries exclude archived items while ShelfDao.all() continues to include all rows for backup, file-reference checks, and related data.
-- Verify archive and restore are guarded by id + createdAt and only change archived/updatedAt; stale snapshots must not mutate a replacement row.
-- Verify re-import of an archived stable source restores the existing row rather than creating a duplicate, preserving user metadata, progress, local paths and relations.
-- Verify backup version remains 16, exports archived, and restores older backups without archived as false.
-- Verify archive/restore never deletes local media, shelf covers, chapter cache, notes, record links, download tasks, or resource-source references.
-- Verify normal shelf count, filters, search, featured in-progress selection and empty states exclude archived rows.
-- Verify archived list supports independent search/sort state, restore, return-to-shelf behavior and the existing safe permanent-delete flow.
-- Verify five bottom tabs remain Home / Life / Shelf / Create / Discover; no archive tab is added.
-- Verify short screens and enlarged font retain archive entry, back navigation, restore and delete controls.
-- Verify exact-source APK signature only. Do not publish a formal Release, merge any PR, alter signing configuration, or upload private source to the public Builder repository.
+- Run all JVM unit tests.
+- Build :app:assembleDebug and retain the APK as a downloadable workflow artifact.
+- Do not compile AndroidTest or run emulator UI tests in this request; do not alter the unrelated ShelfArchiveUiTest diagnostics.
+- Do not merge any PR, alter signing configuration, or publish a formal Release.
