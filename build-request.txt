@@ -1,17 +1,18 @@
-DreamMemory — record/shelf archive relation and restore regression verification
+DreamMemory — archive relations, explicit duplicate restore, and UI regression verification
 
-Source SHA: 611100675f4006de2d712e8b38695922d96ae301
+Source SHA: 9df0b02d3a8624cc34c2def7fb0f9c72cb185e05
 Source ref: fix/record-archived-shelf-links
-Expected source SHA at trigger: 611100675f4006de2d712e8b38695922d96ae301
+Expected source SHA at trigger: 9df0b02d3a8624cc34c2def7fb0f9c72cb185e05
 Deliver APK: yes
-Build mode: complete verification: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, and short-screen/enlarged-font portrait/landscape matrix.
+Build mode: full pipeline: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
 Acceptance:
-- Checkout exact full 40-character source SHA; fail if branch has moved.
+- Checkout exact full 40-character source SHA; fail if branch moved.
 - Run all JVM tests and retain results.
-- Build :app:assembleDebug and retain APK as downloadable workflow artifact.
-- Compile and run Android instrumentation tests, including short-screen and enlarged-font matrix.
-- Verify archive/restore UI flow, archived duplicate rejection, and that restore changes only archived (all other ShelfItemEntity fields must remain byte-for-byte/equality unchanged).
-- Verify Record → Shelf links remain visible after archive; archived targets are not selectable for new links and are rejected transactionally.
-- Verify Room schema and backup format remain unchanged.
+- Build :app:assembleDebug and retain APK as downloadable artifact.
+- Compile and run Android instrumentation tests, including short-screen/enlarged-font matrix.
+- Verify Shelf archive/restore lifecycle; restore must modify only archived and preserve updatedAt and every other field.
+- Verify archived-source reimport is rejected until explicit restore; never silently restore or create duplicate rows.
+- Verify Record → Shelf links remain visible after archive; archived targets are excluded from new-link choices and rejected transactionally.
+- Verify Room schema and backup protocol remain unchanged.
 - Do not merge PRs, alter signing configuration, or publish a formal Release.
