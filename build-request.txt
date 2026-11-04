@@ -1,10 +1,10 @@
 DreamMemory — shelf archive/restore exact-source verification
 
-Source SHA: 3f2baa07789452662677619504d87393d5df1b1b
+Source SHA: c993cc2a1a1ce0de436d437e47cf1d4e32b20c03
 Source ref: work/shelf-archive-restore
-Expected source SHA at trigger: 3f2baa07789452662677619504d87393d5df1b1b
+Expected source SHA at trigger: c993cc2a1a1ce0de436d437e47cf1d4e32b20c03
 Deliver APK: yes
-Build mode: run the complete verification pipeline: JVM unit tests, Debug APK build, Android instrumented test compilation, emulator UI tests, and short-screen/enlarged-font matrix. The ShelfArchiveUiTest onRoot import has been fixed in this exact source commit.
+Build mode: run the complete verification pipeline: JVM unit tests, Debug APK build, Android instrumented test compilation, emulator UI tests, and short-screen/enlarged-font matrix. The ShelfArchiveUiTest now targets the actual archive-entry button; the navigation test opens the status dropdown before selecting a status.
 
 Acceptance:
 - Checkout must match the exact full 40-character source SHA above; fail if the branch has moved.
