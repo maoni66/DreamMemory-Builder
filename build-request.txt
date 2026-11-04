@@ -1,8 +1,8 @@
-DreamMemory — archive undo, explicit duplicate restore, record relation and UI verification
+DreamMemory — archive flow UI test assertion correction and full verification
 
-Source SHA: 3657005f7bf3e9712a6939e081f461882553910d
+Source SHA: ea19cbd4699de850f3e314b8fcea165ab2b1075a
 Source ref: fix/record-archived-shelf-links
-Expected source SHA at trigger: 3657005f7bf3e9712a6939e081f461882553910d
+Expected source SHA at trigger: ea19cbd4699de850f3e314b8fcea165ab2b1075a
 Deliver APK: yes
 Build mode: full pipeline: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
