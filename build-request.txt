@@ -1,8 +1,8 @@
 DreamMemory — shelf UX redesign verification
 
-Source SHA: 587d60f06493e37f9ba24b19774d26849bf95a44
+Source SHA: e03b26c816b14fd45c017a038aff549513342554
 Source ref: work/shelf-archive-restore
-Expected source SHA at trigger: 587d60f06493e37f9ba24b19774d26849bf95a44
+Expected source SHA at trigger: e03b26c816b14fd45c017a038aff549513342554
 Deliver APK: yes
 Build mode: run the full JVM unit-test suite and :app:assembleDebug; produce the Debug APK artifact. Do not compile AndroidTest or run emulator UI tests in this request because the existing ShelfArchiveUiTest currently has a known unresolved onRoot compile error unrelated to this shelf-screen change. Do not publish a formal Release.
 
