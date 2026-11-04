@@ -6,6 +6,8 @@ Expected source SHA at trigger: 53f059457be17f0cd81c91e5b5d05046c33516b5
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, AndroidTest compilation including ShelfArchiveUiTest, configured emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema v7 migration validation, APK signature verification in verify-only mode; do not publish a formal Release.
 
+Retry note: previous attempt was blocked by Maven Central HTTP 429; retry the exact same private source SHA without changing project dependencies.
+
 Acceptance:
 - Checkout must match the exact full 40-character source SHA above; fail if the branch has moved.
 - Run the complete JVM unit-test suite, including ShelfArchiveLifecycleTest, DreamMemoryMigrationTest, BackupRoundTripTest, ShelfSortTest, ShelfLocalFileAvailabilityTest, BackupRestoreStoragePolicyTest, and FullRestoreCrashRecoveryTest.
