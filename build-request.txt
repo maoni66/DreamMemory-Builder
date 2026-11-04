@@ -1,8 +1,8 @@
-DreamMemory — archive undo, explicit duplicate restore, record relations and UI verification
+DreamMemory — archive undo, explicit duplicate restore, record relation and UI verification
 
-Source SHA: efb4b385ef9ae827e3fa7a9660b0f4d2807cf42a
+Source SHA: 3657005f7bf3e9712a6939e081f461882553910d
 Source ref: fix/record-archived-shelf-links
-Expected source SHA at trigger: efb4b385ef9ae827e3fa7a9660b0f4d2807cf42a
+Expected source SHA at trigger: 3657005f7bf3e9712a6939e081f461882553910d
 Deliver APK: yes
 Build mode: full pipeline: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
@@ -11,10 +11,10 @@ Acceptance:
 - Run all JVM tests and retain results.
 - Build :app:assembleDebug and retain APK as downloadable artifact.
 - Compile and run Android instrumentation tests, including short-screen/enlarged-font matrix.
-- Verify archive action shows a snackbar with an actionable undo; undo restores the same row.
+- Verify archive action shows an actionable snackbar undo; undo restores the same row.
 - Verify restore changes only archived; all other ShelfItemEntity fields, including updatedAt, remain unchanged.
-- Verify archived-source reimport requires explicit confirmation; cancellation leaves it archived and confirmation restores original row without overwriting metadata or orphaning imported files.
-- Verify existing record links can resolve archived shelf resources; active shelf excludes them; new link creation rejects archived targets transactionally.
+- Verify archived-source reimport requires explicit confirmation; cancellation leaves it archived and confirmation restores the original row without overwriting metadata or orphaning imported files.
+- Verify existing record links resolve supported archived shelf resources; unsupported legacy rows are not exposed; active shelf excludes archived resources; new link creation rejects archived targets transactionally.
 - Verify archived-item delete action is labelled as permanent deletion.
 - Verify Room schema and backup protocol remain unchanged.
 - Do not merge PRs, alter signing configuration, or publish a formal Release.
