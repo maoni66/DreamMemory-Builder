@@ -1,8 +1,8 @@
-DreamMemory — archive relations, explicit duplicate restore, and UI regression verification
+DreamMemory — archive relations and explicit restoration verification
 
-Source SHA: 9df0b02d3a8624cc34c2def7fb0f9c72cb185e05
+Source SHA: edddb481cb1e18568f785ca0233703b89b3a13a8
 Source ref: fix/record-archived-shelf-links
-Expected source SHA at trigger: 9df0b02d3a8624cc34c2def7fb0f9c72cb185e05
+Expected source SHA at trigger: edddb481cb1e18568f785ca0233703b89b3a13a8
 Deliver APK: yes
 Build mode: full pipeline: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
@@ -11,8 +11,8 @@ Acceptance:
 - Run all JVM tests and retain results.
 - Build :app:assembleDebug and retain APK as downloadable artifact.
 - Compile and run Android instrumentation tests, including short-screen/enlarged-font matrix.
-- Verify Shelf archive/restore lifecycle; restore must modify only archived and preserve updatedAt and every other field.
-- Verify archived-source reimport is rejected until explicit restore; never silently restore or create duplicate rows.
+- Verify archive/restore lifecycle; restore changes only archived and preserves updatedAt and every other field.
+- Verify archived-source reimport requires explicit confirmation; cancellation leaves it archived, confirmation restores the original row without overwriting user metadata.
 - Verify Record → Shelf links remain visible after archive; archived targets are excluded from new-link choices and rejected transactionally.
 - Verify Room schema and backup protocol remain unchanged.
 - Do not merge PRs, alter signing configuration, or publish a formal Release.
