@@ -1,39 +1,25 @@
-DreamMemory shelf library management — exact-source validation
+DreamMemory PR #42 — shelf archive and restore exact-source verification
 
-Source SHA: e57891633a6215fd27044eb005a11cd7ef90ec42
-Source ref: work/quickcapture-diagnostics-verified
-Expected source SHA at trigger: e57891633a6215fd27044eb005a11cd7ef90ec42
+Source SHA: 3a57b4102a9af47b65302522d46040859c76d3b1
+Source ref: work/shelf-archive-restore
+Expected source SHA at trigger: 3a57b4102a9af47b65302522d46040859c76d3b1
 Deliver APK: verify
-Build mode: full JVM unit tests, Debug APK build, Android instrumented UI test APK compilation, Android emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema semantic validation, APK signature verification in verify-only mode; do not publish a Release.
+Build mode: full JVM unit tests, Debug APK build, AndroidTest compilation, configured emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema v7 generation and migration validation, APK signature verification in verify-only mode; do not publish a formal Release.
 
 Acceptance:
-- Checkout must match the exact source SHA above; fail if the branch has moved.
-- Run the complete JVM unit-test suite, including CourseMetadataParserTest, CourseMetadataImageTypeTest, BackupRoundTripTest, ShelfKindOptionsTest, BackupRestoreStoragePolicyTest, FullRestoreCrashRecoveryTest, ShelfSortTest, and ShelfVideoImportCleanupTest.
+- Checkout must match the exact full 40-character source SHA above; fail if the branch has moved.
+- Run the complete JVM unit-test suite, including ShelfArchiveLifecycleTest, DreamMemoryMigrationTest, BackupRoundTripTest, ShelfSortTest, ShelfLocalFileAvailabilityTest, BackupRestoreStoragePolicyTest, and FullRestoreCrashRecoveryTest.
 - Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
-- Re-run the PR #37 course metadata parser, image signature/size, editor preview, cancellation, cover persistence, backup round-trip, and row-plus-cover BackupRestoreOperationLock checks against the exact stacked source.
-- Verify interrupted external Movies restore cleanup: partial temporary copies are removed; a file moved before DB commit is removed only when its bytes match the staged restore source; existing user files are preserved.
-- Verify the shelf sorting modes: updated time, added time, title, progress, and rating; verify ascending/descending order and deterministic tie handling.
-- Verify type/status/search filters still work with sorting and that the no-results action clears query and filters without changing stored data.
-- Verify course-video import uses cancellation-aware blocking I/O, deletes partial temp files, deletes renamed-but-unclaimed imports only before the callback is delivered, and preserves files after callback delivery.
-- Execute the configured Android emulator instrumentation suite and short portrait/landscape plus enlarged-font matrix using only existing androidTest classes.
-- Validate Room schema version discipline; this feature intentionally adds no Room entity/column or migration.
-- Verify bottom navigation remains Home / Life / Shelf / Create / Discover, with Life sub-navigation Notebook / Tools / Timeline.
-- If all validations pass, verify the exact-source APK signature but do not publish a Release. Never upload APKs or private source to the public Builder repository.
-
-- Verify the five bottom tabs are exactly Home / Life / Shelf / Create / Discover; Records must not appear as a sixth bottom tab.
-- Verify the Shelf workspace switcher exposes Shelf and Records sections; selecting Records keeps the Shelf bottom tab selected and displays RecordScreen.
-- Verify legacy "memory" route resolves to Shelf → Records, including normalization of previously saved currentRoute state.
-- Verify global search, Home shortcuts, display/source navigation, and reading-note source navigation route to the correct Shelf subsection.
-- Verify RecordScreen detail IDs, editor snapshot, editor fields, and reading-note focus are retained by saveable state across Pager disposal; verify the section switcher is hidden in record detail/editor/reading-note subpages.
-- Verify RecordEditor cover imports are retained while the page is disposed and are cleaned only on explicit cancellation; successful save preserves the cover file.
-- Run MainActivityNavigationTest and DreamBottomBarTest in default, short portrait/enlarged-font, and short landscape/enlarged-font configurations.
-
-- Verify Shelf local-file availability uses a regular-file check, refreshes on Lifecycle ON_RESUME, and rechecks immediately before open/clear actions.
-- Verify a stale missing-file card cannot launch the local reader; if the file reappears before cleanup, the Open action is restored instead of clearing the local path.
-- Run ShelfLocalFileAvailabilityTest for blank, missing, directory, existing, and deleted-file cases.
-
-- Verify the featured in-progress card never silently falls back to its source URL when its configured local file has disappeared; it must route to the existing missing-file cleanup confirmation.
-- Verify the Pager state-retention regression test toggles title sorting from the actual ascending default to descending, switches Shelf → Records → Shelf, and asserts the persisted descending accessibility state. For Shelf FilterChip assertions, use `assertIsSelected`: the observed semantics expose `Selected=true` and `Role=Checkbox`, but no `ToggleableState`; `assertIsOn` is not supported by this component version. Assert selection both immediately after choosing the status and after returning from Records.
-- Verify Shelf type and status filter controls remain reachable and selectable at short portrait height with 1.3x font scale; verify the selected status remains selected after switching Shelf → Records → Shelf. The compact Shelf layout must retain the title, search, sorting and both filter rows without hiding essential actions.
-- Verify QuickCaptureDialog remains fully usable at short landscape height with 1.3x font scale: dialog title and action buttons remain visible, the failure message is moved to the top of the scrollable form without scrolling the title out of view, and the entered title remains available for retry after a failed save.
-- Verify the local-file cleanup confirmation explains both existing app-managed file deletion and missing-path-only cleanup accurately.
+- Run the configured Android emulator instrumentation suite and existing short portrait/landscape enlarged-font matrix.
+- Validate Room schema version 7 against committed v6 schema and confirm MIGRATION_6_7 adds only shelf_items.archived INTEGER NOT NULL DEFAULT 0.
+- Verify migration from v6 preserves all existing shelf columns and data and defaults archived to false.
+- Verify active shelf queries exclude archived items while ShelfDao.all() continues to include all rows for backup, file-reference checks, and related data.
+- Verify archive and restore are guarded by id + createdAt and only change archived/updatedAt; stale snapshots must not mutate a replacement row.
+- Verify re-import of an archived stable source restores the existing row rather than creating a duplicate, preserving user metadata, progress, local paths and relations.
+- Verify backup version remains 16, exports archived, and restores older backups without archived as false.
+- Verify archive/restore never deletes local media, shelf covers, chapter cache, notes, record links, download tasks, or resource-source references.
+- Verify normal shelf count, filters, search, featured in-progress selection and empty states exclude archived rows.
+- Verify archived list supports search, sorting, restore and the existing safe permanent-delete flow.
+- Verify five bottom tabs remain Home / Life / Shelf / Create / Discover; no archive tab is added.
+- Verify short screens and enlarged font retain archive entry, back navigation, restore and delete controls.
+- Verify exact-source APK signature only. Do not publish a formal Release, merge any PR, alter signing configuration, or upload private source to the public Builder repository.
