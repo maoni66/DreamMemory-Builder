@@ -1,16 +1,16 @@
 DreamMemory PR #42 — shelf archive and restore exact-source verification
 
-Source SHA: e6aca0c74656b69c214f20f9d700bc4ce9f0023e
+Source SHA: 53f059457be17f0cd81c91e5b5d05046c33516b5
 Source ref: work/shelf-archive-restore
-Expected source SHA at trigger: e6aca0c74656b69c214f20f9d700bc4ce9f0023e
+Expected source SHA at trigger: 53f059457be17f0cd81c91e5b5d05046c33516b5
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, AndroidTest compilation including ShelfArchiveUiTest, configured emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema v7 migration validation, APK signature verification in verify-only mode; do not publish a formal Release.
 
 Acceptance:
 - Checkout must match the exact full 40-character source SHA above; fail if the branch has moved.
 - Run the complete JVM unit-test suite, including ShelfArchiveLifecycleTest, DreamMemoryMigrationTest, BackupRoundTripTest, ShelfSortTest, ShelfLocalFileAvailabilityTest, BackupRestoreStoragePolicyTest, and FullRestoreCrashRecoveryTest.
-- Build :app:assembleDebug and compile :app:assembleDebugAndroidTest; confirm ShelfArchiveUiTest compiles with the project's supported Compose testing APIs.
-- Run the configured Android emulator instrumentation suite, including the item-ID-targeted ShelfArchiveUiTest, and the existing short portrait/landscape enlarged-font matrix.
+- Build :app:assembleDebug and compile :app:assembleDebugAndroidTest.
+- Run the configured Android emulator instrumentation suite, including ShelfArchiveUiTest using item-ID-scoped card actions and native menu semantics, and the existing short portrait/landscape enlarged-font matrix.
 - Validate committed Room schema v7 against generated schema JSON; confirm MIGRATION_6_7 adds only shelf_items.archived INTEGER NOT NULL DEFAULT 0.
 - Verify migration from v6 preserves all existing shelf columns and data and defaults archived to false.
 - Verify active shelf queries exclude archived items while ShelfDao.all() continues to include all rows for backup, file-reference checks, and related data.
