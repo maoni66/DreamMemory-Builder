@@ -1,8 +1,8 @@
 DreamMemory PR #42 — shelf archive and restore exact-source verification
 
-Source SHA: c147638bbd25cb76a8ad3ae5cd080185d68e9f32
+Source SHA: e6aca0c74656b69c214f20f9d700bc4ce9f0023e
 Source ref: work/shelf-archive-restore
-Expected source SHA at trigger: c147638bbd25cb76a8ad3ae5cd080185d68e9f32
+Expected source SHA at trigger: e6aca0c74656b69c214f20f9d700bc4ce9f0023e
 Deliver APK: verify
 Build mode: full JVM unit tests, Debug APK build, AndroidTest compilation including ShelfArchiveUiTest, configured emulator UI tests, short portrait/landscape and enlarged-font matrix, Room schema v7 migration validation, APK signature verification in verify-only mode; do not publish a formal Release.
 
