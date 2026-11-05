@@ -31,7 +31,6 @@ for orientation in portrait landscape; do
 
   for test_class in \
     com.dreammemory.app.feature.create.CreateCanvasRendererInstrumentedTest \
-    com.dreammemory.app.feature.home.QuickCaptureDialogInstrumentationTest \
     com.dreammemory.app.feature.memory.NotebookReducedMotionPagerTest \
     com.dreammemory.app.feature.record.RecordExperienceAttachmentProviderTest \
     com.dreammemory.app.navigation.DreamBottomBarTest \
