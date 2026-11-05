@@ -1,15 +1,16 @@
-DreamMemory — Life/Shelf navigation migration compile-fix verification
+DreamMemory — Life/Shelf migration stale-test cleanup verification
 
-Source SHA: 407bd338350c561a5a13c78fd607e42ccab08044
+Source SHA: 118f1684a3f548cd0660690a66f46e5e026e662d
 Source ref: work/life-shelf-architecture-reset
-Expected source SHA at trigger: 407bd338350c561a5a13c78fd607e42ccab08044
+Expected source SHA at trigger: 118f1684a3f548cd0660690a66f46e5e026e662d
 Deliver APK: no
 Build mode: full verification: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
 Acceptance:
 - Checkout the exact 40-character source SHA and fail if the branch moved.
-- Confirm the prior compiler errors are resolved: LifeScreen rememberSaveable and weight imports; LocalReaderScreen references to moved Shelf reading-note classes.
-- Run all JVM unit tests, including LifeTimelineEventValidityTest and DreamScreenRoutingTest.
+- Run all JVM unit tests, including LifeTimelineEventValidityTest and DreamScreenNavigationTest.
+- Verify stale tests for the deleted QuickCapture dialog are removed and duplicate tab tests are consolidated.
+- Verify legacy memory/record routes resolve to Life and readingNote resolves to Shelf → Notes.
 - Build :app:assembleDebug.
 - Compile and run Android instrumentation tests, including MainActivityNavigationTest with Life 记本/工具/时间轴 and Shelf 书架/笔记 navigation.
 - Verify existing archive/restore regression tests included in the source branch.
