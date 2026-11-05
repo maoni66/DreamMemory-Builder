@@ -1,8 +1,8 @@
-DreamMemory — rerun Shelf verification after short-landscape IME test fix
+DreamMemory — rerun full verification after status-popup visibility wait fix
 
-Source SHA: 3a767a736a66139e18ca4292a346f68a325c4a51
+Source SHA: 936b11274c88553d83a1df24d665512bf26ac41c
 Source ref: work/life-shelf-architecture-reset
-Expected source SHA at trigger: 3a767a736a66139e18ca4292a346f68a325c4a51
+Expected source SHA at trigger: 936b11274c88553d83a1df24d665512bf26ac41c
 Deliver APK: no
 Build mode: full verification: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
@@ -10,10 +10,10 @@ Acceptance:
 - Checkout the exact source SHA and fail if the branch moved.
 - Run all JVM unit tests, Debug APK build and Android instrumentation-test compilation.
 - Run emulator UI tests for five-tab navigation, Life 记本/工具/时间轴, Shelf 书架/笔记, archive/restore, status filtering, and sort/filter state persistence.
-- Verify the corrected sort-selector test interacts with the actual visible prefixed control label.
+- In the shelf search/filter navigation test, wait for the status popup option to appear before selecting 在看; do not silently skip the interaction.
 - Verify Shelf editor guidance directs resource annotations/quotes to Shelf Notes and actual experiences to Life.
 - Verify legacy GAME shelf rows are not deleted at startup and remain persisted until explicit kind/status migration; no destructive unsupported-row purge may run.
-- Run enlarged-font and short-screen portrait/landscape matrix; the stale QuickCaptureDialogInstrumentationTest entry was removed from the matrix because that dialog and its test were intentionally deleted from source.
+- Run enlarged-font and short-screen portrait/landscape matrix.
 - Enforce Room schema version discipline and upload generated schema for review.
 - Do not sign, transfer, publish, or release an APK.
 - Do not merge PRs, alter signing configuration, or write to source main.
