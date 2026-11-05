@@ -1,19 +1,17 @@
-DreamMemory — Life/Shelf migration emulator UI regression fix verification
+DreamMemory — verify shelf sort-selector instrumentation correction
 
-Source SHA: ff176b3fcdcb0fe46241b698a5186ef8b37c9a88
+Source SHA: 50e49e5b6d65fe1a69f8e0d9a6ad3cd85de94ea3
 Source ref: work/life-shelf-architecture-reset
-Expected source SHA at trigger: ff176b3fcdcb0fe46241b698a5186ef8b37c9a88
+Expected source SHA at trigger: 50e49e5b6d65fe1a69f8e0d9a6ad3cd85de94ea3
 Deliver APK: no
 Build mode: full verification: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
 Acceptance:
-- Checkout the exact 40-character source SHA and fail if the branch moved.
-- Run all JVM unit tests.
-- Compile and run Android instrumentation tests, including MainActivityNavigationTest with Life 记本/工具/时间轴 and Shelf 书架/笔记 navigation.
-- Verify obsolete QuickCaptureDialog instrumentation tests are removed with the deleted global creation dialog.
-- Verify ShelfArchiveUiTest enters the archive through the visible archive action, asserts the archive header, and restores the same resource.
-- Verify shelf status selection opens the status dropdown before selecting the kind-valid status, then persists filter/sort state across Shelf/Notes navigation.
-- Verify existing archive/restore regression tests included in the source branch.
-- Verify Room schema version discipline and upload the generated schema artifact for branch review.
-- Do not sign, transfer, publish or release an APK.
+- Checkout the exact source SHA and fail if the branch moved.
+- Run JVM unit tests, Debug APK build, and instrumentation-test compilation.
+- Run emulator UI tests, including Life 记本/工具/时间轴 navigation, Shelf 书架/笔记 navigation, archive/restore, status filtering, and sort/filter state persistence.
+- Verify shelf sort selection by interacting with the visible prefixed control label “排序：最近更新”; the test must not assume the menu item label is an unprefixed standalone node.
+- Run enlarged-font and short-screen portrait/landscape matrix.
+- Enforce Room schema version discipline and upload generated schema for review.
+- Do not sign, transfer, publish, or release an APK.
 - Do not merge PRs, alter signing configuration, or write to source main.
