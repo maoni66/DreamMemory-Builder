@@ -1,8 +1,8 @@
-DreamMemory — verify restored Shelf game resources, legacy game statuses and sort state
+DreamMemory — verify Shelf game resources, legacy game statuses, archive visibility and sort state
 
-Source SHA: 55d35b39b6e9d18a87c3cff4ba52b1b06f5e0230
+Source SHA: 5118eb1763192ec0e46949aa5545e522054bfd39
 Source ref: work/life-shelf-architecture-reset
-Expected source SHA at trigger: 55d35b39b6e9d18a87c3cff4ba52b1b06f5e0230
+Expected source SHA at trigger: 5118eb1763192ec0e46949aa5545e522054bfd39
 Deliver APK: no
 Build mode: full verification: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
