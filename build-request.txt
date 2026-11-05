@@ -1,18 +1,17 @@
-DreamMemory — Life/Shelf migration stale-test cleanup verification
+DreamMemory — Life/Shelf migration instrumentation compile cleanup verification
 
-Source SHA: 118f1684a3f548cd0660690a66f46e5e026e662d
+Source SHA: e37aca88160e46b78b5e448705b6bc922eb6ab43
 Source ref: work/life-shelf-architecture-reset
-Expected source SHA at trigger: 118f1684a3f548cd0660690a66f46e5e026e662d
+Expected source SHA at trigger: e37aca88160e46b78b5e448705b6bc922eb6ab43
 Deliver APK: no
 Build mode: full verification: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
 Acceptance:
 - Checkout the exact 40-character source SHA and fail if the branch moved.
-- Run all JVM unit tests, including LifeTimelineEventValidityTest and DreamScreenNavigationTest.
-- Verify stale tests for the deleted QuickCapture dialog are removed and duplicate tab tests are consolidated.
-- Verify legacy memory/record routes resolve to Life and readingNote resolves to Shelf → Notes.
-- Build :app:assembleDebug.
+- Run all JVM unit tests.
 - Compile and run Android instrumentation tests, including MainActivityNavigationTest with Life 记本/工具/时间轴 and Shelf 书架/笔记 navigation.
+- Verify obsolete QuickCaptureDialog instrumentation tests are removed with the deleted global creation dialog.
+- Verify ShelfArchiveUiTest compiles without temporary debug output.
 - Verify existing archive/restore regression tests included in the source branch.
 - Verify Room schema version discipline and upload the generated schema artifact for branch review.
 - Do not sign, transfer, publish or release an APK.
