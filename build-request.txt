@@ -1,8 +1,8 @@
-DreamMemory — rerun exact Shelf game/web verification after short-screen matrix fix
+DreamMemory — rerun Shelf verification after short-landscape IME test fix
 
-Source SHA: 529a715622c26844bfe9c9929195db47ec60eb83
+Source SHA: 3a767a736a66139e18ca4292a346f68a325c4a51
 Source ref: work/life-shelf-architecture-reset
-Expected source SHA at trigger: 529a715622c26844bfe9c9929195db47ec60eb83
+Expected source SHA at trigger: 3a767a736a66139e18ca4292a346f68a325c4a51
 Deliver APK: no
 Build mode: full verification: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
