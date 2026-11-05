@@ -1,4 +1,4 @@
-DreamMemory — retest Shelf game and web resources after Kotlin compatibility fix
+DreamMemory — rerun exact Shelf game/web verification after short-screen matrix fix
 
 Source SHA: 529a715622c26844bfe9c9929195db47ec60eb83
 Source ref: work/life-shelf-architecture-reset
@@ -13,7 +13,7 @@ Acceptance:
 - Verify the corrected sort-selector test interacts with the actual visible prefixed control label.
 - Verify Shelf editor guidance directs resource annotations/quotes to Shelf Notes and actual experiences to Life.
 - Verify legacy GAME shelf rows are not deleted at startup and remain persisted until explicit kind/status migration; no destructive unsupported-row purge may run.
-- Run enlarged-font and short-screen portrait/landscape matrix.
+- Run enlarged-font and short-screen portrait/landscape matrix; the stale QuickCaptureDialogInstrumentationTest entry was removed from the matrix because that dialog and its test were intentionally deleted from source.
 - Enforce Room schema version discipline and upload generated schema for review.
 - Do not sign, transfer, publish, or release an APK.
 - Do not merge PRs, alter signing configuration, or write to source main.
