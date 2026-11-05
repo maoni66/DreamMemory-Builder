@@ -1,8 +1,8 @@
-DreamMemory — verify Shelf IA corrections and legacy resource data preservation
+DreamMemory — retest Shelf compiler fix and legacy resource data preservation
 
-Source SHA: 8c952455f56bbcb5a634cb4a02f80f952e83b85a
+Source SHA: 3dd4c7933ca0c5f32b6a768a572d7da3ba7bd875
 Source ref: work/life-shelf-architecture-reset
-Expected source SHA at trigger: 8c952455f56bbcb5a634cb4a02f80f952e83b85a
+Expected source SHA at trigger: 3dd4c7933ca0c5f32b6a768a572d7da3ba7bd875
 Deliver APK: no
 Build mode: full verification: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
