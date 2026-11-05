@@ -1,8 +1,8 @@
-DreamMemory — verify manual TXT encoding selector and compact-screen fix
+DreamMemory — full verification after Compose test compile fix and manual TXT encoding
 
-Source SHA: d4171339390bfae3601ed9270359a4a25f199e7f
+Source SHA: 7574777b79af4348ce7c9c54f9564086a245a055
 Source ref: work/life-shelf-architecture-reset
-Expected source SHA at trigger: d4171339390bfae3601ed9270359a4a25f199e7f
+Expected source SHA at trigger: 7574777b79af4348ce7c9c54f9564086a245a055
 Deliver APK: no
 Build mode: full verification: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
@@ -10,8 +10,8 @@ Acceptance:
 - Checkout exact source SHA and fail if branch moved.
 - Run all JVM unit tests, Debug APK build, Android instrumentation-test compilation, emulator UI tests, and short-screen/enlarged-font matrix.
 - Verify manual TXT encoding options: automatic, UTF-8, GB18030, UTF-16 LE, UTF-16 BE.
-- Verify selecting an encoding reloads the text and resets excerpt-anchor resolution before restoring progress.
-- Verify manual encoding overrides are strict (no replacement-character decoding) and BOM is removed for matching encodings.
+- Verify selecting an encoding reloads text and resets excerpt-anchor resolution before restoring progress.
+- Verify strict decoding and BOM removal for matching encodings.
 - Verify five-tab navigation, Life sections, Shelf Notes, archive/restore, status filtering and sort/filter persistence.
 - Verify legacy GAME shelf rows remain preserved; no destructive unsupported-row purge.
 - Enforce Room schema version discipline and upload generated schema for review.
