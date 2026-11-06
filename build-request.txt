@@ -16,4 +16,5 @@ Acceptance:
 - Publish the verified test APK and exact source ZIP as a private release in DreamMemory.
 - Do not merge PRs, modify source main, or change signing configuration.
 
-Retry: pinned Gradle 8.9; use system Gradle because source has no wrapper.
+Retry: Gradle 8.9 system Gradle; clean-room instrumentation class com.dreammemory.RecordDaoTest; schema snapshots deferred until exportSchema and migration baseline are implemented.
+
