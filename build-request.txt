@@ -15,3 +15,5 @@ Acceptance:
 - Transfer the build package encrypted; sign and verify the APK on the isolated publisher runner.
 - Publish the verified test APK and exact source ZIP as a private release in DreamMemory.
 - Do not merge PRs, modify source main, or change signing configuration.
+
+Retry: pinned Gradle 8.9; use system Gradle because source has no wrapper.
