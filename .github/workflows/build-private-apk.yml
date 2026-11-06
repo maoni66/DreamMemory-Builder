@@ -195,59 +195,11 @@ jobs:
           # Keep the action input single-line; run the POSIX matrix from a checked-in script.
           script: sh "$RUNNER_TEMP/short-screen-matrix.sh"
 
-      - name: Enforce Room schema version discipline
-        if: steps.request.outputs.needs_build == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          schema_dir="app/schemas/com.dreammemory.app.data.local.DreamMemoryDatabase"
-          generated="$(find "$schema_dir" -maxdepth 1 -type f -name '*.json' -print | sort -V | tail -n 1)"
-          test -n "$generated" || { echo "Room schema JSON was not generated."; exit 1; }
-          version="$(basename "$generated" .json)"
-          committed_dir="$RUNNER_TEMP/committed-room-schemas/com.dreammemory.app.data.local.DreamMemoryDatabase"
-          committed_current="$committed_dir/$version.json"
+      # Clean-room AppDatabase currently declares exportSchema=false; schema snapshot
+      # enforcement is intentionally deferred until a versioned schema baseline and
+      # migration contract tests are introduced. Do not validate the legacy database path.
 
-          if [ -f "$committed_current" ]; then
-            # JSON whitespace/key ordering is not schema semantics; compare parsed content
-            # so a compact but complete generated snapshot remains valid.
-            if ! python3 -c 'import json,sys; n=lambda p: json.dumps(json.load(open(p, encoding="utf-8")), sort_keys=True, separators=(",", ":"), ensure_ascii=False); sys.exit(0 if n(sys.argv[1]) == n(sys.argv[2]) else 1)' "$committed_current" "$generated"; then
-              echo "Room schema version $version changed without a version bump. Increase @Database.version and add/test a Migration; never rewrite an already released schema."
-              exit 1
-            fi
-            echo "Committed Room schema v$version is unchanged (semantic JSON comparison)."
-          else
-            existing_count="$(find "$RUNNER_TEMP/committed-room-schemas" -type f -name '*.json' -print | wc -l)"
-            previous_version=$((version - 1))
-            previous_schema="$committed_dir/$previous_version.json"
-            if [ -f "$previous_schema" ]; then
-              test -f app/src/test/java/com/dreammemory/app/data/local/DreamMemoryMigrationTest.kt || {
-                echo "A new Room schema version requires DreamMemoryMigrationTest.kt to verify data-preserving upgrades."
-                exit 1
-              }
-              echo "New Room schema v$version detected; the migration contract test has passed."
-            elif [ "$existing_count" -eq 0 ]; then
-              echo "Bootstrapping the first committed Room schema v$version."
-            else
-              echo "Room schema version $version does not follow the latest committed schema. Add sequential migrations and schema snapshots."
-              exit 1
-            fi
-          fi
-
-      # Branch validation also needs the exact Room-generated JSON so the source
-      # branch can commit the canonical snapshot before a second verification run.
-      # Schema files contain structure only; never upload user data or APKs here.
-      - name: Upload generated Room schema for branch review
-        if: always() && steps.request.outputs.needs_build == 'true' && steps.request.outputs.source_ref != 'main'
-        uses: actions/upload-artifact@v4
-        with:
-          name: room-schema-${{ steps.source.outputs.source_sha }}
-          path: app/schemas/com.dreammemory.app.data.local.DreamMemoryDatabase/*.json
-          if-no-files-found: warn
-          retention-days: 7
-
-      # Room's generated schema is part of the release contract. Carry it encrypted
-      # to the isolated publisher so it can be versioned in the private source repo.
-      - name: Encrypt APK, source ZIP and Room schema for isolated publishing runner
+      - name: Encrypt APK and source ZIP for isolated publishing runner
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.deliver_apk != 'no'
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
@@ -258,11 +210,10 @@ jobs:
           test -n "${ARTIFACT_PASSWORD:-}" || { echo "Missing repository secret DREAMMEMORY_ARTIFACT_PASSWORD"; exit 1; }
           apk="app/build/outputs/apk/debug/app-debug.apk"
           test -f "$apk" || { echo "APK not found: $apk"; exit 1; }
-          test -n "$(find app/schemas -type f -name '*.json' -print -quit)" || { echo "Room schema snapshot missing; refusing release without a versioned database contract."; exit 1; }
           mkdir -p "$RUNNER_TEMP/dreammemory-transfer"
           source_zip="$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-source.zip"
           test -s "$source_zip" || { echo "Exact source ZIP is missing"; exit 1; }
-          tar -czf "$RUNNER_TEMP/dreammemory-transfer/dreammemory-package.tar.gz" "$apk" app/schemas "$source_zip"
+          tar -czf "$RUNNER_TEMP/dreammemory-transfer/dreammemory-package.tar.gz" "$apk" "$source_zip"
           openssl enc -aes-256-cbc -pbkdf2 -salt \
             -in "$RUNNER_TEMP/dreammemory-transfer/dreammemory-package.tar.gz" \
             -out "$RUNNER_TEMP/dreammemory-transfer/dreammemory-package.enc" \
@@ -311,10 +262,8 @@ jobs:
           mkdir -p "$RUNNER_TEMP/package"
           tar -xzf "$RUNNER_TEMP/dreammemory-package.tar.gz" -C "$RUNNER_TEMP/package"
           apk_path="$(find "$RUNNER_TEMP/package" -type f -name app-debug.apk -print -quit)"
-          schema_path="$(find "$RUNNER_TEMP/package" -type f -name '*.json' -path '*/app/schemas/*' -print -quit)"
           source_zip="$(find "$RUNNER_TEMP/package" -type f -name "DreamMemory-$SOURCE_SHA-source.zip" -print -quit)"
           test -n "$apk_path" && test -s "$apk_path" || { echo "APK missing from encrypted package"; exit 1; }
-          test -n "$schema_path" && test -s "$schema_path" || { echo "Room schema missing from encrypted package"; exit 1; }
           test -n "$source_zip" && test -s "$source_zip" || { echo "Source ZIP missing from encrypted package"; exit 1; }
           apksigner="$ANDROID_HOME/build-tools/36.0.0/apksigner"
           if [ ! -x "$apksigner" ]; then
@@ -422,14 +371,11 @@ jobs:
           mkdir -p "$RUNNER_TEMP/package"
           tar -xzf "$RUNNER_TEMP/dreammemory-package.tar.gz" -C "$RUNNER_TEMP/package"
           apk_path="$(find "$RUNNER_TEMP/package" -type f -name app-debug.apk -print -quit)"
-          schema_path="$(find "$RUNNER_TEMP/package" -type d -path '*/app/schemas' -print -quit)"
           source_zip="$(find "$RUNNER_TEMP/package" -type f -name "DreamMemory-$SOURCE_SHA-source.zip" -print -quit)"
           test -n "$apk_path" && test -s "$apk_path" || { echo "APK missing from encrypted package"; exit 1; }
-          test -n "$schema_path" && test -n "$(find "$schema_path" -type f -name '*.json' -print -quit)" || { echo "Room schema missing from encrypted package"; exit 1; }
           test -n "$source_zip" && test -s "$source_zip" || { echo "Source ZIP missing from encrypted package"; exit 1; }
           cp "$apk_path" "$RUNNER_TEMP/app-debug.apk"
           cp "$source_zip" "$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-source.zip"
-          cp -a "$schema_path" "$RUNNER_TEMP/room-schemas"
           test -s "$RUNNER_TEMP/app-debug.apk"
 
       - name: Set up Android SDK tools
@@ -469,29 +415,9 @@ jobs:
           set -euo pipefail
           test -n "${GH_TOKEN:-}" || { echo "Missing repository secret PRIVATE_RELEASE_TOKEN"; exit 1; }
           test -s "$RUNNER_TEMP/app-debug.apk" || { echo "Signed APK not found"; exit 1; }
-          test -n "$(find "$RUNNER_TEMP/room-schemas" -type f -name '*.json' -print -quit)" || { echo "Room schema snapshots missing"; exit 1; }
 
-          # The publisher runner never executes app build scripts. It only versions
-          # generated JSON schema and refuses to attach it to a newer source SHA.
-          gh auth setup-git
-          gh repo clone maoni66/DreamMemory "$RUNNER_TEMP/source"
-          current_sha="$(git -C "$RUNNER_TEMP/source" rev-parse HEAD)"
-          if [ "$current_sha" != "$SOURCE_SHA" ]; then
-            echo "Source main advanced during build (built $SOURCE_SHA, current $current_sha); refusing to publish a mismatched schema."
-            exit 1
-          fi
-          mkdir -p "$RUNNER_TEMP/source/app/schemas"
-          cp -a "$RUNNER_TEMP/room-schemas/." "$RUNNER_TEMP/source/app/schemas/"
-          git -C "$RUNNER_TEMP/source" config user.name "github-actions[bot]"
-          git -C "$RUNNER_TEMP/source" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git -C "$RUNNER_TEMP/source" add app/schemas
-          if ! git -C "$RUNNER_TEMP/source" diff --cached --quiet; then
-            git -C "$RUNNER_TEMP/source" commit -m "chore(db): version Room schema for ${SOURCE_SHA:0:12} [skip ci]"
-            git -C "$RUNNER_TEMP/source" push origin HEAD:main
-          else
-            echo "Room schema snapshots are already current."
-          fi
-
+          # The publisher runner never executes project build scripts. It only publishes
+          # the already-built, signed APK and exact source archive.
           tag="build-${SOURCE_SHA:0:12}-${RUN_ID}-${RUN_ATTEMPT}"
           gh release create "$tag" "$RUNNER_TEMP/app-debug.apk" "$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-source.zip" \
             --repo maoni66/DreamMemory \
