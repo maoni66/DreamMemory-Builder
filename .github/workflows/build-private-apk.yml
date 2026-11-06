@@ -125,6 +125,12 @@ jobs:
             **/gradle-wrapper.properties
             gradle/libs.versions.toml
 
+      - name: Set up Gradle 8.9 (source repository has no Gradle Wrapper)
+        if: steps.request.outputs.needs_build == 'true'
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.9
+
       - name: Set up Android SDK
         if: steps.request.outputs.needs_build == 'true'
         uses: android-actions/setup-android@v4
@@ -141,20 +147,19 @@ jobs:
         timeout-minutes: 10
         shell: bash
         run: |
-          chmod +x ./gradlew
-          ./gradlew testDebugUnitTest --stacktrace --console=plain
+          gradle testDebugUnitTest --stacktrace --console=plain
 
       # Legacy migration tests were removed with the clean schema baseline.
       # Keep APK delivery independent from slow/unreliable emulator startup.
       - name: Build debug APK
         if: steps.request.outputs.needs_build == 'true'
         shell: bash
-        run: ./gradlew assembleDebug --stacktrace --console=plain
+        run: gradle assembleDebug --stacktrace --console=plain
 
       - name: Compile Android instrumented UI tests
         if: steps.request.outputs.needs_build == 'true'
         shell: bash
-        run: ./gradlew assembleDebugAndroidTest --stacktrace --console=plain
+        run: gradle assembleDebugAndroidTest --stacktrace --console=plain
 
       - name: Enable KVM for Android emulator
         if: steps.request.outputs.needs_build == 'true'
@@ -175,7 +180,7 @@ jobs:
           arch: x86_64
           profile: pixel_2
           disable-animations: true
-          script: ./gradlew connectedDebugAndroidTest --stacktrace --console=plain
+          script: gradle connectedDebugAndroidTest --stacktrace --console=plain
 
       - name: Run Android UI tests at enlarged font scale and short portrait/landscape sizes
         if: steps.request.outputs.needs_build == 'true'
