@@ -1,19 +1,17 @@
-DreamMemory — full verification after Compose test compile fix and manual TXT encoding
+DreamMemory — build and verify clean-room development snapshot
 
-Source SHA: 7574777b79af4348ce7c9c54f9564086a245a055
-Source ref: work/life-shelf-architecture-reset
-Expected source SHA at trigger: 7574777b79af4348ce7c9c54f9564086a245a055
-Deliver APK: no
-Build mode: full verification: JVM unit tests, Debug APK, Android instrumented test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
+Source SHA: 74162301436be7bbb4863c5be5e9b54530396a5f
+Source ref: rebuild/clean-room
+Expected source SHA at trigger: 74162301436be7bbb4863c5be5e9b54530396a5f
+Deliver APK: yes
+Build mode: full verification — JVM unit tests, Debug APK, Android instrumentation-test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
 Acceptance:
-- Checkout exact source SHA and fail if branch moved.
-- Run all JVM unit tests, Debug APK build, Android instrumentation-test compilation, emulator UI tests, and short-screen/enlarged-font matrix.
-- Verify manual TXT encoding options: automatic, UTF-8, GB18030, UTF-16 LE, UTF-16 BE.
-- Verify selecting an encoding reloads text and resets excerpt-anchor resolution before restoring progress.
-- Verify strict decoding and BOM removal for matching encodings.
-- Verify five-tab navigation, Life sections, Shelf Notes, archive/restore, status filtering and sort/filter persistence.
-- Verify legacy GAME shelf rows remain preserved; no destructive unsupported-row purge.
+- Checkout the exact source SHA; fail if the branch has moved.
+- Run JVM unit tests and build the Debug APK.
+- Compile and execute Android instrumentation tests on an emulator.
+- Run the short-screen portrait/landscape and enlarged-font matrix.
 - Enforce Room schema version discipline and upload generated schema for review.
-- Do not sign, transfer, publish, or release an APK.
-- Do not merge PRs, alter signing configuration, or write to source main.
+- Transfer the build package encrypted; sign and verify the APK on the isolated publisher runner.
+- Publish the verified test APK and exact source ZIP as a private release in DreamMemory.
+- Do not merge PRs, modify source main, or change signing configuration.
