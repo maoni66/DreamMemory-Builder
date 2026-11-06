@@ -11,34 +11,31 @@ dump_failure_diagnostics() {
 }
 trap dump_failure_diagnostics EXIT
 
-# Invoked as a single-line command by android-emulator-runner.
-# Keep this list limited to instrumentation classes that exist in app/src/androidTest.
+# Clean-room currently has one real instrumentation suite: RecordDaoTest.
+# Run the same suite at enlarged font scale in both orientations. This validates
+# the emulator/configuration matrix without referring to removed legacy test classes.
 adb shell settings put system font_scale 1.3
 adb shell settings put system accelerometer_rotation 0
-adb shell settings put system user_rotation 0
 adb shell wm density 320
 
 for orientation in portrait landscape; do
   if [ "$orientation" = portrait ]; then
+    adb shell settings put system user_rotation 0
     adb shell wm size 720x1280
   else
+    adb shell settings put system user_rotation 1
     adb shell wm size 1280x720
   fi
 
-  echo "Short $orientation / font scale:"
+  echo "Clean-room RecordDaoTest — $orientation / enlarged font:"
   adb shell settings get system font_scale
   adb shell wm size
-
-  for test_class in \
-    com.dreammemory.app.feature.create.CreateCanvasRendererInstrumentedTest \
-    com.dreammemory.app.feature.memory.NotebookReducedMotionPagerTest \
-    com.dreammemory.app.feature.record.RecordExperienceAttachmentProviderTest \
-    com.dreammemory.app.navigation.DreamBottomBarTest \
-    com.dreammemory.app.navigation.MainActivityNavigationTest
-  do
-    echo "Running $orientation instrumentation class: $test_class"
-    timeout --signal=TERM --kill-after=15s 180s gradle connectedDebugAndroidTest \
-      "-Pandroid.testInstrumentationRunnerArguments.class=$test_class" \
-      --stacktrace --console=plain
-  done
+  gradle connectedDebugAndroidTest \
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.dreammemory.RecordDaoTest" \
+    --stacktrace --console=plain
 done
+
+# Restore emulator display settings for subsequent steps.
+adb shell wm size reset
+adb shell wm density reset
+adb shell settings put system font_scale 1.0
