@@ -37,7 +37,7 @@ for orientation in portrait landscape; do
     com.dreammemory.app.navigation.MainActivityNavigationTest
   do
     echo "Running $orientation instrumentation class: $test_class"
-    timeout --signal=TERM --kill-after=15s 180s ./gradlew connectedDebugAndroidTest \
+    timeout --signal=TERM --kill-after=15s 180s gradle connectedDebugAndroidTest \
       "-Pandroid.testInstrumentationRunnerArguments.class=$test_class" \
       --stacktrace --console=plain
   done
