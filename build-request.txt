@@ -1,19 +1,20 @@
-DreamMemory — Android database validation spike and private test APK
+DreamMemory — Room 2.8.5 Android SQLite runtime validation and private test APK
 
-Source SHA: 6a7cd3080bfed3fd8d2f9000eea33c781d984c0a
+Source SHA: c9b52f7c8a93574dd646e040d1e8c115b9002845
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 6a7cd3080bfed3fd8d2f9000eea33c781d984c0a
+Expected source SHA at trigger: c9b52f7c8a93574dd646e040d1e8c115b9002845
 Deliver APK: yes
-Build mode: Builder pipeline — existing source JVM tests and Debug APK, isolated Android DB validation host with AGP 9.5.0 / Gradle 9.6.0 / JDK 17, Android instrumentation-test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
+Build mode: Builder pipeline — source JVM tests and Debug APK, isolated DB validation host with AGP 9.5.0 / Gradle 9.6.0 / JDK 17, Room 2.8.5 KSP generation, Room instrumentation tests on Android emulator, source UI instrumentation and short-screen/enlarged-font matrix.
 
 Acceptance:
 - Checkout the exact private DreamMemory source SHA; fail if the branch has moved.
-- Run existing JVM unit tests and build the source repository Debug APK using the Builder's existing Gradle 9.4.1 toolchain.
+- Run existing JVM unit tests and build the source repository Debug APK using Gradle 9.4.1.
 - Independently build spikes/android-db-validation with Gradle 9.6.0 and JDK 17; do not include it in the root application build.
-- Compile and execute the existing Android instrumentation tests on an emulator.
-- Run the current instrumentation suite at short-screen portrait/landscape sizes and enlarged font scale; do not reference removed legacy test classes.
-- Verify the quick-capture failure-retry dialog remains visible with its entered content and retry controls on short landscape displays.
-- Transfer build outputs encrypted; sign and verify the test APK on the isolated publisher runner.
+- Build Room 2.8.5 KSP output and Room Android instrumentation APK.
+- Run Room 2.8.5 instrumentation tests on an Android API 35 emulator. Verify insert/select/delete, foreign-key rejection, transaction rollback, and schema database open/query.
+- Run existing source instrumentation tests and the short-screen portrait/landscape enlarged-font UI matrix.
+- Verify quick-capture failure-retry dialog retains entered content and remains usable on short landscape displays.
+- Transfer APK and exact source ZIP encrypted; sign and verify the test APK on the isolated publisher runner.
 - Publish the verified test APK and exact source ZIP as a private release in DreamMemory.
 - Do not merge PRs, modify source main, or change signing configuration.
-- Do not claim Room/SQLDelight comparison passed: candidate modules and DB-01 to DB-10 tests are not included in this build request yet.
+- This run validates only the Room 2.8.5 runtime baseline scenarios above. It does not complete ADR-0003 DB-01 to DB-10, migration/failure injection, performance testing, or comparison against Room 3 / SQLDelight.
