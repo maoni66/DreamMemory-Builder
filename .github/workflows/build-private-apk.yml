@@ -41,7 +41,7 @@ jobs:
           requested_source_sha="$(awk -F': ' '/^Source SHA:/ {print $2; exit}' builder/build-request.txt)"
           git check-ref-format --branch "$source_ref"
           case "$source_ref" in
-            main|design/*|fix/*|refactor/*|work/*|rebuild/clean-room) ;;
+            main|design/*|fix/*|refactor/*|work/*|rebuild/clean-room|rebuild/dm-product-baseline) ;;
             *) echo "Unsupported source ref: $source_ref"; exit 1 ;;
           esac
           if [[ ! "$requested_source_sha" =~ ^[0-9a-fA-F]{40}$ ]]; then
@@ -155,6 +155,24 @@ jobs:
         if: steps.request.outputs.needs_build == 'true'
         shell: bash
         run: gradle assembleDebug --stacktrace --console=plain
+
+      - name: Set up Gradle 9.6.0 for isolated database validation spike
+        if: steps.request.outputs.needs_build == 'true'
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.6.0"
+
+      - name: Build isolated Android database validation host
+        if: steps.request.outputs.needs_build == 'true'
+        working-directory: spikes/android-db-validation
+        shell: bash
+        run: gradle --no-daemon :app:assembleDebug --stacktrace --console=plain
+
+      - name: Restore Gradle 8.9 for existing source-repository instrumentation tests
+        if: steps.request.outputs.needs_build == 'true'
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
 
       - name: Compile Android instrumented UI tests
         if: steps.request.outputs.needs_build == 'true'
