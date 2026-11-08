@@ -11,9 +11,8 @@ dump_failure_diagnostics() {
 }
 trap dump_failure_diagnostics EXIT
 
-# Clean-room currently has one real instrumentation suite: RecordDaoTest.
-# Run the same suite at enlarged font scale in both orientations. This validates
-# the emulator/configuration matrix without referring to removed legacy test classes.
+# Run the current instrumentation suite at enlarged font scale in both
+# orientations. Do not pin a legacy test class: test packages evolve with the app.
 adb shell settings put system font_scale 1.3
 adb shell settings put system accelerometer_rotation 0
 adb shell wm density 320
@@ -27,12 +26,10 @@ for orientation in portrait landscape; do
     adb shell wm size 1280x720
   fi
 
-  echo "Clean-room RecordDaoTest — $orientation / enlarged font:"
+  echo "Current Android instrumentation suite — $orientation / enlarged font:"
   adb shell settings get system font_scale
   adb shell wm size
-  gradle connectedDebugAndroidTest \
-    "-Pandroid.testInstrumentationRunnerArguments.class=com.dreammemory.RecordDaoTest" \
-    --stacktrace --console=plain
+  gradle connectedDebugAndroidTest --stacktrace --console=plain
 done
 
 # Restore emulator display settings for subsequent steps.
