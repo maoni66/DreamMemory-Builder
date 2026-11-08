@@ -1,8 +1,8 @@
 DreamMemory — build and validate only the greenfield Android app
 
-Source SHA: e474658e414ef8f07884dbba8c0ce8114252b2ed
+Source SHA: 09f227418c23123c7a2a1927f564e191ed10ee60
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: e474658e414ef8f07884dbba8c0ce8114252b2ed
+Expected source SHA at trigger: 09f227418c23123c7a2a1927f564e191ed10ee60
 Validation scope: full
 Deliver APK: no
 Build mode: Build and test only :dm-app at the exact source SHA. Frozen legacy source is excluded from Gradle settings and retained only for audited extraction. Validate Room 2.8.5 production integration and isolated Room 2.8.5 database validation. Archive dm-app Room schema and test reports after all instrumentation and short-screen tests finish. Do not build Room 3 or SQLDelight candidates. Do not publish an APK.
