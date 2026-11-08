@@ -1,19 +1,20 @@
-DreamMemory — verify Room 2.8.5 production integration and Room 2.8.5 database validation
+DreamMemory — build greenfield Android app module and validate frozen legacy app
 
-Source SHA: 979b08e492db56b1888875693e129a0fcaf47ed6
+Source SHA: 01b8e8dfb8bcd863d0f5bee4901e75993589198c
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 979b08e492db56b1888875693e129a0fcaf47ed6
+Expected source SHA at trigger: 01b8e8dfb8bcd863d0f5bee4901e75993589198c
 Validation scope: full
 Deliver APK: no
-Build mode: Build and test the main Android app with Room 2.8.5, and run the isolated Room 2.8.5 database validation suite. Do not build Room 3 or SQLDelight candidates. Do not publish an APK.
+Build mode: Build and test all Android application modules at the exact source SHA. The new product implementation is :dm-app; :app is frozen legacy code retained only for audited extraction. Validate Room 2.8.5 production integration and isolated Room 2.8.5 database validation. Do not build Room 3 or SQLDelight candidates. Do not publish an APK.
 
 Acceptance:
 - Checkout the exact private DreamMemory source SHA; fail if the branch has moved.
-- Build the main app with its production Gradle 9.4.1 / AGP configuration and Room 2.8.5 runtime, KTX, KSP compiler and room-testing dependencies.
-- Run main app JVM tests and compile Android instrumentation tests.
-- Run main app Android instrumentation/UI tests on API 35 emulator, including existing navigation and database migration coverage.
+- Build :dm-app and the frozen :app using the repository Gradle 9.4.1 / AGP configuration and Room 2.8.5.
+- Run JVM unit tests for all app modules.
+- Compile Android instrumentation tests for all app modules.
+- Run Android instrumentation tests on API 35 emulator, including greenfield database invariants and existing legacy UI coverage.
 - Build the isolated Room 2.8.5 validation host and Android instrumentation APK using its isolated Gradle 9.6.0 / AGP 9.5.0 configuration.
 - Run the Room 2.8.5 database validation suite on API 35 emulator.
-- Upload main app test reports, Room 2.8.5 database test reports and schema snapshots even if any test fails.
+- Upload test reports and schema snapshots even if any test fails.
 - Do not build Room 3 or SQLDelight candidates.
 - Do not modify private source main and do not publish an APK.
