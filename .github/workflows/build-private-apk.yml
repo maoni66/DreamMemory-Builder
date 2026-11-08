@@ -162,11 +162,13 @@ jobs:
         with:
           gradle-version: "9.6.0"
 
-      - name: Build isolated Android database validation host
+      - name: Build isolated Android database host and Room 2.8.5 KSP candidate
         if: steps.request.outputs.needs_build == 'true'
         working-directory: spikes/android-db-validation
         shell: bash
-        run: gradle --no-daemon :app:assembleDebug --stacktrace --console=plain
+        run: |
+          gradle --no-daemon :app:assembleDebug --stacktrace --console=plain
+          gradle --no-daemon :room2:assembleDebug :room2:kspDebugKotlin --stacktrace --console=plain
 
       - name: Restore Gradle 9.4.1 for existing source-repository instrumentation tests
         if: steps.request.outputs.needs_build == 'true'
