@@ -213,18 +213,6 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
-      - name: Upload new DreamMemory app test reports and Room schema
-        if: always() && steps.request.outputs.validation_scope != 'database'
-        uses: actions/upload-artifact@v6
-        with:
-          name: dm-app-test-report-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            dm-app/schemas/**
-            dm-app/build/reports/**
-            dm-app/build/outputs/androidTest-results/connected/**
-          if-no-files-found: warn
-          retention-days: 7
-
       - name: Restore Gradle 9.4.1 for new DreamMemory app instrumentation tests
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         uses: gradle/actions/setup-gradle@v4
@@ -269,6 +257,18 @@ jobs:
           disable-animations: true
           # Keep the action input single-line; run the POSIX matrix from a checked-in script.
           script: sh "$RUNNER_TEMP/short-screen-matrix.sh"
+
+      - name: Upload new DreamMemory app test reports and Room schema
+        if: always() && steps.request.outputs.validation_scope != 'database'
+        uses: actions/upload-artifact@v6
+        with:
+          name: dm-app-test-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            dm-app/schemas/**
+            dm-app/build/reports/**
+            dm-app/build/outputs/androidTest-results/connected/**
+          if-no-files-found: warn
+          retention-days: 7
 
       # The active DreamMemory app Room schema is stored under dm-app/schemas and
       # uploaded with the instrumentation reports for review. The frozen legacy :app
