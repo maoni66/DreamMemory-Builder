@@ -1,20 +1,19 @@
-DreamMemory — build and verify clean-room development snapshot
+DreamMemory — Android database validation spike and private test APK
 
-Source SHA: 74162301436be7bbb4863c5be5e9b54530396a5f
-Source ref: rebuild/clean-room
-Expected source SHA at trigger: 74162301436be7bbb4863c5be5e9b54530396a5f
+Source SHA: 6d8425762c20797d4b56529683683d73843d5bf8
+Source ref: rebuild/dm-product-baseline
+Expected source SHA at trigger: 6d8425762c20797d4b56529683683d73843d5bf8
 Deliver APK: yes
-Build mode: full verification — JVM unit tests, Debug APK, Android instrumentation-test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
+Build mode: Builder pipeline — existing source JVM tests and Debug APK, isolated Android DB validation host with AGP 9.5.0 / Gradle 9.6.0 / JDK 17, Android instrumentation-test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
 Acceptance:
-- Checkout the exact source SHA; fail if the branch has moved.
-- Run JVM unit tests and build the Debug APK.
-- Compile and execute Android instrumentation tests on an emulator.
+- Checkout the exact private DreamMemory source SHA; fail if the branch has moved.
+- Run existing JVM unit tests and build the source repository Debug APK using the Builder's existing Gradle 8.9 toolchain.
+- Independently build spikes/android-db-validation with Gradle 9.6.0 and JDK 17; do not include it in the root application build.
+- Compile and execute the existing Android instrumentation tests on an emulator.
 - Run the short-screen portrait/landscape and enlarged-font matrix.
-- Enforce Room schema version discipline and upload generated schema for review.
-- Transfer the build package encrypted; sign and verify the APK on the isolated publisher runner.
+- Transfer build outputs encrypted; sign and verify the test APK on the isolated publisher runner.
 - Publish the verified test APK and exact source ZIP as a private release in DreamMemory.
 - Do not merge PRs, modify source main, or change signing configuration.
-
-Retry: Gradle 8.9 system Gradle; clean-room instrumentation class com.dreammemory.RecordDaoTest; schema snapshots deferred until exportSchema and migration baseline are implemented.
+- Do not claim Room/SQLDelight comparison passed: candidate modules and DB-01 to DB-10 tests are not included in this build request yet.
 
