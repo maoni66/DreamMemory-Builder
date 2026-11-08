@@ -11,9 +11,8 @@ Acceptance:
 - Run existing JVM unit tests and build the source repository Debug APK using the Builder's existing Gradle 9.4.1 toolchain.
 - Independently build spikes/android-db-validation with Gradle 9.6.0 and JDK 17; do not include it in the root application build.
 - Compile and execute the existing Android instrumentation tests on an emulator.
-- Run the short-screen portrait/landscape and enlarged-font matrix.
+- Run the current instrumentation suite at short-screen portrait/landscape sizes and enlarged font scale; do not reference removed legacy test classes.
 - Transfer build outputs encrypted; sign and verify the test APK on the isolated publisher runner.
 - Publish the verified test APK and exact source ZIP as a private release in DreamMemory.
 - Do not merge PRs, modify source main, or change signing configuration.
 - Do not claim Room/SQLDelight comparison passed: candidate modules and DB-01 to DB-10 tests are not included in this build request yet.
-
