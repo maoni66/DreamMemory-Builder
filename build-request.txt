@@ -1,8 +1,8 @@
-DreamMemory — validate five-tab navigation and media workspace sections
+DreamMemory — validate media workspace and five-tab navigation after compile fixes
 
-Source SHA: c3ddde439b6bf724c7a29e5a4ec769dab302b7c1
+Source SHA: 6fbebd689dad174125017c69fb071f9fd407cecd
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: c3ddde439b6bf724c7a29e5a4ec769dab302b7c1
+Expected source SHA at trigger: 6fbebd689dad174125017c69fb071f9fd407cecd
 Validation scope: app
 Deliver APK: no
 Build mode: Application validation only. Build the Android app and run JVM plus Android UI instrumentation tests. Do not run database spike tests or publish an APK.
