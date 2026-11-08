@@ -8,7 +8,7 @@ Build mode: Builder pipeline — existing source JVM tests and Debug APK, isolat
 
 Acceptance:
 - Checkout the exact private DreamMemory source SHA; fail if the branch has moved.
-- Run existing JVM unit tests and build the source repository Debug APK using the Builder's existing Gradle 8.9 toolchain.
+- Run existing JVM unit tests and build the source repository Debug APK using the Builder's existing Gradle 9.4.1 toolchain.
 - Independently build spikes/android-db-validation with Gradle 9.6.0 and JDK 17; do not include it in the root application build.
 - Compile and execute the existing Android instrumentation tests on an emulator.
 - Run the short-screen portrait/landscape and enlarged-font matrix.
