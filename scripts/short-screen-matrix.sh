@@ -29,7 +29,7 @@ for orientation in portrait landscape; do
   echo "Current Android instrumentation suite — $orientation / enlarged font:"
   adb shell settings get system font_scale
   adb shell wm size
-  gradle connectedDebugAndroidTest --stacktrace --console=plain
+  gradle :dm-app:connectedDebugAndroidTest --stacktrace --console=plain
 done
 
 # Restore emulator display settings for subsequent steps.
