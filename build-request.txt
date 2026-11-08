@@ -1,8 +1,8 @@
-DreamMemory — Room 2.8.5 concurrent WAL snapshot diagnostic rerun
+DreamMemory — Room 2.8.5 concurrent WAL snapshot validation after PRAGMA fix
 
-Source SHA: 8318e7b2541c539cbf123c0ae910b531c3f76e5d
+Source SHA: 2cba53937715fe99ce08f97adc621143d9ef7770
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 8318e7b2541c539cbf123c0ae910b531c3f76e5d
+Expected source SHA at trigger: 2cba53937715fe99ce08f97adc621143d9ef7770
 Validation scope: database
 Deliver APK: no
 Build mode: Database-only validation. Build the isolated Android database host and Room 2.8.5 KSP candidate, then run Room instrumentation tests on Android API 35. Do not rebuild the main application APK or run unrelated UI matrices.
@@ -14,4 +14,4 @@ Acceptance:
 - Run the full current Room 2.8.5 Android instrumentation suite, including the concurrent WAL VACUUM INTO snapshot experiment.
 - Upload Android instrumentation HTML/XML test reports even if tests fail, so the failing method and assertion can be diagnosed.
 - Do not publish an APK or modify private source main.
-- This is a diagnostic rerun of failed run #969. Preserve all test assertions; do not weaken consistency guarantees.
+- Preserve all test assertions and consistency guarantees; do not weaken or skip the concurrent snapshot test.
