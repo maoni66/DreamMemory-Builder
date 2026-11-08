@@ -1,8 +1,8 @@
 DreamMemory — build and validate only the greenfield Android app
 
-Source SHA: 50e4404d766b46319732f53113fd4cd7588c5a72
+Source SHA: d39c9db734c6a581c0c8858db6229fa8f515b7a6
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 50e4404d766b46319732f53113fd4cd7588c5a72
+Expected source SHA at trigger: d39c9db734c6a581c0c8858db6229fa8f515b7a6
 Validation scope: full
 Deliver APK: no
 Build mode: Build and test only :dm-app at the exact source SHA. Frozen legacy source is excluded from Gradle settings and retained only for audited extraction. Validate Room 2.8.5 production integration and isolated Room 2.8.5 database validation. Archive dm-app Room schema and test reports after all instrumentation and short-screen tests finish. Do not build Room 3 or SQLDelight candidates. Do not publish an APK.
@@ -12,7 +12,7 @@ Acceptance:
 - Build only :dm-app using the repository Gradle 9.4.1 / AGP configuration and Room 2.8.5; frozen legacy source must not be included in Gradle.
 - Run :dm-app JVM unit tests.
 - Compile :dm-app Android instrumentation tests.
-- Run :dm-app Android instrumentation tests on API 35 emulator, including Compose navigation interaction tests and inbox text/link capture, status updates, Android shared-text handling, and InboxRepository unit tests.
+- Run :dm-app Android instrumentation tests on API 35 emulator, including Compose navigation interaction tests and inbox text/link capture, status transitions, Android ACTION_SEND intent flow, and InboxRepository unit tests.
 - Build the isolated Room 2.8.5 validation host and Android instrumentation APK using its isolated Gradle 9.6.0 / AGP 9.5.0 configuration.
 - Run the Room 2.8.5 database validation suite on API 35 emulator.
 - Upload :dm-app test reports and Room schema snapshots even if any test fails.
