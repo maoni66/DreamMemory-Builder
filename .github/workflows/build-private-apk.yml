@@ -85,8 +85,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/committed-room-schemas"
-          if [ -d app/schemas ]; then
-            cp -a app/schemas/. "$RUNNER_TEMP/committed-room-schemas/"
+          if [ -d dm-app/schemas ]; then
+            cp -a dm-app/schemas/. "$RUNNER_TEMP/committed-room-schemas/"
           fi
 
       - name: Record source revision
@@ -155,14 +155,14 @@ jobs:
         timeout-minutes: 10
         shell: bash
         run: |
-          gradle testDebugUnitTest --stacktrace --console=plain
+          gradle :dm-app:testDebugUnitTest --stacktrace --console=plain
 
       # Legacy migration tests were removed with the clean schema baseline.
       # Keep APK delivery independent from slow/unreliable emulator startup.
       - name: Build debug APK
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         shell: bash
-        run: gradle assembleDebug --stacktrace --console=plain
+        run: gradle :dm-app:assembleDebug --stacktrace --console=plain
 
       - name: Set up Gradle 9.6.0 for Room 2.8.5 validation spike
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
@@ -213,16 +213,28 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
-      - name: Restore Gradle 9.4.1 for existing source-repository instrumentation tests
+      - name: Upload new DreamMemory app test reports and Room schema
+        if: always() && steps.request.outputs.validation_scope != 'database'
+        uses: actions/upload-artifact@v6
+        with:
+          name: dm-app-test-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            dm-app/schemas/**
+            dm-app/build/reports/**
+            dm-app/build/outputs/androidTest-results/connected/**
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Restore Gradle 9.4.1 for new DreamMemory app instrumentation tests
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "9.4.1"
 
-      - name: Compile Android instrumented UI tests
+      - name: Compile new DreamMemory app instrumentation tests
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         shell: bash
-        run: gradle assembleDebugAndroidTest --stacktrace --console=plain
+        run: gradle :dm-app:assembleDebugAndroidTest --stacktrace --console=plain
 
       - name: Enable KVM for Android emulator
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
@@ -233,7 +245,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
           ls -l /dev/kvm
 
-      - name: Run Android instrumented UI tests on emulator
+      - name: Run new DreamMemory app instrumentation tests on emulator
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         timeout-minutes: 12
         uses: reactivecircus/android-emulator-runner@v2
@@ -243,9 +255,9 @@ jobs:
           arch: x86_64
           profile: pixel_2
           disable-animations: true
-          script: gradle connectedDebugAndroidTest --stacktrace --console=plain
+          script: gradle :dm-app:connectedDebugAndroidTest --stacktrace --console=plain
 
-      - name: Run Android UI tests at enlarged font scale and short portrait/landscape sizes
+      - name: Run new DreamMemory app tests at enlarged font scale and short portrait/landscape sizes
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         timeout-minutes: 35
         uses: reactivecircus/android-emulator-runner@v2
@@ -258,9 +270,9 @@ jobs:
           # Keep the action input single-line; run the POSIX matrix from a checked-in script.
           script: sh "$RUNNER_TEMP/short-screen-matrix.sh"
 
-      # Clean-room AppDatabase currently declares exportSchema=false; schema snapshot
-      # enforcement is intentionally deferred until a versioned schema baseline and
-      # migration contract tests are introduced. Do not validate the legacy database path.
+      # The active DreamMemory app Room schema is stored under dm-app/schemas and
+      # uploaded with the instrumentation reports for review. The frozen legacy :app
+      # module is intentionally excluded from settings.gradle.kts and all build tasks.
 
       - name: Encrypt APK and source ZIP for isolated publishing runner
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database' && steps.request.outputs.deliver_apk != 'no'
@@ -271,7 +283,7 @@ jobs:
         run: |
           set -euo pipefail
           test -n "${ARTIFACT_PASSWORD:-}" || { echo "Missing repository secret DREAMMEMORY_ARTIFACT_PASSWORD"; exit 1; }
-          apk="app/build/outputs/apk/debug/app-debug.apk"
+          apk="dm-app/build/outputs/apk/debug/dm-app-debug.apk"
           test -f "$apk" || { echo "APK not found: $apk"; exit 1; }
           mkdir -p "$RUNNER_TEMP/dreammemory-transfer"
           source_zip="$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-source.zip"
@@ -396,7 +408,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/package"
           tar -xzf "$RUNNER_TEMP/dreammemory-package.tar.gz" -C "$RUNNER_TEMP/package"
           apk_path="$(find "$RUNNER_TEMP/package" -type f -name app-debug.apk -print -quit)"
-          schema_path="$(find "$RUNNER_TEMP/package" -type f -name '*.json' -path '*/app/schemas/*' -print -quit)"
+          schema_path="$(find "$RUNNER_TEMP/package" -type f -name '*.json' -path '*/dm-app/schemas/*' -print -quit)"
           test -n "$apk_path" && test -s "$apk_path" || { echo "APK missing from encrypted package"; exit 1; }
           test -n "$schema_path" && test -s "$schema_path" || { echo "Room schema missing from encrypted package"; exit 1; }
           yes | sdkmanager --licenses > /dev/null || true
