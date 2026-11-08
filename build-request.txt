@@ -1,8 +1,8 @@
 DreamMemory — Android database validation spike and private test APK
 
-Source SHA: 7dbfb108246e0eba3e8cff7eed589ef1eef37223
+Source SHA: 6a7cd3080bfed3fd8d2f9000eea33c781d984c0a
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 7dbfb108246e0eba3e8cff7eed589ef1eef37223
+Expected source SHA at trigger: 6a7cd3080bfed3fd8d2f9000eea33c781d984c0a
 Deliver APK: yes
 Build mode: Builder pipeline — existing source JVM tests and Debug APK, isolated Android DB validation host with AGP 9.5.0 / Gradle 9.6.0 / JDK 17, Android instrumentation-test compilation, emulator UI tests, short-screen portrait/landscape and enlarged-font matrix.
 
@@ -12,6 +12,7 @@ Acceptance:
 - Independently build spikes/android-db-validation with Gradle 9.6.0 and JDK 17; do not include it in the root application build.
 - Compile and execute the existing Android instrumentation tests on an emulator.
 - Run the current instrumentation suite at short-screen portrait/landscape sizes and enlarged font scale; do not reference removed legacy test classes.
+- Verify the quick-capture failure-retry dialog remains visible with its entered content and retry controls on short landscape displays.
 - Transfer build outputs encrypted; sign and verify the test APK on the isolated publisher runner.
 - Publish the verified test APK and exact source ZIP as a private release in DreamMemory.
 - Do not merge PRs, modify source main, or change signing configuration.
