@@ -168,7 +168,29 @@ jobs:
         shell: bash
         run: |
           gradle --no-daemon :app:assembleDebug --stacktrace --console=plain
-          gradle --no-daemon :room2:assembleDebug :room2:kspDebugKotlin --stacktrace --console=plain
+          gradle --no-daemon :room2:assembleDebug :room2:kspDebugKotlin :room2:assembleDebugAndroidTest --stacktrace --console=plain
+
+      - name: Enable KVM for Room 2 Android database tests
+        if: steps.request.outputs.needs_build == 'true'
+        shell: bash
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls -l /dev/kvm
+
+      - name: Run Room 2.8.5 Android SQLite runtime validation
+        if: steps.request.outputs.needs_build == 'true'
+        timeout-minutes: 15
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          working-directory: spikes/android-db-validation
+          script: gradle :room2:connectedDebugAndroidTest --stacktrace --console=plain
 
       - name: Restore Gradle 9.4.1 for existing source-repository instrumentation tests
         if: steps.request.outputs.needs_build == 'true'
