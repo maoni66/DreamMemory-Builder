@@ -170,15 +170,16 @@ jobs:
         with:
           gradle-version: "9.6.0"
 
-      - name: Build isolated Android database host and Room 2.8.5 KSP candidate
+      - name: Build isolated Android database host and Room 2.8.5 plus Room 3.0.3 candidates
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
         working-directory: spikes/android-db-validation
         shell: bash
         run: |
           gradle --no-daemon :app:assembleDebug --stacktrace --console=plain
           gradle --no-daemon :room2:assembleDebug :room2:kspDebugKotlin :room2:assembleDebugAndroidTest --stacktrace --console=plain
+          gradle --no-daemon :room3:assembleDebug :room3:kspDebugKotlin :room3:assembleDebugAndroidTest --stacktrace --console=plain
 
-      - name: Enable KVM for Room 2 Android database tests
+      - name: Enable KVM for Room 2 and Room 3 Android database tests
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
         shell: bash
         run: |
@@ -187,7 +188,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
           ls -l /dev/kvm
 
-      - name: Run Room 2.8.5 Android SQLite runtime validation
+      - name: Run Room 2.8.5 and Room 3.0.3 Android SQLite runtime validation
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
         timeout-minutes: 15
         uses: reactivecircus/android-emulator-runner@v2
@@ -198,16 +199,20 @@ jobs:
           profile: pixel_2
           disable-animations: true
           working-directory: spikes/android-db-validation
-          script: gradle :room2:connectedDebugAndroidTest --stacktrace --console=plain
+          script: |
+            gradle :room2:connectedDebugAndroidTest --stacktrace --console=plain
+            gradle :room3:connectedDebugAndroidTest --stacktrace --console=plain
 
       - name: Upload Room Android test reports
         if: always() && steps.request.outputs.validation_scope != 'app'
         uses: actions/upload-artifact@v6
         with:
-          name: room2-android-test-reports-${{ github.run_id }}-${{ github.run_attempt }}
+          name: room2-room3-android-test-reports-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             spikes/android-db-validation/room2/build/reports/androidTests/connected/**
             spikes/android-db-validation/room2/build/outputs/androidTest-results/connected/**
+            spikes/android-db-validation/room3/build/reports/androidTests/connected/**
+            spikes/android-db-validation/room3/build/outputs/androidTest-results/connected/**
           if-no-files-found: warn
           retention-days: 7
 
