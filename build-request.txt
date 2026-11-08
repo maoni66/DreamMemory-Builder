@@ -1,15 +1,15 @@
-DreamMemory — validate media workspace and five-tab navigation after compile fixes
+DreamMemory — validate exhaustive media navigation compile fix
 
-Source SHA: 6fbebd689dad174125017c69fb071f9fd407cecd
+Source SHA: a1aca7e919176f7973b245c9336fdb19cffee262
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 6fbebd689dad174125017c69fb071f9fd407cecd
+Expected source SHA at trigger: a1aca7e919176f7973b245c9336fdb19cffee262
 Validation scope: app
 Deliver APK: no
 Build mode: Application validation only. Build the Android app and run JVM plus Android UI instrumentation tests. Do not run database spike tests or publish an APK.
 
 Acceptance:
 - Checkout the exact private DreamMemory source SHA; fail if the branch has moved.
-- Build with the source repository's Gradle 9.4.1 / JDK 17 environment.
+- Build with Gradle 9.4.1 / JDK 17.
 - Run JVM unit tests.
 - Assemble the debug application and Android instrumentation APK.
 - Run Android instrumentation tests on API 35 emulator.
