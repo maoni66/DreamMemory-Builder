@@ -1,22 +1,19 @@
-DreamMemory — validate Room 2.8.5, Room 3.0.3 and SQLDelight 2.4.1 with generated v1 migration baseline
+DreamMemory — verify Room 2.8.5 production integration and Room 2.8.5 database validation
 
-Source SHA: 62f7876314fdb818949edf797d9ce6abed55fdf9
+Source SHA: 39f98002fadbaeefbabba23e1625b7de8e8f353c
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 62f7876314fdb818949edf797d9ce6abed55fdf9
-Validation scope: database
+Expected source SHA at trigger: 39f98002fadbaeefbabba23e1625b7de8e8f353c
+Validation scope: full
 Deliver APK: no
-Build mode: Isolated Android database candidate validation only. Do not build the main app, do not run app UI tests, and do not publish an APK.
+Build mode: Build and test the main Android app with Room 2.8.5, and run the isolated Room 2.8.5 database validation suite. Do not build Room 3 or SQLDelight candidates. Do not publish an APK.
 
 Acceptance:
 - Checkout the exact private DreamMemory source SHA; fail if the branch has moved.
-- Use JDK 17, Android SDK 36, AGP 9.5.0 and Gradle 9.6.0 for the isolated database host.
-- Generate a verified SQLDelight v1 SQLite snapshot at sqldelight/src/main/sqldelight/1.db with validation_entry lacking note.
-- Build the isolated host app.
-- Build Room 2.8.5 KSP candidate and its Android instrumentation APK.
-- Build Room 3.0.3 KSP candidate and its Android instrumentation APK.
-- Build SQLDelight 2.4.1 Android candidate and its Android instrumentation APK.
-- Run Room 2.8.5 Android SQLite runtime validation on API 35 emulator.
-- Run Room 3.0.3 Android SQLite runtime validation on API 35 emulator.
-- Run SQLDelight 2.4.1 Android SQLite runtime validation on API 35 emulator.
-- Upload all candidate Android test reports and schema snapshots even if any test fails.
+- Build the main app with its production Gradle 9.4.1 / AGP configuration and Room 2.8.5 runtime, KTX, KSP compiler and room-testing dependencies.
+- Run main app JVM tests and compile Android instrumentation tests.
+- Run main app Android instrumentation/UI tests on API 35 emulator, including existing navigation and database migration coverage.
+- Build the isolated Room 2.8.5 validation host and Android instrumentation APK using its isolated Gradle 9.6.0 / AGP 9.5.0 configuration.
+- Run the Room 2.8.5 database validation suite on API 35 emulator.
+- Upload main app test reports, Room 2.8.5 database test reports and schema snapshots even if any test fails.
+- Do not build Room 3 or SQLDelight candidates.
 - Do not modify private source main and do not publish an APK.
