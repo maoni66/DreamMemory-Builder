@@ -1,20 +1,20 @@
-DreamMemory — build greenfield Android app module and validate frozen legacy app
+DreamMemory — build and validate only the greenfield Android app
 
-Source SHA: 01b8e8dfb8bcd863d0f5bee4901e75993589198c
+Source SHA: 60295828369f14d95f797256e46736f42f5ae076
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 01b8e8dfb8bcd863d0f5bee4901e75993589198c
+Expected source SHA at trigger: 60295828369f14d95f797256e46736f42f5ae076
 Validation scope: full
 Deliver APK: no
-Build mode: Build and test all Android application modules at the exact source SHA. The new product implementation is :dm-app; :app is frozen legacy code retained only for audited extraction. Validate Room 2.8.5 production integration and isolated Room 2.8.5 database validation. Do not build Room 3 or SQLDelight candidates. Do not publish an APK.
+Build mode: Build and test only :dm-app at the exact source SHA. Frozen legacy source is excluded from Gradle settings and retained only for audited extraction. Validate Room 2.8.5 production integration and isolated Room 2.8.5 database validation. Archive dm-app Room schema and test reports. Do not build Room 3 or SQLDelight candidates. Do not publish an APK.
 
 Acceptance:
 - Checkout the exact private DreamMemory source SHA; fail if the branch has moved.
-- Build :dm-app and the frozen :app using the repository Gradle 9.4.1 / AGP configuration and Room 2.8.5.
-- Run JVM unit tests for all app modules.
-- Compile Android instrumentation tests for all app modules.
-- Run Android instrumentation tests on API 35 emulator, including greenfield database invariants and existing legacy UI coverage.
+- Build only :dm-app using the repository Gradle 9.4.1 / AGP configuration and Room 2.8.5; frozen legacy source must not be included in Gradle.
+- Run :dm-app JVM unit tests.
+- Compile :dm-app Android instrumentation tests.
+- Run :dm-app Android instrumentation tests on API 35 emulator.
 - Build the isolated Room 2.8.5 validation host and Android instrumentation APK using its isolated Gradle 9.6.0 / AGP 9.5.0 configuration.
 - Run the Room 2.8.5 database validation suite on API 35 emulator.
-- Upload test reports and schema snapshots even if any test fails.
+- Upload :dm-app test reports and Room schema snapshots even if any test fails.
 - Do not build Room 3 or SQLDelight candidates.
 - Do not modify private source main and do not publish an APK.
