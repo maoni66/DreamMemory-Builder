@@ -273,6 +273,7 @@ jobs:
             spikes/android-db-validation/room2/schemas/**
             spikes/android-db-validation/room3/schemas/**
             spikes/android-db-validation/sqldelight/src/main/sqldelight/databases/**
+            spikes/android-db-validation/sqldelight/src/main/sqldelight/1.db
           if-no-files-found: warn
           retention-days: 7
 
