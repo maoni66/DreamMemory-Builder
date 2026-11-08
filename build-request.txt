@@ -1,8 +1,8 @@
 DreamMemory — validate Room 2.8.5, Room 3.0.3 and SQLDelight 2.4.1 with generated v1 migration baseline
 
-Source SHA: 2e1a4daf2e4473ac3f662529982231cb51a2785a
+Source SHA: 9ec5c86a25d18d5bff72ce0e937f12dcd38a306d
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 2e1a4daf2e4473ac3f662529982231cb51a2785a
+Expected source SHA at trigger: 9ec5c86a25d18d5bff72ce0e937f12dcd38a306d
 Validation scope: database
 Deliver APK: no
 Build mode: Isolated Android database candidate validation only. Do not build the main app, do not run app UI tests, and do not publish an APK.
