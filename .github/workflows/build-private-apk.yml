@@ -191,7 +191,7 @@ jobs:
 
       - name: Run Room 2.8.5, Room 3.0.3 and SQLDelight 2.4.1 Android SQLite runtime validation
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
-        timeout-minutes: 15
+        timeout-minutes: 25
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
