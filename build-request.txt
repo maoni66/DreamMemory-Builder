@@ -1,8 +1,8 @@
-DreamMemory — validate confirmed five-tab navigation baseline
+DreamMemory — validate five-tab navigation and media workspace sections
 
-Source SHA: aa70dbb0bb073dba8ce35fcf3e51d57be3b3dc56
+Source SHA: c3ddde439b6bf724c7a29e5a4ec769dab302b7c1
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: aa70dbb0bb073dba8ce35fcf3e51d57be3b3dc56
+Expected source SHA at trigger: c3ddde439b6bf724c7a29e5a4ec769dab302b7c1
 Validation scope: app
 Deliver APK: no
 Build mode: Application validation only. Build the Android app and run JVM plus Android UI instrumentation tests. Do not run database spike tests or publish an APK.
@@ -16,5 +16,7 @@ Acceptance:
 - Run the existing short-screen, portrait/landscape and enlarged-font UI matrix.
 - Confirm the five bottom tabs render in this exact order: Home, Life, Discover, Media, Create.
 - Confirm Library and Profile are not bottom-level tabs.
+- Confirm Media contains distinct Shelf and Library inner sections.
+- Confirm Home record entry and record search results open Media > Library, while shelf results open Media > Shelf.
 - Upload test reports even if any test fails.
 - Do not modify private source main and do not publish an APK.
