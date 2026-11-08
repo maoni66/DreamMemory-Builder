@@ -1,8 +1,8 @@
-DreamMemory — Room 2.8.5 and Room 3.0.3 isolated candidate validation
+DreamMemory — validate Room 2.8.5, Room 3.0.3 and SQLDelight 2.4.1
 
-Source SHA: 5d584b4f06298d68b4a8ac132d9e11250fd0ec6c
+Source SHA: c91ee5da97408a03c2b95b9627bacc7056dcc6af
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 5d584b4f06298d68b4a8ac132d9e11250fd0ec6c
+Expected source SHA at trigger: c91ee5da97408a03c2b95b9627bacc7056dcc6af
 Validation scope: database
 Deliver APK: no
 Build mode: Isolated Android database candidate validation only. Do not build the main app, do not run app UI tests, and do not publish an APK.
@@ -13,7 +13,9 @@ Acceptance:
 - Build the isolated host app.
 - Build Room 2.8.5 KSP candidate and its Android instrumentation APK.
 - Build Room 3.0.3 KSP candidate and its Android instrumentation APK.
+- Build SQLDelight 2.4.1 Android candidate and its Android instrumentation APK.
 - Run Room 2.8.5 Android SQLite runtime validation on API 35 emulator.
 - Run Room 3.0.3 Android SQLite runtime validation on API 35 emulator.
-- Upload both candidates' Android test reports even if any test fails.
+- Run SQLDelight 2.4.1 Android SQLite runtime validation on API 35 emulator.
+- Upload all candidate Android test reports even if any test fails.
 - Do not modify private source main and do not publish an APK.
