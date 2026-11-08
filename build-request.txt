@@ -1,8 +1,8 @@
-DreamMemory — validate exhaustive media navigation compile fix
+DreamMemory — verify five-tab navigation instrumentation alignment
 
-Source SHA: a1aca7e919176f7973b245c9336fdb19cffee262
+Source SHA: 06f7129dc001d0fe1185dd8310bf8c23c84a6be4
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: a1aca7e919176f7973b245c9336fdb19cffee262
+Expected source SHA at trigger: 06f7129dc001d0fe1185dd8310bf8c23c84a6be4
 Validation scope: app
 Deliver APK: no
 Build mode: Application validation only. Build the Android app and run JVM plus Android UI instrumentation tests. Do not run database spike tests or publish an APK.
@@ -13,10 +13,10 @@ Acceptance:
 - Run JVM unit tests.
 - Assemble the debug application and Android instrumentation APK.
 - Run Android instrumentation tests on API 35 emulator.
-- Run the existing short-screen, portrait/landscape and enlarged-font UI matrix.
-- Confirm the five bottom tabs render in this exact order: Home, Life, Discover, Media, Create.
-- Confirm Library and Profile are not bottom-level tabs.
-- Confirm Media contains distinct Shelf and Library inner sections.
-- Confirm Home record entry and record search results open Media > Library, while shelf results open Media > Shelf.
+- Run existing short-screen, portrait/landscape and enlarged-font UI matrix.
+- Verify exactly five bottom tabs in this order: Home, Life, Discover, Media, Create.
+- Verify Library and Profile are not bottom-level tabs.
+- Verify Media contains distinct Shelf and Library inner sections.
+- Verify Home record entry and record search results open Media > Library, while shelf results open Media > Shelf.
 - Upload test reports even if any test fails.
 - Do not modify private source main and do not publish an APK.
