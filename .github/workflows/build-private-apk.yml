@@ -283,8 +283,8 @@ jobs:
         run: |
           set -euo pipefail
           test -n "${ARTIFACT_PASSWORD:-}" || { echo "Missing repository secret DREAMMEMORY_ARTIFACT_PASSWORD"; exit 1; }
-          apk="dm-app/build/outputs/apk/debug/dm-app-debug.apk"
-          test -f "$apk" || { echo "APK not found: $apk"; exit 1; }
+          apk="$(find dm-app/build/outputs/apk/debug -maxdepth 1 -type f -name '*.apk' -print -quit)"
+          test -n "$apk" && test -s "$apk" || { echo "New :dm-app APK not found"; exit 1; }
           mkdir -p "$RUNNER_TEMP/dreammemory-transfer"
           source_zip="$RUNNER_TEMP/DreamMemory-$SOURCE_SHA-source.zip"
           test -s "$source_zip" || { echo "Exact source ZIP is missing"; exit 1; }
