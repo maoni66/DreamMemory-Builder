@@ -1,8 +1,8 @@
 DreamMemory — Room 2.8.5 Android SQLite runtime validation and private test APK
 
-Source SHA: a0058b20a1d5e9298da7f8ec0c8a877234172824
+Source SHA: eeb60cf01c55b675c3866ad91baed31adee0f266
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: a0058b20a1d5e9298da7f8ec0c8a877234172824
+Expected source SHA at trigger: eeb60cf01c55b675c3866ad91baed31adee0f266
 Deliver APK: yes
 Build mode: Builder pipeline — source JVM tests and Debug APK, isolated DB validation host with AGP 9.5.0 / Gradle 9.6.0 / JDK 17, Room 2.8.5 KSP generation, Room instrumentation tests on Android emulator, source UI instrumentation and short-screen/enlarged-font matrix.
 
@@ -11,10 +11,10 @@ Acceptance:
 - Run existing JVM unit tests and build the source repository Debug APK using Gradle 9.4.1.
 - Independently build spikes/android-db-validation with Gradle 9.6.0 and JDK 17; do not include it in the root application build.
 - Build Room 2.8.5 KSP output and Room Android instrumentation APK.
-- Run Room 2.8.5 instrumentation tests on an Android API 35 emulator. Verify insert/select/delete, foreign-key rejection, transaction rollback, schema database open/query, file-backed persistence after closing and reopening the database, and an explicit version 1 to version 2 schema migration preserving existing rows while adding a nullable column.
+- Run Room 2.8.5 instrumentation tests on an Android API 35 emulator. Verify insert/select/delete, foreign-key rejection, transaction rollback, schema database open/query, file-backed persistence after closing and reopening the database, an explicit version 1 to version 2 schema migration preserving existing rows while adding a nullable column, and migration failure injection after ALTER TABLE proving schema/version/data rollback followed by a successful retry migration.
 - Run existing source instrumentation tests and the short-screen portrait/landscape enlarged-font UI matrix.
 - Verify quick-capture failure-retry dialog retains entered content and remains usable on short landscape displays.
 - Transfer APK and exact source ZIP encrypted; sign and verify the test APK on the isolated publisher runner.
 - Publish the verified test APK and exact source ZIP as a private release in DreamMemory.
 - Do not merge PRs, modify source main, or change signing configuration.
-- This run validates only the Room 2.8.5 runtime baseline scenarios above, including a simple file-backed close/reopen persistence check. It does not complete ADR-0003 DB-01 to DB-10, migration failure injection, WAL backup/restore, process-kill or crash consistency, performance testing, or comparison against Room 3 / SQLDelight.
+- This run validates only the Room 2.8.5 runtime baseline scenarios above, including migration failure rollback and retry. It does not complete ADR-0003 DB-01 to DB-10, WAL backup/restore, process-kill or crash consistency, performance testing, or comparison against Room 3 / SQLDelight.
