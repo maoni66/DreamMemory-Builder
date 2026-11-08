@@ -25,6 +25,7 @@ jobs:
       source_ref: ${{ steps.request.outputs.source_ref }}
       needs_build: ${{ steps.request.outputs.needs_build }}
       deliver_apk: ${{ steps.request.outputs.deliver_apk }}
+      validation_scope: ${{ steps.request.outputs.validation_scope }}
     steps:
       - name: Checkout build request
         uses: actions/checkout@v7
@@ -48,6 +49,13 @@ jobs:
             echo "Source SHA must be a full 40-character commit SHA."
             exit 1
           fi
+          validation_scope="$(awk -F': ' '/^Validation scope:/ {print $2; exit}' builder/build-request.txt)"
+          validation_scope="${validation_scope:-full}"
+          case "$validation_scope" in
+            database|app|full) ;;
+            *) echo "Validation scope must be database, app, or full."; exit 1 ;;
+          esac
+          echo "validation_scope=$validation_scope" >> "$GITHUB_OUTPUT"
           deliver_apk="$(awk -F': ' '/^Deliver APK:/ {print $2; exit}' builder/build-request.txt)"
           deliver_apk="${deliver_apk:-no}"
           case "$deliver_apk" in
@@ -58,7 +66,7 @@ jobs:
           echo "requested_source_sha=$requested_source_sha" >> "$GITHUB_OUTPUT"
           echo "needs_build=true" >> "$GITHUB_OUTPUT"
           echo "deliver_apk=$deliver_apk" >> "$GITHUB_OUTPUT"
-          echo "Explicit build requested for source ref: $source_ref at $requested_source_sha (deliver APK: $deliver_apk)"
+          echo "Explicit build requested for source ref: $source_ref at $requested_source_sha (scope: $validation_scope, deliver APK: $deliver_apk)"
 
       - name: Preserve short-screen matrix script before source checkout
         shell: bash
@@ -126,7 +134,7 @@ jobs:
             gradle/libs.versions.toml
 
       - name: Set up Gradle 9.4.1 (source repository has no Gradle Wrapper)
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 9.4.1
@@ -143,7 +151,7 @@ jobs:
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - name: Run JVM unit tests
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         timeout-minutes: 10
         shell: bash
         run: |
@@ -152,18 +160,18 @@ jobs:
       # Legacy migration tests were removed with the clean schema baseline.
       # Keep APK delivery independent from slow/unreliable emulator startup.
       - name: Build debug APK
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         shell: bash
         run: gradle assembleDebug --stacktrace --console=plain
 
       - name: Set up Gradle 9.6.0 for isolated database validation spike
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "9.6.0"
 
       - name: Build isolated Android database host and Room 2.8.5 KSP candidate
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
         working-directory: spikes/android-db-validation
         shell: bash
         run: |
@@ -171,7 +179,7 @@ jobs:
           gradle --no-daemon :room2:assembleDebug :room2:kspDebugKotlin :room2:assembleDebugAndroidTest --stacktrace --console=plain
 
       - name: Enable KVM for Room 2 Android database tests
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
         shell: bash
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -180,7 +188,7 @@ jobs:
           ls -l /dev/kvm
 
       - name: Run Room 2.8.5 Android SQLite runtime validation
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
         timeout-minutes: 15
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -192,19 +200,30 @@ jobs:
           working-directory: spikes/android-db-validation
           script: gradle :room2:connectedDebugAndroidTest --stacktrace --console=plain
 
+      - name: Upload Room Android test reports
+        if: always() && steps.request.outputs.validation_scope != 'app'
+        uses: actions/upload-artifact@v6
+        with:
+          name: room2-android-test-reports-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            spikes/android-db-validation/room2/build/reports/androidTests/connected/**
+            spikes/android-db-validation/room2/build/outputs/androidTest-results/connected/**
+          if-no-files-found: warn
+          retention-days: 7
+
       - name: Restore Gradle 9.4.1 for existing source-repository instrumentation tests
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "9.4.1"
 
       - name: Compile Android instrumented UI tests
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         shell: bash
         run: gradle assembleDebugAndroidTest --stacktrace --console=plain
 
       - name: Enable KVM for Android emulator
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         shell: bash
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -213,7 +232,7 @@ jobs:
           ls -l /dev/kvm
 
       - name: Run Android instrumented UI tests on emulator
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         timeout-minutes: 12
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -225,7 +244,7 @@ jobs:
           script: gradle connectedDebugAndroidTest --stacktrace --console=plain
 
       - name: Run Android UI tests at enlarged font scale and short portrait/landscape sizes
-        if: steps.request.outputs.needs_build == 'true'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
         timeout-minutes: 35
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -242,7 +261,7 @@ jobs:
       # migration contract tests are introduced. Do not validate the legacy database path.
 
       - name: Encrypt APK and source ZIP for isolated publishing runner
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.deliver_apk != 'no'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database' && steps.request.outputs.deliver_apk != 'no'
         env:
           ARTIFACT_PASSWORD: ${{ secrets.DREAMMEMORY_ARTIFACT_PASSWORD }}
           SOURCE_SHA: ${{ steps.source.outputs.source_sha }}
@@ -262,7 +281,7 @@ jobs:
             -pass env:ARTIFACT_PASSWORD
 
       - name: Upload encrypted release package only
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.deliver_apk != 'no'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database' && steps.request.outputs.deliver_apk != 'no'
         uses: actions/upload-artifact@v6
         with:
           name: encrypted-apk-${{ github.run_id }}-${{ github.run_attempt }}
@@ -272,7 +291,7 @@ jobs:
 
   deliver-private-branch-apk:
     needs: build
-    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.source_ref != 'main' && needs.build.outputs.deliver_apk != 'no'
+    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.validation_scope != 'database' && needs.build.outputs.source_ref != 'main' && needs.build.outputs.deliver_apk != 'no'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -345,7 +364,7 @@ jobs:
   
   verify-main-apk:
     needs: build
-    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.source_ref == 'main' && needs.build.outputs.deliver_apk == 'verify'
+    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.validation_scope != 'database' && needs.build.outputs.source_ref == 'main' && needs.build.outputs.deliver_apk == 'verify'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -385,7 +404,7 @@ jobs:
 
   publish:
     needs: build
-    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.source_ref == 'main' && needs.build.outputs.deliver_apk == 'yes'
+    if: needs.build.outputs.needs_build == 'true' && needs.build.outputs.validation_scope != 'database' && needs.build.outputs.source_ref == 'main' && needs.build.outputs.deliver_apk == 'yes'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
