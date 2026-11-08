@@ -1,17 +1,20 @@
-DreamMemory — Room 2.8.5 concurrent WAL snapshot validation after PRAGMA fix
+DreamMemory — validate confirmed five-tab navigation baseline
 
-Source SHA: 2cba53937715fe99ce08f97adc621143d9ef7770
+Source SHA: aa70dbb0bb073dba8ce35fcf3e51d57be3b3dc56
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 2cba53937715fe99ce08f97adc621143d9ef7770
-Validation scope: database
+Expected source SHA at trigger: aa70dbb0bb073dba8ce35fcf3e51d57be3b3dc56
+Validation scope: app
 Deliver APK: no
-Build mode: Database-only validation. Build the isolated Android database host and Room 2.8.5 KSP candidate, then run Room instrumentation tests on Android API 35. Do not rebuild the main application APK or run unrelated UI matrices.
+Build mode: Application validation only. Build the Android app and run JVM plus Android UI instrumentation tests. Do not run database spike tests or publish an APK.
 
 Acceptance:
 - Checkout the exact private DreamMemory source SHA; fail if the branch has moved.
-- Build the isolated spikes/android-db-validation host with Gradle 9.6.0 / JDK 17.
-- Build Room 2.8.5 KSP output and Room Android instrumentation APK.
-- Run the full current Room 2.8.5 Android instrumentation suite, including the concurrent WAL VACUUM INTO snapshot experiment.
-- Upload Android instrumentation HTML/XML test reports even if tests fail, so the failing method and assertion can be diagnosed.
-- Do not publish an APK or modify private source main.
-- Preserve all test assertions and consistency guarantees; do not weaken or skip the concurrent snapshot test.
+- Build with the source repository's Gradle 9.4.1 / JDK 17 environment.
+- Run JVM unit tests.
+- Assemble the debug application and Android instrumentation APK.
+- Run Android instrumentation tests on API 35 emulator.
+- Run the existing short-screen, portrait/landscape and enlarged-font UI matrix.
+- Confirm the five bottom tabs render in this exact order: Home, Life, Discover, Media, Create.
+- Confirm Library and Profile are not bottom-level tabs.
+- Upload test reports even if any test fails.
+- Do not modify private source main and do not publish an APK.
