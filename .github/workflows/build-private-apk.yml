@@ -164,76 +164,21 @@ jobs:
         shell: bash
         run: gradle assembleDebug --stacktrace --console=plain
 
-      - name: Set up Gradle 9.6.0 for isolated database validation spike
+      - name: Set up Gradle 9.6.0 for Room 2.8.5 validation spike
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "9.6.0"
 
-      - name: Generate SQLDelight version 1 migration baseline
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
-        working-directory: spikes/android-db-validation
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import os
-          import sqlite3
-
-          root = "sqldelight/src/main/sqldelight"
-          os.makedirs(root, exist_ok=True)
-          path = os.path.join(root, "1.db")
-          if os.path.exists(path):
-              os.remove(path)
-
-          db = sqlite3.connect(path)
-          try:
-              db.executescript("""
-              CREATE TABLE validation_entry (
-                id TEXT NOT NULL PRIMARY KEY,
-                title TEXT NOT NULL,
-                created_at_epoch_millis INTEGER NOT NULL
-              );
-              CREATE TABLE validation_parent (
-                id TEXT NOT NULL PRIMARY KEY,
-                label TEXT NOT NULL
-              );
-              CREATE TABLE validation_child (
-                id TEXT NOT NULL PRIMARY KEY,
-                parent_id TEXT NOT NULL REFERENCES validation_parent(id) ON DELETE CASCADE,
-                value TEXT NOT NULL
-              );
-              PRAGMA user_version = 1;
-              """)
-              db.commit()
-          finally:
-              db.close()
-
-          check = sqlite3.connect(path)
-          try:
-              tables = {row[0] for row in check.execute(
-                  "SELECT name FROM sqlite_master WHERE type='table'"
-              )}
-              columns = {row[1] for row in check.execute("PRAGMA table_info(validation_entry)")}
-              assert {"validation_entry", "validation_parent", "validation_child"} <= tables
-              assert "note" not in columns
-              assert check.execute("PRAGMA user_version").fetchone()[0] == 1
-          finally:
-              check.close()
-          print(f"Generated and verified SQLDelight v1 migration baseline: {path}")
-          PY
-
-      - name: Build isolated Android database host and Room 2.8.5, Room 3.0.3 plus SQLDelight 2.4.1 candidates
+      - name: Build isolated Room 2.8.5 Android database validation
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
         working-directory: spikes/android-db-validation
         shell: bash
         run: |
           gradle --no-daemon :app:assembleDebug --stacktrace --console=plain
           gradle --no-daemon :room2:assembleDebug :room2:kspDebugKotlin :room2:assembleDebugAndroidTest --stacktrace --console=plain
-          gradle --no-daemon :room3:assembleDebug :room3:kspDebugKotlin :room3:assembleDebugAndroidTest --stacktrace --console=plain
-          gradle --no-daemon :sqldelight:assembleDebug :sqldelight:assembleDebugAndroidTest --stacktrace --console=plain
 
-      - name: Enable KVM for Room 2, Room 3 and SQLDelight Android database tests
+      - name: Enable KVM for Room 2.8.5 Android database tests
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
         shell: bash
         run: |
@@ -242,9 +187,9 @@ jobs:
           sudo udevadm trigger --name-match=kvm
           ls -l /dev/kvm
 
-      - name: Run Room 2.8.5, Room 3.0.3 and SQLDelight 2.4.1 Android SQLite runtime validation
+      - name: Run Room 2.8.5 Android SQLite runtime validation
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
-        timeout-minutes: 25
+        timeout-minutes: 15
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -255,25 +200,16 @@ jobs:
           working-directory: spikes/android-db-validation
           script: |
             gradle :room2:connectedDebugAndroidTest --stacktrace --console=plain
-            gradle :room3:connectedDebugAndroidTest --stacktrace --console=plain
-            gradle :sqldelight:connectedDebugAndroidTest --stacktrace --console=plain
 
-      - name: Upload all Android database candidate reports and schema snapshots
+      - name: Upload Room 2.8.5 Android test report and schema
         if: always() && steps.request.outputs.validation_scope != 'app'
         uses: actions/upload-artifact@v6
         with:
-          name: room2-room3-sqldelight-android-test-reports-${{ github.run_id }}-${{ github.run_attempt }}
+          name: room2-android-test-report-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             spikes/android-db-validation/room2/build/reports/androidTests/connected/**
             spikes/android-db-validation/room2/build/outputs/androidTest-results/connected/**
-            spikes/android-db-validation/room3/build/reports/androidTests/connected/**
-            spikes/android-db-validation/room3/build/outputs/androidTest-results/connected/**
-            spikes/android-db-validation/sqldelight/build/reports/androidTests/connected/**
-            spikes/android-db-validation/sqldelight/build/outputs/androidTest-results/connected/**
             spikes/android-db-validation/room2/schemas/**
-            spikes/android-db-validation/room3/schemas/**
-            spikes/android-db-validation/sqldelight/src/main/sqldelight/databases/**
-            spikes/android-db-validation/sqldelight/src/main/sqldelight/1.db
           if-no-files-found: warn
           retention-days: 7
 
