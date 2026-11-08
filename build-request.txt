@@ -1,4 +1,4 @@
-DreamMemory — Room 2.8.5 concurrent WAL snapshot diagnostic run
+DreamMemory — Room 2.8.5 concurrent WAL snapshot diagnostic rerun
 
 Source SHA: 8318e7b2541c539cbf123c0ae910b531c3f76e5d
 Source ref: rebuild/dm-product-baseline
@@ -14,4 +14,4 @@ Acceptance:
 - Run the full current Room 2.8.5 Android instrumentation suite, including the concurrent WAL VACUUM INTO snapshot experiment.
 - Upload Android instrumentation HTML/XML test reports even if tests fail, so the failing method and assertion can be diagnosed.
 - Do not publish an APK or modify private source main.
-- This run is diagnostic; a failing assertion must be investigated and fixed without weakening its intended consistency guarantees.
+- This is a diagnostic rerun of failed run #969. Preserve all test assertions; do not weaken consistency guarantees.
