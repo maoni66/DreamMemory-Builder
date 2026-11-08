@@ -1,22 +1,19 @@
-DreamMemory — verify five-tab navigation instrumentation alignment
+DreamMemory — Room 2.8.5 and Room 3.0.3 isolated candidate validation
 
-Source SHA: 06f7129dc001d0fe1185dd8310bf8c23c84a6be4
+Source SHA: 5d584b4f06298d68b4a8ac132d9e11250fd0ec6c
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 06f7129dc001d0fe1185dd8310bf8c23c84a6be4
-Validation scope: app
+Expected source SHA at trigger: 5d584b4f06298d68b4a8ac132d9e11250fd0ec6c
+Validation scope: database
 Deliver APK: no
-Build mode: Application validation only. Build the Android app and run JVM plus Android UI instrumentation tests. Do not run database spike tests or publish an APK.
+Build mode: Isolated Android database candidate validation only. Do not build the main app, do not run app UI tests, and do not publish an APK.
 
 Acceptance:
 - Checkout the exact private DreamMemory source SHA; fail if the branch has moved.
-- Build with Gradle 9.4.1 / JDK 17.
-- Run JVM unit tests.
-- Assemble the debug application and Android instrumentation APK.
-- Run Android instrumentation tests on API 35 emulator.
-- Run existing short-screen, portrait/landscape and enlarged-font UI matrix.
-- Verify exactly five bottom tabs in this order: Home, Life, Discover, Media, Create.
-- Verify Library and Profile are not bottom-level tabs.
-- Verify Media contains distinct Shelf and Library inner sections.
-- Verify Home record entry and record search results open Media > Library, while shelf results open Media > Shelf.
-- Upload test reports even if any test fails.
+- Use JDK 17, Android SDK 36, AGP 9.5.0 and Gradle 9.6.0 for the isolated database host.
+- Build the isolated host app.
+- Build Room 2.8.5 KSP candidate and its Android instrumentation APK.
+- Build Room 3.0.3 KSP candidate and its Android instrumentation APK.
+- Run Room 2.8.5 Android SQLite runtime validation on API 35 emulator.
+- Run Room 3.0.3 Android SQLite runtime validation on API 35 emulator.
+- Upload both candidates' Android test reports even if any test fails.
 - Do not modify private source main and do not publish an APK.
