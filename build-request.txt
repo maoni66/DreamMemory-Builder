@@ -1,8 +1,8 @@
 DreamMemory — Room 2.8.5 Android SQLite runtime validation and private test APK
 
-Source SHA: be8e001bf6444aaf3dae0a52a62392c4158b13d7
+Source SHA: 8318e7b2541c539cbf123c0ae910b531c3f76e5d
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: be8e001bf6444aaf3dae0a52a62392c4158b13d7
+Expected source SHA at trigger: 8318e7b2541c539cbf123c0ae910b531c3f76e5d
 Deliver APK: yes
 Build mode: Builder pipeline — source JVM tests and Debug APK, isolated DB validation host with AGP 9.5.0 / Gradle 9.6.0 / JDK 17, Room 2.8.5 KSP generation, Room instrumentation tests on Android emulator, source UI instrumentation and short-screen/enlarged-font matrix.
 
@@ -11,10 +11,10 @@ Acceptance:
 - Run existing JVM unit tests and build the source repository Debug APK using Gradle 9.4.1.
 - Independently build spikes/android-db-validation with Gradle 9.6.0 and JDK 17; do not include it in the root application build.
 - Build Room 2.8.5 KSP output and Room Android instrumentation APK.
-- Run Room 2.8.5 instrumentation tests on an Android API 35 emulator. Verify insert/select/delete, foreign-key rejection, transaction rollback, schema database open/query, file-backed persistence after closing and reopening the database, an explicit version 1 to version 2 schema migration preserving existing rows while adding a nullable column, migration failure injection after ALTER TABLE proving schema/version/data rollback followed by a successful retry migration, and a WAL-mode backup/restore test that performs a FULL checkpoint, closes the database, copies the checkpointed main database file, restores it, and verifies all committed rows.
+- Run Room 2.8.5 instrumentation tests on an Android API 35 emulator. Verify insert/select/delete, foreign-key rejection, transaction rollback, schema database open/query, file-backed persistence after closing and reopening the database, an explicit version 1 to version 2 schema migration preserving existing rows while adding a nullable column, migration failure injection after ALTER TABLE proving schema/version/data rollback followed by a successful retry migration, a WAL-mode offline backup/restore test after FULL checkpoint and database close, and a concurrent-WAL-write snapshot test using SQLite VACUUM INTO. The concurrent snapshot test must run a separate writer connection committing paired rows in transactions while the snapshot is created, verify the writer remains active when the snapshot completes, then check snapshot integrity and prove no partial transaction pairs are present.
 - Run existing source instrumentation tests and the short-screen portrait/landscape enlarged-font UI matrix.
 - Verify quick-capture failure-retry dialog retains entered content and remains usable on short landscape displays.
 - Transfer APK and exact source ZIP encrypted; sign and verify the test APK on the isolated publisher runner.
 - Publish the verified test APK and exact source ZIP as a private release in DreamMemory.
 - Do not merge PRs, modify source main, or change signing configuration.
-- This run validates only the Room 2.8.5 runtime baseline scenarios above, including migration failure rollback/retry and a checkpointed offline WAL backup/restore. This is not a live backup while concurrent writes continue. It does not complete ADR-0003 DB-01 to DB-10, process-kill or crash consistency, failure-safe restore into an existing user database, attachment consistency, performance testing, or comparison against Room 3 / SQLDelight.
+- This run validates only the Room 2.8.5 runtime baseline scenarios above. The VACUUM INTO scenario is a bounded SQLite snapshot-consistency experiment under concurrent WAL writes; it does not establish a production backup/restore workflow or failure-safe replacement of a user's active database. It does not complete ADR-0003 DB-01 to DB-10, process-kill or crash consistency, attachment consistency, performance testing, or comparison against Room 3 / SQLDelight.
