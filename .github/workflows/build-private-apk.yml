@@ -53,7 +53,7 @@ jobs:
           validation_scope="${validation_scope:-full}"
           case "$validation_scope" in
             database|quick|app|full) ;;
-            *) echo "Validation scope must be database, app, or full."; exit 1 ;;
+            *) echo "Validation scope must be database, quick, app, or full."; exit 1 ;;
           esac
           echo "validation_scope=$validation_scope" >> "$GITHUB_OUTPUT"
           deliver_apk="$(awk -F': ' '/^Deliver APK:/ {print $2; exit}' builder/build-request.txt)"
@@ -218,7 +218,7 @@ jobs:
           retention-days: 7
 
       - name: Restore Gradle 9.4.1 for new DreamMemory app instrumentation tests
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "9.4.1"
