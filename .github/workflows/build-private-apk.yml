@@ -52,12 +52,16 @@ jobs:
           validation_scope="$(awk -F': ' '/^Validation scope:/ {print $2; exit}' builder/build-request.txt)"
           validation_scope="${validation_scope:-full}"
           case "$validation_scope" in
-            database|app|full) ;;
+            database|quick|app|full) ;;
             *) echo "Validation scope must be database, app, or full."; exit 1 ;;
           esac
           echo "validation_scope=$validation_scope" >> "$GITHUB_OUTPUT"
           deliver_apk="$(awk -F': ' '/^Deliver APK:/ {print $2; exit}' builder/build-request.txt)"
           deliver_apk="${deliver_apk:-no}"
+          if [[ "$validation_scope" == "quick" || "$validation_scope" == "database" ]] && [[ "$deliver_apk" != "no" ]]; then
+            echo "Quick/database validation cannot deliver an APK; set Deliver APK: no."
+            exit 1
+          fi
           case "$deliver_apk" in
             yes|no|verify) ;;
             *) echo "Deliver APK must be yes, no, or verify."; exit 1 ;;
@@ -165,13 +169,13 @@ jobs:
         run: gradle :dm-app:assembleDebug --stacktrace --console=plain
 
       - name: Set up Gradle 9.6.0 for Room 2.8.5 validation spike
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'full' || steps.request.outputs.validation_scope == 'database')
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "9.6.0"
 
       - name: Build isolated Room 2.8.5 Android database validation
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'full' || steps.request.outputs.validation_scope == 'database')
         working-directory: spikes/android-db-validation
         shell: bash
         run: |
@@ -179,7 +183,7 @@ jobs:
           gradle --no-daemon :room2:assembleDebug :room2:kspDebugKotlin :room2:assembleDebugAndroidTest --stacktrace --console=plain
 
       - name: Enable KVM for Room 2.8.5 Android database tests
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'full' || steps.request.outputs.validation_scope == 'database')
         shell: bash
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -188,7 +192,7 @@ jobs:
           ls -l /dev/kvm
 
       - name: Run Room 2.8.5 Android SQLite runtime validation
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'app'
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'full' || steps.request.outputs.validation_scope == 'database')
         timeout-minutes: 15
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -202,7 +206,7 @@ jobs:
             gradle :room2:connectedDebugAndroidTest --stacktrace --console=plain
 
       - name: Upload Room 2.8.5 Android test report and schema
-        if: always() && steps.request.outputs.validation_scope != 'app'
+        if: always() && (steps.request.outputs.validation_scope == 'full' || steps.request.outputs.validation_scope == 'database')
         uses: actions/upload-artifact@v6
         with:
           name: room2-android-test-report-${{ github.run_id }}-${{ github.run_attempt }}
@@ -220,12 +224,12 @@ jobs:
           gradle-version: "9.4.1"
 
       - name: Compile new DreamMemory app instrumentation tests
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
         shell: bash
         run: gradle :dm-app:assembleDebugAndroidTest --stacktrace --console=plain
 
       - name: Enable KVM for Android emulator
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
         shell: bash
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -234,7 +238,7 @@ jobs:
           ls -l /dev/kvm
 
       - name: Run new DreamMemory app instrumentation tests on emulator
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
         timeout-minutes: 12
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -245,8 +249,8 @@ jobs:
           disable-animations: true
           script: gradle :dm-app:connectedDebugAndroidTest --stacktrace --console=plain
 
-      - name: Run Compose UI and database tests at enlarged font scale and short portrait/landscape sizes
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
+      - name: Run targeted Compose UI test at enlarged font scale and short portrait/landscape sizes
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope == 'full'
         timeout-minutes: 35
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -259,7 +263,7 @@ jobs:
           script: sh "$RUNNER_TEMP/short-screen-matrix.sh"
 
       - name: Upload new DreamMemory app test reports and Room schema
-        if: always() && steps.request.outputs.validation_scope != 'database'
+        if: always() && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
         uses: actions/upload-artifact@v6
         with:
           name: dm-app-test-report-${{ github.run_id }}-${{ github.run_attempt }}
