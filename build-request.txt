@@ -1,8 +1,8 @@
 DreamMemory — build, test, and privately deliver the greenfield Android app
 
-Source SHA: b315b34bbb7de091a434a166ec57e3f2dcf26dd3
+Source SHA: eee4436a16a1273bf712ec125ed7103fd4cf7eb4
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: b315b34bbb7de091a434a166ec57e3f2dcf26dd3
+Expected source SHA at trigger: eee4436a16a1273bf712ec125ed7103fd4cf7eb4
 Validation scope: app
 Deliver APK: yes
 Build mode: Build and test only :dm-app at the exact source SHA, then deliver the debug APK and exact source archive through the private-branch delivery workflow. Frozen legacy source is excluded from Gradle settings and retained only for audited extraction. Validate Room 2.8.5 production integration and isolated Room 2.8.5 database validation. Archive dm-app Room schema and test reports even if a test fails. Do not build Room 3 or SQLDelight candidates. Do not publish a public release.
@@ -14,9 +14,10 @@ Acceptance:
 - Run :dm-app JVM unit tests.
 - Compile :dm-app Android instrumentation tests.
 - Run the complete :dm-app Android instrumentation suite once on an API 35 emulator, including Compose navigation interaction tests, inbox draft retention across tab switching, inbox text/link capture, status transitions, Android ACTION_SEND intent flow, folder/notebook creation, direct NotebookRepository-to-Room backdated-entry persistence, occurrence-date selection, notebook editor text/save-button enabled semantics before save, and scrolling the lazy notebook-entry list to the newly persisted entry before asserting visibility.
-- This app-scope diagnostic run intentionally skips the separate compact-screen matrix and isolated Room runtime to avoid repeating expensive emulator work before the standard life-save flow is stable. The compact matrix and Room runtime remain required for a subsequent full acceptance run.
+- This app-scope run validates the standard life save diagnostic plus the new record edit/delete UI and DAO tests. It intentionally skips the separate compact-screen matrix and isolated Room runtime to keep feedback focused; both remain required for a subsequent full acceptance run.
 - Isolated Room 2.8.5 validation is deferred to the subsequent full acceptance run.
 - Upload :dm-app test reports and Room schema snapshots even if any test fails.
-- For this app-scope run, package and privately deliver the debug APK and exact source archive for this Source SHA only if all enabled app-scope tests pass; verify the delivered APK before reporting success. A subsequent full run remains required for overall acceptance.
+- Run the full app instrumentation suite including the life entry edit/delete test (edit preserves occurredAt/createdAt and updates updatedAt; delete cancel retains the row; confirmed delete removes only the entry and retains its notebook) and DAO scope tests (wrong notebook ID cannot update/delete another notebook's entry).
+- Package and privately deliver the debug APK and exact source archive for this Source SHA only if all enabled app-scope tests pass; verify the delivered APK before reporting success. A subsequent full run remains required for overall acceptance.
 - Do not build Room 3 or SQLDelight candidates.
 - Do not modify private source main and do not publish a public release.
