@@ -1,8 +1,8 @@
 DreamMemory — build, test, and privately deliver the greenfield Android app
 
-Source SHA: 0cf6a60340dee9eacbb504020e2550eb0fe23ce6
+Source SHA: 50b6e7543100d9c02987d841549411186300d4e5
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 0cf6a60340dee9eacbb504020e2550eb0fe23ce6
+Expected source SHA at trigger: 50b6e7543100d9c02987d841549411186300d4e5
 Validation scope: app
 Deliver APK: yes
 Build and test only :dm-app at the exact source SHA. Verify Room 2.8.5 schema v3 and the v2-to-v3 migration test, multi-response DAO persistence/cascade tests, and Compose response create/edit/delete E2E. Deliver the debug APK and exact source archive through the private-branch delivery workflow only if every enabled app-scope test passes. Frozen legacy source is excluded from Gradle settings and retained only for audited extraction. Isolated Room 2.8.5 runtime validation and compact-screen matrix remain for a subsequent full run. Archive dm-app Room schema and test reports even if a test fails. Do not build Room 3 or SQLDelight candidates. Do not publish a public release.
