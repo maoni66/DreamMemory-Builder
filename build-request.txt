@@ -1,8 +1,8 @@
 DreamMemory — build, test, and privately deliver the greenfield Android app
 
-Source SHA: 8228dd4a541eea2389c3a8664ddf187661b4683f
+Source SHA: a771a02bc4a8923b252e43a79fe2b939ea4816c8
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 8228dd4a541eea2389c3a8664ddf187661b4683f
+Expected source SHA at trigger: a771a02bc4a8923b252e43a79fe2b939ea4816c8
 Validation scope: full
 Deliver APK: yes
 Build mode: Build and test only :dm-app at the exact source SHA, then deliver the debug APK and exact source archive through the private-branch delivery workflow. Frozen legacy source is excluded from Gradle settings and retained only for audited extraction. Validate Room 2.8.5 production integration and isolated Room 2.8.5 database validation. Archive dm-app Room schema and test reports even if a test fails. Do not build Room 3 or SQLDelight candidates. Do not publish a public release.
@@ -13,7 +13,7 @@ Acceptance:
 - Resolve and compile Kizitonwose Calendar Compose 2.6.2 from Maven Central.
 - Run :dm-app JVM unit tests.
 - Compile :dm-app Android instrumentation tests.
-- Run :dm-app Android instrumentation tests on API 35 emulator, including Compose navigation interaction tests, inbox draft retention across tab switching, inbox text/link capture, status transitions, Android ACTION_SEND intent flow, folder/notebook creation, occurrence-date selection and persistence, and notebook save while the IME is visible.
+- Run :dm-app Android instrumentation tests on API 35 emulator, including Compose navigation interaction tests, inbox draft retention across tab switching, inbox text/link capture, status transitions, Android ACTION_SEND intent flow, folder/notebook creation, direct NotebookRepository-to-Room backdated-entry persistence, occurrence-date selection, and notebook editor text/save-button enabled semantics before save.
 - Run the same app instrumentation suite in enlarged-font portrait and landscape/short-screen configurations. The notebook save action must be visible/reachable after scrolling; do not weaken the database persistence assertion or merely increase its timeout.
 - Build the isolated Room 2.8.5 validation host and Android instrumentation APK using its isolated Gradle 9.6.0 / AGP 9.5.0 configuration.
 - Run the Room 2.8.5 database validation suite on API 35 emulator.
