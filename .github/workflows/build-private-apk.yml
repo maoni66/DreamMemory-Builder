@@ -249,9 +249,26 @@ jobs:
           disable-animations: true
           script: |
             set -euo pipefail
-            timeout --signal=TERM --kill-after=30s 5m gradle :dm-app:connectedDebugAndroidTest --stacktrace --console=plain
-            if [ "${{ steps.request.outputs.validation_scope }}" = "full" ]; then
-              sh "$RUNNER_TEMP/short-screen-matrix.sh"
+            if timeout --signal=TERM --kill-after=30s 5m gradle :dm-app:connectedDebugAndroidTest --stacktrace --console=plain; then
+              if [ "${{ steps.request.outputs.validation_scope }}" = "full" ]; then
+                sh "$RUNNER_TEMP/short-screen-matrix.sh"
+              fi
+            else
+              test_status=$?
+              mkdir -p dm-app/build/diagnostics
+              {
+                echo "Instrumentation failed with exit code $test_status"
+                echo "=== Emulator state ==="
+                adb devices -l || true
+                adb shell getprop ro.build.version.sdk || true
+                adb shell wm size || true
+                adb shell settings get system font_scale || true
+                echo "=== Recent app/test logcat ==="
+                adb logcat -d -t 8000 | grep -E 'AndroidRuntime|ActivityTaskManager|Instrumentation|FATAL EXCEPTION|ANR|com.dreammemory.app|TestRunner' | tail -n 1000 || true
+                echo "=== Activity state ==="
+                adb shell dumpsys activity activities | tail -n 250 || true
+              } | tee dm-app/build/diagnostics/instrumentation-failure.txt
+              exit "$test_status"
             fi
 
       - name: Upload new DreamMemory app test reports and Room schema
@@ -263,6 +280,7 @@ jobs:
             dm-app/schemas/**
             dm-app/build/reports/**
             dm-app/build/outputs/androidTest-results/connected/**
+            dm-app/build/diagnostics/**
           if-no-files-found: warn
           retention-days: 7
 
