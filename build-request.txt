@@ -1,8 +1,8 @@
 DreamMemory — build, test, and privately deliver the greenfield Android app
 
-Source SHA: 436f3c611bb175b0348f2f1341b74e59da37c715
+Source SHA: a73327d64fdbeb01c81b42d06c95853609b9591d
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 436f3c611bb175b0348f2f1341b74e59da37c715
+Expected source SHA at trigger: a73327d64fdbeb01c81b42d06c95853609b9591d
 Validation scope: full
 Deliver APK: yes
 Build mode: Build and test only :dm-app at the exact source SHA, then deliver the debug APK and exact source archive through the private-branch delivery workflow. Frozen legacy source is excluded from Gradle settings and retained only for audited extraction. Validate Room 2.8.5 production integration and isolated Room 2.8.5 database validation. Archive dm-app Room schema and test reports even if a test fails. Do not build Room 3 or SQLDelight candidates. Do not publish a public release.
@@ -13,8 +13,8 @@ Acceptance:
 - Resolve and compile Kizitonwose Calendar Compose 2.6.2 from Maven Central.
 - Run :dm-app JVM unit tests.
 - Compile :dm-app Android instrumentation tests.
-- Run :dm-app Android instrumentation tests on API 35 emulator, including Compose navigation interaction tests, inbox draft retention across tab switching, inbox text/link capture, status transitions, Android ACTION_SEND intent flow, folder/notebook creation, direct NotebookRepository-to-Room backdated-entry persistence, occurrence-date selection, notebook editor text/save-button enabled semantics before save, and scrolling the lazy notebook-entry list to the newly persisted entry before asserting visibility.
-- Run the same app instrumentation suite in enlarged-font portrait and landscape/short-screen configurations. The notebook save action must be visible/reachable after scrolling; do not weaken the database persistence assertion or merely increase its timeout.
+- Run the complete :dm-app Android instrumentation suite once on an API 35 emulator, including Compose navigation interaction tests, inbox draft retention across tab switching, inbox text/link capture, status transitions, Android ACTION_SEND intent flow, folder/notebook creation, direct NotebookRepository-to-Room backdated-entry persistence, occurrence-date selection, notebook editor text/save-button enabled semantics before save, and scrolling the lazy notebook-entry list to the newly persisted entry before asserting visibility.
+- Run one targeted compact-layout life editor E2E at enlarged font scale in portrait and landscape/short-screen configurations. It must verify IME-aware scrolling, save action reachability, Room persistence and record visibility. Date selection remains covered by the standard instrumentation suite. Each matrix test invocation has a hard timeout; preserve logcat diagnostics on failure.
 - Build the isolated Room 2.8.5 validation host and Android instrumentation APK using its isolated Gradle 9.6.0 / AGP 9.5.0 configuration.
 - Run the Room 2.8.5 database validation suite on API 35 emulator.
 - Upload :dm-app test reports and Room schema snapshots even if any test fails.
