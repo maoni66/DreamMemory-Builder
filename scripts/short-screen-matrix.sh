@@ -19,7 +19,7 @@ adb shell settings put system font_scale 1.3
 adb shell settings put system accelerometer_rotation 0
 adb shell wm density 320
 
-test_selector="com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesAtShortLandscapeSize"
+test_selector="com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout"
 for orientation in portrait landscape; do
   if [ "$orientation" = portrait ]; then
     adb shell settings put system user_rotation 0
