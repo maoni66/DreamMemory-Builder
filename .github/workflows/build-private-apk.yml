@@ -237,39 +237,50 @@ jobs:
           sudo udevadm trigger --name-match=kvm
           ls -l /dev/kvm
 
+      - name: Prepare Bash instrumentation runner script
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        shell: bash
+        run: |
+          cat > "$RUNNER_TEMP/run-app-instrumentation.sh" <<'SCRIPT'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          if timeout --signal=TERM --kill-after=30s 5m gradle :dm-app:connectedDebugAndroidTest --stacktrace --console=plain; then
+            if [[ "${VALIDATION_SCOPE:-app}" == "full" ]]; then
+              sh "$RUNNER_TEMP/short-screen-matrix.sh"
+            fi
+          else
+            test_status=$?
+            mkdir -p dm-app/build/diagnostics
+            {
+              echo "Instrumentation failed with exit code $test_status"
+              echo "=== Emulator state ==="
+              adb devices -l || true
+              adb shell getprop ro.build.version.sdk || true
+              adb shell wm size || true
+              adb shell settings get system font_scale || true
+              echo "=== Recent app/test logcat ==="
+              adb logcat -d -t 8000 | grep -E 'AndroidRuntime|ActivityTaskManager|Instrumentation|FATAL EXCEPTION|ANR|com.dreammemory.app|TestRunner' | tail -n 1000 || true
+              echo "=== Activity state ==="
+              adb shell dumpsys activity activities | tail -n 250 || true
+            } | tee dm-app/build/diagnostics/instrumentation-failure.txt
+            exit "$test_status"
+          fi
+          SCRIPT
+          chmod +x "$RUNNER_TEMP/run-app-instrumentation.sh"
+
       - name: Run app instrumentation and compact-screen matrix in one emulator session
         if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
         timeout-minutes: 28
         uses: reactivecircus/android-emulator-runner@v2
+        env:
+          VALIDATION_SCOPE: ${{ steps.request.outputs.validation_scope }}
         with:
           api-level: 35
           target: google_apis
           arch: x86_64
           profile: pixel_2
           disable-animations: true
-          script: |
-            set -eu
-            if timeout --signal=TERM --kill-after=30s 5m gradle :dm-app:connectedDebugAndroidTest --stacktrace --console=plain; then
-              if [ "${{ steps.request.outputs.validation_scope }}" = "full" ]; then
-                sh "$RUNNER_TEMP/short-screen-matrix.sh"
-              fi
-            else
-              test_status=$?
-              mkdir -p dm-app/build/diagnostics
-              {
-                echo "Instrumentation failed with exit code $test_status"
-                echo "=== Emulator state ==="
-                adb devices -l || true
-                adb shell getprop ro.build.version.sdk || true
-                adb shell wm size || true
-                adb shell settings get system font_scale || true
-                echo "=== Recent app/test logcat ==="
-                adb logcat -d -t 8000 | grep -E 'AndroidRuntime|ActivityTaskManager|Instrumentation|FATAL EXCEPTION|ANR|com.dreammemory.app|TestRunner' | tail -n 1000 || true
-                echo "=== Activity state ==="
-                adb shell dumpsys activity activities | tail -n 250 || true
-              } | tee dm-app/build/diagnostics/instrumentation-failure.txt
-              exit "$test_status"
-            fi
+          script: bash "$RUNNER_TEMP/run-app-instrumentation.sh"
 
       - name: Upload new DreamMemory app test reports and Room schema
         if: always() && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
