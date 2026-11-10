@@ -237,9 +237,9 @@ jobs:
           sudo udevadm trigger --name-match=kvm
           ls -l /dev/kvm
 
-      - name: Run new DreamMemory app instrumentation tests on emulator
+      - name: Run app instrumentation and compact-screen matrix in one emulator session
         if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
-        timeout-minutes: 12
+        timeout-minutes: 28
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -247,20 +247,12 @@ jobs:
           arch: x86_64
           profile: pixel_2
           disable-animations: true
-          script: gradle :dm-app:connectedDebugAndroidTest --stacktrace --console=plain
-
-      - name: Run targeted Compose UI test at enlarged font scale and short portrait/landscape sizes
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope == 'full'
-        timeout-minutes: 20
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 35
-          target: google_apis
-          arch: x86_64
-          profile: pixel_2
-          disable-animations: true
-          # Keep the action input single-line; run the POSIX matrix from a checked-in script.
-          script: sh "$RUNNER_TEMP/short-screen-matrix.sh"
+          script: |
+            set -euo pipefail
+            timeout --signal=TERM --kill-after=30s 5m gradle :dm-app:connectedDebugAndroidTest --stacktrace --console=plain
+            if [ "${{ steps.request.outputs.validation_scope }}" = "full" ]; then
+              sh "$RUNNER_TEMP/short-screen-matrix.sh"
+            fi
 
       - name: Upload new DreamMemory app test reports and Room schema
         if: always() && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
