@@ -1,20 +1,23 @@
-DreamMemory — build and validate only the greenfield Android app
+DreamMemory — build, test, and privately deliver the greenfield Android app
 
-Source SHA: 58f0bfa69e8f6dedfe9ba0f09a0c339f2e0f07f6
+Source SHA: 8228dd4a541eea2389c3a8664ddf187661b4683f
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 58f0bfa69e8f6dedfe9ba0f09a0c339f2e0f07f6
+Expected source SHA at trigger: 8228dd4a541eea2389c3a8664ddf187661b4683f
 Validation scope: full
-Deliver APK: no
-Build mode: Build and test only :dm-app at the exact source SHA. Frozen legacy source is excluded from Gradle settings and retained only for audited extraction. Validate Room 2.8.5 production integration and isolated Room 2.8.5 database validation. Archive dm-app Room schema and test reports after all instrumentation and short-screen tests finish. Do not build Room 3 or SQLDelight candidates. Do not publish an APK.
+Deliver APK: yes
+Build mode: Build and test only :dm-app at the exact source SHA, then deliver the debug APK and exact source archive through the private-branch delivery workflow. Frozen legacy source is excluded from Gradle settings and retained only for audited extraction. Validate Room 2.8.5 production integration and isolated Room 2.8.5 database validation. Archive dm-app Room schema and test reports even if a test fails. Do not build Room 3 or SQLDelight candidates. Do not publish a public release.
 
 Acceptance:
 - Checkout the exact private DreamMemory source SHA; fail if the branch has moved.
 - Build only :dm-app using Gradle 9.4.1 / AGP configuration and Room 2.8.5; frozen legacy source must not be included in Gradle.
+- Resolve and compile Kizitonwose Calendar Compose 2.6.2 from Maven Central.
 - Run :dm-app JVM unit tests.
 - Compile :dm-app Android instrumentation tests.
-- Run :dm-app Android instrumentation tests on API 35 emulator, including Compose navigation interaction tests, inbox draft retention across tab switching, inbox text/link capture, status transitions, Android ACTION_SEND intent flow, and InboxRepository unit tests.
+- Run :dm-app Android instrumentation tests on API 35 emulator, including Compose navigation interaction tests, inbox draft retention across tab switching, inbox text/link capture, status transitions, Android ACTION_SEND intent flow, folder/notebook creation, occurrence-date selection and persistence, and notebook save while the IME is visible.
+- Run the same app instrumentation suite in enlarged-font portrait and landscape/short-screen configurations. The notebook save action must be visible/reachable after scrolling; do not weaken the database persistence assertion or merely increase its timeout.
 - Build the isolated Room 2.8.5 validation host and Android instrumentation APK using its isolated Gradle 9.6.0 / AGP 9.5.0 configuration.
 - Run the Room 2.8.5 database validation suite on API 35 emulator.
 - Upload :dm-app test reports and Room schema snapshots even if any test fails.
+- Package and privately deliver the debug APK and exact source archive for this Source SHA; verify the delivered APK before reporting success.
 - Do not build Room 3 or SQLDelight candidates.
-- Do not modify private source main and do not publish an APK.
+- Do not modify private source main and do not publish a public release.
