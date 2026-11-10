@@ -248,7 +248,7 @@ jobs:
           profile: pixel_2
           disable-animations: true
           script: |
-            set -euo pipefail
+            set -eu
             if timeout --signal=TERM --kill-after=30s 5m gradle :dm-app:connectedDebugAndroidTest --stacktrace --console=plain; then
               if [ "${{ steps.request.outputs.validation_scope }}" = "full" ]; then
                 sh "$RUNNER_TEMP/short-screen-matrix.sh"
