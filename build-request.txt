@@ -13,7 +13,7 @@ Acceptance:
 - Resolve and compile Kizitonwose Calendar Compose 2.6.2 from Maven Central.
 - Run :dm-app JVM unit tests.
 - Compile :dm-app Android instrumentation tests.
-- Run :dm-app Android instrumentation tests on API 35 emulator, including Compose navigation interaction tests, inbox draft retention across tab switching, inbox text/link capture, status transitions, Android ACTION_SEND intent flow, folder/notebook creation, direct NotebookRepository-to-Room backdated-entry persistence, occurrence-date selection, and notebook editor text/save-button enabled semantics before save.
+- Run :dm-app Android instrumentation tests on API 35 emulator, including Compose navigation interaction tests, inbox draft retention across tab switching, inbox text/link capture, status transitions, Android ACTION_SEND intent flow, folder/notebook creation, direct NotebookRepository-to-Room backdated-entry persistence, occurrence-date selection, notebook editor text/save-button enabled semantics before save, and scrolling the lazy notebook-entry list to the newly persisted entry before asserting visibility.
 - Run the same app instrumentation suite in enlarged-font portrait and landscape/short-screen configurations. The notebook save action must be visible/reachable after scrolling; do not weaken the database persistence assertion or merely increase its timeout.
 - Build the isolated Room 2.8.5 validation host and Android instrumentation APK using its isolated Gradle 9.6.0 / AGP 9.5.0 configuration.
 - Run the Room 2.8.5 database validation suite on API 35 emulator.
