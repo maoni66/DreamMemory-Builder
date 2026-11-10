@@ -11,10 +11,10 @@ dump_failure_diagnostics() {
 }
 trap dump_failure_diagnostics EXIT
 
-# The full suite runs once on the standard emulator. The expensive display
-# matrix repeats only the life editor end-to-end path, which exercises folder
-# creation, notebook navigation, date selection, IME-aware scrolling, Room
-# persistence, and lazy-list visibility at both orientations and larger text.
+# The full suite runs once on the standard emulator. The compact display matrix
+# repeats only the life editor's focused end-to-end path: notebook creation,
+# navigation, IME-aware scrolling, Room persistence, and lazy-list visibility.
+# Date selection is covered by the standard instrumentation suite.
 adb shell settings put system font_scale 1.3
 adb shell settings put system accelerometer_rotation 0
 adb shell wm density 320
