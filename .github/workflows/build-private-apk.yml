@@ -251,7 +251,7 @@ jobs:
 
       - name: Run targeted Compose UI test at enlarged font scale and short portrait/landscape sizes
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope == 'full'
-        timeout-minutes: 35
+        timeout-minutes: 20
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
