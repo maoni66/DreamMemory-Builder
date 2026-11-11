@@ -1,11 +1,11 @@
 DreamMemory — media library foundation validation
 
-Source SHA: 7aad2f24829e595e027bc082b13f98e1b5ed5a4e
+Source SHA: 838aa14bf3fe4e1fab45a64ce807114628df7d96
 Source ref: feature/media-library-foundation
-Expected source SHA at trigger: 7aad2f24829e595e027bc082b13f98e1b5ed5a4e
+Expected source SHA at trigger: 838aa14bf3fe4e1fab45a64ce807114628df7d96
 Validation scope: app
 Deliver APK: no
-Build and test only :dm-app at the exact source SHA. Verify Room 2.8.5 compilation, schema v4 generation, v3-to-v4 migration registration, JVM unit tests, Android instrumentation compilation, all existing app instrumentation tests, and the new MediaLibraryDatabaseTest suite. Do not run frozen legacy source. Do not publish any APK or public release in this validation run.
+Build and test only :dm-app at the exact source SHA. Verify Room 2.8.5 compilation, schema v4 generation, v3-to-v4 migration registration, JVM unit tests, Android instrumentation compilation, all existing app instrumentation tests, and the expanded MediaLibraryDatabaseTest suite plus MediaLibraryMigrationTest. Do not run frozen legacy source. Do not publish any APK or public release in this validation run.
 
 Media acceptance checks:
 - A media work and its library membership are persisted independently.
@@ -16,4 +16,4 @@ Media acceptance checks:
 - Different editions keep independent progress.
 - Keep the v3-to-v4 migration non-destructive and retain existing notebook, inbox, asset and tag data.
 
-Request ID: media-library-foundation-validation-2026-11-11-2
+Request ID: media-library-foundation-validation-2026-11-11-3
