@@ -1,23 +1,17 @@
-DreamMemory — build, test, and privately deliver the greenfield Android app
+DreamMemory — media library foundation validation
 
-Source SHA: 27482a4832399870a2121b86182e0ab79bc8d8bb
-Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 27482a4832399870a2121b86182e0ab79bc8d8bb
+Source SHA: 633e1f9bf1580f37b9cdcd3ac2114e9004f4d453
+Source ref: feature/media-library-foundation
+Expected source SHA at trigger: 633e1f9bf1580f37b9cdcd3ac2114e9004f4d453
 Validation scope: app
-Deliver APK: yes
-Build and test only :dm-app at the exact source SHA. Verify Room 2.8.5 schema v3 and the v2-to-v3 migration test, multi-response DAO persistence/cascade tests, and Compose response create/edit/delete E2E. Deliver the debug APK and exact source archive through the private-branch delivery workflow only if every enabled app-scope test passes. Frozen legacy source is excluded from Gradle settings and retained only for audited extraction. Isolated Room 2.8.5 runtime validation and compact-screen matrix remain for a subsequent full run. Archive dm-app Room schema and test reports even if a test fails. Do not build Room 3 or SQLDelight candidates. Do not publish a public release.
+Deliver APK: no
+Build and test only :dm-app at the exact source SHA. Verify Room 2.8.5 compilation, schema v4 generation, v3-to-v4 migration registration, JVM unit tests, Android instrumentation compilation, all existing app instrumentation tests, and the new MediaLibraryDatabaseTest suite. Do not run frozen legacy source. Do not publish any APK or public release in this validation run.
 
-Acceptance:
-- Checkout the exact private DreamMemory source SHA; fail if the branch has moved.
-- Build only :dm-app using Gradle 9.4.1 / AGP configuration and Room 2.8.5; frozen legacy source must not be included in Gradle.
-- Resolve and compile Kizitonwose Calendar Compose 2.6.2 from Maven Central.
-- Run :dm-app JVM unit tests.
-- Compile :dm-app Android instrumentation tests.
-- Run the complete :dm-app Android instrumentation suite once on an API 35 emulator, including Compose navigation interaction tests, inbox draft retention across tab switching, inbox text/link capture, status transitions, Android ACTION_SEND intent flow, folder/notebook creation, direct NotebookRepository-to-Room backdated-entry persistence, occurrence-date selection, notebook editor text/save-button enabled semantics before save, and scrolling the lazy notebook-entry list to the newly persisted entry before asserting visibility.
-- This app-scope run validates the standard life save diagnostic plus the new record edit/delete UI and DAO tests. It intentionally skips the separate compact-screen matrix and isolated Room runtime to keep feedback focused; both remain required for a subsequent full acceptance run.
-- Isolated Room 2.8.5 validation is deferred to the subsequent full acceptance run.
-- Upload :dm-app test reports and Room schema snapshots even if any test fails.
-- Run the full app instrumentation suite including life entry edit/delete and multi-response flows: create multiple responses for one entry, verify strict chronological order, edit one without changing the others, cancel and confirm deletion independently, verify parent-entry deletion cascades responses, and reject response writes scoped to another entry. Run v2-to-v3 migration instrumentation proving existing entry rows survive and the new response table enforces cascade deletion.
-- Package and privately deliver the debug APK and exact source archive for this Source SHA only if all enabled app-scope tests pass; verify the delivered APK before reporting success. A subsequent full run remains required for overall acceptance.
-- Do not build Room 3 or SQLDelight candidates.
-- Do not modify private source main and do not publish a public release.
+Media acceptance checks:
+- A media work and its library membership are persisted independently.
+- Multiple responses for a library work are ordered and independently editable/deletable.
+- Deleting a media work cascades its library entry, editions, progress, sources, files, and responses without deleting referenced shared assets.
+- Responses cannot be created for a work that is not in the media library.
+- Empty media type/title are rejected.
+- Different editions keep independent progress.
+- Keep the v3-to-v4 migration non-destructive and retain existing notebook, inbox, asset and tag data.
