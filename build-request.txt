@@ -1,13 +1,13 @@
 DreamMemory — media library foundation app revalidation after Compose semantics synchronization
 
-Source SHA: 38508c53800e64a8d00d8f47dcddd8ef0f96db78
+Source SHA: 124915ac4e30fa876e299b29b64968d9334fc6ba
 Source ref: feature/media-library-foundation
-Expected source SHA at trigger: 38508c53800e64a8d00d8f47dcddd8ef0f96db78
+Expected source SHA at trigger: 124915ac4e30fa876e299b29b64968d9334fc6ba
 Validation scope: app
 Deliver APK: no
 Build and test only :dm-app at the exact source SHA. Verify Room 2.8.5 compilation, schema v4 generation, v3-to-v4 migration registration, JVM unit tests, Android instrumentation compilation, all existing app instrumentation tests, MediaLibraryDatabaseTest, and MediaLibraryMigrationTest. Do not run frozen legacy source. Do not publish any APK or public release in this validation run.
 
-Previous exact-source run #1036 checked out 9635df5281e80ec76a5f6732415158bff40b673d. JVM tests, Debug APK build, and AndroidTest compilation passed. Instrumentation: 26 tests, 25 passed, 1 failed. The former Life Looper failure did not recur; the remaining failure was an edit action semantics lookup racing the Room Flow update. The test now waits for the exact edit testTag to enter the Compose semantics tree after scrolling. Validate this synchronization fix without weakening the CRUD assertions.
+Previous exact-source run #1036 checked out 9635df5281e80ec76a5f6732415158bff40b673d. JVM tests, Debug APK build, and AndroidTest compilation passed. Instrumentation: 26 tests, 25 passed, 1 failed. The former Life Looper failure did not recur; the remaining failure was an edit action semantics lookup racing the Room Flow update. The previous test waited for the edit testTag only after scrolling to that tag, which could fail before the wait when the LazyColumn row had not yet been composed. The test now scrolls by stable row text first, then waits for the action tag; it repeats the same order after editing before deletion. Validate the corrected ordering without weakening CRUD assertions. Validate this synchronization fix without weakening the CRUD assertions.
 
 Media acceptance checks:
 - A media work and its library membership are persisted independently.
@@ -18,4 +18,4 @@ Media acceptance checks:
 - Different editions keep independent progress.
 - Keep the v3-to-v4 migration non-destructive and retain existing notebook, inbox, asset and tag data.
 
-Request ID: media-library-foundation-app-revalidation-2026-11-11-5
+Request ID: media-library-life-lazycolumn-order-fix-2026-11-11-6
