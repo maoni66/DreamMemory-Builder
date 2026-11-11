@@ -1,13 +1,13 @@
-DreamMemory — media library foundation revalidation after Compose semantics polling fix
+DreamMemory — media library foundation revalidation after notebook detail readiness fix
 
-Source SHA: dee49eeb19a1190dd2b395ecd1fff67c1693ff95
+Source SHA: 770b8eb6876b2b776cd6bb2b009ba2b34fcb4368
 Source ref: feature/media-library-foundation
-Expected source SHA at trigger: dee49eeb19a1190dd2b395ecd1fff67c1693ff95
+Expected source SHA at trigger: 770b8eb6876b2b776cd6bb2b009ba2b34fcb4368
 Validation scope: app
 Deliver APK: no
 Build and test only :dm-app at the exact source SHA. Verify Room 2.8.5 compilation, schema v4 generation, v3-to-v4 migration registration, JVM unit tests, Android instrumentation compilation, all existing app instrumentation tests, MediaLibraryDatabaseTest, and MediaLibraryMigrationTest. Do not run frozen legacy source. Do not publish any APK or public release in this validation run.
 
-Previous exact-source run #1036 checked out 9635df5281e80ec76a5f6732415158bff40b673d. JVM tests, Debug APK build, and AndroidTest compilation passed. Instrumentation: 26 tests, 25 passed, 1 failed. The former Life Looper failure did not recur; the remaining failure was an edit action semantics lookup racing the Room Flow update. The previous test waited for the edit testTag only after scrolling to that tag, which could fail before the wait when the LazyColumn row had not yet been composed. The test now scrolls by stable row text first, then waits for the action tag; it repeats the same order after editing before deletion. The follow-up test checks Room persistence before checking the editor reset, distinguishing persistence from UI-state failures. In the multiple-response E2E, repeated fetchSemanticsNodes polling inside waitUntil has been replaced by waitForIdle plus a single list/row check and stable-text scroll, to avoid nested Espresso idle and semantics snapshots. Validate both fixes without weakening CRUD assertions.
+Previous exact-source run #1036 checked out 9635df5281e80ec76a5f6732415158bff40b673d. JVM tests, Debug APK build, and AndroidTest compilation passed. Instrumentation: 26 tests, 25 passed, 1 failed. The former Life Looper failure did not recur; the remaining failure was an edit action semantics lookup racing the Room Flow update. The previous test waited for the edit testTag only after scrolling to that tag, which could fail before the wait when the LazyColumn row had not yet been composed. The test now scrolls by stable row text first, then waits for the action tag; it repeats the same order after editing before deletion. The follow-up test checks Room persistence before checking the editor reset, distinguishing persistence from UI-state failures. In the multiple-response E2E, repeated fetchSemanticsNodes polling inside waitUntil has been replaced by waitForIdle plus a single list/row check and stable-text scroll; this test passed in #1040. The edit/delete E2E now waits for the notebook detail composition to become idle and asserts the editor exists before entering text. Validate all changes without weakening CRUD assertions.
 
 Media acceptance checks:
 - A media work and its library membership are persisted independently.
@@ -18,4 +18,4 @@ Media acceptance checks:
 - Different editions keep independent progress.
 - Keep the v3-to-v4 migration non-destructive and retain existing notebook, inbox, asset and tag data.
 
-Request ID: media-library-compose-semantics-polling-fix-2026-11-11-8
+Request ID: media-library-notebook-detail-readiness-2026-11-11-9
