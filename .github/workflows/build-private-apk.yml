@@ -361,7 +361,8 @@ jobs:
             -pass env:ARTIFACT_PASSWORD
           mkdir -p "$RUNNER_TEMP/package"
           tar -xzf "$RUNNER_TEMP/dreammemory-package.tar.gz" -C "$RUNNER_TEMP/package"
-          apk_path="$(find "$RUNNER_TEMP/package" -type f -name app-debug.apk -print -quit)"
+          # Android Gradle names APKs after the module (dm-app-debug.apk), not necessarily app-debug.apk.
+          apk_path="$(find "$RUNNER_TEMP/package" -type f -name '*.apk' -print -quit)"
           source_zip="$(find "$RUNNER_TEMP/package" -type f -name "DreamMemory-$SOURCE_SHA-source.zip" -print -quit)"
           test -n "$apk_path" && test -s "$apk_path" || { echo "APK missing from encrypted package"; exit 1; }
           test -n "$source_zip" && test -s "$source_zip" || { echo "Source ZIP missing from encrypted package"; exit 1; }
