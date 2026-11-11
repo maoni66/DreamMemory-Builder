@@ -15,3 +15,5 @@ Media acceptance checks:
 - Empty media type/title are rejected.
 - Different editions keep independent progress.
 - Keep the v3-to-v4 migration non-destructive and retain existing notebook, inbox, asset and tag data.
+
+Request ID: media-library-foundation-validation-2026-11-11-2
