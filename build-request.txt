@@ -1,8 +1,8 @@
 DreamMemory — media library foundation validation
 
-Source SHA: 633e1f9bf1580f37b9cdcd3ac2114e9004f4d453
+Source SHA: 97a7040158c730c73409665b12be87226799ca82
 Source ref: feature/media-library-foundation
-Expected source SHA at trigger: 633e1f9bf1580f37b9cdcd3ac2114e9004f4d453
+Expected source SHA at trigger: 97a7040158c730c73409665b12be87226799ca82
 Validation scope: app
 Deliver APK: no
 Build and test only :dm-app at the exact source SHA. Verify Room 2.8.5 compilation, schema v4 generation, v3-to-v4 migration registration, JVM unit tests, Android instrumentation compilation, all existing app instrumentation tests, and the new MediaLibraryDatabaseTest suite. Do not run frozen legacy source. Do not publish any APK or public release in this validation run.
