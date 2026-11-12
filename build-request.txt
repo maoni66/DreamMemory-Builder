@@ -1,20 +1,21 @@
-DreamMemory — Inbox retry, Room persistence and compact-layout regression
+DreamMemory — Inbox retry/persistence and life action reachability regression
 
-Source SHA: 0ec0297facfa9f55586594c66a2af4c30d900d2f
+Source SHA: 3c092616b30e10f0d11686c488bda9474cd2a392
 Source ref: feature/media-library-foundation
-Expected source SHA at trigger: 0ec0297facfa9f55586594c66a2af4c30d900d2f
+Expected source SHA at trigger: 3c092616b30e10f0d11686c488bda9474cd2a392
 Validation scope: full
 Deliver APK: no
-Run full validation of only :dm-app at the exact source SHA. Verify JDK 17 / Gradle 9.4.1 app configuration, lifecycle-runtime-compose dependency resolution and collectAsStateWithLifecycle compilation, Room 2.8.5 schema v4 generation, independent Room 2.8.5 Android runtime validation, v3-to-v4 migration registration and data preservation, JVM unit tests, Android instrumentation compilation, all app instrumentation tests, and the compact-screen/large-font matrix. Do not run frozen legacy :app. Do not publish an APK or public release in this validation run.
+Run full validation of only :dm-app at the exact Source SHA. Verify JDK 17 / Gradle 9.4.1 application configuration, lifecycle-runtime-compose dependency and collectAsStateWithLifecycle, Room 2.8.5 schema v4 generation, independent Room 2.8.5 Android runtime validation, v3-to-v4 migration data preservation, JVM tests, AndroidTest compilation, all app instrumentation tests, and compact-screen/large-font matrix. Do not run frozen legacy :app. Do not publish APK or public release.
 
-New regression coverage in this source revision:
-- HomeInboxScreenTest.failedCaptureKeepsDraftAndRetryPersistsExactlyOnce: first DAO insert fails, draft and error remain visible, explicit retry succeeds, and exactly one item is persisted.
-- InboxPersistenceTest.capturedItemSurvivesClosingAndReopeningTheFileDatabase: writes through the production InboxRepository into a real Room file database, closes the connection, reopens the same database file, and verifies the original text, kind, status and timestamps.
-- MainActivityTest.lifeNotebookEditorSavesInCompactLayout: scrolls the LazyColumn save action into the viewport before asserting it is displayed/enabled and performing the save; original persistence assertions remain intact.
-- MainActivity Manifest now declares adjustResize; HomeInboxScreen uses collectAsStateWithLifecycle.
+Regression coverage to verify:
+- HomeInboxScreenTest.failedCaptureKeepsDraftAndRetryPersistsExactlyOnce: first DAO write fails, original draft remains, error and explicit retry are shown; second write succeeds and persists exactly one row.
+- InboxPersistenceTest.capturedItemSurvivesClosingAndReopeningTheFileDatabase: real Room file database is closed and reopened; raw text, type, status and timestamps remain.
+- MainActivityTest.lifeNotebookEditorSavesInCompactLayout: scrolls the LazyColumn save action itself into view before asserting displayed/enabled and saving.
+- MainActivityTest.lifeEntryCanBeEditedAndDeletedWithConfirmation: now scrolls to each exact edit/delete action after bringing the row into composition; repeats the scroll after dismissing the delete dialog. All CRUD, cancel-delete, confirm-delete, and persistence assertions remain.
+- HomeInboxScreenTest waits on fake DAO state rather than polling Compose semantics repeatedly inside waitUntil.
 
-Previous exact-source run #1042 / run 43202211901 tested Source SHA 49e7be01b6c5476376806ce2774623b3e2faab99. JVM tests, Debug APK build, Room Android runtime validation and AndroidTest compilation passed; instrumentation was 25/26. The only failure was the compact-layout test querying the off-screen LazyColumn save item before scrolling it into composition. This request validates the corrected test order and all new coverage at the exact SHA above.
+Previous full run #1043 / run 43214458358 validated Source SHA 0ec0297facfa9f55586594c66a2af4c30d900d2f. JVM tests, Debug APK build, Room Android runtime validation, and AndroidTest compilation passed. Instrumentation ran 28 tests: 27 passed, 1 failed. The only failure was the existing lifeEntryCanBeEditedAndDeletedWithConfirmation test at line 390: after scrolling to the edited body text, the delete action was not fully within the touchable viewport. The two new Inbox retry/persistence tests and the compact-layout test were not reported as failures. This request validates the corrected action-specific scrolling and all prior changes at the exact Source SHA above.
 
-Keep the v3-to-v4 migration non-destructive and retain existing notebook, entry, response, asset, tag, inbox and media data. Preserve generated schema output for archive verification. No APK delivery is requested.
+Keep the v3-to-v4 migration non-destructive and preserve notebook, entry, response, asset, tag, inbox and media data. Preserve generated schema and test report artifacts for review. No APK delivery requested.
 
-Request ID: inbox-retry-persistence-compact-regression-2026-11-12-1
+Request ID: life-action-retry-regression-2026-11-12-2
