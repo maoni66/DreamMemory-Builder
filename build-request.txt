@@ -1,8 +1,8 @@
 DreamMemory — RSS/Atom discovery, Room v5 migration, database restore reopen, migration-chain and Compose test fixes
 
-Source SHA: 4fe27318d0035a45086cd08ec539c1211e7a8abf
+Source SHA: cc178cdd6122f9dfed706694c7b9df0890ba0550
 Source ref: feature/media-library-foundation
-Expected source SHA at trigger: 4fe27318d0035a45086cd08ec539c1211e7a8abf
+Expected source SHA at trigger: cc178cdd6122f9dfed706694c7b9df0890ba0550
 Validation scope: full
 Deliver APK: no
 Run full validation of only :dm-app at the exact Source SHA. Use JDK 17 and Gradle 9.4.1. Verify lifecycle-runtime-compose, RSS Parser 6.0.10, OkHttp 4.12.0 and Jsoup 1.24.1 resolution; Room 2.8.5 v5 schema generation; independent Room Android runtime validation; migration v3->v4->v5; JVM tests; Debug APK build; AndroidTest compilation; all app instrumentation tests; compact-screen/large-font matrix. Do not run frozen legacy :app. Do not publish APK or public release.
