@@ -1,8 +1,8 @@
 DreamMemory — RSS/Atom discovery, Room v5 migration, database restore reopen, migration-chain and Compose test fixes
 
-Source SHA: e3cb11cf95f6a3b8f27f7502be72da26b5564424
+Source SHA: 4fe27318d0035a45086cd08ec539c1211e7a8abf
 Source ref: feature/media-library-foundation
-Expected source SHA at trigger: e3cb11cf95f6a3b8f27f7502be72da26b5564424
+Expected source SHA at trigger: 4fe27318d0035a45086cd08ec539c1211e7a8abf
 Validation scope: full
 Deliver APK: no
 Run full validation of only :dm-app at the exact Source SHA. Use JDK 17 and Gradle 9.4.1. Verify lifecycle-runtime-compose, RSS Parser 6.0.10, OkHttp 4.12.0 and Jsoup 1.24.1 resolution; Room 2.8.5 v5 schema generation; independent Room Android runtime validation; migration v3->v4->v5; JVM tests; Debug APK build; AndroidTest compilation; all app instrumentation tests; compact-screen/large-font matrix. Do not run frozen legacy :app. Do not publish APK or public release.
@@ -30,4 +30,6 @@ Previous run #1047 / run 43221977762 validated parent Source SHA 2aea5f0eee5220e
 
 Previous run #1046 / run 43221471030 failed 3 JVM parser tests due Android XmlPullParserFactory being unavailable in local JVM tests; FeedContentParser/FakeParser separation and Android parser instrumentation were added after that run.
 
-Request ID: rss-discovery-room-v5-restore-reopen-2026-11-12-3
+Compact-screen follow-up: prior 32/32 instrumentation tests passed; targeted compact layout test exceeded its 8-minute per-orientation timeout while scrolling the LazyColumn with the IME visible. Replaced semantics-based performScrollToNode with bounded real swipe gestures and reduced each focused matrix invocation to 3 minutes. This is a test-driver synchronization fix; the test still asserts the save button is displayed and enabled with the keyboard visible, then verifies the saved Room row.
+
+Request ID: rss-discovery-room-v5-restore-reopen-2026-11-12-4
