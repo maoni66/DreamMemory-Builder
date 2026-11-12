@@ -1,8 +1,8 @@
-DreamMemory — RSS/Atom discovery, Room v5 migration, restore database reopening, and full regression
+DreamMemory — RSS/Atom discovery, Room v5 migration, restore database reopening, and parser runtime separation
 
-Source SHA: 7abf0d3b9fb53595eccd28f6dcd14dae93711086
+Source SHA: 2aea5f0eee5220e6535eb029796bed458ac8da95
 Source ref: feature/media-library-foundation
-Expected source SHA at trigger: 7abf0d3b9fb53595eccd28f6dcd14dae93711086
+Expected source SHA at trigger: 2aea5f0eee5220e6535eb029796bed458ac8da95
 Validation scope: full
 Deliver APK: no
 Run full validation of only :dm-app at the exact Source SHA. Use JDK 17 and Gradle 9.4.1. Verify lifecycle-runtime-compose, RSS Parser 6.0.10, OkHttp 4.12.0 and Jsoup 1.24.1 resolution; Room 2.8.5 v5 schema generation; independent Room Android runtime validation; production migration v3->v4 and v4->v5; JVM tests; Debug APK build; AndroidTest compilation; all app instrumentation tests; compact-screen/large-font matrix. Do not run frozen legacy :app. Do not publish APK or public release.
@@ -10,9 +10,10 @@ Run full validation of only :dm-app at the exact Source SHA. Use JDK 17 and Grad
 Regression coverage:
 - Existing Inbox draft retention/retry and real file database persistence tests.
 - Existing Life notebook/entry/response CRUD and compact-layout save tests.
-- FeedRepositoryTest: URL normalization/duplicate subscription prevention, Atom parsing, article deduplication, failed fetch retained and successful retry clears error, invalid URL rejection, read/delete scoped to subscription.
+- FeedRepositoryTest: URL normalization/duplicate subscription prevention, parsed Atom field mapping, article deduplication, missing GUID fallback, failed fetch retained and successful retry clears error, invalid URL rejection, read/delete scoped to subscription. These JVM tests inject FakeParser and do not invoke Android XML APIs.
+- RssParserInstrumentationTest: execute real RSS Parser 6.0.10 on Android runtime against RSS 2.0, Atom and RDF XML fixtures.
 - FeedMigrationTest.migration4To5AddsFeedTablesAndPreservesExistingRows: execute production migration SQL on Android SQLite, verify existing inbox/media rows remain, article table/index creation and cascade delete.
-- DiscoverScreenTest.addSubscriptionFetchAndSearchDisplaysPersistedArticle: Compose UI adds a subscription, fetches RSS into Room, then searches persisted article content.
+- DiscoverScreenTest.addSubscriptionFetchAndSearchDisplaysPersistedArticle: Compose UI adds a subscription, fetches RSS into Room, then searches persisted article content using the real Android XML parser.
 - DatabaseReopenTest.restoreReplacementIsVisibleAfterDatabaseReopen: close DB for restore, replace the on-disk DB with a fixture database, reopen Room, and verify the restored file contents and new DAO generation.
 - Verify MainActivity shows the database restore gate and recreates repositories after databaseGeneration changes.
 
@@ -23,6 +24,8 @@ Migration requirements:
 - Do not treat the database reopen lifecycle API as a completed ZIP backup/restore system; no archive restore UI exists yet.
 - No EPUB/Readium, Media3 player or local media asset import acceptance is requested in this run; those remain explicitly unimplemented.
 
-Previous full run #1045 / run 43217424328 validated parent Source SHA bc59356dff909f6beb3d6eae556a938accaac12d. The Builder job completed successfully: JVM tests, Debug APK build, Room Android runtime validation, AndroidTest compilation, app instrumentation and compact-screen/large-font matrix steps all reported success. APK delivery and publish steps were skipped by request.
+Previous run #1046 / run 43221471030 tested parent Source SHA 7abf0d3b9fb53595eccd28f6dcd14dae93711086. Gradle configuration and compilation succeeded, but 10 JVM tests completed with 3 failures. All 3 failures were caused by calling Android XmlPullParserFactory from local JVM tests. The code now separates FeedContentParser from FeedRepository, injects FakeParser for JVM tests, and adds RssParserInstrumentationTest for real RSS/Atom/RDF parsing on Android. This run must verify that correction.
 
-Request ID: rss-discovery-room-v5-restore-reopen-2026-11-12-1
+Previous full run #1045 / run 43217424328 validated parent Source SHA bc59356dff909f6beb3d6eae556a938accaac12d. JVM tests, Debug APK build, Room Android runtime validation, AndroidTest compilation, app instrumentation and compact-screen/large-font matrix steps all reported success. APK delivery and publish steps were skipped by request.
+
+Request ID: rss-discovery-room-v5-restore-reopen-2026-11-12-2
