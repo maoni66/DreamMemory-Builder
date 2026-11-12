@@ -32,7 +32,7 @@ for orientation in portrait landscape; do
   echo "Targeted life editor instrumentation — $orientation / enlarged font:"
   adb shell settings get system font_scale
   adb shell wm size
-  timeout --signal=TERM --kill-after=30s 8m gradle :dm-app:connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=$test_selector" --stacktrace --console=plain
+  timeout --signal=TERM --kill-after=15s 3m gradle :dm-app:connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=$test_selector" --stacktrace --console=plain
 done
 
 adb shell wm size reset
