@@ -1,21 +1,21 @@
-DreamMemory — Inbox retry/persistence and life action reachability regression
+DreamMemory — final Life E2E flow and Inbox persistence/retry regression
 
-Source SHA: 3c092616b30e10f0d11686c488bda9474cd2a392
+Source SHA: bc59356dff909f6beb3d6eae556a938accaac12d
 Source ref: feature/media-library-foundation
-Expected source SHA at trigger: 3c092616b30e10f0d11686c488bda9474cd2a392
+Expected source SHA at trigger: bc59356dff909f6beb3d6eae556a938accaac12d
 Validation scope: full
 Deliver APK: no
 Run full validation of only :dm-app at the exact Source SHA. Verify JDK 17 / Gradle 9.4.1 application configuration, lifecycle-runtime-compose dependency and collectAsStateWithLifecycle, Room 2.8.5 schema v4 generation, independent Room 2.8.5 Android runtime validation, v3-to-v4 migration data preservation, JVM tests, AndroidTest compilation, all app instrumentation tests, and compact-screen/large-font matrix. Do not run frozen legacy :app. Do not publish APK or public release.
 
-Regression coverage to verify:
-- HomeInboxScreenTest.failedCaptureKeepsDraftAndRetryPersistsExactlyOnce: first DAO write fails, original draft remains, error and explicit retry are shown; second write succeeds and persists exactly one row.
-- InboxPersistenceTest.capturedItemSurvivesClosingAndReopeningTheFileDatabase: real Room file database is closed and reopened; raw text, type, status and timestamps remain.
-- MainActivityTest.lifeNotebookEditorSavesInCompactLayout: scrolls the LazyColumn save action itself into view before asserting displayed/enabled and saving.
-- MainActivityTest.lifeEntryCanBeEditedAndDeletedWithConfirmation: now scrolls to each exact edit/delete action after bringing the row into composition; repeats the scroll after dismissing the delete dialog. All CRUD, cancel-delete, confirm-delete, and persistence assertions remain.
-- HomeInboxScreenTest waits on fake DAO state rather than polling Compose semantics repeatedly inside waitUntil.
+Regression coverage:
+- HomeInboxScreenTest.failedCaptureKeepsDraftAndRetryPersistsExactlyOnce: first DAO write fails, original draft remains, error and retry are visible; retry succeeds and exactly one item is stored.
+- InboxPersistenceTest.capturedItemSurvivesClosingAndReopeningTheFileDatabase: real Room file DB is closed/reopened and raw text, kind, status and timestamps remain.
+- MainActivityTest.lifeNotebookEditorSavesInCompactLayout: scrolls the LazyColumn save action into view before asserting displayed/enabled and saving.
+- MainActivityTest.lifeEntryCanBeEditedAndDeletedWithConfirmation: scrolls the exact edit/delete actions into view; repeats after dismissing the delete dialog; retains all CRUD assertions.
+- MainActivityTest.lifeEntryCanHaveMultipleResponsesThatCanBeEditedAndDeleted: now creates the notebook and entry through the actual Life UI before adding responses, so the Life screen observes the Room Flow before the entry is inserted. This avoids testing a database row that exists before the UI has subscribed.
 
-Previous full run #1043 / run 43214458358 validated Source SHA 0ec0297facfa9f55586594c66a2af4c30d900d2f. JVM tests, Debug APK build, Room Android runtime validation, and AndroidTest compilation passed. Instrumentation ran 28 tests: 27 passed, 1 failed. The only failure was the existing lifeEntryCanBeEditedAndDeletedWithConfirmation test at line 390: after scrolling to the edited body text, the delete action was not fully within the touchable viewport. The two new Inbox retry/persistence tests and the compact-layout test were not reported as failures. This request validates the corrected action-specific scrolling and all prior changes at the exact Source SHA above.
+Previous full run #1044 / run 43215897237 validated Source SHA 3c092616b30e10f0d11686c488bda9474cd2a392. JVM tests, Debug APK build, Room Android runtime validation and AndroidTest compilation passed. Instrumentation: 28 tests, 27 passed, 1 failed. The earlier life-entry edit/delete test passed after action-specific scrolling. The only failure was the multiple-response E2E test: it pre-created the notebook and entry through Repository before opening Life, then queried the LazyColumn after waitForIdle; the Room row existed but the UI Flow had not yet emitted. This request validates the UI-first fixture and all prior changes at the exact Source SHA above.
 
-Keep the v3-to-v4 migration non-destructive and preserve notebook, entry, response, asset, tag, inbox and media data. Preserve generated schema and test report artifacts for review. No APK delivery requested.
+Preserve generated schema and test report artifacts. Keep v3-to-v4 migration non-destructive and retain notebook, entry, response, asset, tag, inbox and media data. No APK delivery requested.
 
-Request ID: life-action-retry-regression-2026-11-12-2
+Request ID: life-ui-flow-response-regression-2026-11-12-3
