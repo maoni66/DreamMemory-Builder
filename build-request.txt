@@ -1,21 +1,28 @@
-DreamMemory — final Life E2E flow and Inbox persistence/retry regression
+DreamMemory — RSS/Atom discovery, Room v5 migration, restore database reopening, and full regression
 
-Source SHA: bc59356dff909f6beb3d6eae556a938accaac12d
+Source SHA: 7abf0d3b9fb53595eccd28f6dcd14dae93711086
 Source ref: feature/media-library-foundation
-Expected source SHA at trigger: bc59356dff909f6beb3d6eae556a938accaac12d
+Expected source SHA at trigger: 7abf0d3b9fb53595eccd28f6dcd14dae93711086
 Validation scope: full
 Deliver APK: no
-Run full validation of only :dm-app at the exact Source SHA. Verify JDK 17 / Gradle 9.4.1 application configuration, lifecycle-runtime-compose dependency and collectAsStateWithLifecycle, Room 2.8.5 schema v4 generation, independent Room 2.8.5 Android runtime validation, v3-to-v4 migration data preservation, JVM tests, AndroidTest compilation, all app instrumentation tests, and compact-screen/large-font matrix. Do not run frozen legacy :app. Do not publish APK or public release.
+Run full validation of only :dm-app at the exact Source SHA. Use JDK 17 and Gradle 9.4.1. Verify lifecycle-runtime-compose, RSS Parser 6.0.10, OkHttp 4.12.0 and Jsoup 1.24.1 resolution; Room 2.8.5 v5 schema generation; independent Room Android runtime validation; production migration v3->v4 and v4->v5; JVM tests; Debug APK build; AndroidTest compilation; all app instrumentation tests; compact-screen/large-font matrix. Do not run frozen legacy :app. Do not publish APK or public release.
 
 Regression coverage:
-- HomeInboxScreenTest.failedCaptureKeepsDraftAndRetryPersistsExactlyOnce: first DAO write fails, original draft remains, error and retry are visible; retry succeeds and exactly one item is stored.
-- InboxPersistenceTest.capturedItemSurvivesClosingAndReopeningTheFileDatabase: real Room file DB is closed/reopened and raw text, kind, status and timestamps remain.
-- MainActivityTest.lifeNotebookEditorSavesInCompactLayout: scrolls the LazyColumn save action into view before asserting displayed/enabled and saving.
-- MainActivityTest.lifeEntryCanBeEditedAndDeletedWithConfirmation: scrolls the exact edit/delete actions into view; repeats after dismissing the delete dialog; retains all CRUD assertions.
-- MainActivityTest.lifeEntryCanHaveMultipleResponsesThatCanBeEditedAndDeleted: now creates the notebook and entry through the actual Life UI before adding responses, so the Life screen observes the Room Flow before the entry is inserted. This avoids testing a database row that exists before the UI has subscribed.
+- Existing Inbox draft retention/retry and real file database persistence tests.
+- Existing Life notebook/entry/response CRUD and compact-layout save tests.
+- FeedRepositoryTest: URL normalization/duplicate subscription prevention, Atom parsing, article deduplication, failed fetch retained and successful retry clears error, invalid URL rejection, read/delete scoped to subscription.
+- FeedMigrationTest.migration4To5AddsFeedTablesAndPreservesExistingRows: execute production migration SQL on Android SQLite, verify existing inbox/media rows remain, article table/index creation and cascade delete.
+- DiscoverScreenTest.addSubscriptionFetchAndSearchDisplaysPersistedArticle: Compose UI adds a subscription, fetches RSS into Room, then searches persisted article content.
+- DatabaseReopenTest.restoreReplacementIsVisibleAfterDatabaseReopen: close DB for restore, replace the on-disk DB with a fixture database, reopen Room, and verify the restored file contents and new DAO generation.
+- Verify MainActivity shows the database restore gate and recreates repositories after databaseGeneration changes.
 
-Previous full run #1044 / run 43215897237 validated Source SHA 3c092616b30e10f0d11686c488bda9474cd2a392. JVM tests, Debug APK build, Room Android runtime validation and AndroidTest compilation passed. Instrumentation: 28 tests, 27 passed, 1 failed. The earlier life-entry edit/delete test passed after action-specific scrolling. The only failure was the multiple-response E2E test: it pre-created the notebook and entry through Repository before opening Life, then queried the LazyColumn after waitForIdle; the Room row existed but the UI Flow had not yet emitted. This request validates the UI-first fixture and all prior changes at the exact Source SHA above.
+Migration requirements:
+- Preserve all existing v4 user data and all prior migration history.
+- New v5 tables are feed_subscriptions and feed_articles; unique article key is (sourceId, guid), subscription deletion cascades only its own cached articles.
+- Preserve generated Room schema v5 and test report artifacts for later source archival.
+- Do not treat the database reopen lifecycle API as a completed ZIP backup/restore system; no archive restore UI exists yet.
+- No EPUB/Readium, Media3 player or local media asset import acceptance is requested in this run; those remain explicitly unimplemented.
 
-Preserve generated schema and test report artifacts. Keep v3-to-v4 migration non-destructive and retain notebook, entry, response, asset, tag, inbox and media data. No APK delivery requested.
+Previous full run #1045 / run 43217424328 validated parent Source SHA bc59356dff909f6beb3d6eae556a938accaac12d. The Builder job completed successfully: JVM tests, Debug APK build, Room Android runtime validation, AndroidTest compilation, app instrumentation and compact-screen/large-font matrix steps all reported success. APK delivery and publish steps were skipped by request.
 
-Request ID: life-ui-flow-response-regression-2026-11-12-3
+Request ID: rss-discovery-room-v5-restore-reopen-2026-11-12-1
