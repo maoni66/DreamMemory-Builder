@@ -1,19 +1,24 @@
 DreamMemory Kazumi rule catalog and life IME accessibility validation
 
-Source SHA: 901eefd35135f5a8f7cc0c8a8feb6c7133c80bf1
+Source SHA: 360c4d173dcdea3770dccb89971a878bbf9c909b
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 901eefd35135f5a8f7cc0c8a8feb6c7133c80bf1
+Expected source SHA at trigger: 360c4d173dcdea3770dccb89971a878bbf9c909b
 Validation scope: app
 Deliver APK: no
 
 Validate this exact source revision. Run JVM unit tests, Debug APK build, AndroidTest compilation, and the standard API 35 application instrumentation suite. Do not run the full compact-screen matrix in this iteration. Do not publish or deliver an APK.
 
 Coverage focus:
-- New KazumiRuleCatalogParserTest and KazumiRulesCatalogRepositoryTest.
-- Verify KazumiRules index/rule JSON parsing, timestamp normalization, safe names, version matching, and bounded public-network transport.
-- Verify life entry editor/save controls remain reachable above IME with the keyboard visible.
+- KazumiRuleCatalogParserTest and KazumiRulesCatalogRepositoryTest now run on AndroidJUnit4 because parser uses Android org.json runtime.
+- Verify rule index/document parsing, seconds/milliseconds timestamp normalization, safe names, version matching, HTTP(S) validation, and chapter selector pairing.
+- Verify life entry editor/save controls remain reachable above IME with keyboard visible.
 - Re-run all existing life notebook create/save/edit/delete/multiple-response tests.
-- Preserve all Inbox, Discover RSS/Atom, media foundation, database migration, and persistence regression tests.
+- Preserve Inbox, Discover RSS/Atom, media foundation, migration, and persistence regression tests.
+
+Previous run #1054 / Source SHA 901eefd35135f5a8f7cc0c8a8feb6c7133c80bf1:
+- JVM 26 tests: 20 passed, 6 failed; all six were new Kazumi parser/repository tests using Android org.json stubs in local JVM runtime.
+- The parser's JSON code is Android runtime code; moved these tests to Android instrumentation, consistent with existing Legado JSON tests.
+- No Debug APK or instrumentation ran in #1054 because JVM tests failed.
 
 Previous run #1053 / Source SHA f1196a9f5ad1fd3d5797803ee3ff2e606fa84bf9:
 - JVM tests, Debug APK build, and AndroidTest compilation passed.
@@ -27,4 +32,4 @@ Kazumi licensing:
 - Predidit/KazumiRules is MIT; format parser and safe catalog client are clean-room DreamMemory code. No remote site rule files are bundled in APK.
 - No JS/WebView execution, anti-bot bypass, HLS ad filtering, or playback implementation is claimed.
 
-Request ID: kazumi-rule-catalog-life-ime-2026-11-13-r1
+Request ID: kazumi-rule-catalog-life-ime-2026-11-13-r2
