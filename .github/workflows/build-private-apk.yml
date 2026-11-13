@@ -283,6 +283,7 @@ jobs:
             adb shell cmd window user-rotation lock 0 || return $?
             adb shell settings put system accelerometer_rotation 0 || return $?
             adb shell settings put system user_rotation 0 || return $?
+            adb shell settings put secure navigation_mode 2 || return $?
             adb shell settings put global window_animation_scale 0 || return $?
             adb shell settings put global transition_animation_scale 0 || return $?
             adb shell settings put global animator_duration_scale 0 || return $?
