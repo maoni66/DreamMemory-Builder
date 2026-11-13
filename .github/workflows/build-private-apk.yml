@@ -278,28 +278,42 @@ jobs:
             adb shell wm size 1080x1920 || return $?
             adb shell wm density 420 || return $?
             adb shell settings put system font_scale 1.0 || return $?
+            # Lock the WindowManager rotation as well as the Settings toggle. The
+            # Settings write alone was observed to leave auto-rotate enabled on API 35.
+            adb shell cmd window user-rotation lock 0 || return $?
             adb shell settings put system accelerometer_rotation 0 || return $?
             adb shell settings put system user_rotation 0 || return $?
             adb shell settings put global window_animation_scale 0 || return $?
             adb shell settings put global transition_animation_scale 0 || return $?
             adb shell settings put global animator_duration_scale 0 || return $?
+            adb shell settings put global auto_time_zone 0 || return $?
+            adb shell setprop persist.sys.timezone Asia/Shanghai || return $?
             adb shell input keyevent 111 >/dev/null 2>&1 || true
-            local sdk size density font rotation accelerometer
+            local sdk size density font rotation accelerometer timezone nav window_anim transition_anim animator
             sdk="$(adb shell getprop ro.build.version.sdk | tr -d '\r')"
             size="$(adb shell wm size)"
             density="$(adb shell wm density)"
             font="$(adb shell settings get system font_scale | tr -d '\r')"
             rotation="$(adb shell settings get system user_rotation | tr -d '\r')"
             accelerometer="$(adb shell settings get system accelerometer_rotation | tr -d '\r')"
+            timezone="$(adb shell getprop persist.sys.timezone | tr -d '\r')"
+            nav="$(adb shell settings get secure navigation_mode | tr -d '\r')"
+            window_anim="$(adb shell settings get global window_animation_scale | tr -d '\r')"
+            transition_anim="$(adb shell settings get global transition_animation_scale | tr -d '\r')"
+            animator="$(adb shell settings get global animator_duration_scale | tr -d '\r')"
             [[ "$sdk" == "35" ]] || { echo "Expected API 35 emulator, got $sdk"; return 1; }
             [[ "$size" == *"1080x1920"* ]] || { echo "Unexpected standard display size: $size"; return 1; }
             [[ "$density" == *"420"* ]] || { echo "Unexpected standard display density: $density"; return 1; }
             [[ "$font" == "1.0" ]] || { echo "Unexpected font scale: $font"; return 1; }
-            [[ "$rotation" == "0" ]] || { echo "Unexpected device rotation: rotation=$rotation accelerometer=$accelerometer"; return 1; }
-            if [[ "$accelerometer" != "0" ]]; then
-              echo "Note: auto-rotate setting remained enabled ($accelerometer); current device rotation is portrait and remains suitable for instrumentation."
-            fi
-            echo "Standard emulator baseline verified: API 35 / 1080x1920 / 420dpi / fontScale 1.0 / portrait"
+            [[ "$rotation" == "0" ]] || { echo "Expected portrait rotation 0, got $rotation"; return 1; }
+            [[ "$accelerometer" == "0" ]] || { echo "Auto-rotate was not disabled; accelerometer_rotation=$accelerometer"; return 1; }
+            [[ "$timezone" == "Asia/Shanghai" ]] || { echo "Unexpected emulator timezone: $timezone"; return 1; }
+            [[ "$nav" == "2" ]] || { echo "Expected gesture navigation mode 2, got $nav"; return 1; }
+            [[ "$window_anim" == "0" && "$transition_anim" == "0" && "$animator" == "0" ]] || {
+              echo "Unexpected animation scales: window=$window_anim transition=$transition_anim animator=$animator"
+              return 1
+            }
+            echo "Standard emulator baseline verified: API 35 / Pixel 2 profile / 1080x1920 / 420dpi / fontScale 1.0 / portrait locked / gesture navigation / Asia-Shanghai timezone / animations off"
           }
 
           prepare_emulator || { status=$?; snapshot_emulator; exit "$status"; }
