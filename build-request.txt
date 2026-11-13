@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: 760cfec8092f7e8fae127681c34be858d01d838a
-Expected source SHA at trigger: 760cfec8092f7e8fae127681c34be858d01d838a
+Source SHA: e0edad57551a3edf9bdf43bf801f699a7abe4b46
+Expected source SHA at trigger: e0edad57551a3edf9bdf43bf801f699a7abe4b46
 Validation scope: quick
 Deliver APK: no
 
-Exactly one active request is stored in this file. Do not append historical requests; workflow parses the first matching fields.
+Exactly one active request is stored in this file. Do not append history.
 
-This revision includes Room v7 migration 6->7, per-source LAN permission persistence/UI, source-host-scoped DNS authorization, IPv4/IPv6 special-purpose address rejection tests, Kazumi source enablement and multi-source Discover search/chapters. Kazumi executor JSON tests were moved to AndroidTest because they exercise Android org.json APIs. Validate JVM unit tests, Debug APK build and AndroidTest Kotlin compilation. Do not publish or deliver APK.
+#1079 completed with 38 JVM tests and two IPv6 prefix-mask failures. Corrected 2001::/23 and 3fff::/20 prefix masks, explicitly blocked 2001:db8::/32, added IPv6/IPv4 special-range tests, isolated OkHttp connection pools per source execution to prevent LAN authorization reuse, and added regression coverage. Also added ResourceSourceRepository fake transport and per-source HTTP failure persistence tests. Validate exact source SHA: JVM unit tests, Debug APK build, AndroidTest Kotlin compilation. Do not publish or deliver APK.
 
-Request ID: dm-room7-source-lan-discover-search-2026-11-13-r25
+Request ID: dm-ipv6-prefix-and-connection-pool-fix-2026-11-13-r26
