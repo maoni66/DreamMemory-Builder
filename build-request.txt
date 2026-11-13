@@ -1,8 +1,8 @@
 Builder #1067 follow-up: verify final portrait lock ordering and run Life edit regression
 
-Source SHA: ede5279e62dff74ad3bb15a987836c60b7f80647
+Source SHA: 3cffc776d583095cdc7b89c88d36a8306fd77ce8
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: ede5279e62dff74ad3bb15a987836c60b7f80647
+Expected source SHA at trigger: 3cffc776d583095cdc7b89c88d36a8306fd77ce8
 Validation scope: app
 Deliver APK: no
 
