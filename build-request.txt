@@ -26,3 +26,30 @@ Application regression:
 - Run JVM tests including RSS redirect credential isolation.
 
 Request ID: portrait-lock-order-life-edit-regression-2026-11-13-r15
+
+
+Builder #1068 follow-up: await Life notebook detail Flow before asserting composer
+
+Source SHA: 3cffc776d583095cdc7b89c88d36a8306fd77ce8
+Source ref: rebuild/dm-product-baseline
+Expected source SHA at trigger: 3cffc776d583095cdc7b89c88d36a8306fd77ce8
+Validation scope: app
+Deliver APK: no
+
+Run JVM unit tests, Debug APK build, AndroidTest compile, then the complete standard API 35 instrumentation suite. Do not run the compact-screen matrix.
+
+#1068 actual outcome (run 43432562762, Source SHA ede5279e62dff74ad3bb15a987836c60b7f80647):
+- JVM unit tests, Debug APK build, AndroidTest compile passed.
+- Emulator preflight passed, including API 35, 1080x1920, 420dpi, fontScale 1.0, accelerometer_rotation=0, WindowManager USER_ROTATION_LOCKED / ROTATION_0, gesture navigation and Asia/Shanghai timezone.
+- Instrumentation ran 67 tests: 66 passed, 1 failed.
+- Sole failure MainActivityTest.lifeEntryCanHaveMultipleResponsesThatCanBeEditedAndDeleted at MainActivityTest.kt:437: after tapping a newly created notebook, the test immediately requested life_entry_input before observeNotebook(selectedNotebookId) emitted its asynchronous Room Flow value. LifeScreen intentionally renders notebook_loading while that initial query is pending.
+- No evidence of a record persistence or response CRUD failure; the test failed before typing the first record.
+
+Fix under test:
+- MainActivityTest now waits up to 5 seconds for the life_entry_input semantics node after opening the notebook. All existing input, save, Room persistence and multiple response/edit/delete assertions remain intact.
+- Source test fix commit: 4a97b43c1a28e40234681119d121a1baa95caa3e.
+- Documentation commits record #1068 and this unverified fix.
+
+Run the full standard API 35 app suite and report exact test counts. Do not package or deliver an APK in this run.
+
+Request ID: life-notebook-flow-wait-regression-2026-11-13-r16
