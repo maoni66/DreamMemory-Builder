@@ -1,15 +1,29 @@
-Kazumi upstream rules corpus compile validation — retry after test fixture repair
+Kazumi rules corpus and request builder instrumentation validation
 
-Source SHA: d1323af0c8123f46b26746f74bf33daa1ef215bc
+Source SHA: 0712b09a015e945f9dc2378cd75eb96964365704
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: d1323af0c8123f46b26746f74bf33daa1ef215bc
-Validation scope: quick
+Expected source SHA at trigger: 0712b09a015e945f9dc2378cd75eb96964365704
+Validation scope: app
 Deliver APK: no
 
-Run JVM unit tests, Debug APK build, and AndroidTest source compilation. Do not start an emulator or run instrumentation.
+Run JVM tests, Debug APK build, AndroidTest compile, then the standard API 35 instrumentation suite on the fixed emulator baseline. Do not run the full compact-screen matrix.
 
-Previous run #1060 / 43412735264 compiled JVM and Debug APK successfully but AndroidTest compilation failed because the patch operation had corrupted the delimiter fixture test file (raw-string dollar sequence replacement expanded the suffix repeatedly). The test file has now been reconstructed from the pre-edit source and the Kotlin raw-string dollar characters are expressed as ${'$'} literals; no duplicated trailing fragments remain.
+Includes:
+- 18 pinned official Predidit/KazumiRules JSON fixtures (MIT; source commit ddafb963fe37a7f87159da7d34feab4105221ce0) in AndroidTest assets only, not production APK.
+- Corpus test parsing all 18 rules against the current Kazumi rule catalog parser.
+- KazumiRuleResponseParser tests for XPath, XPath union, API JSONPath object/array roots, nested and delimited chapter responses.
+- KazumiRuleRequestBuilder tests for official xfdmnext POST JSON, dalvdm GET query encoding, and explicit rejection of captcha/anti-crawler and legacy iframe parser requirements.
+- Existing Room, MediaScreen source import/delete, Inbox, Discover RSS/Atom, life notebook and other app regressions.
 
-The source also includes 18 AndroidTest-only JSON fixtures from Predidit/KazumiRules commit ddafb963fe37a7f87159da7d34feab4105221ce0, plus a corpus parser test. Fixtures are not packaged in the production APK. MIT notices and pinned source are recorded in the source repository.
+Previous #1061 / run 43413152854 against Source SHA d1323af0c8123f46b26746f74bf33daa1ef215bc:
+- JVM unit tests passed.
+- Debug APK build passed.
+- AndroidTest source compilation passed.
+- It validated test-source repair/corpus test compilation only; no instrumentation was run.
 
-Request ID: kazumi-rules-corpus-quick-2026-11-13-r8
+Important scope:
+- KazumiRuleRequestBuilder only produces ResourceHttpRequestSpec; it does not execute network requests.
+- No captcha solving, arbitrary JS/WebView execution, HLS ad filtering, or playback.
+- Predidit/Kazumi application source is GPL-3.0 and is not copied; only the separate MIT rules repository is used as data/fixtures.
+
+Request ID: kazumi-corpus-request-builder-app-2026-11-13-r9
