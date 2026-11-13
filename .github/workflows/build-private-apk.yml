@@ -321,7 +321,10 @@ jobs:
             [[ "$density" == *"420"* ]] || { echo "Unexpected standard display density: $density"; return 1; }
             [[ "$font" == "1.0" ]] || { echo "Unexpected font scale: $font"; return 1; }
             [[ "$rotation" == "0" ]] || { echo "Expected portrait rotation 0, got $rotation"; return 1; }
-            [[ "$accelerometer" == "0" ]] || { echo "Auto-rotate setting is not disabled; accelerometer_rotation=$accelerometer"; return 1; }
+            [[ "$accelerometer" == "0" && "$rotation_lock" == "lock 0" ]] || {
+              echo "Portrait lock is not active; accelerometer_rotation=$accelerometer wm_user_rotation=$rotation_lock"
+              return 1
+            }
             [[ "$rotation_state" == "mUserRotationMode=USER_ROTATION_LOCKED mUserRotation=ROTATION_0" ]] || {
               echo "WindowManager portrait lock not active: $rotation_state"
               return 1
