@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: 1cd4c969aa688611313b6ea141215b025a0bd28c
-Expected source SHA at trigger: 1cd4c969aa688611313b6ea141215b025a0bd28c
+Source SHA: 115d0b6f9cc3a64758e7eb38a161e8ad36d23d9d
+Expected source SHA at trigger: 115d0b6f9cc3a64758e7eb38a161e8ad36d23d9d
 Validation scope: app
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-#1083 passed JVM tests, Debug APK, AndroidTest compile and API35 emulator baseline. Instrumentation executed 73 tests with 70 passed and 3 UI visibility failures: RSS source controls were offscreen in LazyColumn; Kazumi results/chapters were not scrolled into view; Life response assertions ran with IME visible. Latest source adds Discover LazyColumn testTag + performScrollToNode for source controls/results/chapters, waits for RSS search data, and dismisses IME before Life response visibility assertions. Re-run full app scope on this exact source SHA, including JVM, Debug APK, AndroidTest compile and API35 instrumentation. Deliver no APK and do not publish.
+#1084 passed JVM tests and Debug APK but AndroidTest Kotlin compilation failed because three MainActivityTest calls to Compose performScrollTo() require ExperimentalTestApi opt-in. Added ExperimentalTestApi import and @OptIn on the Life multiple-response test. This SHA also includes Discover LazyColumn scroll anchors and RSS/Kazumi scroll-to-node fixes. Re-run full app scope on exact source SHA: JVM, Debug APK, AndroidTest compile and API35 emulator instrumentation. Deliver no APK and do not publish.
 
-Request ID: dm-discover-life-ui-visibility-regressions-2026-11-13-r30
+Request ID: dm-life-scroll-optin-and-discover-ui-retest-2026-11-13-r31
