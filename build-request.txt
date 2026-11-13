@@ -1,29 +1,28 @@
-Builder #1066 follow-up: verify supported emulator timezone command and Life edit regression
+Builder #1067 follow-up: verify final portrait lock ordering and run Life edit regression
 
-Source SHA: 1df4e8dc6d6d28f22f9a8473786dfacd2ad5b0c2
+Source SHA: ede5279e62dff74ad3bb15a987836c60b7f80647
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 1df4e8dc6d6d28f22f9a8473786dfacd2ad5b0c2
+Expected source SHA at trigger: ede5279e62dff74ad3bb15a987836c60b7f80647
 Validation scope: app
 Deliver APK: no
 
 Run JVM unit tests, Debug APK build, AndroidTest compile, then standard API 35 instrumentation. Do not run the full compact-screen matrix in this focused run.
 
-#1066 actual outcome (run 43428028014):
-- JVM tests, Debug APK build, AndroidTest compile passed.
-- API 35 emulator booted and connected.
-- Readback confirmed 1080x1920, 420 dpi, fontScale 1.0, accelerometer_rotation=0, user_rotation=0, gesture navigation mode 2.
-- Instrumentation did not start. Preflight failed because adb shell setprop persist.sys.timezone Asia/Shanghai is denied by the API 35 emulator property policy. This was an environment preflight failure, not an app test failure.
-- AVD config profile is pixel_2; system product/model reports sdk_gphone64_x86_64. Report these separately.
+#1067 actual outcome (run 43431040172):
+- JVM unit tests, Debug APK build, AndroidTest compile passed.
+- API 35 emulator booted; AlarmManager shell command cmd alarm set-timezone Asia/Shanghai did not produce a timezone failure.
+- Preflight stopped before instrumentation because accelerometer_rotation read back 1.
+- Failure snapshot confirmed WindowManager state USER_ROTATION_FREE / ROTATION_0. Portrait was current orientation but not locked. This was a real preflight failure, not an application test failure.
+- Display readback was 1080x1920, 420 dpi, fontScale 1.0; gesture navigation mode 2.
 
 Fix under test:
-- Set timezone using adb shell cmd alarm set-timezone Asia/Shanghai, not direct setprop.
-- Keep auto_time_zone=0 and verify the active timezone readback equals Asia/Shanghai.
-- Keep strict readback for API 35, display, density, font scale, portrait rotation, auto-rotate, gesture navigation and animation scales.
-- Do not continue into instrumentation if any required setting is wrong.
+- Write accelerometer_rotation=0 and user_rotation=0 first, then execute cmd window user-rotation lock 0 last.
+- Verify both Settings values and WindowManager dumpsys state USER_ROTATION_LOCKED / ROTATION_0. Stop before instrumentation if either is wrong.
+- Keep Asia/Shanghai timezone and all previous display, density, font, navigation and animation readbacks.
 
 Application regression:
-- LifeScreen clears TextField focus after successful edit save, before dismissing the edit dialog.
+- LifeScreen clears TextField focus after successful edit save before dismissing the edit dialog.
 - Run all app instrumentation tests, especially MainActivityTest.lifeEntryCanBeEditedAndDeletedWithConfirmation, DiscoverScreen teardown, MediaScreen, Kazumi fixtures and notebook responses.
 - Run JVM tests including RSS redirect credential isolation.
 
-Request ID: timezone-command-life-edit-regression-2026-11-13-r14
+Request ID: portrait-lock-order-life-edit-regression-2026-11-13-r15
