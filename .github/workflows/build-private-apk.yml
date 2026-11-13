@@ -218,7 +218,7 @@ jobs:
           retention-days: 7
 
       - name: Restore Gradle 9.4.1 for new DreamMemory app instrumentation tests
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'quick' || steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "9.4.1"
