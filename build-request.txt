@@ -1,35 +1,19 @@
-DreamMemory — RSS/Atom discovery, Room v5 migration, database restore reopen, migration-chain and Compose test fixes
+DreamMemory legacy-source migration and single-module cleanup
 
-Source SHA: cc178cdd6122f9dfed706694c7b9df0890ba0550
-Source ref: feature/media-library-foundation
-Expected source SHA at trigger: cc178cdd6122f9dfed706694c7b9df0890ba0550
-Validation scope: full
+Source SHA: b2ad4bb1cd6edc788be5e1ee4574ce1f3c0cee3a
+Source ref: rebuild/dm-product-baseline
+Expected source SHA at trigger: b2ad4bb1cd6edc788be5e1ee4574ce1f3c0cee3a
+Validation scope: app
 Deliver APK: no
-Run full validation of only :dm-app at the exact Source SHA. Use JDK 17 and Gradle 9.4.1. Verify lifecycle-runtime-compose, RSS Parser 6.0.10, OkHttp 4.12.0 and Jsoup 1.24.1 resolution; Room 2.8.5 v5 schema generation; independent Room Android runtime validation; migration v3->v4->v5; JVM tests; Debug APK build; AndroidTest compilation; all app instrumentation tests; compact-screen/large-font matrix. Do not run frozen legacy :app. Do not publish APK or public release.
 
-Regression coverage:
-- Existing Inbox draft retention/retry and real file database persistence tests.
-- Existing Life notebook/entry/response CRUD and compact-layout save tests.
-- FeedRepositoryTest: URL normalization/duplicate subscription prevention, parsed Atom field mapping, article deduplication, missing GUID fallback, failed fetch retained and successful retry clears error, invalid URL rejection, read/delete scoped to subscription. JVM tests inject FakeParser.
-- RssParserInstrumentationTest: execute real RSS Parser 6.0.10 on Android runtime against RSS 2.0, Atom and RDF XML fixtures.
-- FeedMigrationTest: execute production v4->v5 migration SQL on Android SQLite, verify feed tables, composite uniqueness and cascade delete.
-- MediaLibraryMigrationTest.migration3To5PreservesAllExistingUserData: open legacy v3 database, execute v3->v4->v5 production migrations, verify existing user rows, media rows, feed tables and user_version=5.
-- DiscoverScreenTest.addSubscriptionFetchAndSearchDisplaysPersistedArticle: Compose UI adds a subscription, fetches RSS into Room, then searches persisted article content.
-- DatabaseReopenTest.restoreReplacementIsVisibleAfterDatabaseReopen: close DB for restore, replace the on-disk DB with a fixture database, reopen Room, and verify restored file contents and new DAO generation.
-- MainActivityTest life-entry editor/delete and multiple-response tests: verify database writes, Flow updates, edit/delete confirmation and final state without polling Compose semantics from waitUntil.
-- Verify MainActivity shows database restore gate and recreates repositories after databaseGeneration changes.
+Validate the exact source revision. Run JVM unit tests, Debug APK build, AndroidTest compilation, and the standard API 35 application instrumentation suite. Do not run the full compact-screen matrix in this migration check. Do not publish or deliver an APK.
 
-Migration requirements:
-- Preserve all existing v4 user data and all prior migration history.
-- New v5 tables are feed_subscriptions and feed_articles; unique article key is (sourceId, guid), subscription deletion cascades only its own cached articles.
-- Preserve generated Room schema v5 and test report artifacts for later source archival.
-- Do not treat the database reopen lifecycle API as a completed ZIP backup/restore system; no archive restore UI exists yet.
-- No EPUB/Readium, Media3 player or local media asset import acceptance is requested in this run; those remain explicitly unimplemented.
+Migration coverage:
+- BackupArchivePathValidationTest: ZIP traversal, absolute paths, drive prefixes, backslashes, NUL, empty path segments, blank and oversized names.
+- LegacyReusableUtilitiesTest: PNG alpha round-trip, nested and legacy Legado rule lookup, JS/WebJS rejection, request-template expansion, request-header validation/merge precedence, and coroutine cancellation propagation.
+- Verify only :dm-app is included as the application module; old app/ directory must be absent.
+- Preserve existing Inbox, Life, Discover RSS/Atom, Media Library, database migration, and persistence regression tests.
 
-Previous run #1047 / run 43221977762 validated parent Source SHA 2aea5f0eee5220e6535eb029796bed458ac8da95. JVM tests, Debug APK, Room Android runtime and AndroidTest compilation passed. Instrumentation had 32 tests, 29 passed and 3 failed: one legacy migration test omitted the new 4->5 migration; two life UI tests had Compose/Room synchronization races. Source fixes are included in this request.
+The old HTTP transport was intentionally not copied because its DNS resolution is not pinned to the connected address. The old backup restore state machine was intentionally not copied because it is coupled to legacy data models. These are documented in docs/OLD_SOURCE_REUSE_AUDIT.md.
 
-Previous run #1046 / run 43221471030 failed 3 JVM parser tests due Android XmlPullParserFactory being unavailable in local JVM tests; FeedContentParser/FakeParser separation and Android parser instrumentation were added after that run.
-
-Compact-screen follow-up: prior 32/32 instrumentation tests passed; targeted compact layout test exceeded its 8-minute per-orientation timeout while scrolling the LazyColumn with the IME visible. Replaced semantics-based performScrollToNode with bounded real swipe gestures and reduced each focused matrix invocation to 3 minutes. This is a test-driver synchronization fix; the test still asserts the save button is displayed and enabled with the keyboard visible, then verifies the saved Room row.
-
-Request ID: rss-discovery-room-v5-restore-reopen-2026-11-12-4
+Request ID: legacy-reuse-cleanup-2026-11-13
