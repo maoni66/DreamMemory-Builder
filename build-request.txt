@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: 115d0b6f9cc3a64758e7eb38a161e8ad36d23d9d
-Expected source SHA at trigger: 115d0b6f9cc3a64758e7eb38a161e8ad36d23d9d
+Source SHA: 462dfccc40e31cf5e62371248b8340f302f73892
+Expected source SHA at trigger: 462dfccc40e31cf5e62371248b8340f302f73892
 Validation scope: app
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-#1084 passed JVM tests and Debug APK but AndroidTest Kotlin compilation failed because three MainActivityTest calls to Compose performScrollTo() require ExperimentalTestApi opt-in. Added ExperimentalTestApi import and @OptIn on the Life multiple-response test. This SHA also includes Discover LazyColumn scroll anchors and RSS/Kazumi scroll-to-node fixes. Re-run full app scope on exact source SHA: JVM, Debug APK, AndroidTest compile and API35 emulator instrumentation. Deliver no APK and do not publish.
+#1085 passed JVM tests, Debug APK and AndroidTest compile but instrumentation never started: API35 emulator portrait setup still reported accelerometer_rotation=1 and USER_ROTATION_FREE. Builder main now uses wm user-rotation lock 0 and verifies wm output, Settings.System rotation values and WindowManager lock state with bounded retries. Re-run app scope on exact Source SHA: JVM, Debug APK, AndroidTest compile, then API35 emulator instrumentation. This source includes Discover LazyColumn scroll targeting, RSS source-control scroll, Kazumi results/chapters scroll, and Life response item scroll with ExperimentalTestApi opt-in. Deliver no APK and do not publish.
 
-Request ID: dm-life-scroll-optin-and-discover-ui-retest-2026-11-13-r31
+Request ID: dm-api35-wm-rotation-lock-and-ui-retest-2026-11-13-r32
