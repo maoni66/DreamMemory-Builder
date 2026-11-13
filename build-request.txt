@@ -1,21 +1,30 @@
-DreamMemory legacy-source migration and single-module cleanup
+DreamMemory Kazumi rule catalog and life IME accessibility validation
 
-Source SHA: f1196a9f5ad1fd3d5797803ee3ff2e606fa84bf9
+Source SHA: 901eefd35135f5a8f7cc0c8a8feb6c7133c80bf1
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: b2ad4bb1cd6edc788be5e1ee4574ce1f3c0cee3a
+Expected source SHA at trigger: 901eefd35135f5a8f7cc0c8a8feb6c7133c80bf1
 Validation scope: app
 Deliver APK: no
 
-Validate the exact source revision. Run JVM unit tests, Debug APK build, AndroidTest compilation, and the standard API 35 application instrumentation suite. Do not run the full compact-screen matrix in this migration check. Do not publish or deliver an APK.
+Validate this exact source revision. Run JVM unit tests, Debug APK build, AndroidTest compilation, and the standard API 35 application instrumentation suite. Do not run the full compact-screen matrix in this iteration. Do not publish or deliver an APK.
 
-Migration coverage:
-- BackupArchivePathValidationTest: ZIP traversal, absolute paths, drive prefixes, backslashes, NUL, empty path segments, blank and oversized names.
-- LegacyReusableUtilitiesTest: PNG alpha round-trip, nested and legacy Legado rule lookup, JS/WebJS rejection, request-template expansion, request-header validation/merge precedence, and coroutine cancellation propagation.
-- Verify only :dm-app is included as the application module; old app/ directory must be absent.
-- Preserve existing Inbox, Life, Discover RSS/Atom, Media Library, database migration, and persistence regression tests.
+Coverage focus:
+- New KazumiRuleCatalogParserTest and KazumiRulesCatalogRepositoryTest.
+- Verify KazumiRules index/rule JSON parsing, timestamp normalization, safe names, version matching, and bounded public-network transport.
+- Verify life entry editor/save controls remain reachable above IME with the keyboard visible.
+- Re-run all existing life notebook create/save/edit/delete/multiple-response tests.
+- Preserve all Inbox, Discover RSS/Atom, media foundation, database migration, and persistence regression tests.
 
-The old HTTP transport was intentionally not copied because its DNS resolution is not pinned to the connected address. The old backup restore state machine was intentionally not copied because it is coupled to legacy data models. These are documented in docs/OLD_SOURCE_REUSE_AUDIT.md.
+Previous run #1053 / Source SHA f1196a9f5ad1fd3d5797803ee3ff2e606fa84bf9:
+- JVM tests, Debug APK build, and AndroidTest compilation passed.
+- Instrumentation 38 tests: 36 passed, 2 failed.
+- lifeStartsEmptyAndCanCreateFolderNotebookAndPersistentEntry failed because save button was not displayed while it lived inside the IME-shrunk LazyColumn.
+- lifeEntryCanHaveMultipleResponsesThatCanBeEditedAndDeleted timed out waiting for the first entry; test did not verify input text or save-button enabled/displayed state.
+- Fixed by pinning editor/save area above IME and keeping history independently scrollable; strengthened assertions and changed Room wait to Flow predicate with timeout.
 
-Previous run #1051 / Source SHA 569dd93842b50db6241ec370da0fef66a3432f61 stopped at compileDebugKotlin because ResourceRequestSpec.kt used an invalid double-escaped CR/LF character literal. Fixed to valid Kotlin character escapes; rerun against the corrected exact source SHA.
+Kazumi licensing:
+- Predidit/Kazumi app is GPL-3.0; no source code copied.
+- Predidit/KazumiRules is MIT; format parser and safe catalog client are clean-room DreamMemory code. No remote site rule files are bundled in APK.
+- No JS/WebView execution, anti-bot bypass, HLS ad filtering, or playback implementation is claimed.
 
-Request ID: legacy-reuse-cleanup-2026-11-13-r2
+Request ID: kazumi-rule-catalog-life-ime-2026-11-13-r1
