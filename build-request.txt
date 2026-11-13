@@ -3,11 +3,11 @@ DreamMemory validation request
 Source ref: rebuild/dm-product-baseline
 Source SHA: a9bd609808b34a19599a69f7b938704849a90f2c
 Expected source SHA at trigger: a9bd609808b34a19599a69f7b938704849a90f2c
-Validation scope: quick
+Validation scope: app
 Deliver APK: no
 
-This file intentionally contains exactly one active request. Do not append request history here: the workflow reads the first matching Source ref, Source SHA, Validation scope, and Deliver APK fields. Historical requests and outcomes belong in docs/DEVELOPMENT_LOG.md in the source repository.
+This file intentionally contains exactly one active request. Never append request history; the workflow reads the first matching fields. Historical requests belong in DreamMemory docs/DEVELOPMENT_LOG.md.
 
-Validate the exact DreamMemory source commit above. Run JVM unit tests, Debug APK build, and AndroidTest Kotlin compilation. Do not start emulator, package, encrypt, publish, or deliver an APK.
+Re-run the exact source revision to capture JVM test XML/HTML diagnostics for the two JUnit initialization errors reported by Builder #1075. If JVM tests pass, proceed with Debug APK build, AndroidTest compilation and standard API35 instrumentation. Do not publish or deliver APK.
 
-Request ID: dm-quick-validation-2026-11-13-r21
+Request ID: dm-app-diagnostic-rerun-2026-11-13-r22
