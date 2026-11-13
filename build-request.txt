@@ -1,8 +1,8 @@
 Builder #1067 follow-up: verify final portrait lock ordering and run Life edit regression
 
-Source SHA: 6cb8a3d1f93f50305fd40e5865ac7607b7f75fe2
+Source SHA: 4b1149dae2e553fbdd74f93a8862e3be1040dab2
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 6cb8a3d1f93f50305fd40e5865ac7607b7f75fe2
+Expected source SHA at trigger: 4b1149dae2e553fbdd74f93a8862e3be1040dab2
 Validation scope: app
 Deliver APK: no
 
@@ -76,3 +76,18 @@ Changes under validation:
 Report exact JVM test counts and compile outcomes. Do not package or publish APK.
 
 Request ID: shared-http-transport-kazumi-executor-2026-11-13-r17
+
+
+Builder #1072 quick validation: correct MockWebServer alias and shared transport
+
+Source SHA: 4b1149dae2e553fbdd74f93a8862e3be1040dab2
+Source ref: rebuild/dm-product-baseline
+Expected source SHA at trigger: 4b1149dae2e553fbdd74f93a8862e3be1040dab2
+Validation scope: quick
+Deliver APK: no
+
+#1071 outcome: failed at Gradle Kotlin DSL configuration before any tests because the version catalog declared the MockWebServer version but omitted its library alias. Fixed by adding the missing libraries.mockwebserver accessor. No application source or test execution occurred in #1071.
+
+This run validates the corrected exact source SHA, including the shared SafeHttpTransport, RSS delegation, KazumiRuleExecutor, MockWebServer unit tests, and the corrected shared redirect policy test references. Run JVM unit tests, Debug APK build, and AndroidTest Kotlin compilation. Do not start emulator or publish APK.
+
+Request ID: shared-http-transport-kazumi-executor-2026-11-13-r18
