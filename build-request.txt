@@ -1,27 +1,33 @@
-Kazumi instrumentation regression fixes and RSS redirect policy verification
+DiscoverScreen instrumentation teardown fix and Kazumi/RSS regression verification
 
-Source SHA: da13396b5cff520a15138e89aaaee908e47436f8
+Source SHA: 411959be51361c33d20e3b0578f79e0a2958dc46
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: da13396b5cff520a15138e89aaaee908e47436f8
+Expected source SHA at trigger: 411959be51361c33d20e3b0578f79e0a2958dc46
 Validation scope: app
 Deliver APK: no
 
-Run JVM tests, Debug APK build, AndroidTest compile, then the standard API 35 instrumentation suite on the fixed emulator baseline. Do not run the full compact-screen matrix.
+Run JVM unit tests, Debug APK build, AndroidTest compile, then the standard API 35 instrumentation suite. Do not run the full compact-screen matrix.
 
-Fixes included:
-- Accept the Kazumi XPath current-node selector "." used by the official mutefun rule while retaining anti-crawler rejection in the request builder.
-- Correct the XPath union test fixture to use the selector-specific sibling anchor classes used by the pinned official ezdmw rule.
-- Keep MediaScreenTest in one Compose setContent root and dispose its content by state before closing the in-memory Room database.
-- Verify FeedXmlFetcher cross-origin credential stripping and same-origin header preservation JVM tests.
+Context from Builder #1064:
+- 67 instrumentation tests executed: 66 passed, 1 failed, 0 skipped.
+- All four prior failures from #1063 passed, including Kazumi XPath union, all 18 pinned official Kazumi rule fixtures and unsupported captcha/legacy rejection, and MediaScreen Kazumi import/delete.
+- FeedRedirectPolicyTest passed all 3 JVM cases.
+- The sole failure was DiscoverScreenTest.addSubscriptionFetchAndSearchDisplaysPersistedArticle. The test closed its in-memory Room database in @After while the Compose screen still had a lifecycle-aware searchArticles Flow collector. The XML stack reported SQLiteDatabase :memory: "attempt to re-open an already-closed object" during teardown, not an RSS parse or persistence assertion failure.
+
+Fix under test:
+- DiscoverScreenTest now renders the screen conditionally inside one Compose setContent root.
+- @After first removes DiscoverScreen through state, waits for Compose idle (cancelling lifecycle-aware Flow collection), then closes Room in a finally block.
+- This is test lifecycle cleanup only; no production FeedRepository/DAO/UI code was changed.
 
 Regression coverage:
-- All 18 pinned official Predidit/KazumiRules JSON fixtures (MIT; source commit ddafb963fe37a7f87159da7d34feab4105221ce0), AndroidTest assets only.
-- Kazumi XPath union, captcha/legacy-parser rejection, API JSONPath, nested/delimited chapter parsing, request builder and MediaScreen import/delete UI.
-- Existing Room, Inbox, Discover RSS/Atom, life notebook and other app instrumentation regressions.
+- Re-run all app instrumentation tests, including DiscoverScreenTest and MediaScreenTest.
+- Re-run the Kazumi parser/official catalog fixtures, request builder and unsupported-capability rejection tests.
+- Re-run RSS redirect policy JVM tests: same-origin header preservation, cross-origin credential stripping, cross-port origin isolation.
+- Preserve existing Room, Inbox, Life notebook and navigation regression coverage.
 
 Safety boundaries:
 - KazumiRuleRequestBuilder still only constructs ResourceHttpRequestSpec; it does not execute network requests.
 - No captcha solving, arbitrary JS/WebView execution, HLS ad filtering, or playback.
 - Predidit/Kazumi application source is GPL-3.0 and is not copied; only the separate MIT rules repository is used as data/fixtures.
 
-Request ID: kazumi-instrumentation-fixes-rss-policy-app-2026-11-13-r11
+Request ID: discover-teardown-kazumi-rss-app-2026-11-13-r12
