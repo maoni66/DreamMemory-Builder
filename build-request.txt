@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: a9bd609808b34a19599a69f7b938704849a90f2c
-Expected source SHA at trigger: a9bd609808b34a19599a69f7b938704849a90f2c
-Validation scope: app
+Source SHA: f166a58a80d2fd1969da15c5b959212dfd2e9d4a
+Expected source SHA at trigger: f166a58a80d2fd1969da15c5b959212dfd2e9d4a
+Validation scope: quick
 Deliver APK: no
 
-This file intentionally contains exactly one active request. Never append request history; the workflow reads the first matching fields. Historical requests belong in DreamMemory docs/DEVELOPMENT_LOG.md.
+Exactly one active request is stored in this file. Never append request history: the workflow reads the first matching fields. Historical requests belong in DreamMemory docs/DEVELOPMENT_LOG.md.
 
-Re-run the exact source revision to capture JVM test XML/HTML diagnostics for the two JUnit initialization errors reported by Builder #1075. If JVM tests pass, proceed with Debug APK build, AndroidTest compilation and standard API35 instrumentation. Do not publish or deliver APK.
+#1075/#1076 diagnosis: both JUnit initialization errors were InvalidTestClassError because Kotlin expression-bodied @Test methods returned the exception object from assertThrows instead of Unit. Fixed by adding explicit Unit as the final expression in the affected three tests. Run JVM unit tests, Debug APK build, and AndroidTest Kotlin compilation. Do not start emulator or publish/deliver APK.
 
-Request ID: dm-app-diagnostic-rerun-2026-11-13-r22
+Request ID: dm-junit-test-unit-return-fix-2026-11-13-r23
