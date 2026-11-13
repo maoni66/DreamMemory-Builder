@@ -267,7 +267,7 @@ jobs:
             echo "=== Activity/process state ==="
             adb shell dumpsys activity activities | tail -n 250 || true
             adb shell dumpsys activity processes | tail -n 180 || true
-            adb shell ps -A | grep -E 'com\\.dreammemory\\.app|instrumentation' || true
+            adb shell ps -A | grep -E 'com[.]dreammemory[.]app|instrumentation' || true
             adb shell cat /data/anr/traces.txt 2>/dev/null | tail -n 300 || true
             echo "=== Recent app/test logcat ==="
             adb logcat -d -t 10000 | grep -E 'AndroidRuntime|ActivityTaskManager|InputMethodManager|InputMethodService|Instrumentation|FATAL EXCEPTION|ANR|com.dreammemory.app|TestRunner' | tail -n 1400 || true
@@ -285,12 +285,12 @@ jobs:
             adb shell settings put global animator_duration_scale 0 || return $?
             adb shell input keyevent 111 >/dev/null 2>&1 || true
             local sdk size density font rotation accelerometer
-            sdk="$(adb shell getprop ro.build.version.sdk | tr -d '\\r')"
+            sdk="$(adb shell getprop ro.build.version.sdk | tr -d '\r')"
             size="$(adb shell wm size)"
             density="$(adb shell wm density)"
-            font="$(adb shell settings get system font_scale | tr -d '\\r')"
-            rotation="$(adb shell settings get system user_rotation | tr -d '\\r')"
-            accelerometer="$(adb shell settings get system accelerometer_rotation | tr -d '\\r')"
+            font="$(adb shell settings get system font_scale | tr -d '\r')"
+            rotation="$(adb shell settings get system user_rotation | tr -d '\r')"
+            accelerometer="$(adb shell settings get system accelerometer_rotation | tr -d '\r')"
             [[ "$sdk" == "35" ]] || { echo "Expected API 35 emulator, got $sdk"; return 1; }
             [[ "$size" == *"1080x1920"* ]] || { echo "Unexpected standard display size: $size"; return 1; }
             [[ "$density" == *"420"* ]] || { echo "Unexpected standard display density: $density"; return 1; }
