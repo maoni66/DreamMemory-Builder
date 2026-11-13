@@ -1,33 +1,33 @@
-DiscoverScreen instrumentation teardown fix and Kazumi/RSS regression verification
+Builder #1065 follow-up: verify edit IME dismissal and deterministic emulator setup
 
-Source SHA: 411959be51361c33d20e3b0578f79e0a2958dc46
+Source SHA: c10673d352ac2024137f63a5801f928159bf73fe
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 411959be51361c33d20e3b0578f79e0a2958dc46
+Expected source SHA at trigger: c10673d352ac2024137f63a5801f928159bf73fe
 Validation scope: app
 Deliver APK: no
 
-Run JVM unit tests, Debug APK build, AndroidTest compile, then the standard API 35 instrumentation suite. Do not run the full compact-screen matrix.
+Run JVM unit tests, Debug APK build, AndroidTest compile, then the complete standard API 35 instrumentation suite. Do not run the full compact-screen matrix in this focused regression run.
 
-Context from Builder #1064:
-- 67 instrumentation tests executed: 66 passed, 1 failed, 0 skipped.
-- All four prior failures from #1063 passed, including Kazumi XPath union, all 18 pinned official Kazumi rule fixtures and unsupported captcha/legacy rejection, and MediaScreen Kazumi import/delete.
-- FeedRedirectPolicyTest passed all 3 JVM cases.
-- The sole failure was DiscoverScreenTest.addSubscriptionFetchAndSearchDisplaysPersistedArticle. The test closed its in-memory Room database in @After while the Compose screen still had a lifecycle-aware searchArticles Flow collector. The XML stack reported SQLiteDatabase :memory: "attempt to re-open an already-closed object" during teardown, not an RSS parse or persistence assertion failure.
+Builder #1065 evidence (run 43426445641):
+- Exact Source SHA 411959be51361c33d20e3b0578f79e0a2958dc46.
+- JVM tests, Debug APK build, AndroidTest compile passed.
+- Standard API 35 instrumentation: 67 tests, 66 passed, 1 failed, 0 skipped.
+- The sole failure was MainActivityTest.lifeEntryCanBeEditedAndDeletedWithConfirmation at MainActivityTest.kt:391: life_entry_delete_<id>.assertIsDisplayed() after editing a record. This was an actual Compose visibility failure, not emulator boot/preflight failure.
+- Emulator diagnostics: API 35, Pixel 2 profile, 1080x1920, 420 dpi, fontScale 1.0, rotation 0, gesture navigation mode 2. However accelerometer_rotation remained 1 even after the previous settings write.
 
-Fix under test:
-- DiscoverScreenTest now renders the screen conditionally inside one Compose setContent root.
-- @After first removes DiscoverScreen through state, waits for Compose idle (cancelling lifecycle-aware Flow collection), then closes Room in a finally block.
-- This is test lifecycle cleanup only; no production FeedRepository/DAO/UI code was changed.
+Fixes under test:
+- DreamMemory LifeScreen now clears TextField focus after a successful edit save before dismissing the edit dialog, so the IME is dismissed before returning to the record list. The test's visibility and delete-confirmation assertions remain unchanged.
+- Builder emulator setup now locks WindowManager rotation to portrait, sets and verifies accelerometer_rotation=0 and user_rotation=0, pins Asia/Shanghai timezone, gesture navigation mode 2, and all three animation scales to 0. The runner must stop at preflight if a setting did not actually take effect; do not downgrade failed settings to notes.
 
-Regression coverage:
-- Re-run all app instrumentation tests, including DiscoverScreenTest and MediaScreenTest.
-- Re-run the Kazumi parser/official catalog fixtures, request builder and unsupported-capability rejection tests.
-- Re-run RSS redirect policy JVM tests: same-origin header preservation, cross-origin credential stripping, cross-port origin isolation.
-- Preserve existing Room, Inbox, Life notebook and navigation regression coverage.
+Regression scope:
+- All 67 app instrumentation tests, including life entry edit/delete, multiple responses, compact-layout save, DiscoverScreen teardown, MediaScreen import/delete, Kazumi parser and 18 official rule fixtures.
+- JVM unit tests including RSS redirect credential isolation.
+- Capture emulator preflight values and failure diagnostics as artifacts.
 
 Safety boundaries:
-- KazumiRuleRequestBuilder still only constructs ResourceHttpRequestSpec; it does not execute network requests.
+- Do not deliver or publish an APK in this run.
+- KazumiRuleRequestBuilder still only constructs ResourceHttpRequestSpec and is not connected to a real HTTP executor.
 - No captcha solving, arbitrary JS/WebView execution, HLS ad filtering, or playback.
-- Predidit/Kazumi application source is GPL-3.0 and is not copied; only the separate MIT rules repository is used as data/fixtures.
+- Predidit/Kazumi application source is GPL-3.0 and is not copied; the separate MIT rules repository is used only as rule data/fixtures.
 
-Request ID: discover-teardown-kazumi-rss-app-2026-11-13-r12
+Request ID: emulator-baseline-life-edit-regression-2026-11-13-r13
