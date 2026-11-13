@@ -104,3 +104,15 @@ Deliver APK: no
 #1072 reached Kotlin compilation and stopped on one visibility error: the public OkHttpFeedXmlFetcher constructor exposed the internal SafeHttpTransport type. Changed its constructor to internal; the fetcher API remains available within the app module and the production implementation remains encapsulated. No JVM tests ran in #1072. Validate this exact source SHA with JVM tests, Debug APK build, and AndroidTest compilation; do not start emulator or publish APK.
 
 Request ID: shared-http-transport-kazumi-executor-2026-11-13-r19
+
+Builder #1074 quick validation: repair SafeHttpTransport JVM test compilation
+
+Source SHA: 20fab04f7f4baf4e48bcb6fabd33f4061872a80d
+Source ref: rebuild/dm-product-baseline
+Expected source SHA at trigger: 20fab04f7f4baf4e48bcb6fabd33f4061872a80d
+Validation scope: quick
+Deliver APK: no
+
+#1073 outcome: JVM test compilation failed in SafeHttpTransportTest because IOException was not imported and OkHttp Dns is an interface, not a Kotlin SAM constructor. The same invalid Dns fixture pattern also existed in KazumiRuleExecutorTest. Replaced lambda-like Dns fixtures with explicit Dns implementations and added the missing IOException import. This run validates the exact updated source SHA with JVM tests, Debug APK build, and AndroidTest compilation. Do not start emulator or publish APK.
+
+Request ID: safe-http-transport-dns-fixture-fix-2026-11-13-r20
