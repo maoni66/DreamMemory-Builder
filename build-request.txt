@@ -1,34 +1,23 @@
-DreamMemory media source manager, Room v6 migration, Kazumi API parser, and life IME validation
+DreamMemory quick validation after MediaScreen source-list stability adjustments
 
-Source SHA: b36e2be8eb17f17bff789ae39e4627fb4c5c6d61
+Source SHA: f1d97abeaffe893d2897c3c0fcae7a671ff5d330
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: b36e2be8eb17f17bff789ae39e4627fb4c5c6d61
-Validation scope: app
+Expected source SHA at trigger: f1d97abeaffe893d2897c3c0fcae7a671ff5d330
+Validation scope: quick
 Deliver APK: no
 
-Validate this exact source revision. Run JVM unit tests, Debug APK build, AndroidTest compilation, standard API 35 instrumentation, and the configured compact-screen checks. Do not publish or deliver an APK.
+Run JVM unit tests, build the Debug APK, and compile Android instrumentation tests for this exact source SHA. Do not start an emulator or run instrumentation in this quick iteration.
 
-Coverage focus:
-- Room schema v6 and MIGRATION_5_6; verify v3-to-v6 migration preserves old rows and creates an empty resource_sources table.
-- ResourceSourceRepositoryTest: import a Kazumi rule with fake transport, verify raw JSON persistence, stable-key de-duplication, default disabled status, and delete.
-- MediaScreenTest: verify online catalogue state, import action, imported state, delete confirmation, and Room persistence. Fake transport only; no external network.
-- KazumiRulesCatalogParserTest: legacy API5, API8 absolute XPath union and nested chapter API, API9 API/XPath mixed modes, JSONPath and request-header validation.
-- KazumiRulesCatalogRepositoryTest: valid rule fixture, version match, exact version mismatch error, and path traversal rejection.
-- MainActivityTest: five-tab navigation, life create/save/edit/delete/multiple responses, response composer above IME, compact layout.
-- Preserve Inbox, Discover RSS/Atom, media library database, backup/reopen, and existing migration tests.
+Changes since the last passing app-scope build #1057:
+- Namespaced MediaScreen LazyColumn item keys to avoid collisions between local source IDs and remote rule names.
+- Added a stable testTag to the installed source delete action and updated MediaScreenTest to use it.
+- Dispose Compose content before closing the Room in-memory database in MediaScreenTest.
+- Removed an unused UI test import.
 
-Previous #1056 / Source SHA 1ef6227a1718d2be7b16f35bdadf604e15da97d6:
-- JVM, Debug APK, AndroidTest compile passed.
-- Instrumentation 54 tests: 53 passed, 1 failed.
-- All 11 MainActivity tests passed, including life multiple responses and pinned response composer.
-- All 12 Kazumi parser tests passed, including API5/8/9.
-- Only failure was KazumiRulesCatalogRepositoryTest fixture missing chapterRoads/chapterResult, so parser rejected it before version mismatch validation. Fixed both fixtures and made the version mismatch test assert the exact error.
-- This run did not include the later MediaScreen/Room v6 source manager commits.
+Previous #1057 / Source SHA b36e2be8eb17f17bff789ae39e4627fb4c5c6d61:
+- JVM tests, Debug APK build, AndroidTest compile passed.
+- API35 instrumentation 56/56 passed.
+- Room v3-to-v6 migration, ResourceSourceRepository import/de-dup/persistence/delete, MediaScreen refresh/import/delete, Kazumi API 5/8/9 parser and repository, Life, Inbox, Discover RSS/Atom and media DB regressions all passed.
+- Room v6 schema JSON was exported in the Builder artifact but is not yet committed to source.
 
-Kazumi source boundaries:
-- Predidit/Kazumi app is GPL-3.0; no source code copied.
-- Predidit/KazumiRules is MIT; only public rule index and individual JSON are fetched at runtime. Rule JSON is not bundled in APK.
-- Imported sources are saved disabled with compatibilityStatus=imported_not_executable.
-- No rule execution, network search, XPath/JSONPath evaluation, captcha/anti-bot, WebView playback, or HLS filtering is claimed.
-
-Request ID: media-kazumi-import-room6-2026-11-13-r4
+Request ID: media-source-manager-quick-2026-11-13-r5
