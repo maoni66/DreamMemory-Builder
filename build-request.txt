@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: b11731733c28b56f990df7ac33d5ed4450cad65f
-Expected source SHA at trigger: b11731733c28b56f990df7ac33d5ed4450cad65f
+Source SHA: 3c328321749f27cd87fe59cefe59dd3a800e018a
+Expected source SHA at trigger: 3c328321749f27cd87fe59cefe59dd3a800e018a
 Validation scope: app
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-#1081 on Source SHA 00268aee92e543a84b1d2926148fa2763df5560a passed JVM tests, Debug APK build and AndroidTest compilation. API35 emulator instrumentation ran 73 tests: 71 passed, 2 DiscoverScreenTest failures. One RSS article assertion did not scroll the LazyColumn item into view; the Kazumi UI test clicked before the automatically selected source state enabled the search button. Both tests have been corrected (performScrollTo, wait for search enabled/message). Re-run the full app scope on this exact SHA: JVM tests, Debug APK, AndroidTest compile, API35 emulator instrumentation and compact-screen matrix. Deliver no APK and do not publish.
+#1082 passed JVM tests, Debug APK and AndroidTest compilation but did not run instrumentation: API 35 emulator preparation aborted because accelerometer_rotation returned 1 after portrait lock. Builder workflow commit 15e72d19828f6409e3fca88a91d69b559bd2c9d4 now reasserts auto-rotate off after lock with bounded retries. Re-run full app scope on this exact source SHA: JVM, Debug APK, AndroidTest compile, API35 emulator instrumentation and compact-screen matrix. The source contains the corrected DiscoverScreen tests (scroll RSS/Discover LazyColumn results and wait for search enabled/message). Deliver no APK and do not publish.
 
-Request ID: dm-discover-ui-instrumentation-fixes-2026-11-13-r28
+Request ID: dm-full-app-retry-after-api35-emulator-setup-fix-2026-11-13-r29
