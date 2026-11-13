@@ -1,23 +1,27 @@
-DreamMemory quick validation after MediaScreen source-list stability adjustments
+Kazumi response parser compile validation
 
-Source SHA: f1d97abeaffe893d2897c3c0fcae7a671ff5d330
+Source SHA: 8809270405eaf592ac83a2222c2b21ae5bb3911f
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: f1d97abeaffe893d2897c3c0fcae7a671ff5d330
+Expected source SHA at trigger: 8809270405eaf592ac83a2222c2b21ae5bb3911f
 Validation scope: quick
 Deliver APK: no
 
-Run JVM unit tests, build the Debug APK, and compile Android instrumentation tests for this exact source SHA. Do not start an emulator or run instrumentation in this quick iteration.
+Run JVM unit tests, Debug APK build, and AndroidTest source compilation for this exact source SHA. Do not start an emulator or run instrumentation.
 
-Changes since the last passing app-scope build #1057:
-- Namespaced MediaScreen LazyColumn item keys to avoid collisions between local source IDs and remote rule names.
-- Added a stable testTag to the installed source delete action and updated MediaScreenTest to use it.
-- Dispose Compose content before closing the Room in-memory database in MediaScreenTest.
-- Removed an unused UI test import.
+New code:
+- KazumiRuleResponseParser parses XPath search results and chapter roads using the existing Jsoup 1.24.1 dependency.
+- Handles context-relative XPath and union expressions, including absolute selector arms.
+- Parses API JSON search results with a restricted JSONPath evaluator (property, array index, wildcard), object and top-level array roots.
+- Parses nested API chapter roads, episodePage URL/query templates, and delimited playFrom/playUrl chapter formats.
+- Rejects non-HTTP(S) result URLs and userinfo; response/result counts are bounded.
+- Does not perform network requests, evaluate JavaScript, run anti-crawler code, start WebView, or play media.
+- New instrumentation tests cover XPath, union, API JSONPath, top-level array, nested episodePage and delimited chapter formats.
 
 Previous #1057 / Source SHA b36e2be8eb17f17bff789ae39e4627fb4c5c6d61:
-- JVM tests, Debug APK build, AndroidTest compile passed.
-- API35 instrumentation 56/56 passed.
-- Room v3-to-v6 migration, ResourceSourceRepository import/de-dup/persistence/delete, MediaScreen refresh/import/delete, Kazumi API 5/8/9 parser and repository, Life, Inbox, Discover RSS/Atom and media DB regressions all passed.
-- Room v6 schema JSON was exported in the Builder artifact but is not yet committed to source.
+- JVM, Debug APK, AndroidTest compile passed; API35 instrumentation 56/56 passed.
+- Room v3→v6 migration, KazumiRules import/persistence/delete, MediaScreen import/delete UI, parser/catalog and all existing module regressions passed.
 
-Request ID: media-source-manager-quick-2026-11-13-r5
+CI note:
+- Builder workflow commit 63a0841d90e587616495e8bf08b0ce2cfd36576b makes quick scope compile AndroidTest sources without emulator; app scope runs standard API35 instrumentation; full scope includes compact-screen matrix.
+
+Request ID: kazumi-response-parser-quick-2026-11-13-r6
