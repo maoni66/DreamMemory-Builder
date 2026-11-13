@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: 1f6c6ac66f949846620c9251abcbd79cf9dc8ee2
-Expected source SHA at trigger: 1f6c6ac66f949846620c9251abcbd79cf9dc8ee2
-Validation scope: app
+Source SHA: 760cfec8092f7e8fae127681c34be858d01d838a
+Expected source SHA at trigger: 760cfec8092f7e8fae127681c34be858d01d838a
+Validation scope: quick
 Deliver APK: no
 
-Exactly one active request is stored in this file. Do not append historical requests.
+Exactly one active request is stored in this file. Do not append historical requests; workflow parses the first matching fields.
 
-Capture full JVM test diagnostics for Builder #1077's four failures, including the two SafeHttpTransport redirect/runtime failures and KazumiRuleExecutor MockWebServer failures. If JVM tests pass, continue Debug APK build, AndroidTest compile and API35 instrumentation. Do not publish or deliver an APK.
+This revision includes Room v7 migration 6->7, per-source LAN permission persistence/UI, source-host-scoped DNS authorization, IPv4/IPv6 special-purpose address rejection tests, Kazumi source enablement and multi-source Discover search/chapters. Kazumi executor JSON tests were moved to AndroidTest because they exercise Android org.json APIs. Validate JVM unit tests, Debug APK build and AndroidTest Kotlin compilation. Do not publish or deliver APK.
 
-Request ID: dm-app-test-diagnostic-2026-11-13-r24
+Request ID: dm-room7-source-lan-discover-search-2026-11-13-r25
