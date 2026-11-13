@@ -224,12 +224,12 @@ jobs:
           gradle-version: "9.4.1"
 
       - name: Compile new DreamMemory app instrumentation tests
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'quick' || steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
         shell: bash
         run: gradle :dm-app:assembleDebugAndroidTest --stacktrace --console=plain
 
       - name: Enable KVM for Android emulator
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'quick' || steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
         shell: bash
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -238,7 +238,7 @@ jobs:
           ls -l /dev/kvm
 
       - name: Prepare Bash instrumentation runner script
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'quick' || steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
         shell: bash
         run: |
           cat > "$RUNNER_TEMP/run-app-instrumentation.sh" <<'SCRIPT'
@@ -269,7 +269,7 @@ jobs:
           chmod +x "$RUNNER_TEMP/run-app-instrumentation.sh"
 
       - name: Run app instrumentation and compact-screen matrix in one emulator session
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'quick' || steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
         timeout-minutes: 28
         uses: reactivecircus/android-emulator-runner@v2
         env:
