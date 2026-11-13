@@ -1,8 +1,8 @@
 Kazumi rules corpus and request builder instrumentation validation
 
-Source SHA: 0712b09a015e945f9dc2378cd75eb96964365704
+Source SHA: 537409c2fdd3a974f5cf6454f4bb6ca665f86fb5
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 0712b09a015e945f9dc2378cd75eb96964365704
+Expected source SHA at trigger: 537409c2fdd3a974f5cf6454f4bb6ca665f86fb5
 Validation scope: app
 Deliver APK: no
 
@@ -26,4 +26,4 @@ Important scope:
 - No captcha solving, arbitrary JS/WebView execution, HLS ad filtering, or playback.
 - Predidit/Kazumi application source is GPL-3.0 and is not copied; only the separate MIT rules repository is used as data/fixtures.
 
-Request ID: kazumi-corpus-request-builder-app-2026-11-13-r9
+Request ID: kazumi-corpus-request-builder-app-2026-11-13-r10
