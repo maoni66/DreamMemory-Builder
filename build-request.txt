@@ -1,8 +1,8 @@
 Builder #1067 follow-up: verify final portrait lock ordering and run Life edit regression
 
-Source SHA: 3cffc776d583095cdc7b89c88d36a8306fd77ce8
+Source SHA: 6cb8a3d1f93f50305fd40e5865ac7607b7f75fe2
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 3cffc776d583095cdc7b89c88d36a8306fd77ce8
+Expected source SHA at trigger: 6cb8a3d1f93f50305fd40e5865ac7607b7f75fe2
 Validation scope: app
 Deliver APK: no
 
@@ -53,3 +53,26 @@ Fix under test:
 Run the full standard API 35 app suite and report exact test counts. Do not package or deliver an APK in this run.
 
 Request ID: life-notebook-flow-wait-regression-2026-11-13-r16
+
+
+Builder #1071 quick validation: shared SSRF-safe HTTP transport and Kazumi execution
+
+Source SHA: 6cb8a3d1f93f50305fd40e5865ac7607b7f75fe2
+Source ref: rebuild/dm-product-baseline
+Expected source SHA at trigger: 6cb8a3d1f93f50305fd40e5865ac7607b7f75fe2
+Validation scope: quick
+Deliver APK: no
+
+Run JVM unit tests, Debug APK build, and AndroidTest Kotlin compilation. Quick scope must not start the emulator.
+
+Changes under validation:
+- Added data/network/SafeHttpTransport.kt: shared OkHttp transport, GET/POST only, bounded request/header/response sizes, connect/read/call timeouts, no implicit retry, no system proxy, manual redirects (max 5), HTTPS downgrade rejection, same-origin credential policy, redirect method semantics, cancellation wired to Call.cancel(), DNS/IP checks including RFC1918 opt-in and reserved/mixed-answer rejection.
+- Refactored OkHttpFeedXmlFetcher to delegate through the shared transport while preserving the feed API and local-network consent flag.
+- Added KazumiRuleExecutor to execute existing validated GET/POST request specs through the same transport and pass successful response text into the existing XPath/JSONPath response parser. It is an engine component only; UI search/source enablement is not yet wired.
+- Added JVM tests for GET/POST, response charset/size, redirect credential stripping and method semantics, HTTPS downgrade, redirect limit, cancellation, DNS/IP/IPv6 ranges, and Kazumi search/chapter execution.
+- Added OkHttp MockWebServer 4.12.0 as a test-only dependency; production dependency set is unchanged.
+- Existing FeedRedirectPolicyTest now targets the shared redirect policy; FeedXmlFetcherTest checks transport delegation and local-network flag forwarding.
+
+Report exact JVM test counts and compile outcomes. Do not package or publish APK.
+
+Request ID: shared-http-transport-kazumi-executor-2026-11-13-r17
