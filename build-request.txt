@@ -1,6 +1,6 @@
 DreamMemory legacy-source migration and single-module cleanup
 
-Source SHA: 569dd93842b50db6241ec370da0fef66a3432f61
+Source SHA: f1196a9f5ad1fd3d5797803ee3ff2e606fa84bf9
 Source ref: rebuild/dm-product-baseline
 Expected source SHA at trigger: b2ad4bb1cd6edc788be5e1ee4574ce1f3c0cee3a
 Validation scope: app
@@ -16,4 +16,6 @@ Migration coverage:
 
 The old HTTP transport was intentionally not copied because its DNS resolution is not pinned to the connected address. The old backup restore state machine was intentionally not copied because it is coupled to legacy data models. These are documented in docs/OLD_SOURCE_REUSE_AUDIT.md.
 
-Request ID: legacy-reuse-cleanup-2026-11-13
+Previous run #1051 / Source SHA 569dd93842b50db6241ec370da0fef66a3432f61 stopped at compileDebugKotlin because ResourceRequestSpec.kt used an invalid double-escaped CR/LF character literal. Fixed to valid Kotlin character escapes; rerun against the corrected exact source SHA.
+
+Request ID: legacy-reuse-cleanup-2026-11-13-r2
