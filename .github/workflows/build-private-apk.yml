@@ -274,7 +274,7 @@ jobs:
           }
 
           prepare_emulator() {
-            local sdk size density font rotation accelerometer rotation_mode rotation_value timezone nav window_anim transition_anim animator
+            local sdk size density font rotation accelerometer rotation_mode rotation_value rotation_lock timezone nav window_anim transition_anim animator
             adb wait-for-device || return $?
             adb shell wm size 1080x1920 || return $?
             adb shell wm density 420 || return $?
@@ -284,11 +284,14 @@ jobs:
             # applying the lock, so reassert it afterwards and verify with bounded retries.
             adb shell settings put system accelerometer_rotation 0 || return $?
             adb shell settings put system user_rotation 0 || return $?
-            adb shell cmd window user-rotation lock 0 || return $?
+            adb shell wm user-rotation lock 0 || return $?
             for attempt in 1 2 3; do
+              rotation_lock="$(adb shell wm user-rotation | tr -d '\r')"
               accelerometer="$(adb shell settings get system accelerometer_rotation | tr -d '\r')"
-              [[ "$accelerometer" == "0" ]] && break
+              rotation="$(adb shell settings get system user_rotation | tr -d '\r')"
+              [[ "$rotation_lock" == "lock 0" && "$accelerometer" == "0" && "$rotation" == "0" ]] && break
               adb shell settings put system accelerometer_rotation 0 || return $?
+              adb shell wm user-rotation lock 0 || return $?
               sleep 1
             done
             adb shell settings put secure navigation_mode 2 || return $?
@@ -306,6 +309,7 @@ jobs:
             font="$(adb shell settings get system font_scale | tr -d '\r')"
             rotation="$(adb shell settings get system user_rotation | tr -d '\r')"
             accelerometer="$(adb shell settings get system accelerometer_rotation | tr -d '\r')"
+            rotation_lock="$(adb shell wm user-rotation | tr -d '\r')"
             rotation_state="$(adb shell dumpsys window | grep -m1 -o 'mUserRotationMode=[A-Z_]* mUserRotation=ROTATION_[0-9]' || true)"
             timezone="$(adb shell getprop persist.sys.timezone | tr -d '\r')"
             nav="$(adb shell settings get secure navigation_mode | tr -d '\r')"
