@@ -1,23 +1,15 @@
-Kazumi upstream rules corpus compile validation
+Kazumi upstream rules corpus compile validation — retry after test fixture repair
 
-Source SHA: 34271f29a3636d45486aaf97615a1cbb8cee829f
+Source SHA: d1323af0c8123f46b26746f74bf33daa1ef215bc
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 34271f29a3636d45486aaf97615a1cbb8cee829f
+Expected source SHA at trigger: d1323af0c8123f46b26746f74bf33daa1ef215bc
 Validation scope: quick
 Deliver APK: no
 
-Run:
-- JVM unit tests
-- Debug APK build
-- AndroidTest source compilation
-- Do not start emulator or run instrumentation.
+Run JVM unit tests, Debug APK build, and AndroidTest source compilation. Do not start an emulator or run instrumentation.
 
-Changes:
-- Fixed Kotlin raw-string dollar interpolation in delimited Kazumi parser test.
-- Added 18 AndroidTest-only rule JSON fixtures from Predidit/KazumiRules pinned commit ddafb963fe37a7f87159da7d34feab4105221ce0.
-- Added a corpus test parsing all 18 real upstream rules by expected filename.
-- Fixtures are not included in production APK.
-- The rules repo is MIT licensed; notice and pinned source commit are recorded in docs/THIRD_PARTY_NOTICES.md and docs/OLD_SOURCE_REUSE_AUDIT.md.
-- This validates rule import/schema compatibility only, not HTTP execution, captcha, WebView, anti-crawler, ad filtering, or playback.
+Previous run #1060 / 43412735264 compiled JVM and Debug APK successfully but AndroidTest compilation failed because the patch operation had corrupted the delimiter fixture test file (raw-string dollar sequence replacement expanded the suffix repeatedly). The test file has now been reconstructed from the pre-edit source and the Kotlin raw-string dollar characters are expressed as ${'$'} literals; no duplicated trailing fragments remain.
 
-Request ID: kazumi-rules-corpus-quick-2026-11-13-r7
+The source also includes 18 AndroidTest-only JSON fixtures from Predidit/KazumiRules commit ddafb963fe37a7f87159da7d34feab4105221ce0, plus a corpus parser test. Fixtures are not packaged in the production APK. MIT notices and pinned source are recorded in the source repository.
+
+Request ID: kazumi-rules-corpus-quick-2026-11-13-r8
