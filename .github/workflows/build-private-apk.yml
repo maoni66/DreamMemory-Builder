@@ -244,6 +244,62 @@ jobs:
           cat > "$RUNNER_TEMP/run-app-instrumentation.sh" <<'SCRIPT'
           #!/usr/bin/env bash
           set -euo pipefail
+
+          snapshot_emulator() {
+            echo "=== Device identity ==="
+            adb devices -l || true
+            adb shell getprop ro.build.version.sdk || true
+            adb shell getprop ro.build.fingerprint || true
+            adb shell getprop ro.product.model || true
+            echo "=== Display and system settings ==="
+            adb shell wm size || true
+            adb shell wm density || true
+            adb shell settings get system font_scale || true
+            adb shell settings get system accelerometer_rotation || true
+            adb shell settings get system user_rotation || true
+            adb shell settings get secure navigation_mode || true
+            adb shell settings get secure default_input_method || true
+            adb shell settings get system system_locales || true
+            adb shell ime list -s || true
+            echo "=== IME/focus/window state ==="
+            adb shell dumpsys input_method | grep -E 'mInputShown|mShowRequested|mCurFocusedWindow|mServedView|mImeLayeringTarget' | tail -n 160 || true
+            adb shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp|mImeLayeringTarget|mInputMethod' | tail -n 160 || true
+            echo "=== Activity/process state ==="
+            adb shell dumpsys activity activities | tail -n 250 || true
+            adb shell dumpsys activity processes | tail -n 180 || true
+            adb shell ps -A | grep -E 'com\\.dreammemory\\.app|instrumentation' || true
+            adb shell cat /data/anr/traces.txt 2>/dev/null | tail -n 300 || true
+            echo "=== Recent app/test logcat ==="
+            adb logcat -d -t 10000 | grep -E 'AndroidRuntime|ActivityTaskManager|InputMethodManager|InputMethodService|Instrumentation|FATAL EXCEPTION|ANR|com.dreammemory.app|TestRunner' | tail -n 1400 || true
+          }
+
+          prepare_emulator() {
+            adb wait-for-device || return $?
+            adb shell wm size 1080x1920 || return $?
+            adb shell wm density 420 || return $?
+            adb shell settings put system font_scale 1.0 || return $?
+            adb shell settings put system accelerometer_rotation 0 || return $?
+            adb shell settings put system user_rotation 0 || return $?
+            adb shell settings put global window_animation_scale 0 || return $?
+            adb shell settings put global transition_animation_scale 0 || return $?
+            adb shell settings put global animator_duration_scale 0 || return $?
+            adb shell input keyevent 111 >/dev/null 2>&1 || true
+            local sdk size density font rotation accelerometer
+            sdk="$(adb shell getprop ro.build.version.sdk | tr -d '\\r')"
+            size="$(adb shell wm size)"
+            density="$(adb shell wm density)"
+            font="$(adb shell settings get system font_scale | tr -d '\\r')"
+            rotation="$(adb shell settings get system user_rotation | tr -d '\\r')"
+            accelerometer="$(adb shell settings get system accelerometer_rotation | tr -d '\\r')"
+            [[ "$sdk" == "35" ]] || { echo "Expected API 35 emulator, got $sdk"; return 1; }
+            [[ "$size" == *"1080x1920"* ]] || { echo "Unexpected standard display size: $size"; return 1; }
+            [[ "$density" == *"420"* ]] || { echo "Unexpected standard display density: $density"; return 1; }
+            [[ "$font" == "1.0" ]] || { echo "Unexpected font scale: $font"; return 1; }
+            [[ "$rotation" == "0" && "$accelerometer" == "0" ]] || { echo "Unexpected orientation settings: rotation=$rotation accelerometer=$accelerometer"; return 1; }
+            echo "Standard emulator baseline verified: API 35 / 1080x1920 / 420dpi / fontScale 1.0 / portrait"
+          }
+
+          prepare_emulator || { status=$?; snapshot_emulator; exit "$status"; }
           if timeout --signal=TERM --kill-after=30s 5m gradle :dm-app:connectedDebugAndroidTest --stacktrace --console=plain; then
             if [[ "${VALIDATION_SCOPE:-app}" == "full" ]]; then
               sh "$RUNNER_TEMP/short-screen-matrix.sh"
@@ -253,15 +309,7 @@ jobs:
             mkdir -p dm-app/build/diagnostics
             {
               echo "Instrumentation failed with exit code $test_status"
-              echo "=== Emulator state ==="
-              adb devices -l || true
-              adb shell getprop ro.build.version.sdk || true
-              adb shell wm size || true
-              adb shell settings get system font_scale || true
-              echo "=== Recent app/test logcat ==="
-              adb logcat -d -t 8000 | grep -E 'AndroidRuntime|ActivityTaskManager|Instrumentation|FATAL EXCEPTION|ANR|com.dreammemory.app|TestRunner' | tail -n 1000 || true
-              echo "=== Activity state ==="
-              adb shell dumpsys activity activities | tail -n 250 || true
+              snapshot_emulator
             } | tee dm-app/build/diagnostics/instrumentation-failure.txt
             exit "$test_status"
           fi
