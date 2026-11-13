@@ -1,8 +1,8 @@
 Builder #1067 follow-up: verify final portrait lock ordering and run Life edit regression
 
-Source SHA: 4b1149dae2e553fbdd74f93a8862e3be1040dab2
+Source SHA: 4e763c0e216eff9b5532ff74f7adc2f677b2f8d1
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 4b1149dae2e553fbdd74f93a8862e3be1040dab2
+Expected source SHA at trigger: 4e763c0e216eff9b5532ff74f7adc2f677b2f8d1
 Validation scope: app
 Deliver APK: no
 
@@ -91,3 +91,16 @@ Deliver APK: no
 This run validates the corrected exact source SHA, including the shared SafeHttpTransport, RSS delegation, KazumiRuleExecutor, MockWebServer unit tests, and the corrected shared redirect policy test references. Run JVM unit tests, Debug APK build, and AndroidTest Kotlin compilation. Do not start emulator or publish APK.
 
 Request ID: shared-http-transport-kazumi-executor-2026-11-13-r18
+
+
+Builder #1073 quick validation: fix transport visibility compile error
+
+Source SHA: 4e763c0e216eff9b5532ff74f7adc2f677b2f8d1
+Source ref: rebuild/dm-product-baseline
+Expected source SHA at trigger: 4e763c0e216eff9b5532ff74f7adc2f677b2f8d1
+Validation scope: quick
+Deliver APK: no
+
+#1072 reached Kotlin compilation and stopped on one visibility error: the public OkHttpFeedXmlFetcher constructor exposed the internal SafeHttpTransport type. Changed its constructor to internal; the fetcher API remains available within the app module and the production implementation remains encapsulated. No JVM tests ran in #1072. Validate this exact source SHA with JVM tests, Debug APK build, and AndroidTest compilation; do not start emulator or publish APK.
+
+Request ID: shared-http-transport-kazumi-executor-2026-11-13-r19
