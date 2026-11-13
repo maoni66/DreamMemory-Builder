@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: e0edad57551a3edf9bdf43bf801f699a7abe4b46
-Expected source SHA at trigger: e0edad57551a3edf9bdf43bf801f699a7abe4b46
-Validation scope: quick
+Source SHA: 00268aee92e543a84b1d2926148fa2763df5560a
+Expected source SHA at trigger: 00268aee92e543a84b1d2926148fa2763df5560a
+Validation scope: app
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-#1079 completed with 38 JVM tests and two IPv6 prefix-mask failures. Corrected 2001::/23 and 3fff::/20 prefix masks, explicitly blocked 2001:db8::/32, added IPv6/IPv4 special-range tests, isolated OkHttp connection pools per source execution to prevent LAN authorization reuse, and added regression coverage. Also added ResourceSourceRepository fake transport and per-source HTTP failure persistence tests. Validate exact source SHA: JVM unit tests, Debug APK build, AndroidTest Kotlin compilation. Do not publish or deliver APK.
+#1080 validated JVM tests and Debug APK successfully, but AndroidTest compilation failed only because DiscoverScreenTest lacked imports for onAllNodesWithTag/onAllNodesWithText; fixed. This source also includes later changes not covered by #1080: RSS fetch/update column-level DAO operations to preserve concurrent per-source LAN permission changes, regression test for toggling permission during an in-flight fetch, HTTP/1.1-only transport to prevent cross-host HTTP/2 coalescing, per-execution isolated ConnectionPool and DNS revalidation. Validate the exact Source SHA end-to-end: JVM unit tests, Debug APK, AndroidTest compile, then API35 emulator instrumentation. Deliver no APK and do not publish.
 
-Request ID: dm-ipv6-prefix-and-connection-pool-fix-2026-11-13-r26
+Request ID: dm-full-app-validation-room7-discover-2026-11-13-r27
