@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: 3c328321749f27cd87fe59cefe59dd3a800e018a
-Expected source SHA at trigger: 3c328321749f27cd87fe59cefe59dd3a800e018a
+Source SHA: 1cd4c969aa688611313b6ea141215b025a0bd28c
+Expected source SHA at trigger: 1cd4c969aa688611313b6ea141215b025a0bd28c
 Validation scope: app
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-#1082 passed JVM tests, Debug APK and AndroidTest compilation but did not run instrumentation: API 35 emulator preparation aborted because accelerometer_rotation returned 1 after portrait lock. Builder workflow commit 15e72d19828f6409e3fca88a91d69b559bd2c9d4 now reasserts auto-rotate off after lock with bounded retries. Re-run full app scope on this exact source SHA: JVM, Debug APK, AndroidTest compile, API35 emulator instrumentation and compact-screen matrix. The source contains the corrected DiscoverScreen tests (scroll RSS/Discover LazyColumn results and wait for search enabled/message). Deliver no APK and do not publish.
+#1083 passed JVM tests, Debug APK, AndroidTest compile and API35 emulator baseline. Instrumentation executed 73 tests with 70 passed and 3 UI visibility failures: RSS source controls were offscreen in LazyColumn; Kazumi results/chapters were not scrolled into view; Life response assertions ran with IME visible. Latest source adds Discover LazyColumn testTag + performScrollToNode for source controls/results/chapters, waits for RSS search data, and dismisses IME before Life response visibility assertions. Re-run full app scope on this exact source SHA, including JVM, Debug APK, AndroidTest compile and API35 instrumentation. Deliver no APK and do not publish.
 
-Request ID: dm-full-app-retry-after-api35-emulator-setup-fix-2026-11-13-r29
+Request ID: dm-discover-life-ui-visibility-regressions-2026-11-13-r30
