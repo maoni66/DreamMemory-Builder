@@ -278,11 +278,11 @@ jobs:
             adb shell wm size 1080x1920 || return $?
             adb shell wm density 420 || return $?
             adb shell settings put system font_scale 1.0 || return $?
-            # Lock the WindowManager rotation as well as the Settings toggle. The
-            # Settings write alone was observed to leave auto-rotate enabled on API 35.
-            adb shell cmd window user-rotation lock 0 || return $?
+            # Set Settings values first; writing user_rotation after the WindowManager
+            # lock can switch the display back to USER_ROTATION_FREE on API 35.
             adb shell settings put system accelerometer_rotation 0 || return $?
             adb shell settings put system user_rotation 0 || return $?
+            adb shell cmd window user-rotation lock 0 || return $?
             adb shell settings put secure navigation_mode 2 || return $?
             adb shell settings put global window_animation_scale 0 || return $?
             adb shell settings put global transition_animation_scale 0 || return $?
@@ -292,13 +292,14 @@ jobs:
             # AlarmManager's supported shell command to change the active zone.
             adb shell cmd alarm set-timezone Asia/Shanghai || return $?
             adb shell input keyevent 111 >/dev/null 2>&1 || true
-            local sdk size density font rotation accelerometer timezone nav window_anim transition_anim animator
+            local sdk size density font rotation accelerometer rotation_mode rotation_value timezone nav window_anim transition_anim animator
             sdk="$(adb shell getprop ro.build.version.sdk | tr -d '\r')"
             size="$(adb shell wm size)"
             density="$(adb shell wm density)"
             font="$(adb shell settings get system font_scale | tr -d '\r')"
             rotation="$(adb shell settings get system user_rotation | tr -d '\r')"
             accelerometer="$(adb shell settings get system accelerometer_rotation | tr -d '\r')"
+            rotation_state="$(adb shell dumpsys window | grep -m1 -o 'mUserRotationMode=[A-Z_]* mUserRotation=ROTATION_[0-9]' || true)"
             timezone="$(adb shell getprop persist.sys.timezone | tr -d '\r')"
             nav="$(adb shell settings get secure navigation_mode | tr -d '\r')"
             window_anim="$(adb shell settings get global window_animation_scale | tr -d '\r')"
@@ -309,7 +310,11 @@ jobs:
             [[ "$density" == *"420"* ]] || { echo "Unexpected standard display density: $density"; return 1; }
             [[ "$font" == "1.0" ]] || { echo "Unexpected font scale: $font"; return 1; }
             [[ "$rotation" == "0" ]] || { echo "Expected portrait rotation 0, got $rotation"; return 1; }
-            [[ "$accelerometer" == "0" ]] || { echo "Auto-rotate was not disabled; accelerometer_rotation=$accelerometer"; return 1; }
+            [[ "$accelerometer" == "0" ]] || { echo "Auto-rotate setting is not disabled; accelerometer_rotation=$accelerometer"; return 1; }
+            [[ "$rotation_state" == "mUserRotationMode=USER_ROTATION_LOCKED mUserRotation=ROTATION_0" ]] || {
+              echo "WindowManager portrait lock not active: $rotation_state"
+              return 1
+            }
             [[ "$timezone" == "Asia/Shanghai" ]] || { echo "Unexpected emulator timezone: $timezone"; return 1; }
             [[ "$nav" == "2" ]] || { echo "Expected gesture navigation mode 2, got $nav"; return 1; }
             [[ "$window_anim" == "0" && "$transition_anim" == "0" && "$animator" == "0" ]] || {
