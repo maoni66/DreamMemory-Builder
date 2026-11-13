@@ -274,15 +274,23 @@ jobs:
           }
 
           prepare_emulator() {
+            local sdk size density font rotation accelerometer rotation_mode rotation_value timezone nav window_anim transition_anim animator
             adb wait-for-device || return $?
             adb shell wm size 1080x1920 || return $?
             adb shell wm density 420 || return $?
             adb shell settings put system font_scale 1.0 || return $?
-            # Set Settings values first; writing user_rotation after the WindowManager
-            # lock can switch the display back to USER_ROTATION_FREE on API 35.
+            # Lock portrait after setting the target rotation. On some API 35 emulator
+            # boots, WindowManager briefly re-enables accelerometer rotation while
+            # applying the lock, so reassert it afterwards and verify with bounded retries.
             adb shell settings put system accelerometer_rotation 0 || return $?
             adb shell settings put system user_rotation 0 || return $?
             adb shell cmd window user-rotation lock 0 || return $?
+            for attempt in 1 2 3; do
+              accelerometer="$(adb shell settings get system accelerometer_rotation | tr -d '\r')"
+              [[ "$accelerometer" == "0" ]] && break
+              adb shell settings put system accelerometer_rotation 0 || return $?
+              sleep 1
+            done
             adb shell settings put secure navigation_mode 2 || return $?
             adb shell settings put global window_animation_scale 0 || return $?
             adb shell settings put global transition_animation_scale 0 || return $?
@@ -292,7 +300,6 @@ jobs:
             # AlarmManager's supported shell command to change the active zone.
             adb shell cmd alarm set-timezone Asia/Shanghai || return $?
             adb shell input keyevent 111 >/dev/null 2>&1 || true
-            local sdk size density font rotation accelerometer rotation_mode rotation_value timezone nav window_anim transition_anim animator
             sdk="$(adb shell getprop ro.build.version.sdk | tr -d '\r')"
             size="$(adb shell wm size)"
             density="$(adb shell wm density)"
