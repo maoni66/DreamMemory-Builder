@@ -1,35 +1,30 @@
-DreamMemory Kazumi rule catalog and life IME accessibility validation
+DreamMemory Kazumi API 4–9 parser and life response IME validation
 
-Source SHA: 360c4d173dcdea3770dccb89971a878bbf9c909b
+Source SHA: 1ef6227a1718d2be7b16f35bdadf604e15da97d6
 Source ref: rebuild/dm-product-baseline
-Expected source SHA at trigger: 360c4d173dcdea3770dccb89971a878bbf9c909b
+Expected source SHA at trigger: 1ef6227a1718d2be7b16f35bdadf604e15da97d6
 Validation scope: app
 Deliver APK: no
 
-Validate this exact source revision. Run JVM unit tests, Debug APK build, AndroidTest compilation, and the standard API 35 application instrumentation suite. Do not run the full compact-screen matrix in this iteration. Do not publish or deliver an APK.
+Validate this exact source revision. Run JVM unit tests, Debug APK build, AndroidTest compilation, and the standard API 35 application instrumentation suite. Do not publish or deliver an APK.
 
 Coverage focus:
-- KazumiRuleCatalogParserTest and KazumiRulesCatalogRepositoryTest now run on AndroidJUnit4 because parser uses Android org.json runtime.
-- Verify rule index/document parsing, seconds/milliseconds timestamp normalization, safe names, version matching, HTTP(S) validation, and chapter selector pairing.
-- Verify life entry editor/save controls remain reachable above IME with keyboard visible.
-- Re-run all existing life notebook create/save/edit/delete/multiple-response tests.
-- Preserve Inbox, Discover RSS/Atom, media foundation, migration, and persistence regression tests.
+- KazumiRuleCatalogParserTest: legacy API5 XPath, API8 absolute XPath union, API8 nested API chapters with optional roadNamePath/episodePage, API9 API/XPath mixed and API/API modes, JSONPath/URL/header validation.
+- KazumiRulesCatalogRepositoryTest: fake fetcher, official catalog URL, safe rule path, version mismatch.
+- Verify all life notebook create/save/edit/delete/multiple-response tests, with both record and response composer pinned above IME.
+- Verify compact-layout life editor test and existing Discover RSS/Atom, Inbox, media foundation, migration and persistence regressions.
 
-Previous run #1054 / Source SHA 901eefd35135f5a8f7cc0c8a8feb6c7133c80bf1:
-- JVM 26 tests: 20 passed, 6 failed; all six were new Kazumi parser/repository tests using Android org.json stubs in local JVM runtime.
-- The parser's JSON code is Android runtime code; moved these tests to Android instrumentation, consistent with existing Legado JSON tests.
-- No Debug APK or instrumentation ran in #1054 because JVM tests failed.
+Previous #1055 / Source SHA 360c4d173dcdea3770dccb89971a878bbf9c909b:
+- JVM tests, Debug APK build, AndroidTest compile passed.
+- Instrumentation 50 tests: 49 passed, 1 failed.
+- Only failure: lifeEntryCanHaveMultipleResponsesThatCanBeEditedAndDeleted, response save button remained inside the entry card while IME was visible.
+- Fixed by moving response input/save/cancel into the same bottom-pinned composer region used by the main entry editor; the two composers are mutually exclusive.
 
-Previous run #1053 / Source SHA f1196a9f5ad1fd3d5797803ee3ff2e606fa84bf9:
-- JVM tests, Debug APK build, and AndroidTest compilation passed.
-- Instrumentation 38 tests: 36 passed, 2 failed.
-- lifeStartsEmptyAndCanCreateFolderNotebookAndPersistentEntry failed because save button was not displayed while it lived inside the IME-shrunk LazyColumn.
-- lifeEntryCanHaveMultipleResponsesThatCanBeEditedAndDeleted timed out waiting for the first entry; test did not verify input text or save-button enabled/displayed state.
-- Fixed by pinning editor/save area above IME and keeping history independently scrollable; strengthened assertions and changed Room wait to Flow predicate with timeout.
+Kazumi format audit:
+- Kazumi main commit 4ca04009fdae696883629e0984e7d7134cc7ed84 declares API Level 9.
+- KazumiRules commit ddafb963fe37a7f87159da7d34feab4105221ce0 currently lists 18 rule JSON files with API levels 4, 5, 6, 8, 9; README table still lists 1–5.
+- Current rules include one POST source (xfdmnext), two Referer sources (ezdmw/sorani), one legacy parser source (xfdmneo), and eight adBlocker flags. All 18 currently declare useWebview=true.
+- DreamMemory parser validates/imports metadata only; it does not execute requests, XPath/JSONPath, WebView, captcha/anti-bot, HLS filtering, or playback.
+- Kazumi app is GPL-3.0 and no source code is copied. KazumiRules is MIT and no site rule JSON is bundled in APK.
 
-Kazumi licensing:
-- Predidit/Kazumi app is GPL-3.0; no source code copied.
-- Predidit/KazumiRules is MIT; format parser and safe catalog client are clean-room DreamMemory code. No remote site rule files are bundled in APK.
-- No JS/WebView execution, anti-bot bypass, HLS ad filtering, or playback implementation is claimed.
-
-Request ID: kazumi-rule-catalog-life-ime-2026-11-13-r2
+Request ID: kazumi-api9-life-response-ime-2026-11-13-r3
