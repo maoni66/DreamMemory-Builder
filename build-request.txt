@@ -1,14 +1,14 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: 1772365ee89040a7595de1ae118378148b6853cc
-Expected source SHA at trigger: 1772365ee89040a7595de1ae118378148b6853cc
+Source SHA: df2b893f3f236a637b3e4c00938947db0ad42b21
+Expected source SHA at trigger: df2b893f3f236a637b3e4c00938947db0ad42b21
 Validation scope: app
 Instrumentation class: com.dreammemory.app.feature.media.MediaLibraryScreenTest
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-Run JVM unit tests, build Debug APK, Room runtime checks, AndroidTest compile, and only MediaLibraryScreenTest on the standard API 35 Pixel 2 emulator. Do not run the complete 73-test suite or compact-screen matrix in this diagnostic batch. This run validates schema v8 asset storage, media library UI/repository wiring, local cover poster component, and manual create/edit/status/rating/favorite/tag/response/delete flow. Do not publish or deliver APK.
+Run JVM unit tests, build Debug APK, Room runtime checks, AndroidTest compile, and only MediaLibraryScreenTest on the standard API 35 Pixel 2 emulator. Do not run the complete instrumentation suite or compact-screen matrix in this diagnostic batch. This run validates Room schema v9, media library create/edit/delete, tags, notes/excerpts, experiences, collections, symmetric related works, responses, search and local asset repository integration. The standard AVD must verify actual zh-CN resources via -change-locale, Gboard version, software keyboard visibility setting, API/display/density/font scale/navigation mode before instrumentation. Do not publish or deliver APK.
 
-Request ID: dm-1101-media-library-core-ui-2026-11-14-r2
+Request ID: dm-1102-media-library-complete-core-2026-11-14-r1
