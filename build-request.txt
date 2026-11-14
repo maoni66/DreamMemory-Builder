@@ -11,4 +11,4 @@ Exactly one active request is stored in this file. Do not append history.
 
 Run JVM tests, build Debug APK, Room runtime checks, and AndroidTest compile. Then run only MainActivityTest.lifeNotebookEditorSavesInCompactLayout on the standard API 35 Pixel 2 AVD. The test explicitly opens the system IME, waits for actual window IME visibility, verifies the bottom navigation container collapses and the save button remains visible, persists a record and response, hides the IME, and verifies the bottom navigation returns. If the standard targeted test passes, run the same test only on compact 720x1280 portrait and 1280x720 landscape at 320dpi/fontScale 1.3. Do not run the entire 73-test suite in this diagnostic batch. Do not publish or deliver APK.
 
-Request ID: dm-1100-targeted-life-ime-and-bottom-navigation-2026-11-14-r44
+Request ID: dm-1100-targeted-life-ime-and-bottom-navigation-2026-11-14-r45
