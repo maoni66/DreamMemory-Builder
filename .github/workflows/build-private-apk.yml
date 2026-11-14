@@ -279,21 +279,6 @@ jobs:
             adb shell wm size 1080x1920 || return $?
             adb shell wm density 420 || return $?
             adb shell settings put system font_scale 1.0 || return $?
-            # Lock portrait after setting the target rotation. On some API 35 emulator
-            # boots, WindowManager briefly re-enables accelerometer rotation while
-            # applying the lock, so reassert it afterwards and verify with bounded retries.
-            adb shell settings put system accelerometer_rotation 0 || return $?
-            adb shell settings put system user_rotation 0 || return $?
-            adb shell wm user-rotation lock 0 || return $?
-            for attempt in 1 2 3; do
-              rotation_lock="$(adb shell wm user-rotation | tr -d '\r')"
-              accelerometer="$(adb shell settings get system accelerometer_rotation | tr -d '\r')"
-              rotation="$(adb shell settings get system user_rotation | tr -d '\r')"
-              [[ "$rotation_lock" == "lock 0" && "$accelerometer" == "0" && "$rotation" == "0" ]] && break
-              adb shell settings put system accelerometer_rotation 0 || return $?
-              adb shell wm user-rotation lock 0 || return $?
-              sleep 1
-            done
             adb shell settings put secure navigation_mode 2 || return $?
             adb shell settings put global window_animation_scale 0 || return $?
             adb shell settings put global transition_animation_scale 0 || return $?
@@ -303,6 +288,26 @@ jobs:
             # AlarmManager's supported shell command to change the active zone.
             adb shell cmd alarm set-timezone Asia/Shanghai || return $?
             adb shell input keyevent 111 >/dev/null 2>&1 || true
+
+            # SetupWizard can rewrite the rotation setting during first boot.
+            # The AVD's virtual accelerometer is disabled before launch; apply the
+            # final lock only after the other first-boot settings have settled.
+            rotation_lock=""
+            for attempt in $(seq 1 15); do
+              adb shell settings put system accelerometer_rotation 0 || return $?
+              adb shell settings put system user_rotation 0 || return $?
+              adb shell wm user-rotation lock 0 || return $?
+              rotation_lock="$(adb shell wm user-rotation | tr -d '\r')"
+              accelerometer="$(adb shell settings get system accelerometer_rotation | tr -d '\r')"
+              rotation="$(adb shell settings get system user_rotation | tr -d '\r')"
+              if [[ "$rotation_lock" == "lock 0" && "$accelerometer" == "0" && "$rotation" == "0" ]]; then
+                echo "Portrait lock verified on attempt $attempt"
+                break
+              fi
+              echo "Portrait lock attempt $attempt: wm=$rotation_lock accelerometer_rotation=$accelerometer user_rotation=$rotation"
+              sleep 1
+            done
+
             sdk="$(adb shell getprop ro.build.version.sdk | tr -d '\r')"
             size="$(adb shell wm size)"
             density="$(adb shell wm density)"
@@ -368,6 +373,15 @@ jobs:
           profile: pixel_2
           disable-animations: true
           script: bash "$RUNNER_TEMP/run-app-instrumentation.sh"
+          pre-emulator-launch-script: |
+            AVD_CONFIG="${ANDROID_AVD_HOME:-$HOME/.android/avd}/test.avd/config.ini"
+            test -f "$AVD_CONFIG"
+            if grep -q '^hw.sensor.accelerometer=' "$AVD_CONFIG"; then
+              sed -i 's/^hw.sensor.accelerometer=.*/hw.sensor.accelerometer=no/' "$AVD_CONFIG"
+            else
+              printf '\nhw.sensor.accelerometer=no\n' >> "$AVD_CONFIG"
+            fi
+            grep '^hw.sensor.accelerometer=' "$AVD_CONFIG"
 
       - name: Upload new DreamMemory app test reports and Room schema
         if: always() && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
