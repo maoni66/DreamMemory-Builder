@@ -294,8 +294,23 @@ jobs:
           prepare_emulator() {
             local sdk size density font rotation accelerometer rotation_mode rotation_value rotation_lock timezone system_locale effective_config nav ime_setting default_ime window_anim transition_anim animator
             adb wait-for-device || return $?
-            adb root || return $?
-            adb wait-for-device || return $?
+            # adb root restarts adbd. On API 35 the first host command can return
+            # "unable to connect ... closed" while the device-side daemon is restarting.
+            # Wait for the serial to return, then verify root privileges instead of
+            # treating that transient response as a test failure.
+            adb root || echo "adb root requested; waiting for adbd restart"
+            local root_uid=""
+            for attempt in $(seq 1 30); do
+              adb wait-for-device >/dev/null 2>&1 || true
+              root_uid="$(adb shell id -u 2>/dev/null | tr -d '\r' || true)"
+              [[ "$root_uid" == "0" ]] && break
+              sleep 2
+            done
+            [[ "$root_uid" == "0" ]] || {
+              echo "Expected root shell after adb root, got uid=$root_uid"
+              adb devices -l || true
+              return 1
+            }
             adb shell "setprop persist.sys.locale zh-CN; stop; sleep 5; start" || return $?
             adb wait-for-device || return $?
             local activity_service="" window_service="" package_service="" ime_service=""
