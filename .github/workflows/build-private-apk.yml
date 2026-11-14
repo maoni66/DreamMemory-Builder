@@ -310,7 +310,7 @@ jobs:
             adb shell settings put global transition_animation_scale 0 || return $?
             adb shell settings put global animator_duration_scale 0 || return $?
             adb shell settings put global auto_time_zone 0 || return $?
-            # setprop is denied by the API 35 emulator's property policy; use
+            # persist.sys.timezone is restricted by the API 35 property policy; use
             # AlarmManager's supported shell command to change the active zone.
             adb shell cmd alarm set-timezone Asia/Shanghai || return $?
             adb shell input keyevent 111 >/dev/null 2>&1 || true
