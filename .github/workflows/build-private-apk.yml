@@ -290,6 +290,8 @@ jobs:
           prepare_emulator() {
             local sdk size density font rotation accelerometer rotation_mode rotation_value rotation_lock timezone system_locale effective_config nav ime_setting default_ime window_anim transition_anim animator
             adb wait-for-device || return $?
+            adb root || return $?
+            adb wait-for-device || return $?
             adb shell "setprop persist.sys.locale zh-CN; stop; sleep 5; start" || return $?
             adb wait-for-device || return $?
             local boot_completed=""
@@ -422,14 +424,7 @@ jobs:
           disable-animations: true
           script: bash "$RUNNER_TEMP/run-app-instrumentation.sh"
           pre-emulator-launch-script: |
-            AVD_CONFIG="${ANDROID_AVD_HOME:-$HOME/.android/avd}/test.avd/config.ini"
-            test -f "$AVD_CONFIG"
-            if grep -q '^hw.sensor.accelerometer=' "$AVD_CONFIG"; then
-              sed -i 's/^hw.sensor.accelerometer=.*/hw.sensor.accelerometer=no/' "$AVD_CONFIG"
-            else
-              printf '\nhw.sensor.accelerometer=no\n' >> "$AVD_CONFIG"
-            fi
-            grep '^hw.sensor.accelerometer=' "$AVD_CONFIG"
+            AVD_CONFIG="${ANDROID_AVD_HOME:-$HOME/.android/avd}/test.avd/config.ini"; test -f "$AVD_CONFIG"; if grep -q '^hw.sensor.accelerometer=' "$AVD_CONFIG"; then sed -i 's/^hw.sensor.accelerometer=.*/hw.sensor.accelerometer=no/' "$AVD_CONFIG"; else printf '\nhw.sensor.accelerometer=no\n' >> "$AVD_CONFIG"; fi; grep '^hw.sensor.accelerometer=' "$AVD_CONFIG"
 
       - name: Upload new DreamMemory app test reports and Room schema
         if: always() && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
