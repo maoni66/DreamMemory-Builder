@@ -256,6 +256,7 @@ jobs:
           set -euo pipefail
 
           snapshot_emulator() {
+            mkdir -p dm-app/build/diagnostics
             echo "=== Device identity ==="
             adb devices -l || true
             adb shell getprop ro.build.version.sdk || true
@@ -283,6 +284,9 @@ jobs:
             adb shell dumpsys activity processes | tail -n 180 || true
             adb shell ps -A | grep -E 'com[.]dreammemory[.]app|instrumentation' || true
             adb shell cat /data/anr/traces.txt 2>/dev/null | tail -n 300 || true
+            echo "=== Screen capture ==="
+            adb shell screencap -p /sdcard/dm-emulator-diagnostic.png || true
+            adb pull /sdcard/dm-emulator-diagnostic.png dm-app/build/diagnostics/emulator-diagnostic.png || true
             echo "=== Recent app/test logcat ==="
             adb logcat -d -t 10000 | grep -E 'AndroidRuntime|ActivityTaskManager|InputMethodManager|InputMethodService|Instrumentation|FATAL EXCEPTION|ANR|com.dreammemory.app|TestRunner' | tail -n 1400 || true
           }
@@ -393,6 +397,15 @@ jobs:
             echo "Running the complete instrumentation suite."
           fi
           if timeout --signal=TERM --kill-after=30s 8m gradle :dm-app:connectedDebugAndroidTest "${test_args[@]}" --stacktrace --console=plain; then
+            mkdir -p dm-app/build/diagnostics
+            adb pull /sdcard/dm-media-library-mainactivity.png dm-app/build/diagnostics/media-library-mainactivity.png || true
+            adb pull /sdcard/dm-media-library-detail.png dm-app/build/diagnostics/media-library-detail.png || true
+            adb shell am start -W -n com.dreammemory.app/.MainActivity || true
+            sleep 3
+            adb shell screencap -p /sdcard/dm-emulator-final.png || true
+            adb pull /sdcard/dm-emulator-final.png dm-app/build/diagnostics/emulator-final.png || true
+            adb logcat -d -t 10000 > dm-app/build/diagnostics/logcat-success.txt || true
+            snapshot_emulator > dm-app/build/diagnostics/emulator-state-success.txt 2>&1 || true
             if [[ "${VALIDATION_SCOPE:-app}" == "full" ]]; then
               sh "$RUNNER_TEMP/short-screen-matrix.sh"
             fi
