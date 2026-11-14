@@ -209,7 +209,7 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel_2
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -no-boot-anim -prop persist.sys.locale=zh-CN
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -prop persist.sys.locale=zh-CN
           disable-animations: true
           working-directory: spikes/android-db-validation
           script: |
@@ -409,6 +409,7 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel_2
+          enable-hw-keyboard: false
           disable-animations: true
           script: bash "$RUNNER_TEMP/run-app-instrumentation.sh"
           pre-emulator-launch-script: |
