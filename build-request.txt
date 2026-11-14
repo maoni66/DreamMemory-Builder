@@ -1,14 +1,12 @@
 DreamMemory validation request
 
-Source ref: rebuild/dm-product-baseline
-Source SHA: 389d7b483a787bd6748d36f75357e41fd332c2d8
-Expected source SHA at trigger: 389d7b483a787bd6748d36f75357e41fd332c2d8
-Validation scope: app
-Instrumentation class: com.dreammemory.app.feature.media.MediaLibraryScreenTest,com.dreammemory.app.feature.media.MediaScreenTest,com.dreammemory.app.MediaLibraryDatabaseTest,com.dreammemory.app.MediaLibraryMigrationTest,com.dreammemory.app.data.assets.AssetRepositoryTest,com.dreammemory.app.MainActivityTest#mediaLibraryIsReachableAndManualRecordPersistsAcrossTopLevelNavigation
+Source ref: feature/inbox-multimedia-capture
+Source SHA: 44bb5410c08ec93db426418edb001f30ad22e622
+Expected source SHA at trigger: 44bb5410c08ec93db426418edb001f30ad22e622
+Validation scope: quick
+Instrumentation class:
 Deliver APK: no
 
-Exactly one active request is stored in this file. Do not append history.
+Run JVM unit tests, build Debug APK, Room runtime checks as defined for quick scope, and compile AndroidTest sources. Do not start an emulator or run instrumentation in this pass. Validate this immutable source SHA only; do not substitute the branch head if it moves.
 
-Run JVM unit tests, build Debug APK, Room runtime checks, AndroidTest compile, and only the listed media-library-focused instrumentation classes/method on the standard API 35 Pixel 2 emulator. Do not run the complete instrumentation suite or compact-screen matrix. Verify Room schema v9 migrations, manual library UI, notes/excerpts, experiences, collections, same-author and related-work navigation, course simplification, local image import/deduplication, database persistence, and MainActivity top-level tab integration. Configure Chinese system locale with adb root + persist.sys.locale + framework restart; wait until activity/window/package/input_method services are ready before settings and IME verification. Preserve screenshots, emulator state and logcat on success/failure. Do not publish or deliver APK.
-
-Request ID: dm-1106-media-library-focused-acceptance-2026-11-14-r1
+Request ID: dm-1114-inbox-multimedia-quick-2026-11-14-r1
