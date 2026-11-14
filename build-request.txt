@@ -1,14 +1,14 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: b2e3babda8cdcc72e126d95e0a6be272dd20b314
-Expected source SHA at trigger: b2e3babda8cdcc72e126d95e0a6be272dd20b314
+Source SHA: 1772365ee89040a7595de1ae118378148b6853cc
+Expected source SHA at trigger: 1772365ee89040a7595de1ae118378148b6853cc
 Validation scope: app
 Instrumentation class: com.dreammemory.app.feature.media.MediaLibraryScreenTest
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-Run JVM tests, build Debug APK, Room runtime checks, AndroidTest compile, and only MediaLibraryScreenTest on the standard API 35 Pixel 2 emulator. Do not run the complete 73-test suite or compact-screen matrix in this diagnostic batch. This run validates the new schema v8 asset storage, media library UI/repository wiring, local cover poster component, and manual create/edit/status/rating/favorite/tag/response/delete flow. Do not publish or deliver APK.
+Run JVM unit tests, build Debug APK, Room runtime checks, AndroidTest compile, and only MediaLibraryScreenTest on the standard API 35 Pixel 2 emulator. Do not run the complete 73-test suite or compact-screen matrix in this diagnostic batch. This run validates schema v8 asset storage, media library UI/repository wiring, local cover poster component, and manual create/edit/status/rating/favorite/tag/response/delete flow. Do not publish or deliver APK.
 
-Request ID: dm-1101-media-library-core-ui-2026-11-14-r1
+Request ID: dm-1101-media-library-core-ui-2026-11-14-r2
