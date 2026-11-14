@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: ba29d2cc75e11ad5fd8a8c92dce7c7522e936b47
-Expected source SHA at trigger: ba29d2cc75e11ad5fd8a8c92dce7c7522e936b47
+Source SHA: 2bb628e88779de8709ed8a5fc9c6b1d07eb05130
+Expected source SHA at trigger: 2bb628e88779de8709ed8a5fc9c6b1d07eb05130
 Validation scope: full
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-Run full validation for the current network security and local crash diagnostics changes: JVM tests, Debug APK, Room 2.8.5 Android runtime validation, AndroidTest compile, standard API35 instrumentation, and compact-screen/font-scale portrait+landscape life editor matrix. Do not publish or deliver APK. Inspect all reports and matrix logs.
+Revalidate the landscape compact Life editor fix against the exact source SHA. Run JVM tests, Debug APK, Room 2.8.5 Android runtime validation, AndroidTest compile, standard API35 instrumentation, and both portrait/landscape enlarged-font short-screen Life editor matrix cases. The E2E now covers saving a record and a response. Do not publish or deliver APK.
 
-Request ID: dm-1089-full-network-and-crash-logging-validation-2026-11-14-r35
+Request ID: dm-1090-retest-landscape-life-compact-editor-2026-11-14-r36
