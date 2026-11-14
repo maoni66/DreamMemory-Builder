@@ -1,13 +1,14 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: 8cb0a368b98941e1092cf603c7bc75b220bb0e97
-Expected source SHA at trigger: 8cb0a368b98941e1092cf603c7bc75b220bb0e97
+Source SHA: f61e362cc9fd681ac6d21e844fc34c085ff4abfb
+Expected source SHA at trigger: f61e362cc9fd681ac6d21e844fc34c085ff4abfb
 Validation scope: full
+Instrumentation class: com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-Run full validation after adding a direct bottom navigation container bounds assertion and making the inbox draft test explicitly select Home. Validate JVM tests, Debug APK, Room 2.8.5 runtime, AndroidTest compile, standard API35 instrumentation, portrait and landscape short-screen/fontScale 1.3 Life editor E2E (record + response). Confirm bottom navigation container height is zero while IME is visible and restored after IME dismissal. Keep all persistence assertions; do not weaken or remove them. Do not publish or deliver APK.
+Run JVM tests, build Debug APK, Room runtime checks, and AndroidTest compile. Then run only MainActivityTest.lifeNotebookEditorSavesInCompactLayout on the standard API 35 Pixel 2 AVD. The test explicitly opens the system IME, waits for actual window IME visibility, verifies the bottom navigation container collapses and the save button remains visible, persists a record and response, hides the IME, and verifies the bottom navigation returns. If the standard targeted test passes, run the same test only on compact 720x1280 portrait and 1280x720 landscape at 320dpi/fontScale 1.3. Do not run the entire 73-test suite in this diagnostic batch. Do not publish or deliver APK.
 
-Request ID: dm-1097-full-ime-navigation-bounds-recheck-2026-11-14-r43
+Request ID: dm-1100-targeted-life-ime-and-bottom-navigation-2026-11-14-r44
