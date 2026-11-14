@@ -298,13 +298,21 @@ jobs:
             adb wait-for-device || return $?
             adb shell "setprop persist.sys.locale zh-CN; stop; sleep 5; start" || return $?
             adb wait-for-device || return $?
-            local boot_completed=""
-            for attempt in $(seq 1 60); do
-              boot_completed="$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')"
-              [[ "$boot_completed" == "1" ]] && break
+            local activity_service="" window_service="" package_service="" ime_service=""
+            for attempt in $(seq 1 90); do
+              activity_service="$(adb shell service check activity 2>/dev/null | tr -d '\r')"
+              window_service="$(adb shell service check window 2>/dev/null | tr -d '\r')"
+              package_service="$(adb shell service check package 2>/dev/null | tr -d '\r')"
+              ime_service="$(adb shell service check input_method 2>/dev/null | tr -d '\r')"
+              if [[ "$activity_service" == *"found"* && "$window_service" == *"found"* && "$package_service" == *"found"* && "$ime_service" == *"found"* ]]; then
+                break
+              fi
               sleep 2
             done
-            [[ "$boot_completed" == "1" ]] || { echo "Emulator did not finish booting after locale switch"; return 1; }
+            [[ "$activity_service" == *"found"* && "$window_service" == *"found"* && "$package_service" == *"found"* && "$ime_service" == *"found"* ]] || {
+              echo "Android framework services were not ready after locale restart"
+              return 1
+            }
             adb shell wm size 1080x1920 || return $?
             adb shell wm density 420 || return $?
             adb shell settings put system font_scale 1.0 || return $?
