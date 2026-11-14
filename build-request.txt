@@ -1,12 +1,12 @@
 DreamMemory validation request
 
 Source ref: feature/life-standard-entry
-Source SHA: c24c02576d32c2a0013712218de0d2e0da54e920
-Expected source SHA at trigger: c24c02576d32c2a0013712218de0d2e0da54e920
+Source SHA: 50f98b80a4625f1f9e7e1d0965bfe93348614584
+Expected source SHA at trigger: 50f98b80a4625f1f9e7e1d0965bfe93348614584
 Validation scope: app
 Instrumentation class: com.dreammemory.app.MainActivityTest#lifeEntryDraftAutosavesSurvivesTabSwitchAndPublishesOnlyOnSave,com.dreammemory.app.MainActivityTest#lifeStandardEntryPersistsOptionalMoodWeatherTagsAndSortPreference,com.dreammemory.app.MainActivityTest#lifeStartsEmptyAndCanCreateFolderNotebookAndPersistentEntry,com.dreammemory.app.MainActivityTest#lifeEntryCanHaveMultipleResponsesThatCanBeEditedAndDeleted,com.dreammemory.app.data.assets.AssetRepositoryTest#lifeEntryImageAttachmentUsesPrivateStorageAndCanBeRemoved,com.dreammemory.app.MediaLibraryMigrationTest
 Deliver APK: no
 
-Validate the complete standard Life notebook entry path on the fixed standard API 35 Pixel 2 emulator. Run the complete dm-app JVM unit-test task, Debug APK build, AndroidTest compilation, and only the listed Life/asset/database migration instrumentation selectors. Validate Room migrations v13->v14->v15 and v3->v15 / v6->v15 upgrade paths; preserve legacy records and default isDraft=0 / entrySortAscending=0. Verify autosave and retry, tab-switch draft recovery, publish semantics, backdated occurrence date, optional mood/weather, tag create/remove/persistence, per-notebook chronological sort, multi-image import into app-private storage, thumbnail rendering, attachment reference cleanup, and existing Life response behavior. Retain Room schema 15 snapshot, instrumentation XML, screenshots, and logs. Do not run compact-screen matrix or unrelated full suite. Emulator must be API 35 Pixel 2, 1080x1920, 420dpi, fontScale 1.0, portrait, zh-CN, configured Gboard and gesture navigation. Do not claim emulator acceptance from build success alone.
+Validate the complete standard Life notebook entry path on the fixed standard API 35 Pixel 2 emulator. Run the complete dm-app JVM unit-test task, Debug APK build, AndroidTest compilation, and only the listed Life/asset/database migration instrumentation selectors. Validate Room migrations v13->v14->v15 and v3->v15 / v6->v15 upgrade paths; preserve legacy records and default isDraft=0 / entrySortAscending=0. Verify autosave and retry, tab-switch draft recovery, publish semantics, backdated occurrence date, optional mood/weather, tag creation/persistence, per-notebook chronological sort, multi-image import into app-private storage, image file resolution, and existing Life response behavior. Retain Room schema 15 snapshot, instrumentation XML, screenshots, and logs. Do not run compact-screen matrix or unrelated full suite. Emulator must be API 35 Pixel 2, 1080x1920, 420dpi, fontScale 1.0, portrait, zh-CN, configured Gboard and gesture navigation. Do not claim emulator acceptance from build success alone.
 
-Request ID: dm-1114-life-standard-entry-2026-11-14-r19
+Request ID: dm-1114-life-standard-entry-2026-11-14-r20
