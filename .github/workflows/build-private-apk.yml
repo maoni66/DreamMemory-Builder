@@ -304,12 +304,12 @@ jobs:
               window_service="$(adb shell service check window 2>/dev/null | tr -d '\r')"
               package_service="$(adb shell service check package 2>/dev/null | tr -d '\r')"
               ime_service="$(adb shell service check input_method 2>/dev/null | tr -d '\r')"
-              if [[ "$activity_service" == *"found"* && "$window_service" == *"found"* && "$package_service" == *"found"* && "$ime_service" == *"found"* ]]; then
+              if [[ "$activity_service" == *": found" && "$window_service" == *": found" && "$package_service" == *": found" && "$ime_service" == *": found" ]]; then
                 break
               fi
               sleep 2
             done
-            [[ "$activity_service" == *"found"* && "$window_service" == *"found"* && "$package_service" == *"found"* && "$ime_service" == *"found"* ]] || {
+            [[ "$activity_service" == *": found" && "$window_service" == *": found" && "$package_service" == *": found" && "$ime_service" == *": found" ]] || {
               echo "Android framework services were not ready after locale restart"
               return 1
             }
