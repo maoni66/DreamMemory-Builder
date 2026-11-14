@@ -3,10 +3,10 @@ DreamMemory validation request
 Source ref: feature/inbox-multimedia-capture
 Source SHA: 5ca0a1e593ec40aa78b37670baae8b60c8e38a98
 Expected source SHA at trigger: 5ca0a1e593ec40aa78b37670baae8b60c8e38a98
-Validation scope: quick
-Instrumentation class:
+Validation scope: app
+Instrumentation class: com.dreammemory.app.feature.inbox.HomeInboxScreenTest,com.dreammemory.app.data.assets.AssetRepositoryTest,com.dreammemory.app.feature.inbox.InboxAttachmentPersistenceTest,com.dreammemory.app.MainActivityTest#incomingSharedTextIsPersistedInInbox
 Deliver APK: no
 
-Run JVM unit tests, build Debug APK, and compile AndroidTest sources for this immutable source SHA. Do not start an emulator in this pass. If all compile stages pass, run a separate app-scope request on the same SHA for only the Inbox attachment and share instrumentation tests.
+Run only the targeted Inbox capture and attachment instrumentation tests on the fixed standard API 35 Pixel 2 emulator. Verify emulator preflight, execute the selected tests, and retain screenshots, logs and XML results. Do not run the compact-screen matrix or unrelated full suite.
 
-Request ID: dm-1114-inbox-multimedia-quick-2026-11-14-r2
+Request ID: dm-1114-inbox-multimedia-app-2026-11-14-r1
