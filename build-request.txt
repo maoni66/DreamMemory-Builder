@@ -1,12 +1,12 @@
 DreamMemory validation request
 
 Source ref: feature/inbox-multimedia-capture
-Source SHA: 030c4cf179ba164d32dd6df3651f9bf5e392765f
-Expected source SHA at trigger: 030c4cf179ba164d32dd6df3651f9bf5e392765f
+Source SHA: 20c4325b9ef4953920263d520fc99ca3c2b8079e
+Expected source SHA at trigger: 20c4325b9ef4953920263d520fc99ca3c2b8079e
 Validation scope: app
-Instrumentation class: com.dreammemory.app.feature.inbox.HomeInboxScreenTest,com.dreammemory.app.data.assets.AssetRepositoryTest,com.dreammemory.app.feature.inbox.InboxAttachmentPersistenceTest,com.dreammemory.app.MainActivityTest#incomingSharedTextIsPersistedInInbox,com.dreammemory.app.SharedClipDataCaptureTest
+Instrumentation class: com.dreammemory.app.feature.inbox.HomeInboxScreenTest,com.dreammemory.app.data.assets.AssetRepositoryTest,com.dreammemory.app.feature.inbox.InboxAttachmentPersistenceTest,com.dreammemory.app.MediaLibraryMigrationTest,com.dreammemory.app.data.local.InboxPersistenceTest,com.dreammemory.app.MainActivityTest#incomingSharedTextIsPersistedInInbox,com.dreammemory.app.SharedClipDataCaptureTest
 Deliver APK: no
 
-Run only the targeted Inbox capture, clipboard, camera-entry, and attachment instrumentation tests on the fixed standard API 35 Pixel 2 emulator. Verify emulator preflight, execute the selected tests, and retain screenshots, logs and XML results. Do not run the compact-screen matrix or unrelated full suite.
+Run the Inbox capture, clipboard, camera-entry, voice-entry UI, Room migration, archive-target, and attachment lifecycle tests on the fixed standard API 35 Pixel 2 emulator. Verify the zh-CN locale preflight accepts Android's zh-rCN effective configuration. Retain screenshots, logs, XML reports, and the generated Room schema 10 snapshot. Do not run the compact-screen matrix or unrelated full suite. MediaRecorder hardware recording is not claimed as an emulator test.
 
-Request ID: dm-1114-inbox-multimedia-app-2026-11-14-r3
+Request ID: dm-1114-inbox-archive-capture-2026-11-14-r4
