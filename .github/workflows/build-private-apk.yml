@@ -460,7 +460,29 @@ jobs:
           disable-animations: true
           script: bash "$RUNNER_TEMP/run-app-instrumentation.sh"
           pre-emulator-launch-script: |
-            AVD_CONFIG="${ANDROID_AVD_HOME:-$HOME/.android/avd}/test.avd/config.ini"; test -f "$AVD_CONFIG"; if grep -q '^hw.sensor.accelerometer=' "$AVD_CONFIG"; then sed -i 's/^hw.sensor.accelerometer=.*/hw.sensor.accelerometer=no/' "$AVD_CONFIG"; else printf '\nhw.sensor.accelerometer=no\n' >> "$AVD_CONFIG"; fi; grep '^hw.sensor.accelerometer=' "$AVD_CONFIG"
+            AVD_HOME="${ANDROID_AVD_HOME:-$HOME/.android/avd}"
+            AVD_CONFIG=""
+            for candidate in "$AVD_HOME/config.ini" "$AVD_HOME/test.avd/config.ini" "$HOME/.android/avd/test.avd/config.ini" "${ANDROID_USER_HOME:-$HOME/.android}/avd/test.avd/config.ini"; do
+              if [ -f "$candidate" ]; then
+                AVD_CONFIG="$candidate"
+                break
+              fi
+            done
+            if [ -z "$AVD_CONFIG" ]; then
+              AVD_CONFIG="$(find "$HOME/.android" -type f -path '*/test.avd/config.ini' -print -quit 2>/dev/null || true)"
+            fi
+            if [ -z "$AVD_CONFIG" ]; then
+              echo "Could not locate generated test AVD config. ANDROID_AVD_HOME=${ANDROID_AVD_HOME:-<unset>} ANDROID_USER_HOME=${ANDROID_USER_HOME:-<unset>}" >&2
+              find "$HOME/.android" -maxdepth 5 -type f -name config.ini -print 2>/dev/null || true
+              exit 1
+            fi
+            if grep -q '^hw.sensor.accelerometer=' "$AVD_CONFIG"; then
+              sed -i 's/^hw.sensor.accelerometer=.*/hw.sensor.accelerometer=no/' "$AVD_CONFIG"
+            else
+              printf '\nhw.sensor.accelerometer=no\n' >> "$AVD_CONFIG"
+            fi
+            echo "Configured AVD file: $AVD_CONFIG"
+            grep '^hw.sensor.accelerometer=' "$AVD_CONFIG"
 
       - name: Upload new DreamMemory app test reports and Room schema
         if: always() && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
