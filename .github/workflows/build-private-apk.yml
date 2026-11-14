@@ -26,6 +26,7 @@ jobs:
       needs_build: ${{ steps.request.outputs.needs_build }}
       deliver_apk: ${{ steps.request.outputs.deliver_apk }}
       validation_scope: ${{ steps.request.outputs.validation_scope }}
+      instrumentation_class: ${{ steps.request.outputs.instrumentation_class }}
     steps:
       - name: Checkout build request
         uses: actions/checkout@v7
@@ -56,6 +57,13 @@ jobs:
             *) echo "Validation scope must be database, quick, app, or full."; exit 1 ;;
           esac
           echo "validation_scope=$validation_scope" >> "$GITHUB_OUTPUT"
+          instrumentation_class="$(awk -F': ' '/^Instrumentation class:/ {print $2; exit}' builder/build-request.txt)"
+          instrumentation_class="${instrumentation_class:-}"
+          if [[ -n "$instrumentation_class" && ! "$instrumentation_class" =~ ^[A-Za-z0-9_.$#]+$ ]]; then
+            echo "Invalid instrumentation class selector: $instrumentation_class"
+            exit 1
+          fi
+          echo "instrumentation_class=$instrumentation_class" >> "$GITHUB_OUTPUT"
           deliver_apk="$(awk -F': ' '/^Deliver APK:/ {print $2; exit}' builder/build-request.txt)"
           deliver_apk="${deliver_apk:-no}"
           if [[ "$validation_scope" == "quick" || "$validation_scope" == "database" ]] && [[ "$deliver_apk" != "no" ]]; then
@@ -345,7 +353,14 @@ jobs:
           }
 
           prepare_emulator || { status=$?; snapshot_emulator; exit "$status"; }
-          if timeout --signal=TERM --kill-after=30s 5m gradle :dm-app:connectedDebugAndroidTest --stacktrace --console=plain; then
+          test_args=()
+          if [[ -n "${INSTRUMENTATION_CLASS:-}" ]]; then
+            echo "Running targeted instrumentation selector: $INSTRUMENTATION_CLASS"
+            test_args+=("-Pandroid.testInstrumentationRunnerArguments.class=$INSTRUMENTATION_CLASS")
+          else
+            echo "Running the complete instrumentation suite."
+          fi
+          if timeout --signal=TERM --kill-after=30s 5m gradle :dm-app:connectedDebugAndroidTest "${test_args[@]}" --stacktrace --console=plain; then
             if [[ "${VALIDATION_SCOPE:-app}" == "full" ]]; then
               sh "$RUNNER_TEMP/short-screen-matrix.sh"
             fi
@@ -367,6 +382,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         env:
           VALIDATION_SCOPE: ${{ steps.request.outputs.validation_scope }}
+          INSTRUMENTATION_CLASS: ${{ steps.request.outputs.instrumentation_class }}
         with:
           api-level: 35
           target: google_apis
