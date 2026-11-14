@@ -268,8 +268,10 @@ jobs:
             adb shell settings get system user_rotation || true
             adb shell settings get secure navigation_mode || true
             adb shell settings get secure default_input_method || true
+            adb shell settings get secure show_ime_with_hard_keyboard || true
             adb shell settings get system system_locales || true
             adb shell ime list -s || true
+            adb shell dumpsys package com.google.android.inputmethod.latin | grep -m1 -E 'versionName=|versionCode=' || true
             echo "=== IME/focus/window state ==="
             adb shell dumpsys input_method | grep -E 'mInputShown|mShowRequested|mCurFocusedWindow|mServedView|mImeLayeringTarget' | tail -n 160 || true
             adb shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp|mImeLayeringTarget|mInputMethod' | tail -n 160 || true
@@ -283,12 +285,15 @@ jobs:
           }
 
           prepare_emulator() {
-            local sdk size density font rotation accelerometer rotation_mode rotation_value rotation_lock timezone nav window_anim transition_anim animator
+            local sdk size density font rotation accelerometer rotation_mode rotation_value rotation_lock timezone nav ime_setting default_ime window_anim transition_anim animator
             adb wait-for-device || return $?
             adb shell wm size 1080x1920 || return $?
             adb shell wm density 420 || return $?
             adb shell settings put system font_scale 1.0 || return $?
             adb shell settings put secure navigation_mode 2 || return $?
+            adb shell settings put secure show_ime_with_hard_keyboard 1 || return $?
+            adb shell ime enable com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME || return $?
+            adb shell ime set com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME || return $?
             adb shell settings put global window_animation_scale 0 || return $?
             adb shell settings put global transition_animation_scale 0 || return $?
             adb shell settings put global animator_duration_scale 0 || return $?
@@ -327,6 +332,8 @@ jobs:
             rotation_state="$(adb shell dumpsys window | grep -m1 -o 'mUserRotationMode=[A-Z_]* mUserRotation=ROTATION_[0-9]' || true)"
             timezone="$(adb shell getprop persist.sys.timezone | tr -d '\r')"
             nav="$(adb shell settings get secure navigation_mode | tr -d '\r')"
+            ime_setting="$(adb shell settings get secure show_ime_with_hard_keyboard | tr -d '\r')"
+            default_ime="$(adb shell settings get secure default_input_method | tr -d '\r')"
             window_anim="$(adb shell settings get global window_animation_scale | tr -d '\r')"
             transition_anim="$(adb shell settings get global transition_animation_scale | tr -d '\r')"
             animator="$(adb shell settings get global animator_duration_scale | tr -d '\r')"
@@ -345,11 +352,16 @@ jobs:
             }
             [[ "$timezone" == "Asia/Shanghai" ]] || { echo "Unexpected emulator timezone: $timezone"; return 1; }
             [[ "$nav" == "2" ]] || { echo "Expected gesture navigation mode 2, got $nav"; return 1; }
+            [[ "$ime_setting" == "1" ]] || { echo "Expected show_ime_with_hard_keyboard=1, got $ime_setting"; return 1; }
+            [[ "$default_ime" == "com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME" ]] || {
+              echo "Expected Gboard default IME, got $default_ime"
+              return 1
+            }
             [[ "$window_anim" == "0" && "$transition_anim" == "0" && "$animator" == "0" ]] || {
               echo "Unexpected animation scales: window=$window_anim transition=$transition_anim animator=$animator"
               return 1
             }
-            echo "Standard emulator baseline verified: API 35 / Pixel 2 profile / 1080x1920 / 420dpi / fontScale 1.0 / portrait locked / gesture navigation / Asia-Shanghai timezone / animations off"
+            echo "Standard emulator baseline verified: API 35 / Pixel 2 profile / 1080x1920 / 420dpi / fontScale 1.0 / portrait locked / gesture navigation / Gboard / show_ime_with_hard_keyboard=1 / Asia-Shanghai timezone / animations off"
           }
 
           prepare_emulator || { status=$?; snapshot_emulator; exit "$status"; }
