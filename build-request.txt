@@ -1,14 +1,14 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: df2b893f3f236a637b3e4c00938947db0ad42b21
-Expected source SHA at trigger: df2b893f3f236a637b3e4c00938947db0ad42b21
+Source SHA: 8a319e70c57cfdc4e901b96cc9a78848d4bccdbe
+Expected source SHA at trigger: 8a319e70c57cfdc4e901b96cc9a78848d4bccdbe
 Validation scope: app
 Instrumentation class: com.dreammemory.app.feature.media.MediaLibraryScreenTest
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-Run JVM unit tests, build Debug APK, Room runtime checks, AndroidTest compile, and only MediaLibraryScreenTest on the standard API 35 Pixel 2 emulator. Do not run the complete instrumentation suite or compact-screen matrix in this diagnostic batch. This run validates Room schema v9, media library create/edit/delete, tags, notes/excerpts, experiences, collections, symmetric related works, responses, search and local asset repository integration. The standard AVD must verify actual zh-CN resources via -change-locale, Gboard version, software keyboard visibility setting, API/display/density/font scale/navigation mode before instrumentation. Do not publish or deliver APK.
+Run JVM unit tests, build Debug APK, Room runtime checks, AndroidTest compile, and only MediaLibraryScreenTest on the standard API 35 Pixel 2 emulator. Do not run the complete instrumentation suite or compact-screen matrix in this diagnostic batch. This run validates Room schema v9, media library create/edit/delete, status/rating/favorite, tags, notes/excerpts, experiences, collections, symmetric related works, responses, search, local asset storage and image picker import/deduplication. Before instrumentation, set system locale with the documented persist.sys.locale + framework restart procedure and verify actual zh-CN resources, Gboard version, software keyboard visibility setting, API/display/density/font scale/navigation mode. Do not publish or deliver APK.
 
-Request ID: dm-1102-media-library-complete-core-2026-11-14-r1
+Request ID: dm-1103-media-library-v9-ui-asset-2026-11-14-r1
