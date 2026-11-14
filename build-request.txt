@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: 47cecdac65e3a4b56080f072c88b2806504619e4
-Expected source SHA at trigger: 47cecdac65e3a4b56080f072c88b2806504619e4
-Validation scope: quick
+Source SHA: ba29d2cc75e11ad5fd8a8c92dce7c7522e936b47
+Expected source SHA at trigger: ba29d2cc75e11ad5fd8a8c92dce7c7522e936b47
+Validation scope: full
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-Validate the SafeDns IPv6 SRv6 special-purpose range hardening against the exact source SHA. Run JVM unit tests, Debug APK build and AndroidTest compilation. Do not publish or deliver APK.
+Run full validation for the current network security and local crash diagnostics changes: JVM tests, Debug APK, Room 2.8.5 Android runtime validation, AndroidTest compile, standard API35 instrumentation, and compact-screen/font-scale portrait+landscape life editor matrix. Do not publish or deliver APK. Inspect all reports and matrix logs.
 
-Request ID: dm-1088-validate-ipv6-srv6-special-range-2026-11-14-r34
+Request ID: dm-1089-full-network-and-crash-logging-validation-2026-11-14-r35
