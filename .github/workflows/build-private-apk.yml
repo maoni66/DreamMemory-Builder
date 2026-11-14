@@ -260,6 +260,7 @@ jobs:
             adb shell getprop ro.build.version.sdk || true
             adb shell getprop ro.build.fingerprint || true
             adb shell getprop ro.product.model || true
+            adb shell getprop persist.sys.locale || true
             echo "=== Display and system settings ==="
             adb shell wm size || true
             adb shell wm density || true
@@ -285,7 +286,7 @@ jobs:
           }
 
           prepare_emulator() {
-            local sdk size density font rotation accelerometer rotation_mode rotation_value rotation_lock timezone nav ime_setting default_ime window_anim transition_anim animator
+            local sdk size density font rotation accelerometer rotation_mode rotation_value rotation_lock timezone system_locale nav ime_setting default_ime window_anim transition_anim animator
             adb wait-for-device || return $?
             adb shell wm size 1080x1920 || return $?
             adb shell wm density 420 || return $?
@@ -301,6 +302,7 @@ jobs:
             # setprop is denied by the API 35 emulator's property policy; use
             # AlarmManager's supported shell command to change the active zone.
             adb shell cmd alarm set-timezone Asia/Shanghai || return $?
+            adb shell cmd locale set-system-locales zh-CN || return $?
             adb shell input keyevent 111 >/dev/null 2>&1 || true
 
             # SetupWizard can rewrite the rotation setting during first boot.
@@ -331,6 +333,7 @@ jobs:
             rotation_lock="$(adb shell wm user-rotation | tr -d '\r')"
             rotation_state="$(adb shell dumpsys window | grep -m1 -o 'mUserRotationMode=[A-Z_]* mUserRotation=ROTATION_[0-9]' || true)"
             timezone="$(adb shell getprop persist.sys.timezone | tr -d '\r')"
+            system_locale="$(adb shell getprop persist.sys.locale | tr -d '\r')"
             nav="$(adb shell settings get secure navigation_mode | tr -d '\r')"
             ime_setting="$(adb shell settings get secure show_ime_with_hard_keyboard | tr -d '\r')"
             default_ime="$(adb shell settings get secure default_input_method | tr -d '\r')"
@@ -351,6 +354,7 @@ jobs:
               return 1
             }
             [[ "$timezone" == "Asia/Shanghai" ]] || { echo "Unexpected emulator timezone: $timezone"; return 1; }
+            [[ "$system_locale" == "zh-CN" ]] || { echo "Expected Chinese system locale zh-CN, got $system_locale"; return 1; }
             [[ "$nav" == "2" ]] || { echo "Expected gesture navigation mode 2, got $nav"; return 1; }
             [[ "$ime_setting" == "1" ]] || { echo "Expected show_ime_with_hard_keyboard=1, got $ime_setting"; return 1; }
             [[ "$default_ime" == "com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME" ]] || {
@@ -361,7 +365,7 @@ jobs:
               echo "Unexpected animation scales: window=$window_anim transition=$transition_anim animator=$animator"
               return 1
             }
-            echo "Standard emulator baseline verified: API 35 / Pixel 2 profile / 1080x1920 / 420dpi / fontScale 1.0 / portrait locked / gesture navigation / Gboard / show_ime_with_hard_keyboard=1 / Asia-Shanghai timezone / animations off"
+            echo "Standard emulator baseline verified: API 35 / Pixel 2 profile / 1080x1920 / 420dpi / fontScale 1.0 / portrait locked / zh-CN system locale / gesture navigation / Gboard / show_ime_with_hard_keyboard=1 / Asia-Shanghai timezone / animations off"
           }
 
           prepare_emulator || { status=$?; snapshot_emulator; exit "$status"; }
