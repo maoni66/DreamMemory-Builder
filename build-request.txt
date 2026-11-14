@@ -1,12 +1,12 @@
 DreamMemory validation request
 
-Source ref: feature/inbox-batch-routing
-Source SHA: 7f5c48edb396fff8b893659c42ff7be2461ac841
-Expected source SHA at trigger: 7f5c48edb396fff8b893659c42ff7be2461ac841
+Source ref: feature/life-entry-draft-autosave
+Source SHA: 37bd3ed465b612d3f52aafe4cab096e5bb6509de
+Expected source SHA at trigger: 37bd3ed465b612d3f52aafe4cab096e5bb6509de
 Validation scope: app
-Instrumentation class: com.dreammemory.app.feature.inbox.HomeInboxScreenTest,com.dreammemory.app.data.assets.AssetRepositoryTest,com.dreammemory.app.feature.inbox.InboxAttachmentPersistenceTest,com.dreammemory.app.MediaLibraryMigrationTest,com.dreammemory.app.data.local.InboxPersistenceTest,com.dreammemory.app.SharedClipDataCaptureTest,com.dreammemory.app.MainActivityTest#incomingSharedTextIsPersistedInInbox,com.dreammemory.app.MainActivityTest#homeInboxDraftSurvivesTabSwitch,com.dreammemory.app.MainActivityTest#homeInboxSavesAndDisplaysRawText,com.dreammemory.app.MainActivityTest#homeInboxSavesAndDisplaysRawLink,com.dreammemory.app.MainActivityTest#homeInboxCanChangeItemStatus
+Instrumentation class: com.dreammemory.app.MainActivityTest#lifeEntryDraftAutosavesSurvivesTabSwitchAndPublishesOnlyOnSave,com.dreammemory.app.MainActivityTest#lifeStartsEmptyAndCanCreateFolderNotebookAndPersistentEntry,com.dreammemory.app.MainActivityTest#lifeEntryCanHaveMultipleResponsesThatCanBeEditedAndDeleted
 Deliver APK: no
 
-Run the Inbox capture and archive feature tests on the fixed standard API 35 Pixel 2 emulator. Include the Home editorial dashboard, capture sheet, Inbox filters and bulk actions, direct notebook assignment, detail archive target selection, dedicated notebook creation, tags, per-item batch routing across notebooks/media/creative projects, partial-success preservation, archive depth and processed-state persistence, shared attachment lifecycle, FileProvider private asset access, clipboard/share handling, and Room schema 13 migration (11-to-12 link parse snapshots and 12-to-13 Inbox split provenance). Verify the zh-CN locale preflight accepts Android's zh-rCN effective configuration. Retain screenshots, logs, XML reports, and the generated Room schema 13 snapshot. Do not run the compact-screen matrix or unrelated full suite. MediaRecorder hardware recording is not claimed as an emulator test.
+Validate the Life standard notebook draft autosave/recovery feature on the fixed standard API 35 Pixel 2 emulator. Run the complete dm-app JVM unit-test task, Debug APK build, AndroidTest compilation, and only the listed Life instrumentation methods. Confirm Room schema 13-to-14 migration adds notebook_entries.isDraft with default 0 without altering existing published records; retain the generated Room schema 14 snapshot, instrumentation XML, screenshots, and logs. Verify text autosaves to a private Room draft, drafts are excluded from the visible entry list, switching tabs and reopening the notebook restores the latest body/date, Save publishes exactly one entry and starts a fresh blank composer, and existing backdated entry / multiple-response flows remain intact. Do not run the compact-screen matrix or unrelated full suite. The standard emulator profile must remain API 35 Pixel 2, 1080x1920, 420dpi, fontScale 1.0, portrait, zh-CN, with the configured IME and gesture navigation.
 
-Request ID: dm-1114-inbox-batch-routing-avd-path-fix-2026-11-14-r17
+Request ID: dm-1114-life-entry-draft-autosave-2026-11-14-r18
