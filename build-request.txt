@@ -1,14 +1,14 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: 8a319e70c57cfdc4e901b96cc9a78848d4bccdbe
-Expected source SHA at trigger: 8a319e70c57cfdc4e901b96cc9a78848d4bccdbe
+Source SHA: 4ddef0f47362e49ed12fb10a4e74f1b99d51c7a1
+Expected source SHA at trigger: 4ddef0f47362e49ed12fb10a4e74f1b99d51c7a1
 Validation scope: app
-Instrumentation class: com.dreammemory.app.feature.media.MediaLibraryScreenTest
+Instrumentation class: com.dreammemory.app.feature.media.MediaLibraryScreenTest,com.dreammemory.app.feature.media.MediaScreenTest,com.dreammemory.app.MediaLibraryDatabaseTest,com.dreammemory.app.MediaLibraryMigrationTest,com.dreammemory.app.data.assets.AssetRepositoryTest,com.dreammemory.app.MainActivityTest#mediaLibraryIsReachableAndManualRecordPersistsAcrossTopLevelNavigation
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-Run JVM unit tests, build Debug APK, Room runtime checks, AndroidTest compile, and only MediaLibraryScreenTest on the standard API 35 Pixel 2 emulator. Do not run the complete instrumentation suite or compact-screen matrix in this diagnostic batch. This run validates Room schema v9, media library create/edit/delete, status/rating/favorite, tags, notes/excerpts, experiences, collections, symmetric related works, responses, search, local asset storage and image picker import/deduplication. Before instrumentation, set system locale with the documented persist.sys.locale + framework restart procedure and verify actual zh-CN resources, Gboard version, software keyboard visibility setting, API/display/density/font scale/navigation mode. Do not publish or deliver APK.
+Run JVM unit tests, build Debug APK, Room runtime checks, AndroidTest compile, and only the listed media-library-focused instrumentation classes/method on the standard API 35 Pixel 2 emulator. Do not run the complete instrumentation suite or compact-screen matrix in this diagnostic batch. Verify Room schema v9 migrations, manual library UI, notes/excerpts, experiences, collections, same-author and related-work navigation, course simplification, local image import/deduplication, database persistence, and MainActivity top-level tab integration. Before instrumentation, configure the standard Chinese system locale using adb root plus persist.sys.locale and framework restart; verify effective zh-CN resources, Gboard version, software keyboard setting, API/display/density/font scale/navigation mode. Do not publish or deliver APK.
 
-Request ID: dm-1103-media-library-v9-ui-asset-2026-11-14-r1
+Request ID: dm-1104-media-library-module-focused-acceptance-2026-11-14-r1
