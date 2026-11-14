@@ -1,14 +1,14 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: f61e362cc9fd681ac6d21e844fc34c085ff4abfb
-Expected source SHA at trigger: f61e362cc9fd681ac6d21e844fc34c085ff4abfb
-Validation scope: full
-Instrumentation class: com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout
+Source SHA: b2e3babda8cdcc72e126d95e0a6be272dd20b314
+Expected source SHA at trigger: b2e3babda8cdcc72e126d95e0a6be272dd20b314
+Validation scope: app
+Instrumentation class: com.dreammemory.app.feature.media.MediaLibraryScreenTest
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-Run JVM tests, build Debug APK, Room runtime checks, and AndroidTest compile. Then run only MainActivityTest.lifeNotebookEditorSavesInCompactLayout on the standard API 35 Pixel 2 AVD. The test explicitly opens the system IME, waits for actual window IME visibility, verifies the bottom navigation container collapses and the save button remains visible, persists a record and response, hides the IME, and verifies the bottom navigation returns. If the standard targeted test passes, run the same test only on compact 720x1280 portrait and 1280x720 landscape at 320dpi/fontScale 1.3. Do not run the entire 73-test suite in this diagnostic batch. Do not publish or deliver APK.
+Run JVM tests, build Debug APK, Room runtime checks, AndroidTest compile, and only MediaLibraryScreenTest on the standard API 35 Pixel 2 emulator. Do not run the complete 73-test suite or compact-screen matrix in this diagnostic batch. This run validates the new schema v8 asset storage, media library UI/repository wiring, local cover poster component, and manual create/edit/status/rating/favorite/tag/response/delete flow. Do not publish or deliver APK.
 
-Request ID: dm-1100-targeted-life-ime-and-bottom-navigation-2026-11-14-r45
+Request ID: dm-1101-media-library-core-ui-2026-11-14-r1
