@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: eb28498952be06a6b7be43789e239827f3be11d9
-Expected source SHA at trigger: eb28498952be06a6b7be43789e239827f3be11d9
+Source SHA: c2da9232a1c37504fa86f5c7953476a2f31bfbe1
+Expected source SHA at trigger: c2da9232a1c37504fa86f5c7953476a2f31bfbe1
 Validation scope: full
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-Run full validation after the Life notebook selection synchronization fix. Validate JVM tests, Debug APK, Room 2.8.5 runtime, AndroidTest compile, standard API35 instrumentation, portrait and landscape short-screen/fontScale 1.3 Life editor E2E (record + response). Do not publish or deliver APK.
+Run full validation after the compact Life editor visibility synchronization adjustment. Validate JVM tests, Debug APK, Room 2.8.5 runtime, AndroidTest compile, standard API35 instrumentation, portrait and landscape short-screen/fontScale 1.3 Life editor E2E (record + response). Keep the save-button visibility assertion; do not weaken or remove it. Do not publish or deliver APK.
 
-Request ID: dm-1091-full-life-flow-sync-and-landscape-retest-2026-11-14-r37
+Request ID: dm-1092-full-life-compact-ime-layout-recheck-2026-11-14-r38
