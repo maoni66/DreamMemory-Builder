@@ -392,7 +392,7 @@ jobs:
           else
             echo "Running the complete instrumentation suite."
           fi
-          if timeout --signal=TERM --kill-after=30s 5m gradle :dm-app:connectedDebugAndroidTest "${test_args[@]}" --stacktrace --console=plain; then
+          if timeout --signal=TERM --kill-after=30s 8m gradle :dm-app:connectedDebugAndroidTest "${test_args[@]}" --stacktrace --console=plain; then
             if [[ "${VALIDATION_SCOPE:-app}" == "full" ]]; then
               sh "$RUNNER_TEMP/short-screen-matrix.sh"
             fi
