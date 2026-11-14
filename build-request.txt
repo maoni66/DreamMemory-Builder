@@ -1,12 +1,12 @@
 DreamMemory validation request
 
 Source ref: feature/inbox-multimedia-capture
-Source SHA: 44bb5410c08ec93db426418edb001f30ad22e622
-Expected source SHA at trigger: 44bb5410c08ec93db426418edb001f30ad22e622
+Source SHA: 5ca0a1e593ec40aa78b37670baae8b60c8e38a98
+Expected source SHA at trigger: 5ca0a1e593ec40aa78b37670baae8b60c8e38a98
 Validation scope: quick
 Instrumentation class:
 Deliver APK: no
 
-Run JVM unit tests, build Debug APK, Room runtime checks as defined for quick scope, and compile AndroidTest sources. Do not start an emulator or run instrumentation in this pass. Validate this immutable source SHA only; do not substitute the branch head if it moves.
+Run JVM unit tests, build Debug APK, and compile AndroidTest sources for this immutable source SHA. Do not start an emulator in this pass. If all compile stages pass, run a separate app-scope request on the same SHA for only the Inbox attachment and share instrumentation tests.
 
-Request ID: dm-1114-inbox-multimedia-quick-2026-11-14-r1
+Request ID: dm-1114-inbox-multimedia-quick-2026-11-14-r2
