@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: 462dfccc40e31cf5e62371248b8340f302f73892
-Expected source SHA at trigger: 462dfccc40e31cf5e62371248b8340f302f73892
+Source SHA: 2e9ded6f019a052b33dbbca138b1d2adc6592bb3
+Expected source SHA at trigger: 2e9ded6f019a052b33dbbca138b1d2adc6592bb3
 Validation scope: app
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-#1085 passed JVM tests, Debug APK and AndroidTest compile but instrumentation never started: API35 emulator portrait setup still reported accelerometer_rotation=1 and USER_ROTATION_FREE. Builder main now uses wm user-rotation lock 0 and verifies wm output, Settings.System rotation values and WindowManager lock state with bounded retries. Re-run app scope on exact Source SHA: JVM, Debug APK, AndroidTest compile, then API35 emulator instrumentation. This source includes Discover LazyColumn scroll targeting, RSS source-control scroll, Kazumi results/chapters scroll, and Life response item scroll with ExperimentalTestApi opt-in. Deliver no APK and do not publish.
+#1086 completed JVM, Debug APK, AndroidTest compile and API35 emulator baseline. Instrumentation ran 73 tests: 71 passed, 2 failed. Fixed test synchronization only: Discover now waits for Compose idle after Room-backed subscription, LAN authorization, fetch and search updates before driving LazyColumn; Life now waits for the notebook detail editor semantics node after selecting a notebook because Room observeNotebook emits initial null before the row. Re-run exact source SHA for JVM, Debug APK, AndroidTest compile and complete API35 emulator instrumentation/compact-screen matrix. Inspect XML test reports; do not suppress failures, publish or deliver APK.
 
-Request ID: dm-api35-wm-rotation-lock-and-ui-retest-2026-11-13-r32
+Request ID: dm-1087-retest-discover-compose-and-life-flow-sync-2026-11-14-r33
