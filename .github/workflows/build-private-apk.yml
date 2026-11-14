@@ -209,7 +209,7 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel_2
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -change-locale zh-CN
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           disable-animations: true
           working-directory: spikes/android-db-validation
           script: |
@@ -290,6 +290,15 @@ jobs:
           prepare_emulator() {
             local sdk size density font rotation accelerometer rotation_mode rotation_value rotation_lock timezone system_locale effective_config nav ime_setting default_ime window_anim transition_anim animator
             adb wait-for-device || return $?
+            adb shell "setprop persist.sys.locale zh-CN; stop; sleep 5; start" || return $?
+            adb wait-for-device || return $?
+            local boot_completed=""
+            for attempt in $(seq 1 60); do
+              boot_completed="$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')"
+              [[ "$boot_completed" == "1" ]] && break
+              sleep 2
+            done
+            [[ "$boot_completed" == "1" ]] || { echo "Emulator did not finish booting after locale switch"; return 1; }
             adb shell wm size 1080x1920 || return $?
             adb shell wm density 420 || return $?
             adb shell settings put system font_scale 1.0 || return $?
