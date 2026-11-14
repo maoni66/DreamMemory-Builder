@@ -59,7 +59,7 @@ jobs:
           echo "validation_scope=$validation_scope" >> "$GITHUB_OUTPUT"
           instrumentation_class="$(awk -F': ' '/^Instrumentation class:/ {print $2; exit}' builder/build-request.txt)"
           instrumentation_class="${instrumentation_class:-}"
-          if [[ -n "$instrumentation_class" && ! "$instrumentation_class" =~ ^[A-Za-z0-9_.$#]+$ ]]; then
+          if [[ -n "$instrumentation_class" && ! "$instrumentation_class" =~ ^[A-Za-z0-9_.#]+$ ]]; then
             echo "Invalid instrumentation class selector: $instrumentation_class"
             exit 1
           fi
