@@ -379,7 +379,7 @@ jobs:
               return 1
             }
             [[ "$timezone" == "Asia/Shanghai" ]] || { echo "Unexpected emulator timezone: $timezone"; return 1; }
-            [[ "$system_locale" == "zh-CN" && "$effective_config" == *"zh-rCN"* ]] || {
+            [[ "$system_locale" == "zh-CN" && "$effective_config" =~ zh[-_]CN ]] || {
               echo "Expected effective Chinese system locale zh-CN, got property=$system_locale config=$effective_config"
               return 1
             }
