@@ -1,12 +1,12 @@
 DreamMemory validation request
 
 Source ref: feature/inbox-multimedia-capture
-Source SHA: 20c4325b9ef4953920263d520fc99ca3c2b8079e
-Expected source SHA at trigger: 20c4325b9ef4953920263d520fc99ca3c2b8079e
+Source SHA: 0f664f50ea2bbf8437233c9cb91c5ed746738e55
+Expected source SHA at trigger: 0f664f50ea2bbf8437233c9cb91c5ed746738e55
 Validation scope: app
-Instrumentation class: com.dreammemory.app.feature.inbox.HomeInboxScreenTest,com.dreammemory.app.data.assets.AssetRepositoryTest,com.dreammemory.app.feature.inbox.InboxAttachmentPersistenceTest,com.dreammemory.app.MediaLibraryMigrationTest,com.dreammemory.app.data.local.InboxPersistenceTest,com.dreammemory.app.MainActivityTest#incomingSharedTextIsPersistedInInbox,com.dreammemory.app.SharedClipDataCaptureTest
+Instrumentation class: com.dreammemory.app.feature.inbox.HomeInboxScreenTest,com.dreammemory.app.data.assets.AssetRepositoryTest,com.dreammemory.app.feature.inbox.InboxAttachmentPersistenceTest,com.dreammemory.app.MediaLibraryMigrationTest,com.dreammemory.app.data.local.InboxPersistenceTest,com.dreammemory.app.SharedClipDataCaptureTest,com.dreammemory.app.MainActivityTest#incomingSharedTextIsPersistedInInbox,com.dreammemory.app.MainActivityTest#homeInboxDraftSurvivesTabSwitch,com.dreammemory.app.MainActivityTest#homeInboxSavesAndDisplaysRawText,com.dreammemory.app.MainActivityTest#homeInboxSavesAndDisplaysRawLink,com.dreammemory.app.MainActivityTest#homeInboxCanChangeItemStatus
 Deliver APK: no
 
-Run the Inbox capture, clipboard, camera-entry, voice-entry UI, Room migration, archive-target, and attachment lifecycle tests on the fixed standard API 35 Pixel 2 emulator. Verify the zh-CN locale preflight accepts Android's zh-rCN effective configuration. Retain screenshots, logs, XML reports, and the generated Room schema 10 snapshot. Do not run the compact-screen matrix or unrelated full suite. MediaRecorder hardware recording is not claimed as an emulator test.
+Run the Inbox capture and archive feature tests on the fixed standard API 35 Pixel 2 emulator. Include the Home editorial dashboard, capture sheet, Inbox filters and bulk actions, direct notebook assignment, detail archive target selection, dedicated notebook creation, tags, archive depth and processed-state persistence, shared attachment lifecycle, FileProvider private asset access, clipboard/share handling, and Room schema 11 migration. Verify the zh-CN locale preflight accepts Android's zh-rCN effective configuration. Retain screenshots, logs, XML reports, and the generated Room schema 11 snapshot. Do not run the compact-screen matrix or unrelated full suite. MediaRecorder hardware recording is not claimed as an emulator test.
 
-Request ID: dm-1114-inbox-archive-capture-2026-11-14-r4
+Request ID: dm-1114-inbox-archive-capture-2026-11-14-r5
