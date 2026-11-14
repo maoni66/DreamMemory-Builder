@@ -1,12 +1,12 @@
 DreamMemory validation request
 
 Source ref: feature/inbox-multimedia-capture
-Source SHA: 0b5e9261fc1db50a88f67e4812ac466e98f386e4
-Expected source SHA at trigger: 0b5e9261fc1db50a88f67e4812ac466e98f386e4
+Source SHA: efb7aa8f69eeb45a945a9eeba1d2f79926df36ff
+Expected source SHA at trigger: efb7aa8f69eeb45a945a9eeba1d2f79926df36ff
 Validation scope: app
 Instrumentation class: com.dreammemory.app.feature.inbox.HomeInboxScreenTest,com.dreammemory.app.data.assets.AssetRepositoryTest,com.dreammemory.app.feature.inbox.InboxAttachmentPersistenceTest,com.dreammemory.app.MediaLibraryMigrationTest,com.dreammemory.app.data.local.InboxPersistenceTest,com.dreammemory.app.SharedClipDataCaptureTest,com.dreammemory.app.MainActivityTest#incomingSharedTextIsPersistedInInbox,com.dreammemory.app.MainActivityTest#homeInboxDraftSurvivesTabSwitch,com.dreammemory.app.MainActivityTest#homeInboxSavesAndDisplaysRawText,com.dreammemory.app.MainActivityTest#homeInboxSavesAndDisplaysRawLink,com.dreammemory.app.MainActivityTest#homeInboxCanChangeItemStatus
 Deliver APK: no
 
 Run the Inbox capture and archive feature tests on the fixed standard API 35 Pixel 2 emulator. Include the Home editorial dashboard, capture sheet, Inbox filters and bulk actions, direct notebook assignment, detail archive target selection, dedicated notebook creation, tags, archive depth and processed-state persistence, shared attachment lifecycle, FileProvider private asset access, clipboard/share handling, and Room schema 13 migration (11-to-12 link parse snapshots and 12-to-13 Inbox split provenance)ncluding 11-to-12 link parse snapshot table). Verify the zh-CN locale preflight accepts Android's zh-rCN effective configuration. Retain screenshots, logs, XML reports, and the generated Room schema 13 snapshot. Do not run the compact-screen matrix or unrelated full suite. MediaRecorder hardware recording is not claimed as an emulator test.
 
-Request ID: dm-1114-inbox-media-split-2026-11-14-r11
+Request ID: dm-1114-inbox-media-split-2026-11-14-r12
