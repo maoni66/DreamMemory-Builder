@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: 0b4b34e1c8ccff39328c05413afcca15093b7bf0
-Expected source SHA at trigger: 0b4b34e1c8ccff39328c05413afcca15093b7bf0
+Source SHA: e66e4c06d75a5e27dd0cb2cbec5398e74fa4f298
+Expected source SHA at trigger: e66e4c06d75a5e27dd0cb2cbec5398e74fa4f298
 Validation scope: full
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-Run full validation after the IME-aware bottom navigation layout fix. Validate JVM tests, Debug APK, Room 2.8.5 runtime, AndroidTest compile, standard API35 instrumentation, portrait and landscape short-screen/fontScale 1.3 Life editor E2E (record + response). Confirm the five-tab navigation returns after IME dismissal. Keep the save-button visibility assertion; do not weaken or remove it. Do not publish or deliver APK.
+Run full validation after the focus-safe IME navigation height-collapse fix. Validate JVM tests, Debug APK, Room 2.8.5 runtime, AndroidTest compile, standard API35 instrumentation, portrait and landscape short-screen/fontScale 1.3 Life editor E2E (record + response). Confirm the five-tab navigation becomes non-visible while IME is shown and returns after IME dismissal. Keep all persistence and visibility assertions; do not weaken or remove them. Do not publish or deliver APK.
 
-Request ID: dm-1095-full-ime-aware-life-compact-layout-2026-11-14-r41
+Request ID: dm-1096-full-focus-safe-ime-navigation-2026-11-14-r42
