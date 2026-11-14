@@ -1,13 +1,13 @@
 DreamMemory validation request
 
 Source ref: rebuild/dm-product-baseline
-Source SHA: 2e9ded6f019a052b33dbbca138b1d2adc6592bb3
-Expected source SHA at trigger: 2e9ded6f019a052b33dbbca138b1d2adc6592bb3
-Validation scope: app
+Source SHA: 47cecdac65e3a4b56080f072c88b2806504619e4
+Expected source SHA at trigger: 47cecdac65e3a4b56080f072c88b2806504619e4
+Validation scope: quick
 Deliver APK: no
 
 Exactly one active request is stored in this file. Do not append history.
 
-#1086 completed JVM, Debug APK, AndroidTest compile and API35 emulator baseline. Instrumentation ran 73 tests: 71 passed, 2 failed. Fixed test synchronization only: Discover now waits for Compose idle after Room-backed subscription, LAN authorization, fetch and search updates before driving LazyColumn; Life now waits for the notebook detail editor semantics node after selecting a notebook because Room observeNotebook emits initial null before the row. Re-run exact source SHA for JVM, Debug APK, AndroidTest compile and complete API35 emulator instrumentation/compact-screen matrix. Inspect XML test reports; do not suppress failures, publish or deliver APK.
+Validate the SafeDns IPv6 SRv6 special-purpose range hardening against the exact source SHA. Run JVM unit tests, Debug APK build and AndroidTest compilation. Do not publish or deliver APK.
 
-Request ID: dm-1087-retest-discover-compose-and-life-flow-sync-2026-11-14-r33
+Request ID: dm-1088-validate-ipv6-srv6-special-range-2026-11-14-r34
