@@ -483,7 +483,7 @@ jobs:
           disable-animations: true
           script: bash "$RUNNER_TEMP/run-app-instrumentation.sh"
           pre-emulator-launch-script: >-
-            AVD_HOME="${ANDROID_AVD_HOME:-$HOME/.android/avd}"; AVD_CONFIG="$(find "$HOME/.android" -type f -path '*/test.avd/config.ini' -print -quit 2>/dev/null || true)"; if [ -z "$AVD_CONFIG" ]; then echo "Could not locate generated test AVD config (AVD_HOME=$AVD_HOME)" >&2; exit 1; fi; if grep -q '^hw.sensor.accelerometer=' "$AVD_CONFIG"; then sed -i 's/^hw.sensor.accelerometer=.*/hw.sensor.accelerometer=no/' "$AVD_CONFIG"; else printf '\\nhw.sensor.accelerometer=no\\n' >> "$AVD_CONFIG"; fi; echo "Configured AVD file: $AVD_CONFIG"; grep '^hw.sensor.accelerometer=' "$AVD_CONFIG"
+            AVD_HOME="${ANDROID_AVD_HOME:-$HOME/.android/avd}"; AVD_CONFIG="$(find "$HOME/.android" -type f -path '*/test.avd/config.ini' -print -quit 2>/dev/null || true)"; if [ -z "$AVD_CONFIG" ]; then echo "Could not locate generated test AVD config (AVD_HOME=$AVD_HOME)" >&2; exit 1; fi; if grep -q '^hw.sensor.accelerometer=' "$AVD_CONFIG"; then sed -i 's/^hw.sensor.accelerometer=.*/hw.sensor.accelerometer=no/' "$AVD_CONFIG"; else printf '\nhw.sensor.accelerometer=no\n' >> "$AVD_CONFIG"; fi; echo "Configured AVD file: $AVD_CONFIG"; grep '^hw.sensor.accelerometer=' "$AVD_CONFIG"
 
 
       - name: Upload new DreamMemory app test reports and Room schema
