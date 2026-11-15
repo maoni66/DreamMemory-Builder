@@ -1,10 +1,10 @@
-DreamMemory targeted app verification — conversation notebook, Life navigation and IME
+DreamMemory targeted app verification — Life navigation/IME and conversation notebook
 
 Source ref: feature/life-notebook-search-privacy-mainline
-Source SHA: aa82a978e135b94a8a61e71aef12743dc17ff921
-Expected source SHA at trigger: aa82a978e135b94a8a61e71aef12743dc17ff921
+Source SHA: ed40052cbb73814d3764a28b744c0b5c7b95efce
+Expected source SHA at trigger: ed40052cbb73814d3764a28b744c0b5c7b95efce
 Validation scope: app
 Instrumentation class: com.dreammemory.app.MainActivityTest#bottomNavigationShowsAllFiveDestinations,com.dreammemory.app.MainActivityTest#selectingEachDestinationUpdatesTheVisiblePage,com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout,com.dreammemory.app.MainActivityTest#lifeEntryDraftAutosavesSurvivesTabSwitchAndPublishesOnlyOnSave,com.dreammemory.app.feature.life.ConversationNotebookScreenTest,com.dreammemory.app.feature.life.ConversationPersistenceTest,com.dreammemory.app.MediaLibraryMigrationTest
 Deliver APK: no
 
-Validate the exact Source SHA. Run the JVM unit-test suite, Debug APK build, AndroidTest compilation, and only the listed instrumentation selectors on the standard API 35 Pixel 2 emulator. Include Room 15-to-16 migration coverage and upload the generated Room schema and test reports. Do not run the unrelated compact-screen matrix or package an APK in this targeted pass.
+Validate the exact Source SHA. Run the JVM unit-test suite, Debug APK build, AndroidTest compilation, and only the listed instrumentation selectors on the fixed API 35 Pixel 2 emulator. Print APK manifest badging/XML tree and installed package activity diagnostics before attempting MainActivity launch. Include Room 15-to-16 migration coverage and upload Room schema, emulator screenshots/logcat, and test reports. Do not run the unrelated compact-screen matrix or package an APK in this pass.
