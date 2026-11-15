@@ -1,10 +1,10 @@
-DreamMemory local media shelf and reader targeted device acceptance
+DreamMemory Room v6-to-v17 migration fixture targeted verification
 
 Source ref: feature/media-shelf-local-reading
-Source SHA: 64542871f7fd28c29c759d0ba934db8601ac5c7d
-Expected source SHA at trigger: 64542871f7fd28c29c759d0ba934db8601ac5c7d
+Source SHA: 69a3584a99c40e03f0363f63c4b45ee1c57358bc
+Expected source SHA at trigger: 69a3584a99c40e03f0363f63c4b45ee1c57358bc
 Validation scope: app
-Instrumentation class: com.dreammemory.app.MediaShelfRepositoryTest,com.dreammemory.app.MediaReaderActivityTest,com.dreammemory.app.MediaLibraryMigrationTest
+Instrumentation class: com.dreammemory.app.MediaLibraryMigrationTest
 Deliver APK: no
 
-Build and install the exact immutable Source SHA on the workflow's standard Android API 35 / Pixel 2 / Google APIs / x86_64 emulator. Run only the three selected instrumentation classes: local private-file import/progress/annotation/safe removal; actual Readium EPUB open with persisted locator and screenshot; Room migration v16-to-v17. The prior app-scope attempt built the Debug APK and passed JVM tests but stopped at AndroidTest compilation due two test-only references; those are fixed in this SHA. Preserve emulator screenshots, reader screenshot from /sdcard/Android/data/com.dreammemory.app/files/Pictures/dreammemory-test-evidence/media-reader-epub.png, instrumentation report, Room schema output, emulator state and logcat. Do not run the complete instrumentation suite or compact-screen matrix. Do not deliver an APK; this is targeted acceptance evidence only.
+Build and install the exact immutable Source SHA on the standard Android API 35 / Pixel 2 / Google APIs / x86_64 emulator. Run only MediaLibraryMigrationTest to verify the corrected v6-to-v17 test migration path, including MIGRATION_16_17. The previous run #1161 already passed MediaShelfRepositoryTest and MediaReaderActivityTest; do not rerun those classes or the complete suite. Preserve instrumentation XML, Room schema output, emulator state and logcat. Do not deliver an APK.
