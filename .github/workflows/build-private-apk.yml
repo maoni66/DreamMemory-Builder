@@ -413,6 +413,31 @@ jobs:
 
           prepare_emulator || { status=$?; snapshot_emulator; exit "$status"; }
 
+          # The emulator action can return while Android still displays its first-boot
+          # "Phone is starting" screen. Wait for framework services and boot animation,
+          # then allow launcher/package-manager warm-up before installing or launching.
+          wait_for_android_system_ready() {
+            adb wait-for-device
+            local boot_completed="" boot_animation="" package_ready="" activity_ready="" window_ready=""
+            for attempt in $(seq 1 90); do
+              boot_completed="$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')"
+              boot_animation="$(adb shell getprop init.svc.bootanim 2>/dev/null | tr -d '\r')"
+              package_ready="$(adb shell service check package 2>/dev/null | grep -q found && echo yes || echo no)"
+              activity_ready="$(adb shell service check activity 2>/dev/null | grep -q found && echo yes || echo no)"
+              window_ready="$(adb shell service check window 2>/dev/null | grep -q found && echo yes || echo no)"
+              if [[ "$boot_completed" == "1" && "$boot_animation" == "stopped" && "$package_ready" == "yes" && "$activity_ready" == "yes" && "$window_ready" == "yes" ]]; then
+                echo "Android framework ready; waiting 20 seconds for first-boot launcher warm-up"
+                sleep 20
+                echo "Post-boot focus: $(adb shell dumpsys window 2>/dev/null | grep -m1 -E 'mCurrentFocus|mFocusedApp' || true)"
+                return 0
+              fi
+              sleep 2
+            done
+            echo "Android system did not reach ready state: boot=$boot_completed bootanim=$boot_animation package=$package_ready activity=$activity_ready window=$window_ready"
+            return 1
+          }
+          wait_for_android_system_ready || { status=$?; snapshot_emulator; exit "$status"; }
+
           # Initialize the target app's credential-protected data directory before
           # instrumentation setup touches files/databases through ApplicationProvider.
           gradle :dm-app:installDebug --stacktrace --console=plain
