@@ -1,8 +1,8 @@
 DreamMemory targeted app verification — conversation notebook, Life navigation and IME
 
 Source ref: feature/life-notebook-search-privacy-mainline
-Source SHA: cb66e00d54b53ac57498994f0386213a5154edb6
-Expected source SHA at trigger: cb66e00d54b53ac57498994f0386213a5154edb6
+Source SHA: aa82a978e135b94a8a61e71aef12743dc17ff921
+Expected source SHA at trigger: aa82a978e135b94a8a61e71aef12743dc17ff921
 Validation scope: app
 Instrumentation class: com.dreammemory.app.MainActivityTest#bottomNavigationShowsAllFiveDestinations,com.dreammemory.app.MainActivityTest#selectingEachDestinationUpdatesTheVisiblePage,com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout,com.dreammemory.app.MainActivityTest#lifeEntryDraftAutosavesSurvivesTabSwitchAndPublishesOnlyOnSave,com.dreammemory.app.feature.life.ConversationNotebookScreenTest,com.dreammemory.app.feature.life.ConversationPersistenceTest,com.dreammemory.app.MediaLibraryMigrationTest
 Deliver APK: no
