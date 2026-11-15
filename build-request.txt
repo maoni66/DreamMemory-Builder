@@ -1,8 +1,8 @@
-DreamMemory targeted app verification — bottom navigation, IME, Life and conversation notebook
+DreamMemory targeted app verification — corrected media navigation assertion and IME controller
 
 Source ref: feature/life-notebook-search-privacy-mainline
-Source SHA: 919153d1be40fcb6ab95b9d18dac111608aee690
-Expected source SHA at trigger: 919153d1be40fcb6ab95b9d18dac111608aee690
+Source SHA: 47342f0f95497e4e49ec174f06bb85adc2500c90
+Expected source SHA at trigger: 47342f0f95497e4e49ec174f06bb85adc2500c90
 Validation scope: app
 Instrumentation class: com.dreammemory.app.MainActivityTest#bottomNavigationShowsAllFiveDestinations,com.dreammemory.app.MainActivityTest#selectingEachDestinationUpdatesTheVisiblePage,com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout,com.dreammemory.app.MainActivityTest#lifeEntryDraftAutosavesSurvivesTabSwitchAndPublishesOnlyOnSave,com.dreammemory.app.feature.life.ConversationNotebookScreenTest,com.dreammemory.app.feature.life.ConversationPersistenceTest,com.dreammemory.app.MediaLibraryMigrationTest
 Deliver APK: no
