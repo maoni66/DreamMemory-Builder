@@ -1,13 +1,13 @@
-DreamMemory validation request
+DreamMemory validation request — r27 source restoration check
 
 Source ref: feature/life-notebook-search-privacy-mainline
-Source SHA: 504420975d236c76fb71289ee6fda1d2e47a1e07
-Expected source SHA at trigger: 504420975d236c76fb71289ee6fda1d2e47a1e07
+Source SHA: e1ba891e20c678de5c1f524fd29e92785a4295a0
+Expected source SHA at trigger: e1ba891e20c678de5c1f524fd29e92785a4295a0
 Validation scope: app
 Instrumentation class: com.dreammemory.app.MainActivityTest#lifeEntryDraftAutosavesSurvivesTabSwitchAndPublishesOnlyOnSave,com.dreammemory.app.MainActivityTest#lifeStandardEntryPersistsOptionalMoodWeatherTagsAndSortPreference,com.dreammemory.app.MainActivityTest#lifeEntryCanBeSavedWithOnlyMoodAndWeather,com.dreammemory.app.MainActivityTest#lifeSearchFindsEntryContentAndPrivateNotebookRemainsAccessible,com.dreammemory.app.MainActivityTest#lifeStartsEmptyAndCanCreateFolderNotebookAndPersistentEntry,com.dreammemory.app.MainActivityTest#lifeEntryCanHaveMultipleResponsesThatCanBeEditedAndDeleted,com.dreammemory.app.MainActivityTest#lifeNotebookCalendarShowsEntryMarkersAndSelectedDayRecords,com.dreammemory.app.data.assets.AssetRepositoryTest#lifeEntryImageAttachmentUsesPrivateStorageAndCanBeRemoved,com.dreammemory.app.MediaLibraryMigrationTest
 Deliver APK: no
 
-Validate the Room/KSP data-layer restoration first: all @Database entity and DAO types must resolve, and the Debug APK must assemble. Run the complete dm-app JVM unit-test suite, Debug APK assembly, AndroidTest compilation, and only the listed Life/asset/database migration instrumentation selectors. Verify Room v13->v14->v15 and v3->v15 / v6->v15 migrations preserve old data and defaults isDraft=0 / entrySortAscending=0. Retain Room schema 15 snapshot, instrumentation XML, screenshots and logs. Do not run compact-screen matrix or unrelated full suite.
+Validate the restored Life/Inbox/Discover/Media source integration first: all @Database entity and DAO types must resolve, and the Debug APK must assemble. Run the complete dm-app JVM unit-test suite, Debug APK assembly, AndroidTest compilation, and only the listed Life/asset/database migration instrumentation selectors. Verify Room v13->v14->v15 and v3->v15 / v6->v15 migrations preserve old data and defaults isDraft=0 / entrySortAscending=0. Retain Room schema 15 snapshot, instrumentation XML, screenshots and logs. Do not run compact-screen matrix or unrelated full suite.
 
 Emulator: API35 Pixel2, 1080x1920, 420dpi, fontScale 1.0, portrait, zh-CN, configured Gboard and gesture navigation. Exercise Life list/calendar toggle, month navigation, date markers, selected-day records, and verify the original list remains intact after switching back. Also retain the previously specified Life flows: autosave/retry, ON_STOP and Tab-switch recovery, metadata-only/image-only publication, backdated date, mood/weather create/edit without changing occurredAt, tag create/remove on draft and published entries, per-notebook sort, album/camera/clipboard/image URL import, private image storage and reference cleanup, ordinary URL cards, search across notebook name/body/responses/tags with type filters, private notebook visibility/access from Life, and existing response behavior. Unit tests must include SafeHttpImageDownloaderTest and reject non-HTTP schemes, URL credentials, private/loopback destinations and oversized URLs. Inspect API35 Pixel2 UI for album, camera, clipboard, image URL import, normal webpage link cards and local image display; exercise virtual camera if available.
 
