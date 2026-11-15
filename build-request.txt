@@ -1,10 +1,10 @@
-DreamMemory targeted app verification — Life navigation/IME and conversation notebook
+DreamMemory targeted app verification — bottom navigation, IME, Life and conversation notebook
 
 Source ref: feature/life-notebook-search-privacy-mainline
-Source SHA: a913720033a328895ef30e1f8c43ec4d3ba1bbbc
-Expected source SHA at trigger: a913720033a328895ef30e1f8c43ec4d3ba1bbbc
+Source SHA: 919153d1be40fcb6ab95b9d18dac111608aee690
+Expected source SHA at trigger: 919153d1be40fcb6ab95b9d18dac111608aee690
 Validation scope: app
 Instrumentation class: com.dreammemory.app.MainActivityTest#bottomNavigationShowsAllFiveDestinations,com.dreammemory.app.MainActivityTest#selectingEachDestinationUpdatesTheVisiblePage,com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout,com.dreammemory.app.MainActivityTest#lifeEntryDraftAutosavesSurvivesTabSwitchAndPublishesOnlyOnSave,com.dreammemory.app.feature.life.ConversationNotebookScreenTest,com.dreammemory.app.feature.life.ConversationPersistenceTest,com.dreammemory.app.MediaLibraryMigrationTest
 Deliver APK: no
 
-Validate the exact Source SHA. Run JVM unit tests, Debug APK build, AndroidTest compilation, and only the listed instrumentation selectors on the fixed API 35 Pixel 2 emulator. Wait for sys.boot_completed=1, boot animation stopped, package/activity/window services ready, and the configured post-boot warm-up before installing or launching. Print APK manifest, DEX and installed package diagnostics. Start MainActivity with the fully qualified component. If launch fails, preserve logcat, screenshot and installed package dump. Include Room 15-to-16 migration coverage and upload Room schema, emulator screenshots/logcat, and test reports. Do not run the unrelated compact-screen matrix or package an APK in this pass.
+Validate the exact Source SHA. Run JVM unit tests, Debug APK build, AndroidTest compilation, and only the listed instrumentation selectors on the fixed API 35 Pixel 2 emulator. Preserve the Android boot/warm-up readiness wait. Verify bottom navigation destination semantics, IME collapse/restoration, Life editor save/draft behavior, conversation CRUD/sort/search/file persistence, and Room v15-to-v16 migration. Upload Room schema, emulator screenshots/logcat, and test reports. Do not run the unrelated compact-screen matrix or package an APK in this pass.
