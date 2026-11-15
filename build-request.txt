@@ -1,10 +1,10 @@
 DreamMemory local media shelf and reader vertical-slice quick validation
 
 Source ref: feature/media-shelf-local-reading
-Source SHA: 8cf1e293682d22c181f376edd34261814233409a
-Expected source SHA at trigger: 8cf1e293682d22c181f376edd34261814233409a
+Source SHA: 5a072949dcb2ef5c6d4191b9313097d86945286d
+Expected source SHA at trigger: 5a072949dcb2ef5c6d4191b9313097d86945286d
 Validation scope: quick
 Instrumentation class:
 Deliver APK: no
 
-Validate the exact immutable Source SHA. Run DreamMemory JVM unit tests, assemble the Debug APK, and compile AndroidTest sources. Resolve the pinned Readium Kotlin Toolkit 3.1.2 Maven artifacts against the existing Kotlin 2.2.10 / AGP 9.2.1 / compile SDK 36 toolchain. Validate Room v16-to-v17 migration code generation and the new local shelf, reader, and annotation code. Do not run emulator instrumentation or compact-screen matrices in this quick pass; no simulator acceptance is claimed. Preserve and upload the generated Room schema and build/test reports.
+Validate the exact immutable Source SHA. Run DreamMemory JVM unit tests, assemble the Debug APK, and compile AndroidTest sources. Readium 3.1.2 requires core library desugaring; verify the app module's desugar_jdk_libs 2.1.5 configuration and dependency resolution against Kotlin 2.2.10 / AGP 9.2.1 / compile SDK 36. Validate Room v16-to-v17 schema generation and local shelf/reader compilation. Do not run emulator instrumentation or compact-screen matrices in this quick pass; no simulator acceptance is claimed. Preserve and upload generated Room schema and build/test reports.
