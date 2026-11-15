@@ -1,10 +1,10 @@
-DreamMemory Life Schedule module — exact-source build and targeted verification
+DreamMemory Life Schedule module — corrected exact-source build and targeted verification
 
 Source ref: feature/life-schedule
-Source SHA: 195063386748af0916cde9aed0ed38932215f24c
-Expected source SHA at trigger: 195063386748af0916cde9aed0ed38932215f24c
+Source SHA: 77b725b4d4327df5511e5738141563d6c91d9ee6
+Expected source SHA at trigger: 77b725b4d4327df5511e5738141563d6c91d9ee6
 Validation scope: full
 Instrumentation class: com.dreammemory.app.feature.schedule.ScheduleRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleMigrationTest,com.dreammemory.app.feature.schedule.ScheduleScreenTest,com.dreammemory.app.MediaLibraryMigrationTest
 Deliver APK: no
 
-Build and install this exact immutable Source SHA. Run all JVM unit tests, compile the app and Android instrumentation tests, and execute only the listed instrumentation classes. Include the full validation scope's isolated Room 2.8.5 check and compact-screen matrix. The migration suite must validate the continuous v3/v6-to-v18 path and the v17-to-v18 schedule migration. The schedule UI tests must cover manual create/edit and natural-language preview-before-confirmation. Preserve test XML, Room schema output, emulator screenshots, emulator configuration, and logcat. Do not deliver an APK and do not rerun unrelated instrumentation classes.
+Build and install this exact immutable Source SHA. Run all JVM unit tests, compile the app and Android instrumentation tests, and execute only the listed instrumentation classes. Include the full validation scope's isolated Room 2.8.5 check and compact-screen matrix. The migration suite validates the continuous v3/v6-to-v18 path and the v17-to-v18 schedule migration. The schedule UI tests cover manual create/edit and natural-language preview-before-confirmation. Preserve test XML, Room schema output, emulator screenshots, emulator configuration, and logcat. Do not deliver an APK and do not rerun unrelated instrumentation classes.
