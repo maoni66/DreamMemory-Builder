@@ -426,6 +426,12 @@ jobs:
           }
           adb install -r "$target_apk"
           adb shell pm path com.dreammemory.app
+          aapt_bin="$(find "$ANDROID_HOME/build-tools" -type f -name aapt -print -quit)"
+          echo "=== APK manifest launchable activity ==="
+          "$aapt_bin" dump badging "$target_apk" | grep -E 'package:|launchable-activity' || true
+          "$aapt_bin" dump xmltree "$target_apk" AndroidManifest.xml | grep -E 'E: activity|A: android:name' | tail -n 40 || true
+          echo "=== Installed package activity declarations ==="
+          adb shell dumpsys package com.dreammemory.app | grep -F 'MainActivity' || true
           adb shell am start -W -n com.dreammemory.app/.MainActivity
           adb shell am force-stop com.dreammemory.app
           adb shell test -d /data/user/0/com.dreammemory.app || {
