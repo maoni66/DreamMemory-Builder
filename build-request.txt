@@ -1,10 +1,10 @@
-DreamMemory Life Schedule module — exact-source full verification
+DreamMemory Life Schedule module — exact-source full verification (corrected linked-record sync)
 
 Source ref: feature/life-schedule
-Source SHA: f23ebf137c772fa3c5cfd6d58b0c9817b580002e
-Expected source SHA at trigger: f23ebf137c772fa3c5cfd6d58b0c9817b580002e
+Source SHA: bab2449750f7d3b39d04be57a2b1ed027cf57172
+Expected source SHA at trigger: bab2449750f7d3b39d04be57a2b1ed027cf57172
 Validation scope: full
 Instrumentation class: com.dreammemory.app.feature.schedule.ScheduleRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleMigrationTest,com.dreammemory.app.feature.schedule.ScheduleScreenTest,com.dreammemory.app.MediaLibraryMigrationTest,com.dreammemory.app.MainActivityTest#lifeScheduleEntryOpensTheScheduleModuleAndReturnsToLife
 Deliver APK: no
 
-Build and install this exact immutable Source SHA. Run all JVM unit tests, compile the app and Android instrumentation tests, and execute only the listed instrumentation selectors. Include the isolated Room 2.8.5 SQLite runtime validation and the compact-screen matrix. The compact matrix now covers the Life editor, navigation into the Life schedule module, and schedule UI interactions in both portrait and landscape at enlarged font scale. The schedule UI tests cover manual create/edit, day navigation, and natural-language preview-before-confirmation. Migration tests cover v3/v6-to-v18 continuity and v17-to-v18 schedule tables. Preserve test XML, Room schema output, emulator screenshots, emulator configuration, and logcat. Do not deliver an APK and do not run unrelated instrumentation classes.
+Build and install this exact immutable Source SHA. Run all JVM unit tests, compile the app and Android instrumentation tests, and execute only the listed instrumentation selectors. Include the isolated Room 2.8.5 SQLite runtime validation and compact-screen matrix. The compact matrix covers the Life editor, navigation into the Life schedule module, and schedule UI interactions in both portrait and landscape at enlarged font scale. Schedule UI tests cover manual create/edit, day navigation, and natural-language preview-before-confirmation. Migration tests cover v3/v6-to-v18 continuity and v17-to-v18 schedule migration. Preserve test XML, Room schema output, emulator screenshots, emulator configuration, and logcat. Do not deliver an APK and do not run unrelated instrumentation classes.
