@@ -1,10 +1,10 @@
-DreamMemory targeted app verification — conversation notebook and Life navigation/IME
+DreamMemory targeted app verification — conversation notebook, Life navigation and IME
 
 Source ref: feature/life-notebook-search-privacy-mainline
-Source SHA: 62d834b3a2546abad1824fa82239a3eaa68df9d5
-Expected source SHA at trigger: 62d834b3a2546abad1824fa82239a3eaa68df9d5
+Source SHA: cb66e00d54b53ac57498994f0386213a5154edb6
+Expected source SHA at trigger: cb66e00d54b53ac57498994f0386213a5154edb6
 Validation scope: app
 Instrumentation class: com.dreammemory.app.MainActivityTest#bottomNavigationShowsAllFiveDestinations,com.dreammemory.app.MainActivityTest#selectingEachDestinationUpdatesTheVisiblePage,com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout,com.dreammemory.app.MainActivityTest#lifeEntryDraftAutosavesSurvivesTabSwitchAndPublishesOnlyOnSave,com.dreammemory.app.feature.life.ConversationNotebookScreenTest,com.dreammemory.app.feature.life.ConversationPersistenceTest,com.dreammemory.app.MediaLibraryMigrationTest
 Deliver APK: no
 
-Validate the exact Source SHA. Run the JVM suite, Debug APK build, AndroidTest compilation, and only the listed instrumentation selectors on the standard API 35 emulator. Include Room 15-to-16 migration coverage and collect generated Room schema plus test reports. Do not run the unrelated full device matrix or package an APK in this targeted pass.
+Validate the exact Source SHA. Run the JVM unit-test suite, Debug APK build, AndroidTest compilation, and only the listed instrumentation selectors on the standard API 35 Pixel 2 emulator. Include Room 15-to-16 migration coverage and upload the generated Room schema and test reports. Do not run the unrelated compact-screen matrix or package an APK in this targeted pass.
