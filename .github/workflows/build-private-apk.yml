@@ -416,6 +416,17 @@ jobs:
           # Initialize the target app's credential-protected data directory before
           # instrumentation setup touches files/databases through ApplicationProvider.
           gradle :dm-app:installDebug --stacktrace --console=plain
+          # Install the exact APK explicitly as a guard against Gradle's install task
+          # reporting success without the target package being present on this AVD.
+          target_apk="$(find dm-app/build/outputs/apk/debug -maxdepth 1 -type f -name '*.apk' -print -quit)"
+          test -n "$target_apk" && test -s "$target_apk" || {
+            echo "Debug APK missing before emulator launch."
+            snapshot_emulator
+            exit 1
+          }
+          adb install -r "$target_apk"
+          adb shell pm path com.dreammemory.app
+          adb shell cmd package resolve-activity --brief com.dreammemory.app | grep -F 'com.dreammemory.app'
           adb shell am start -W -n com.dreammemory.app/.MainActivity
           adb shell am force-stop com.dreammemory.app
           adb shell test -d /data/user/0/com.dreammemory.app || {
