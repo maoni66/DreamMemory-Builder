@@ -1,0 +1,63 @@
+{
+  "request_id": "dm-1114-life-search-privacy-mainline-2026-11-14-r25",
+  "builder_commit_sha": "cc4826043246b7028cd976ed69d47045f9923f9c",
+  "workflow": {
+    "id": 381131394,
+    "name": "DreamMemory Private APK Builder",
+    "path": ".github/workflows/build-private-apk.yml",
+    "state": "active",
+    "html_url": "https://github.com/maoni66/DreamMemory-Builder/blob/main/.github/workflows/build-private-apk.yml"
+  },
+  "run_found": true,
+  "run": {
+    "id": 43605222098,
+    "run_number": 1133,
+    "run_attempt": 1,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "cc4826043246b7028cd976ed69d47045f9923f9c",
+    "created_at": "2026-11-14T14:30:39Z",
+    "updated_at": "2026-11-14T14:32:06Z",
+    "html_url": "https://github.com/maoni66/DreamMemory-Builder/actions/runs/43605222098"
+  },
+  "jobs": [
+    {
+      "id": 132478326341,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "failure",
+      "started_at": "2026-11-14T14:30:41Z",
+      "completed_at": "2026-11-14T14:32:06Z",
+      "html_url": "https://github.com/maoni66/DreamMemory-Builder/actions/runs/43605222098/job/132478326341"
+    },
+    {
+      "id": 132478714922,
+      "name": "publish",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-14T14:32:06Z",
+      "completed_at": "2026-11-14T14:32:06Z",
+      "html_url": "https://github.com/maoni66/DreamMemory-Builder/actions/runs/43605222098/job/132478714922"
+    },
+    {
+      "id": 132478715291,
+      "name": "verify-main-apk",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-14T14:32:06Z",
+      "completed_at": "2026-11-14T14:32:06Z",
+      "html_url": "https://github.com/maoni66/DreamMemory-Builder/actions/runs/43605222098/job/132478715291"
+    },
+    {
+      "id": 132478715383,
+      "name": "deliver-private-branch-apk",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-11-14T14:32:06Z",
+      "completed_at": "2026-11-14T14:32:06Z",
+      "html_url": "https://github.com/maoni66/DreamMemory-Builder/actions/runs/43605222098/job/132478715383"
+    }
+  ],
+  "artifacts": []
+}
