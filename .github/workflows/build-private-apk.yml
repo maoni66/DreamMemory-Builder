@@ -440,7 +440,13 @@ jobs:
           done
           echo "=== Installed package activity declarations ==="
           adb shell dumpsys package com.dreammemory.app | grep -F 'MainActivity' || true
-          adb shell am start -W -n com.dreammemory.app/com.dreammemory.app.MainActivity
+          if ! adb shell am start -W -n com.dreammemory.app/com.dreammemory.app.MainActivity; then
+            mkdir -p dm-app/build/diagnostics
+            adb logcat -d -t 3000 > dm-app/build/diagnostics/emulator-launch-failure.log || true
+            adb exec-out screencap -p > dm-app/build/diagnostics/emulator-launch-failure.png || true
+            adb shell dumpsys package com.dreammemory.app > dm-app/build/diagnostics/installed-package-dump.txt || true
+            exit 1
+          fi
           adb shell am force-stop com.dreammemory.app
           adb shell test -d /data/user/0/com.dreammemory.app || {
             echo "Target app data directory was not initialized before instrumentation."
