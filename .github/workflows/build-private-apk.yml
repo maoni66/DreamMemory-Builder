@@ -426,7 +426,7 @@ jobs:
           }
           adb install -r "$target_apk"
           adb shell pm path com.dreammemory.app
-          adb shell cmd package resolve-activity --brief com.dreammemory.app | grep -F 'com.dreammemory.app'
+          adb shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -p com.dreammemory.app | grep -F 'com.dreammemory.app'
           adb shell am start -W -n com.dreammemory.app/.MainActivity
           adb shell am force-stop com.dreammemory.app
           adb shell test -d /data/user/0/com.dreammemory.app || {
