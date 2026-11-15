@@ -490,6 +490,7 @@ jobs:
             mkdir -p dm-app/build/diagnostics
             adb pull /sdcard/dm-media-library-mainactivity.png dm-app/build/diagnostics/media-library-mainactivity.png || true
             adb pull /sdcard/dm-media-library-detail.png dm-app/build/diagnostics/media-library-detail.png || true
+            adb pull /sdcard/Android/data/com.dreammemory.app/files/Pictures/dreammemory-test-evidence/media-reader-epub.png dm-app/build/diagnostics/media-reader-epub.png || true
             adb shell am start -W -n com.dreammemory.app/.MainActivity || true
             sleep 3
             adb shell screencap -p /sdcard/dm-emulator-final.png || true
@@ -506,6 +507,7 @@ jobs:
               echo "Instrumentation failed with exit code $test_status"
               snapshot_emulator
             } | tee dm-app/build/diagnostics/instrumentation-failure.txt
+            adb pull /sdcard/Android/data/com.dreammemory.app/files/Pictures/dreammemory-test-evidence/media-reader-epub.png dm-app/build/diagnostics/media-reader-epub.png || true
             exit "$test_status"
           fi
           SCRIPT
