@@ -1,10 +1,10 @@
 DreamMemory local media shelf and reader vertical-slice quick validation
 
 Source ref: feature/media-shelf-local-reading
-Source SHA: a73e716e17bca3ba2c40da6f33d920ca14a37515
-Expected source SHA at trigger: a73e716e17bca3ba2c40da6f33d920ca14a37515
+Source SHA: c3826d4070513ec147901fa87e756687ebba03ba
+Expected source SHA at trigger: c3826d4070513ec147901fa87e756687ebba03ba
 Validation scope: quick
 Instrumentation class:
 Deliver APK: no
 
-Validate the exact immutable Source SHA. Run DreamMemory JVM unit tests, assemble the Debug APK, and compile AndroidTest sources. Readium 3.1.2 dependency and core library desugaring 2.1.5 are now configured. Verify Kotlin compilation, Room v17 schema generation, local shelf/reader, and v16-to-v17 migration test source compilation against Kotlin 2.2.10 / AGP 9.2.1 / compile SDK 36. Do not run emulator instrumentation or compact-screen matrices in this quick pass; no simulator acceptance is claimed. Preserve generated Room schema and build/test reports.
+Validate the exact immutable Source SHA. Run JVM unit tests, assemble the Debug APK, and compile AndroidTest sources. Readium 3.1.2 and core library desugaring 2.1.5 are configured. The previous quick run reached Kotlin compilation and reported only the Compose SelectionContainer package import; that import is corrected to androidx.compose.foundation.text.selection.SelectionContainer. Verify the full source compilation and Room v17 migration/schema generation. Do not run emulator instrumentation in this quick pass.
