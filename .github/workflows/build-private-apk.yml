@@ -412,6 +412,18 @@ jobs:
           }
 
           prepare_emulator || { status=$?; snapshot_emulator; exit "$status"; }
+
+          # Initialize the target app's credential-protected data directory before
+          # instrumentation setup touches files/databases through ApplicationProvider.
+          gradle :dm-app:installDebug --stacktrace --console=plain
+          adb shell am start -W -n com.dreammemory.app/.MainActivity
+          adb shell am force-stop com.dreammemory.app
+          adb shell test -d /data/user/0/com.dreammemory.app || {
+            echo "Target app data directory was not initialized before instrumentation."
+            snapshot_emulator
+            exit 1
+          }
+
           test_args=()
           if [[ -n "${INSTRUMENTATION_CLASS:-}" ]]; then
             echo "Running targeted instrumentation selector: $INSTRUMENTATION_CLASS"
