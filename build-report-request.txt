@@ -1,2 +1,2 @@
-Request ID: dm-1114-life-search-privacy-mainline-2026-11-14-r25
-Builder commit SHA: cc4826043246b7028cd976ed69d47045f9923f9c
+Request ID: dm-1115-life-room-ksp-calendar-2026-11-15-r26
+Builder commit SHA: c06df05271ff2b8d8d4ff35532d1f4e75e851883
