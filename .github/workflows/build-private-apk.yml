@@ -430,9 +430,17 @@ jobs:
           echo "=== APK manifest launchable activity ==="
           "$aapt_bin" dump badging "$target_apk" | grep -E 'package:|launchable-activity' || true
           "$aapt_bin" dump xmltree "$target_apk" AndroidManifest.xml | grep -E 'E: activity|A: android:name' | tail -n 40 || true
+          dexdump_bin="$(find "$ANDROID_HOME/build-tools" -type f -name dexdump -print -quit)"
+          mkdir -p "$RUNNER_TEMP/dm-apk-dex"
+          unzip -q "$target_apk" 'classes*.dex' -d "$RUNNER_TEMP/dm-apk-dex"
+          echo "=== APK DEX MainActivity class ==="
+          for dex_file in "$RUNNER_TEMP"/dm-apk-dex/classes*.dex; do
+            [ -f "$dex_file" ] || continue
+            "$dexdump_bin" "$dex_file" | grep -F 'MainActivity' || true
+          done
           echo "=== Installed package activity declarations ==="
           adb shell dumpsys package com.dreammemory.app | grep -F 'MainActivity' || true
-          adb shell am start -W -n com.dreammemory.app/.MainActivity
+          adb shell am start -W -n com.dreammemory.app/com.dreammemory.app.MainActivity
           adb shell am force-stop com.dreammemory.app
           adb shell test -d /data/user/0/com.dreammemory.app || {
             echo "Target app data directory was not initialized before instrumentation."
