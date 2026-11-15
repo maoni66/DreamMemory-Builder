@@ -1,10 +1,10 @@
-DreamMemory quick validation — conversation notebook Room v16 and UI integration
+DreamMemory targeted app verification — conversation notebook and Life navigation/IME
 
 Source ref: feature/life-notebook-search-privacy-mainline
-Source SHA: 63a67ce7435694d5296bfb263c7285c0a98a817f
-Expected source SHA at trigger: 63a67ce7435694d5296bfb263c7285c0a98a817f
-Validation scope: quick
-Instrumentation class:
+Source SHA: 62d834b3a2546abad1824fa82239a3eaa68df9d5
+Expected source SHA at trigger: 62d834b3a2546abad1824fa82239a3eaa68df9d5
+Validation scope: app
+Instrumentation class: com.dreammemory.app.MainActivityTest#bottomNavigationShowsAllFiveDestinations,com.dreammemory.app.MainActivityTest#selectingEachDestinationUpdatesTheVisiblePage,com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout,com.dreammemory.app.MainActivityTest#lifeEntryDraftAutosavesSurvivesTabSwitchAndPublishesOnlyOnSave,com.dreammemory.app.feature.life.ConversationNotebookScreenTest,com.dreammemory.app.feature.life.ConversationPersistenceTest,com.dreammemory.app.MediaLibraryMigrationTest
 Deliver APK: no
 
-Validate the exact Source SHA. Run the complete :dm-app JVM unit-test suite, assemble the Debug APK, and compile AndroidTest sources. This quick pass is for Kotlin/Room/KSP and test-source integration only; it is not emulator acceptance. Preserve the Room schema 16 snapshot and all build/test reports. Do not run emulator instrumentation or unrelated device matrices in this pass.
+Validate the exact Source SHA. Run the JVM suite, Debug APK build, AndroidTest compilation, and only the listed instrumentation selectors on the standard API 35 emulator. Include Room 15-to-16 migration coverage and collect generated Room schema plus test reports. Do not run the unrelated full device matrix or package an APK in this targeted pass.
