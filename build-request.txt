@@ -1,10 +1,10 @@
-DreamMemory local media shelf and reader vertical-slice quick validation
+DreamMemory local media shelf and reader targeted device acceptance
 
 Source ref: feature/media-shelf-local-reading
-Source SHA: c3826d4070513ec147901fa87e756687ebba03ba
-Expected source SHA at trigger: c3826d4070513ec147901fa87e756687ebba03ba
-Validation scope: quick
-Instrumentation class:
+Source SHA: 3c435b8ab60f6361e352990305a9fdb67ffe5255
+Expected source SHA at trigger: 3c435b8ab60f6361e352990305a9fdb67ffe5255
+Validation scope: app
+Instrumentation class: com.dreammemory.app.MediaShelfRepositoryTest,com.dreammemory.app.MediaReaderActivityTest,com.dreammemory.app.MediaLibraryMigrationTest
 Deliver APK: no
 
-Validate the exact immutable Source SHA. Run JVM unit tests, assemble the Debug APK, and compile AndroidTest sources. Readium 3.1.2 and core library desugaring 2.1.5 are configured. The previous quick run reached Kotlin compilation and reported only the Compose SelectionContainer package import; that import is corrected to androidx.compose.foundation.text.selection.SelectionContainer. Verify the full source compilation and Room v17 migration/schema generation. Do not run emulator instrumentation in this quick pass.
+Build and install the exact immutable Source SHA on the workflow's standard Android API 35 / Pixel 2 / Google APIs / x86_64 emulator. Run only the three selected instrumentation classes: local private-file import/progress/annotation/safe removal; actual Readium EPUB open with persisted locator and screenshot; Room migration v16-to-v17. Preserve emulator screenshots, reader screenshot from /sdcard/Android/data/com.dreammemory.app/files/Pictures/dreammemory-test-evidence/media-reader-epub.png, instrumentation report, Room schema output, emulator state and logcat. Do not run the complete instrumentation suite or compact-screen matrix in this pass. Do not deliver an APK; this is targeted acceptance evidence only.
