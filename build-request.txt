@@ -1,10 +1,10 @@
-DreamMemory Room v6-to-v17 migration fixture targeted verification
+DreamMemory Life Schedule module — exact-source build and targeted verification
 
-Source ref: feature/media-shelf-local-reading
-Source SHA: 69a3584a99c40e03f0363f63c4b45ee1c57358bc
-Expected source SHA at trigger: 69a3584a99c40e03f0363f63c4b45ee1c57358bc
-Validation scope: app
-Instrumentation class: com.dreammemory.app.MediaLibraryMigrationTest
+Source ref: feature/life-schedule
+Source SHA: 195063386748af0916cde9aed0ed38932215f24c
+Expected source SHA at trigger: 195063386748af0916cde9aed0ed38932215f24c
+Validation scope: full
+Instrumentation class: com.dreammemory.app.feature.schedule.ScheduleRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleMigrationTest,com.dreammemory.app.feature.schedule.ScheduleScreenTest,com.dreammemory.app.MediaLibraryMigrationTest
 Deliver APK: no
 
-Build and install the exact immutable Source SHA on the standard Android API 35 / Pixel 2 / Google APIs / x86_64 emulator. Run only MediaLibraryMigrationTest to verify the corrected v6-to-v17 test migration path, including MIGRATION_16_17. The previous run #1161 already passed MediaShelfRepositoryTest and MediaReaderActivityTest; do not rerun those classes or the complete suite. Preserve instrumentation XML, Room schema output, emulator state and logcat. Do not deliver an APK.
+Build and install this exact immutable Source SHA. Run all JVM unit tests, compile the app and Android instrumentation tests, and execute only the listed instrumentation classes. Include the full validation scope's isolated Room 2.8.5 check and compact-screen matrix. The migration suite must validate the continuous v3/v6-to-v18 path and the v17-to-v18 schedule migration. The schedule UI tests must cover manual create/edit and natural-language preview-before-confirmation. Preserve test XML, Room schema output, emulator screenshots, emulator configuration, and logcat. Do not deliver an APK and do not rerun unrelated instrumentation classes.
