@@ -1,10 +1,10 @@
-DreamMemory targeted app verification — Compose IME inset synchronization and conversation test database teardown
+DreamMemory local media shelf and reader vertical-slice quick validation
 
-Source ref: feature/life-notebook-search-privacy-mainline
-Source SHA: 1e5811cd006b00a4c5ab608c0ffa96fba0252511
-Expected source SHA at trigger: 1e5811cd006b00a4c5ab608c0ffa96fba0252511
-Validation scope: app
-Instrumentation class: com.dreammemory.app.MainActivityTest#bottomNavigationShowsAllFiveDestinations,com.dreammemory.app.MainActivityTest#selectingEachDestinationUpdatesTheVisiblePage,com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout,com.dreammemory.app.MainActivityTest#lifeEntryDraftAutosavesSurvivesTabSwitchAndPublishesOnlyOnSave,com.dreammemory.app.feature.life.ConversationNotebookScreenTest,com.dreammemory.app.feature.life.ConversationPersistenceTest,com.dreammemory.app.MediaLibraryMigrationTest
+Source ref: feature/media-shelf-local-reading
+Source SHA: 8cf1e293682d22c181f376edd34261814233409a
+Expected source SHA at trigger: 8cf1e293682d22c181f376edd34261814233409a
+Validation scope: quick
+Instrumentation class:
 Deliver APK: no
 
-Validate the exact Source SHA. Run JVM unit tests, Debug APK build, AndroidTest compilation, and only the listed instrumentation selectors on the fixed API 35 Pixel 2 emulator. Preserve the Android boot/warm-up readiness wait. Verify bottom navigation destination semantics, IME collapse/restoration, Life editor save/draft behavior, conversation CRUD/sort/search/file persistence, and Room v15-to-v16 migration. Upload Room schema, emulator screenshots/logcat, and test reports. Do not run the unrelated compact-screen matrix or package an APK in this pass.
+Validate the exact immutable Source SHA. Run DreamMemory JVM unit tests, assemble the Debug APK, and compile AndroidTest sources. Resolve the pinned Readium Kotlin Toolkit 3.1.2 Maven artifacts against the existing Kotlin 2.2.10 / AGP 9.2.1 / compile SDK 36 toolchain. Validate Room v16-to-v17 migration code generation and the new local shelf, reader, and annotation code. Do not run emulator instrumentation or compact-screen matrices in this quick pass; no simulator acceptance is claimed. Preserve and upload the generated Room schema and build/test reports.
