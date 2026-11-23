@@ -1,11 +1,11 @@
-DreamMemory targeted validation — search, diagnostics, theme and reminder preferences
+DreamMemory targeted validation — My theme, reminders, diagnostics and search routing
 
 Source ref: feature/life-schedule
-Source SHA: b187e768f4781a632b8a61d34b63d81bf5885394
-Expected source SHA at trigger: b187e768f4781a632b8a61d34b63d81bf5885394
+Source SHA: 613490092124ba1cf018dc213a91593b539d4b0e
+Expected source SHA at trigger: 613490092124ba1cf018dc213a91593b539d4b0e
 Validation scope: quick
-Instrumentation class:
-JVM test classes: com.dreammemory.app.ui.theme.DreamMemoryThemeTest,com.dreammemory.app.data.diagnostics.CrashRetentionTest,com.dreammemory.app.data.diagnostics.CrashLogSanitizerTest,com.dreammemory.app.data.diagnostics.CrashLogStoreTest,com.dreammemory.app.data.diagnostics.DiagnosticEventStoreTest,com.dreammemory.app.feature.search.GlobalSearchRepositoryTest
+Instrumentation class: com.dreammemory.app.data.notifications.ReminderNotificationChannelsTest,com.dreammemory.app.feature.my.MyProfileRepositoryMigrationTest,com.dreammemory.app.feature.my.MyScreenTest,com.dreammemory.app.feature.life.GlobalSearchLifeDeepLinkScreenTest
+JVM test classes: com.dreammemory.app.ui.theme.DreamMemoryThemeTest,com.dreammemory.app.data.diagnostics.CrashRetentionTest,com.dreammemory.app.data.diagnostics.CrashLogSanitizerTest,com.dreammemory.app.data.diagnostics.CrashLogStoreTest,com.dreammemory.app.data.diagnostics.DiagnosticEventStoreTest
 Deliver APK: no
 
-Build this immutable source revision. Run only the listed JVM test classes, then compile the debug APK and Android instrumentation APK. Do not execute the full JVM or instrumentation suites and do not run an emulator in this development pass. Preserve the test XML and build logs. Final emulator acceptance remains a separate stage.
+Build this immutable source revision. Run only the listed JVM test classes, then assemble the debug APK and compile the Android instrumentation APK. Do not run an emulator in this development pass. Preserve test XML and build logs. Emulator acceptance remains a separate stage.
