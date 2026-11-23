@@ -1,8 +1,8 @@
 DreamMemory backup and restore — crash recovery targeted verification
 
 Source ref: feature/life-schedule
-Source SHA: d33ac9e455718fbacf7ddd19799deb821b3e4a06
-Expected source SHA at trigger: d33ac9e455718fbacf7ddd19799deb821b3e4a06
+Source SHA: 763bb1bd23417daf15836daa225c31f3b4f8c4d0
+Expected source SHA at trigger: 763bb1bd23417daf15836daa225c31f3b4f8c4d0
 Validation scope: app
 Instrumentation class: com.dreammemory.app.data.backup.BackupRestoreCrashRecoveryTest,com.dreammemory.app.data.backup.BackupRestoreScreenTest
 Deliver APK: no
