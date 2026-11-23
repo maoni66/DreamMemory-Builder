@@ -1,11 +1,11 @@
-DreamMemory targeted validation — My theme, reminders, diagnostics and search routing
+DreamMemory targeted validation — storage overview and operation diagnostics
 
 Source ref: feature/life-schedule
-Source SHA: 613490092124ba1cf018dc213a91593b539d4b0e
-Expected source SHA at trigger: 613490092124ba1cf018dc213a91593b539d4b0e
+Source SHA: c449b42a92654e2eed1da4d8836ff407f4eb18bb
+Expected source SHA at trigger: c449b42a92654e2eed1da4d8836ff407f4eb18bb
 Validation scope: quick
-Instrumentation class: com.dreammemory.app.data.notifications.ReminderNotificationChannelsTest,com.dreammemory.app.feature.my.MyProfileRepositoryMigrationTest,com.dreammemory.app.feature.my.MyScreenTest,com.dreammemory.app.feature.life.GlobalSearchLifeDeepLinkScreenTest
-JVM test classes: com.dreammemory.app.ui.theme.DreamMemoryThemeTest,com.dreammemory.app.data.diagnostics.CrashRetentionTest,com.dreammemory.app.data.diagnostics.CrashLogSanitizerTest,com.dreammemory.app.data.diagnostics.CrashLogStoreTest,com.dreammemory.app.data.diagnostics.DiagnosticEventStoreTest
+Instrumentation class: com.dreammemory.app.data.diagnostics.DiagnosticEventStoreTrackingTest,com.dreammemory.app.feature.my.StorageOverviewRepositoryTest,com.dreammemory.app.feature.my.DataHealthScreenTest,com.dreammemory.app.feature.my.MyScreenTest,com.dreammemory.app.feature.my.MyProfileRepositoryMigrationTest,com.dreammemory.app.data.notifications.ReminderNotificationChannelsTest,com.dreammemory.app.feature.life.GlobalSearchLifeDeepLinkScreenTest
+JVM test classes: com.dreammemory.app.ui.theme.DreamMemoryThemeTest,com.dreammemory.app.data.diagnostics.CrashRetentionTest,com.dreammemory.app.data.diagnostics.CrashLogSanitizerTest,com.dreammemory.app.data.diagnostics.CrashLogStoreTest,com.dreammemory.app.data.diagnostics.DiagnosticEventStoreTest,com.dreammemory.app.feature.search.GlobalSearchRepositoryTest
 Deliver APK: no
 
 Build this immutable source revision. Run only the listed JVM test classes, then assemble the debug APK and compile the Android instrumentation APK. Do not run an emulator in this development pass. Preserve test XML and build logs. Emulator acceptance remains a separate stage.
