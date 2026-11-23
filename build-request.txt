@@ -1,10 +1,10 @@
-DreamMemory Life Schedule module — exact-source full verification (linked reminder rescheduling included)
+DreamMemory backup and restore — crash recovery targeted verification
 
 Source ref: feature/life-schedule
-Source SHA: 8a9feb15c4d16a981264ca984d27b3a782490dfe
-Expected source SHA at trigger: 8a9feb15c4d16a981264ca984d27b3a782490dfe
-Validation scope: full
-Instrumentation class: com.dreammemory.app.feature.schedule.ScheduleRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleMigrationTest,com.dreammemory.app.feature.schedule.ScheduleScreenTest,com.dreammemory.app.MediaLibraryMigrationTest,com.dreammemory.app.MainActivityTest#lifeScheduleEntryOpensTheScheduleModuleAndReturnsToLife
+Source SHA: d33ac9e455718fbacf7ddd19799deb821b3e4a06
+Expected source SHA at trigger: d33ac9e455718fbacf7ddd19799deb821b3e4a06
+Validation scope: app
+Instrumentation class: com.dreammemory.app.data.backup.BackupRestoreCrashRecoveryTest,com.dreammemory.app.data.backup.BackupRestoreScreenTest
 Deliver APK: no
 
-Build and install this exact immutable Source SHA. Run all JVM unit tests, compile the app and Android instrumentation tests, and execute only the listed instrumentation selectors. Include the isolated Room 2.8.5 SQLite runtime validation and compact-screen matrix. The compact matrix covers the Life editor, navigation into the Life schedule module, and schedule UI interactions in both portrait and landscape at enlarged font scale. Schedule UI tests cover manual create/edit, day navigation, and natural-language preview-before-confirmation. Migration tests cover v3/v6-to-v18 continuity and v17-to-v18 schedule migration. Repository tests cover linked-record edits rescheduling reminders and startup/boot reminder restoration. Preserve test XML, Room schema output, emulator screenshots, emulator configuration, and logcat. Do not deliver an APK and do not run unrelated instrumentation classes.
+Build and install this exact immutable Source SHA. Run the JVM unit-test task, compile the debug APK and Android instrumentation APK, and execute only the listed backup/restore instrumentation classes on the configured Android emulator. Preserve test XML, emulator screenshots, emulator configuration and logcat. Do not run unrelated instrumentation classes, do not run the compact-screen matrix in this targeted pass, and do not deliver an APK. The test class includes interrupted Room database/assets restore rollback, committed restore persistence, and interrupted Media3 cache/index restore retry.
