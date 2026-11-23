@@ -19,7 +19,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 150
     outputs:
       source_sha: ${{ steps.source.outputs.source_sha }}
       source_ref: ${{ steps.request.outputs.source_ref }}
@@ -27,6 +27,7 @@ jobs:
       deliver_apk: ${{ steps.request.outputs.deliver_apk }}
       validation_scope: ${{ steps.request.outputs.validation_scope }}
       instrumentation_class: ${{ steps.request.outputs.instrumentation_class }}
+      jvm_test_classes: ${{ steps.request.outputs.jvm_test_classes }}
     steps:
       - name: Checkout build request
         uses: actions/checkout@v7
@@ -64,6 +65,19 @@ jobs:
             exit 1
           fi
           echo "instrumentation_class=$instrumentation_class" >> "$GITHUB_OUTPUT"
+          jvm_test_classes="$(awk -F': ' '/^JVM test classes:/ {print $2; exit}' builder/build-request.txt)"
+          jvm_test_classes="${jvm_test_classes:-}"
+          if [[ -n "$jvm_test_classes" ]]; then
+            if [[ ! "$jvm_test_classes" =~ ^[A-Za-z0-9_.$,]+$ ]]; then
+              echo "Invalid JVM test class selector: $jvm_test_classes"
+              exit 1
+            fi
+            IFS=',' read -r -a jvm_selectors <<< "$jvm_test_classes"
+            for selector in "${jvm_selectors[@]}"; do
+              [[ -n "$selector" ]] || { echo "Empty JVM test selector"; exit 1; }
+            done
+          fi
+          echo "jvm_test_classes=$jvm_test_classes" >> "$GITHUB_OUTPUT"
           deliver_apk="$(awk -F': ' '/^Deliver APK:/ {print $2; exit}' builder/build-request.txt)"
           deliver_apk="${deliver_apk:-no}"
           if [[ "$validation_scope" == "quick" || "$validation_scope" == "database" ]] && [[ "$deliver_apk" != "no" ]]; then
@@ -165,16 +179,29 @@ jobs:
 
       - name: Run JVM unit tests
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
-        # Initial KSP generation can exceed 10 minutes on a cold runner; allow compilation and tests to finish.
-        timeout-minutes: 25
+        # Cold Room/KSP generation needs a larger memory and time budget; development builds may select exact JVM test classes.
+        timeout-minutes: 45
+        env:
+          JVM_TEST_CLASSES: ${{ steps.request.outputs.jvm_test_classes }}
         shell: bash
         run: |
-          gradle :dm-app:testDebugUnitTest --stacktrace --console=plain
+          test_args=()
+          if [[ -n "${JVM_TEST_CLASSES:-}" ]]; then
+            IFS=',' read -r -a selectors <<< "$JVM_TEST_CLASSES"
+            for selector in "${selectors[@]}"; do
+              test_args+=(--tests "$selector")
+            done
+            echo "Running targeted JVM test classes: $JVM_TEST_CLASSES"
+          else
+            echo "Running the full JVM unit-test suite."
+          fi
+          gradle :dm-app:testDebugUnitTest "${test_args[@]}" --stacktrace --console=plain
 
       # Legacy migration tests were removed with the clean schema baseline.
       # Keep APK delivery independent from slow/unreliable emulator startup.
       - name: Build debug APK
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
+        timeout-minutes: 30
         shell: bash
         run: gradle :dm-app:assembleDebug --stacktrace --console=plain
 
@@ -236,6 +263,7 @@ jobs:
 
       - name: Compile new DreamMemory app instrumentation tests
         if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'quick' || steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        timeout-minutes: 30
         shell: bash
         run: gradle :dm-app:assembleDebugAndroidTest --stacktrace --console=plain
 
