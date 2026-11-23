@@ -19,7 +19,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 55
+    timeout-minutes: 90
     outputs:
       source_sha: ${{ steps.source.outputs.source_sha }}
       source_ref: ${{ steps.request.outputs.source_ref }}
@@ -165,7 +165,8 @@ jobs:
 
       - name: Run JVM unit tests
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
-        timeout-minutes: 10
+        # Initial KSP generation can exceed 10 minutes on a cold runner; allow compilation and tests to finish.
+        timeout-minutes: 25
         shell: bash
         run: |
           gradle :dm-app:testDebugUnitTest --stacktrace --console=plain
