@@ -1,10 +1,10 @@
-DreamMemory backup and restore — crash recovery targeted verification
+DreamMemory Global Search exact Life target routing — targeted Android validation
 
 Source ref: feature/life-schedule
-Source SHA: c9da6282c4058999c21251521de3ea7b11df0c84
-Expected source SHA at trigger: c9da6282c4058999c21251521de3ea7b11df0c84
+Source SHA: 4a8f2422d9972df752c7ecfc69ba5316913bd3aa
+Expected source SHA at trigger: 4a8f2422d9972df752c7ecfc69ba5316913bd3aa
 Validation scope: app
-Instrumentation class: com.dreammemory.app.data.backup.BackupRestoreCrashRecoveryTest,com.dreammemory.app.data.backup.BackupRestoreScreenTest
+Instrumentation class: com.dreammemory.app.feature.life.GlobalSearchLifeDeepLinkScreenTest
 Deliver APK: no
 
-Build and install this exact immutable Source SHA. Run the JVM unit-test task, compile the debug APK and Android instrumentation APK, and execute only the listed backup/restore instrumentation classes on the configured Android emulator. Preserve test XML, emulator screenshots, emulator configuration and logcat. Do not run unrelated instrumentation classes, do not run the compact-screen matrix in this targeted pass, and do not deliver an APK. The test class includes interrupted Room database/assets restore rollback, committed restore persistence, and interrupted Media3 cache/index restore retry.
+Build and validate this immutable source revision. Run the JVM unit-test task, compile the debug APK and Android instrumentation APK, then execute only the listed Global Search Life deep-link instrumentation class on the configured Android emulator. Preserve test XML, emulator screenshots, emulator configuration and logcat. Do not run unrelated instrumentation classes or the compact-screen matrix in this targeted pass. This is a focused feature validation, not final app acceptance.
