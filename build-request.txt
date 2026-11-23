@@ -1,10 +1,11 @@
-DreamMemory Global Search exact Life target routing — targeted Android validation
+DreamMemory targeted validation — search, diagnostics, theme and reminder preferences
 
 Source ref: feature/life-schedule
-Source SHA: 4a8f2422d9972df752c7ecfc69ba5316913bd3aa
-Expected source SHA at trigger: 4a8f2422d9972df752c7ecfc69ba5316913bd3aa
-Validation scope: app
-Instrumentation class: com.dreammemory.app.feature.life.GlobalSearchLifeDeepLinkScreenTest
+Source SHA: 078b8d1eca105eb596cca99f81228eb7e434617d
+Expected source SHA at trigger: 078b8d1eca105eb596cca99f81228eb7e434617d
+Validation scope: quick
+Instrumentation class:
+JVM test classes: com.dreammemory.app.ui.theme.DreamMemoryThemeTest,com.dreammemory.app.data.diagnostics.CrashRetentionTest,com.dreammemory.app.data.diagnostics.CrashLogSanitizerTest,com.dreammemory.app.data.diagnostics.CrashLogStoreTest,com.dreammemory.app.data.diagnostics.DiagnosticEventStoreTest,com.dreammemory.app.feature.search.GlobalSearchRepositoryTest
 Deliver APK: no
 
-Build and validate this immutable source revision. Run the JVM unit-test task, compile the debug APK and Android instrumentation APK, then execute only the listed Global Search Life deep-link instrumentation class on the configured Android emulator. Preserve test XML, emulator screenshots, emulator configuration and logcat. Do not run unrelated instrumentation classes or the compact-screen matrix in this targeted pass. This is a focused feature validation, not final app acceptance.
+Build this immutable source revision. Run only the listed JVM test classes, then compile the debug APK and Android instrumentation APK. Do not execute the full JVM or instrumentation suites and do not run an emulator in this development pass. Preserve the test XML and build logs. Final emulator acceptance remains a separate stage.
