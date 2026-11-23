@@ -1,8 +1,8 @@
 DreamMemory targeted validation — search, diagnostics, theme and reminder preferences
 
 Source ref: feature/life-schedule
-Source SHA: 078b8d1eca105eb596cca99f81228eb7e434617d
-Expected source SHA at trigger: 078b8d1eca105eb596cca99f81228eb7e434617d
+Source SHA: b187e768f4781a632b8a61d34b63d81bf5885394
+Expected source SHA at trigger: b187e768f4781a632b8a61d34b63d81bf5885394
 Validation scope: quick
 Instrumentation class:
 JVM test classes: com.dreammemory.app.ui.theme.DreamMemoryThemeTest,com.dreammemory.app.data.diagnostics.CrashRetentionTest,com.dreammemory.app.data.diagnostics.CrashLogSanitizerTest,com.dreammemory.app.data.diagnostics.CrashLogStoreTest,com.dreammemory.app.data.diagnostics.DiagnosticEventStoreTest,com.dreammemory.app.feature.search.GlobalSearchRepositoryTest
