@@ -1,11 +1,11 @@
-DreamMemory Anime tracking, episode progress, airing reminders and deep-link validation
+DreamMemory Life Schedule targeted validation: recurring series edit anchor preservation
 
 Source ref: feature/life-schedule
-Source SHA: 649df2404d3f96dea4442b96c333f892d7b1a6ef
-Expected source SHA at trigger: 649df2404d3f96dea4442b96c333f892d7b1a6ef
+Source SHA: a572e71b664c0fc037dbd28337d5aa2b9c6234a9
+Expected source SHA at trigger: a572e71b664c0fc037dbd28337d5aa2b9c6234a9
 Validation scope: app
-Instrumentation class: com.dreammemory.app.feature.anime.AnimeIntegrationSuite
-JVM test classes: com.dreammemory.app.feature.anime.AnimeSeasonRulesTest
+Instrumentation class: com.dreammemory.app.feature.schedule.ScheduleScreenTest
+JVM test classes: com.dreammemory.app.feature.schedule.ScheduleRecurrenceTest,com.dreammemory.app.feature.schedule.ScheduleNaturalLanguageParserTest,com.dreammemory.app.feature.schedule.ScheduleReminderTimingTest,com.dreammemory.app.feature.schedule.ScheduleEventOverlapTest,com.dreammemory.app.feature.schedule.ScheduleAgendaTest,com.dreammemory.app.feature.schedule.ScheduleTimelineTest,com.dreammemory.app.feature.schedule.ScheduleSystemChangeActionsTest
 Deliver APK: no
 
-Build this immutable source revision. Run the targeted AnimeSeasonRulesTest JVM test and AnimeIntegrationSuite instrumentation tests. Build the debug APK and instrumentation APK, install on the configured API 35 Pixel 2 emulator, and preserve XML test results, build logs, device configuration, screenshots, and logcat. This is targeted development validation, not final product acceptance; do not publish an APK.
+Build this immutable Life Schedule source revision. Run the listed schedule-domain JVM tests, build the debug APK and AndroidTest APK, install the app on the configured API 35 Pixel 2 emulator, and run ScheduleScreenTest. Preserve XML results, build logs, emulator configuration, screenshots and logcat. This is targeted development validation, not final product acceptance; do not publish an APK.
