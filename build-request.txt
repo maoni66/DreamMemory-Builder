@@ -1,11 +1,11 @@
-DreamMemory targeted validation — storage overview and operation diagnostics
+DreamMemory Life/Create shared asset reference — targeted validation
 
 Source ref: feature/life-schedule
-Source SHA: c449b42a92654e2eed1da4d8836ff407f4eb18bb
-Expected source SHA at trigger: c449b42a92654e2eed1da4d8836ff407f4eb18bb
-Validation scope: quick
-Instrumentation class: com.dreammemory.app.data.diagnostics.DiagnosticEventStoreTrackingTest,com.dreammemory.app.feature.my.StorageOverviewRepositoryTest,com.dreammemory.app.feature.my.DataHealthScreenTest,com.dreammemory.app.feature.my.MyScreenTest,com.dreammemory.app.feature.my.MyProfileRepositoryMigrationTest,com.dreammemory.app.data.notifications.ReminderNotificationChannelsTest,com.dreammemory.app.feature.life.GlobalSearchLifeDeepLinkScreenTest
-JVM test classes: com.dreammemory.app.ui.theme.DreamMemoryThemeTest,com.dreammemory.app.data.diagnostics.CrashRetentionTest,com.dreammemory.app.data.diagnostics.CrashLogSanitizerTest,com.dreammemory.app.data.diagnostics.CrashLogStoreTest,com.dreammemory.app.data.diagnostics.DiagnosticEventStoreTest,com.dreammemory.app.feature.search.GlobalSearchRepositoryTest
+Source SHA: 4a61cf8672400f6bcb122a43543103902d01fe73
+Expected source SHA at trigger: 4a61cf8672400f6bcb122a43543103902d01fe73
+Validation scope: app
+Instrumentation class: com.dreammemory.app.data.assets.AssetRepositoryTest
+JVM test classes: com.dreammemory.app.feature.life.LifeAssetPickerSelectionTest
 Deliver APK: no
 
-Build this immutable source revision. Run only the listed JVM test classes, then assemble the debug APK and compile the Android instrumentation APK. Do not run an emulator in this development pass. Preserve test XML and build logs. Emulator acceptance remains a separate stage.
+Build this immutable source revision. Run only the LifeAssetPickerSelectionTest JVM class and AssetRepositoryTest instrumentation class. Build the debug APK and instrumentation APK, install on the configured API 35 Pixel 2 emulator, and preserve XML test results, build logs, device configuration, screenshots, and logcat. Do not publish an APK; this is targeted development validation, not final product acceptance.
