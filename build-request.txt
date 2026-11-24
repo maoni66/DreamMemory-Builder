@@ -1,11 +1,11 @@
-DreamMemory Life/Create shared asset reference — targeted validation
+DreamMemory Anime tracking, episode progress, airing reminders and deep-link validation
 
 Source ref: feature/life-schedule
-Source SHA: 4a61cf8672400f6bcb122a43543103902d01fe73
-Expected source SHA at trigger: 4a61cf8672400f6bcb122a43543103902d01fe73
+Source SHA: 649df2404d3f96dea4442b96c333f892d7b1a6ef
+Expected source SHA at trigger: 649df2404d3f96dea4442b96c333f892d7b1a6ef
 Validation scope: app
-Instrumentation class: com.dreammemory.app.data.assets.AssetRepositoryTest
-JVM test classes: com.dreammemory.app.feature.life.LifeAssetPickerSelectionTest
+Instrumentation class: com.dreammemory.app.feature.anime.AnimeIntegrationSuite
+JVM test classes: com.dreammemory.app.feature.anime.AnimeSeasonRulesTest
 Deliver APK: no
 
-Build this immutable source revision. Run only the LifeAssetPickerSelectionTest JVM class and AssetRepositoryTest instrumentation class. Build the debug APK and instrumentation APK, install on the configured API 35 Pixel 2 emulator, and preserve XML test results, build logs, device configuration, screenshots, and logcat. Do not publish an APK; this is targeted development validation, not final product acceptance.
+Build this immutable source revision. Run the targeted AnimeSeasonRulesTest JVM test and AnimeIntegrationSuite instrumentation tests. Build the debug APK and instrumentation APK, install on the configured API 35 Pixel 2 emulator, and preserve XML test results, build logs, device configuration, screenshots, and logcat. This is targeted development validation, not final product acceptance; do not publish an APK.
