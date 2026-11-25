@@ -1,12 +1,12 @@
 DreamMemory Create decoration capsule atomic-reference validation
 
 Source ref: feature/life-schedule
-Source SHA: 2a10b7aa8b01b02bf2ca70ff2ad78b9544580f70
-Expected source SHA at trigger: 2a10b7aa8b01b02bf2ca70ff2ad78b9544580f70
+Source SHA: c58edda25d7881ba71b2b1d7f11e293c66802550
+Expected source SHA at trigger: c58edda25d7881ba71b2b1d7f11e293c66802550
 Validation scope: quick
 Instrumentation class:
 JVM test classes: com.dreammemory.app.feature.create.CreativeDecorationCategoryTest
 Run JVM tests: no
 Deliver APK: no
 
-Compile the exact immutable source revision. Skip the JVM test execution in this pass because the previous targeted JVM step exhausted its 45-minute timeout; build the debug APK and compile the Android instrumentation test APK. Do not start an emulator, run device instrumentation, or publish an APK. Preserve build logs and compiler diagnostics.
+Compile this exact immutable source revision. Skip JVM execution in this pass because the previous targeted JVM step reached its 45-minute timeout. Build the debug APK and compile the Android instrumentation test APK, including the concurrent decoration-attachment regression test. Do not start an emulator, run device instrumentation, or publish an APK. Preserve build logs and compiler diagnostics.
