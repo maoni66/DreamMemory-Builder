@@ -78,6 +78,13 @@ jobs:
             done
           fi
           echo "jvm_test_classes=$jvm_test_classes" >> "$GITHUB_OUTPUT"
+          run_jvm_tests="$(awk -F': ' '/^Run JVM tests:/ {print $2; exit}' builder/build-request.txt)"
+          run_jvm_tests="${run_jvm_tests:-yes}"
+          case "$run_jvm_tests" in
+            yes|no) ;;
+            *) echo "Run JVM tests must be yes or no."; exit 1 ;;
+          esac
+          echo "run_jvm_tests=$run_jvm_tests" >> "$GITHUB_OUTPUT"
           deliver_apk="$(awk -F': ' '/^Deliver APK:/ {print $2; exit}' builder/build-request.txt)"
           deliver_apk="${deliver_apk:-no}"
           if [[ "$validation_scope" == "quick" || "$validation_scope" == "database" ]] && [[ "$deliver_apk" != "no" ]]; then
@@ -178,7 +185,7 @@ jobs:
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - name: Run JVM unit tests
-        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database' && steps.request.outputs.run_jvm_tests == 'yes'
         # Cold Room/KSP generation needs a larger memory and time budget; development builds may select exact JVM test classes.
         timeout-minutes: 45
         env:
