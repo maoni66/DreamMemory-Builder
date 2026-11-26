@@ -1,12 +1,12 @@
-DreamMemory focused media source-authentication validation
+DreamMemory third-round Discover import and HLS regression validation
 
 Source ref: feature/life-schedule
-Source SHA: cf94c18e91c3fae5d6253ce89e781590cb93e6ba
-Expected source SHA at trigger: cf94c18e91c3fae5d6253ce89e781590cb93e6ba
-Validation scope: app
-Instrumentation class: com.dreammemory.app.feature.media.MediaDownloadRequestPolicyStoreTest
-JVM test classes: com.dreammemory.app.feature.media.HlsRenditionSelectorTest,com.dreammemory.app.feature.media.MediaDownloadRedirectPolicyTest
+Source SHA: bebebdbb541ee78c277f5b3783fbb93f73a7daed
+Expected source SHA at trigger: bebebdbb541ee78c277f5b3783fbb93f73a7daed
+Validation scope: quick
+Instrumentation class:
+JVM test classes: com.dreammemory.app.feature.discover.ResourceSourceImportClassifierTest,com.dreammemory.app.feature.media.HlsRenditionSelectorTest,com.dreammemory.app.feature.media.MediaDownloadRedirectPolicyTest
 Run JVM tests: yes
 Deliver APK: no
 
-Compile the exact immutable DreamMemory source commit. Run the source-policy Android instrumentation class and the HLS/redirect JVM test classes. Do not substitute another branch or SHA. Preserve compiler logs and build artifacts. This focused validation does not constitute full product acceptance or APK delivery.
+Compile the exact immutable DreamMemory source commit. Run focused JVM tests for source import classification and HLS/redirect handling; compile the full Android instrumentation source set. Do not substitute another branch or SHA. Preserve compiler logs and build artifacts. This quick validation does not constitute full product acceptance or APK delivery.
