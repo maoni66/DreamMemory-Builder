@@ -1,8 +1,8 @@
 DreamMemory third-round Discover and Inbox functional regression validation
 
 Source ref: feature/life-schedule
-Source SHA: 37141a979d7b2f6d98845292c7030af1172e1ccb
-Expected source SHA at trigger: 37141a979d7b2f6d98845292c7030af1172e1ccb
+Source SHA: 0645abbe0b4e38c113bc106fb63eaa70a6105309
+Expected source SHA at trigger: 0645abbe0b4e38c113bc106fb63eaa70a6105309
 Validation scope: quick
 Instrumentation class:
 JVM test classes: com.dreammemory.app.feature.discover.ResourceSourceImportClassifierTest,com.dreammemory.app.feature.discover.DiscoverRecommendationSectionsTest,com.dreammemory.app.feature.inbox.InboxRepositoryTest,com.dreammemory.app.feature.media.HlsRenditionSelectorTest,com.dreammemory.app.feature.media.MediaDownloadRedirectPolicyTest
