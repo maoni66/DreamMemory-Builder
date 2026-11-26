@@ -1,12 +1,12 @@
-DreamMemory third-round Discover import and HLS regression validation
+DreamMemory third-round Discover and Inbox functional regression validation
 
 Source ref: feature/life-schedule
-Source SHA: ef5e31652d241caab8062010b04076a5dc3d792c
-Expected source SHA at trigger: ef5e31652d241caab8062010b04076a5dc3d792c
+Source SHA: aa88f1231dac4725e5e6bdf1afdd174bf03a6076
+Expected source SHA at trigger: aa88f1231dac4725e5e6bdf1afdd174bf03a6076
 Validation scope: quick
 Instrumentation class:
-JVM test classes: com.dreammemory.app.feature.discover.ResourceSourceImportClassifierTest,com.dreammemory.app.feature.discover.DiscoverRecommendationSectionsTest,com.dreammemory.app.feature.media.HlsRenditionSelectorTest,com.dreammemory.app.feature.media.MediaDownloadRedirectPolicyTest
+JVM test classes: com.dreammemory.app.feature.discover.ResourceSourceImportClassifierTest,com.dreammemory.app.feature.discover.DiscoverRecommendationSectionsTest,com.dreammemory.app.feature.inbox.InboxRepositoryTest,com.dreammemory.app.feature.media.HlsRenditionSelectorTest,com.dreammemory.app.feature.media.MediaDownloadRedirectPolicyTest
 Run JVM tests: yes
 Deliver APK: no
 
-Compile the exact immutable DreamMemory source commit. Run focused JVM tests for source import classification and HLS/redirect handling; compile the full Android instrumentation source set. Do not substitute another branch or SHA. Preserve compiler logs and build artifacts. This quick validation does not constitute full product acceptance or APK delivery.
+Compile the exact immutable DreamMemory source commit. Run focused JVM tests for Discover import/preferences, Inbox duplicate detection, and HLS/redirect handling; compile the full Android instrumentation source set. Do not substitute another branch or SHA. Preserve compiler logs and build artifacts. This quick validation does not constitute full product acceptance or APK delivery.
