@@ -202,7 +202,19 @@ jobs:
           else
             echo "Running the full JVM unit-test suite."
           fi
-          gradle :dm-app:testDebugUnitTest "${test_args[@]}" --stacktrace --console=plain
+          echo "Runner memory before Kotlin/KSP processing:"
+          free -h
+          gradle :dm-app:testDebugUnitTest "${test_args[@]}" --info --stacktrace --console=plain &
+          gradle_pid=$!
+          while kill -0 "$gradle_pid" 2>/dev/null; do
+            sleep 60
+            if kill -0 "$gradle_pid" 2>/dev/null; then
+              echo "Runner memory while Gradle/KSP is active:"
+              free -h
+              ps -eo pid,rss,comm,args --sort=-rss | head -n 12
+            fi
+          done
+          wait "$gradle_pid"
 
       # Legacy migration tests were removed with the clean schema baseline.
       # Keep APK delivery independent from slow/unreliable emulator startup.
