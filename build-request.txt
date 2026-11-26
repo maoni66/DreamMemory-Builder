@@ -1,8 +1,8 @@
 DreamMemory third-round Discover import and HLS regression validation
 
 Source ref: feature/life-schedule
-Source SHA: bebebdbb541ee78c277f5b3783fbb93f73a7daed
-Expected source SHA at trigger: bebebdbb541ee78c277f5b3783fbb93f73a7daed
+Source SHA: 8ed9744bfd54ecfbdcbbd8a0724f28e27ac5210d
+Expected source SHA at trigger: 8ed9744bfd54ecfbdcbbd8a0724f28e27ac5210d
 Validation scope: quick
 Instrumentation class:
 JVM test classes: com.dreammemory.app.feature.discover.ResourceSourceImportClassifierTest,com.dreammemory.app.feature.media.HlsRenditionSelectorTest,com.dreammemory.app.feature.media.MediaDownloadRedirectPolicyTest
