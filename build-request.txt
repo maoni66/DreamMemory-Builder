@@ -9,4 +9,4 @@ JVM test classes: com.dreammemory.app.feature.discover.ResourceSourceImportClass
 Run JVM tests: yes
 Deliver APK: no
 
-Compile the exact immutable DreamMemory source commit. Run focused JVM tests for Discover import/preferences, Inbox duplicate detection, and HLS/redirect handling; compile the full Android instrumentation source set. Do not substitute another branch or SHA. Preserve compiler logs and build artifacts. This quick validation does not constitute full product acceptance or APK delivery.
+Compile the exact immutable DreamMemory source commit with bounded Gradle/Kotlin daemon heaps. Run focused JVM tests for Discover import/preferences, Inbox text/link/attachment duplicate detection, and HLS/redirect handling; retain KSP memory diagnostics and compile the full Android instrumentation source set. Do not substitute another branch or SHA. Preserve compiler logs and build artifacts. This quick validation does not constitute full product acceptance or APK delivery.
