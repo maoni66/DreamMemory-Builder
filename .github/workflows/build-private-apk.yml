@@ -206,12 +206,22 @@ jobs:
           free -h
           gradle :dm-app:testDebugUnitTest "${test_args[@]}" --info --stacktrace --console=plain &
           gradle_pid=$!
+          monitor_count=0
           while kill -0 "$gradle_pid" 2>/dev/null; do
             sleep 60
             if kill -0 "$gradle_pid" 2>/dev/null; then
-              echo "Runner memory while Gradle/KSP is active:"
+              monitor_count=$((monitor_count + 1))
+              echo "Runner process state while Gradle/KSP is active: $(date -u +%FT%TZ)"
               free -h
-              ps -eo pid,rss,comm,args --sort=-rss | head -n 12
+              ps -eo pid,pcpu,pmem,rss,stat,wchan:24,comm,args --sort=-rss | head -n 12
+              if (( monitor_count % 5 == 0 )); then
+                echo "Gradle/Kotlin daemon thread dump:"
+                while read -r daemon_pid; do
+                  [ -n "$daemon_pid" ] || continue
+                  echo "--- jcmd Thread.print PID $daemon_pid ---"
+                  timeout 20s jcmd "$daemon_pid" Thread.print 2>&1 | head -n 260 || true
+                done < <(jps -l | awk '$2 ~ /GradleDaemon|KotlinCompileDaemon/ {print $1}')
+              fi
             fi
           done
           wait "$gradle_pid"
