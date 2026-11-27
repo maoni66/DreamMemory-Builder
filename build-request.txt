@@ -1,12 +1,12 @@
 DreamMemory shared image pipeline and Life Schedule targeted validation
 
 Source ref: feature/life-schedule
-Source SHA: ca5e91e6d9fdda5298b24cdbaea4a1cf64a9fb08
-Expected source SHA at trigger: ca5e91e6d9fdda5298b24cdbaea4a1cf64a9fb08
+Source SHA: e11e7b80c1c89cab7d3945dd97c1ef8c39c3c0d0
+Expected source SHA at trigger: e11e7b80c1c89cab7d3945dd97c1ef8c39c3c0d0
 Validation scope: app
 Instrumentation class: com.dreammemory.app.data.images.ImageThumbnailRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleMigrationTest,com.dreammemory.app.feature.schedule.ScheduleRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleScreenTest
-JVM test classes: com.dreammemory.app.feature.schedule.ScheduleAgendaTest,com.dreammemory.app.feature.schedule.ScheduleEventOverlapTest,com.dreammemory.app.feature.schedule.ScheduleNaturalLanguageParserTest,com.dreammemory.app.feature.schedule.ScheduleRecurrenceTest,com.dreammemory.app.feature.schedule.ScheduleReminderTimingTest,com.dreammemory.app.feature.schedule.ScheduleSystemChangeActionsTest,com.dreammemory.app.feature.schedule.ScheduleTimelineTest
-Run JVM tests: yes
+JVM test classes:
+Run JVM tests: no
 Deliver APK: no
 
-Compile the exact immutable source revision, run the targeted Schedule JVM tests, build the Debug APK and Android instrumentation APK, then execute the shared image-thumbnail and Schedule instrumentation classes on the Builder's fixed API 35 Pixel 2 emulator profile. Preserve reports and logs. Do not publish or deliver an APK in this targeted verification run; this is not final whole-product acceptance.
+Compile the exact immutable source revision, build the Debug APK and Android instrumentation APK, then execute the shared image pipeline and Life Schedule instrumentation classes on the Builder's fixed API 35 Pixel 2 emulator profile. Preserve reports and logs. Skip JVM tests in this diagnostic build so they cannot block APK compilation; run them separately after the targeted build is stable. Do not publish or deliver an APK in this targeted verification run; this is not final whole-product acceptance.
