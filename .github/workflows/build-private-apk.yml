@@ -184,6 +184,21 @@ jobs:
           yes | sdkmanager --licenses > /dev/null || true
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
+      # Run the AGP duplicate-class check in isolation. In run #1197 it was marked FAILED,
+      # but Gradle kept KSP running concurrently until the APK step timed out, hiding the
+      # final exception. Fail here with the dependency diagnostics before KSP can obscure it.
+      - name: Isolate Android duplicate-class check
+        if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database'
+        timeout-minutes: 12
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! gradle :dm-app:checkDebugDuplicateClasses --no-configuration-cache --stacktrace --info --console=plain; then
+            echo "Duplicate-class task failed; capturing the resolved debug runtime dependency graph."
+            gradle :dm-app:dependencies --configuration debugRuntimeClasspath --no-configuration-cache --console=plain || true
+            exit 1
+          fi
+
       - name: Run JVM unit tests
         if: steps.request.outputs.needs_build == 'true' && steps.request.outputs.validation_scope != 'database' && steps.request.outputs.run_jvm_tests == 'yes'
         # Cold Room/KSP generation needs a larger memory and time budget; development builds may select exact JVM test classes.
@@ -219,7 +234,7 @@ jobs:
                 while read -r daemon_pid; do
                   [ -n "$daemon_pid" ] || continue
                   echo "--- jcmd Thread.print PID $daemon_pid ---"
-                  timeout 20s jcmd "$daemon_pid" Thread.print 2>&1 | head -n 260 || true
+                  timeout 30s jcmd "$daemon_pid" Thread.print -l 2>&1 || true
                 done < <(jps -l | awk '$2 ~ /GradleDaemon|KotlinCompileDaemon/ {print $1}')
               fi
             fi
@@ -248,7 +263,7 @@ jobs:
                 while read -r daemon_pid; do
                   [ -n "$daemon_pid" ] || continue
                   echo "--- jcmd Thread.print PID $daemon_pid ---"
-                  timeout 20s jcmd "$daemon_pid" Thread.print 2>&1 | head -n 260 || true
+                  timeout 30s jcmd "$daemon_pid" Thread.print -l 2>&1 || true
                 done < <(jps -l | awk '$2 ~ /GradleDaemon|KotlinCompileDaemon/ {print $1}')
               fi
             fi
