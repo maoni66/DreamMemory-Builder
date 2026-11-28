@@ -74,10 +74,12 @@ adb shell settings put global animator_duration_scale 0
 
 # Stress matrix: Home/Inbox + Life/Schedule on compact dimensions, enlarged text, both orientations and contrasting themes.
 adb shell settings put system font_scale 1.5
+# Ensure the software IME remains available even if the AVD exposes a hardware keyboard.
+adb shell settings put secure show_ime_with_hard_keyboard 1
 adb shell settings put system accelerometer_rotation 0
 adb shell wm density 320
 
-test_selector="com.dreammemory.app.feature.inbox.HomeInboxScreenTest,com.dreammemory.app.MainActivityTest#bottomNavigationShowsAllFiveDestinations,com.dreammemory.app.MainActivityTest#homeMoodStickerSelectionPersistsAndClearsWithoutCreatingNotebook,com.dreammemory.app.MainActivityTest#homeInboxDraftSurvivesTabSwitch,com.dreammemory.app.MainActivityTest#homeInboxSavesAndDisplaysRawText,com.dreammemory.app.MainActivityTest#homeInboxSavesAndDisplaysRawLink,com.dreammemory.app.MainActivityTest#homeInboxCanChangeItemStatus,com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout,com.dreammemory.app.MainActivityTest#lifeScheduleEntryOpensTheScheduleModuleAndReturnsToLife,com.dreammemory.app.MainActivityTest#scheduleReminderIntentOpensTheExactScheduleEditor,com.dreammemory.app.feature.schedule.ScheduleScreenTest"
+test_selector="com.dreammemory.app.feature.inbox.HomeInboxScreenTest,com.dreammemory.app.feature.inbox.SystemInputInteractionTest,com.dreammemory.app.MainActivityTest#bottomNavigationShowsAllFiveDestinations,com.dreammemory.app.MainActivityTest#homeMoodStickerSelectionPersistsAndClearsWithoutCreatingNotebook,com.dreammemory.app.MainActivityTest#homeInboxDraftSurvivesTabSwitch,com.dreammemory.app.MainActivityTest#homeInboxSavesAndDisplaysRawText,com.dreammemory.app.MainActivityTest#homeInboxSavesAndDisplaysRawLink,com.dreammemory.app.MainActivityTest#homeInboxCanChangeItemStatus,com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout,com.dreammemory.app.MainActivityTest#lifeScheduleEntryOpensTheScheduleModuleAndReturnsToLife,com.dreammemory.app.MainActivityTest#scheduleReminderIntentOpensTheExactScheduleEditor,com.dreammemory.app.feature.schedule.ScheduleScreenTest"
 for orientation in portrait landscape; do
   if [ "$orientation" = portrait ]; then
     adb shell settings put system user_rotation 0
