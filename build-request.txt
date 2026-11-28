@@ -1,8 +1,8 @@
 DreamMemory integration-line targeted validation — manual dispatch only
 
-Source ref: integration/dm-parallel-2026-11-15
-Source SHA: b1cf850bf0be31ba5abbbc3e20c85346b65d7928
-Expected source SHA at trigger: b1cf850bf0be31ba5abbbc3e20c85346b65d7928
+Source ref: main
+Source SHA: c88ae5775f84607c7ae978ef810dec0fdfbb210c
+Expected source SHA at trigger: c88ae5775f84607c7ae978ef810dec0fdfbb210c
 Validation scope: app
 Instrumentation class: com.dreammemory.app.data.images.ImageThumbnailRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleMigrationTest,com.dreammemory.app.feature.schedule.ScheduleRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleScreenTest
 JVM test classes:
