@@ -658,6 +658,29 @@ jobs:
             grep -E '^(hw.sensor.accelerometer|hw.ramSize|vm.heapSize|hw.cpu.ncore|hw.gpu.enabled|hw.gpu.mode)=' "$AVD_CONFIG"
 
 
+      - name: Capture host diagnostics when app emulator step fails
+        if: failure() && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        shell: bash
+        run: |
+          mkdir -p dm-app/build/diagnostics
+          {
+            echo "=== Host resources ==="
+            date -u +%FT%TZ
+            free -h
+            df -h
+            uptime
+            echo "=== Emulator and ADB processes ==="
+            ps -eo pid,pcpu,pmem,rss,stat,wchan:24,comm,args --sort=-rss | head -n 40
+            timeout --signal=TERM --kill-after=2s 10s adb devices -l || true
+            echo "=== AVD configuration and logs ==="
+            find "$HOME/.android/avd" -maxdepth 4 -type f \( -name 'config.ini' -o -name '*.log' \) -print 2>/dev/null || true
+            while IFS= read -r log_file; do
+              [ -f "$log_file" ] || continue
+              echo "--- $log_file ---"
+              tail -n 500 "$log_file" || true
+            done < <(find "$HOME/.android/avd" -maxdepth 4 -type f -name '*.log' -print 2>/dev/null)
+          } > dm-app/build/diagnostics/emulator-host-failure.txt 2>&1
+
       - name: Upload new DreamMemory app test reports and Room schema
         if: always() && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
         uses: actions/upload-artifact@v6
@@ -669,7 +692,7 @@ jobs:
             dm-app/build/outputs/androidTest-results/connected/**
             dm-app/build/diagnostics/**
           if-no-files-found: warn
-          retention-days: 7
+          retention-days: 14
 
       # The active DreamMemory app Room schema is stored under dm-app/schemas and
       # uploaded with the instrumentation reports for review. The frozen legacy :app
