@@ -5,6 +5,7 @@ restore_standard_baseline() {
   adb shell wm size 1080x1920 >/dev/null 2>&1 || true
   adb shell wm density 420 >/dev/null 2>&1 || true
   adb shell settings put system font_scale 1.0 >/dev/null 2>&1 || true
+  adb shell cmd uimode night no >/dev/null 2>&1 || true
   adb shell settings put system accelerometer_rotation 0 >/dev/null 2>&1 || true
   adb shell settings put system user_rotation 0 >/dev/null 2>&1 || true
 }
@@ -49,22 +50,24 @@ adb shell settings put global window_animation_scale 0
 adb shell settings put global transition_animation_scale 0
 adb shell settings put global animator_duration_scale 0
 
-# Compact matrix: verify Life navigation/editor and the schedule UI on both orientations.
+# Stress matrix: Home/Inbox + Life/Schedule on compact dimensions, enlarged text, both orientations and contrasting themes.
 adb shell settings put system font_scale 1.3
 adb shell settings put system accelerometer_rotation 0
 adb shell wm density 320
 
-test_selector="com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout,com.dreammemory.app.MainActivityTest#lifeScheduleEntryOpensTheScheduleModuleAndReturnsToLife,com.dreammemory.app.feature.schedule.ScheduleScreenTest"
+test_selector="com.dreammemory.app.feature.inbox.HomeInboxScreenTest,com.dreammemory.app.MainActivityTest#lifeNotebookEditorSavesInCompactLayout,com.dreammemory.app.MainActivityTest#lifeScheduleEntryOpensTheScheduleModuleAndReturnsToLife,com.dreammemory.app.feature.schedule.ScheduleScreenTest"
 for orientation in portrait landscape; do
   if [ "$orientation" = portrait ]; then
     adb shell settings put system user_rotation 0
     adb shell wm size 720x1280
+    adb shell cmd uimode night no
   else
     adb shell settings put system user_rotation 1
     adb shell wm size 1280x720
+    adb shell cmd uimode night yes
   fi
 
-  echo "Targeted Life + schedule UI instrumentation — $orientation / enlarged font:"
+  echo "Targeted Home/Inbox + Life/Schedule UI instrumentation — $orientation / fontScale 1.3 / density 320 / $([ "$orientation" = portrait ] && echo light || echo dark):"
   adb shell settings get system font_scale
   adb shell settings get system accelerometer_rotation
   adb shell settings get system user_rotation
