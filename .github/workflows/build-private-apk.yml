@@ -49,7 +49,7 @@ jobs:
           validation_scope="$(awk -F': ' '/^Validation scope:/ {print $2; exit}' builder/build-request.txt)"
           validation_scope="${validation_scope:-full}"
           case "$validation_scope" in
-            database|quick|app|full) ;;
+            database|quick|app|emulator|full) ;;
             *) echo "Validation scope must be database, quick, app, or full."; exit 1 ;;
           esac
           echo "validation_scope=$validation_scope" >> "$GITHUB_OUTPUT"
@@ -319,7 +319,7 @@ jobs:
           retention-days: 14
 
       - name: Restore Gradle 9.4.1 for new DreamMemory app instrumentation tests
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'quick' || steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'quick' || steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'emulator' || steps.request.outputs.validation_scope == 'full')
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "9.4.1"
@@ -590,7 +590,7 @@ jobs:
             adb pull /sdcard/dm-emulator-final.png dm-app/build/diagnostics/emulator-final.png || true
             adb logcat -d -t 10000 > dm-app/build/diagnostics/logcat-success.txt || true
             snapshot_emulator > dm-app/build/diagnostics/emulator-state-success.txt 2>&1 || true
-            if [[ "${VALIDATION_SCOPE:-app}" == "full" ]]; then
+            if [[ "${VALIDATION_SCOPE:-app}" == "emulator" || "${VALIDATION_SCOPE:-app}" == "full" ]]; then
               sh "$RUNNER_TEMP/short-screen-matrix.sh"
             fi
           else
