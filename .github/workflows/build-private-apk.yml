@@ -50,7 +50,7 @@ jobs:
           validation_scope="${validation_scope:-full}"
           case "$validation_scope" in
             database|quick|app|emulator|full) ;;
-            *) echo "Validation scope must be database, quick, app, or full."; exit 1 ;;
+            *) echo "Validation scope must be database, quick, app, emulator, or full."; exit 1 ;;
           esac
           echo "validation_scope=$validation_scope" >> "$GITHUB_OUTPUT"
           instrumentation_class="$(awk -F': ' '/^Instrumentation class:/ {print $2; exit}' builder/build-request.txt)"
@@ -325,13 +325,13 @@ jobs:
           gradle-version: "9.4.1"
 
       - name: Compile new DreamMemory app instrumentation tests
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'quick' || steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'quick' || steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'emulator' || steps.request.outputs.validation_scope == 'full')
         timeout-minutes: 30
         shell: bash
         run: gradle :dm-app:assembleDebugAndroidTest --stacktrace --console=plain
 
       - name: Enable KVM for Android emulator
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'emulator' || steps.request.outputs.validation_scope == 'full')
         timeout-minutes: 5
         shell: bash
         run: |
@@ -341,7 +341,7 @@ jobs:
           ls -l /dev/kvm
 
       - name: Prepare Bash instrumentation runner script
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'emulator' || steps.request.outputs.validation_scope == 'full')
         shell: bash
         run: |
           cat > "$RUNNER_TEMP/run-app-instrumentation.sh" <<'SCRIPT'
@@ -607,7 +607,7 @@ jobs:
           chmod +x "$RUNNER_TEMP/run-app-instrumentation.sh"
 
       - name: Run app instrumentation and compact-screen matrix in one emulator session
-        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'emulator' || steps.request.outputs.validation_scope == 'full')
         timeout-minutes: 55
         uses: reactivecircus/android-emulator-runner@v2
         env:
@@ -655,7 +655,7 @@ jobs:
 
 
       - name: Capture host diagnostics when app emulator step fails
-        if: failure() && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        if: failure() && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'emulator' || steps.request.outputs.validation_scope == 'full')
         shell: bash
         run: |
           mkdir -p dm-app/build/diagnostics
@@ -678,7 +678,7 @@ jobs:
           } > dm-app/build/diagnostics/emulator-host-failure.txt 2>&1
 
       - name: Upload new DreamMemory app test reports and Room schema
-        if: always() && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
+        if: always() && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'emulator' || steps.request.outputs.validation_scope == 'full')
         uses: actions/upload-artifact@v6
         with:
           name: dm-app-test-report-${{ github.run_id }}-${{ github.run_attempt }}
