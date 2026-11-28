@@ -1,13 +1,8 @@
 name: DreamMemory Private APK Builder
 
-# Automatic APK builds are triggered only by a build-request.txt commit in this public builder repo.
+# Build requests are inert manifests. Expensive builds start only by explicit workflow_dispatch.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "build-request.txt"
 
 permissions:
   contents: read
