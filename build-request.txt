@@ -1,12 +1,12 @@
-DreamMemory canonical main targeted validation — manual dispatch only
+DreamMemory fixed-profile emulator acceptance — manual dispatch only
 
 Source ref: main
-Source SHA: c88ae5775f84607c7ae978ef810dec0fdfbb210c
-Expected source SHA at trigger: c88ae5775f84607c7ae978ef810dec0fdfbb210c
-Validation scope: app
-Instrumentation class: com.dreammemory.app.data.images.ImageThumbnailRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleMigrationTest,com.dreammemory.app.feature.schedule.ScheduleRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleScreenTest
+Source SHA: 301d0d938f74633f41a7c721484c0bccf3f41f84
+Expected source SHA at trigger: 301d0d938f74633f41a7c721484c0bccf3f41f84
+Validation scope: emulator
+Instrumentation class: com.dreammemory.app.data.images.ImageThumbnailRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleScreenTest
 JVM test classes:
 Run JVM tests: no
 Deliver APK: no
 
-Build only this immutable source revision when explicitly dispatched. Compile the Debug APK and Android instrumentation APK, then execute the shared image pipeline and Life Schedule instrumentation classes on the Builder's fixed API 35 Pixel 2 emulator profile. Preserve reports and diagnostics. This is a targeted integration-line validation request, not full-product acceptance; do not publish or deliver an APK.
+Run the app instrumentation smoke selectors on the fixed API 35 Pixel 2 AVD, install and launch the exact debug APK, then execute the compact-screen matrix in the same emulator session: 640x1136 portrait/light and 1136x640 landscape/dark, 320 dpi, fontScale 1.5. The matrix covers Home/Inbox, five-tab navigation, mood persistence, inbox save/status/draft retention, Life compact editing, schedule navigation/reminder intent, and ScheduleScreenTest. Preserve screenshots, logcat, ANR/window/activity diagnostics and test reports. Do not publish or deliver an APK.
