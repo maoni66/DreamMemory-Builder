@@ -622,8 +622,30 @@ jobs:
           enable-hw-keyboard: false
           disable-animations: true
           script: bash "$RUNNER_TEMP/run-app-instrumentation.sh"
-          pre-emulator-launch-script: >-
-            AVD_HOME="${ANDROID_AVD_HOME:-$HOME/.android/avd}"; AVD_CONFIG="$(find "$HOME/.android" -type f -path '*/test.avd/config.ini' -print -quit 2>/dev/null || true)"; if [ -z "$AVD_CONFIG" ]; then echo "Could not locate generated test AVD config (AVD_HOME=$AVD_HOME)" >&2; exit 1; fi; if grep -q '^hw.sensor.accelerometer=' "$AVD_CONFIG"; then sed -i 's/^hw.sensor.accelerometer=.*/hw.sensor.accelerometer=no/' "$AVD_CONFIG"; else printf '\nhw.sensor.accelerometer=no\n' >> "$AVD_CONFIG"; fi; echo "Configured AVD file: $AVD_CONFIG"; grep '^hw.sensor.accelerometer=' "$AVD_CONFIG"
+          pre-emulator-launch-script: |
+            set -euo pipefail
+            AVD_HOME="${ANDROID_AVD_HOME:-$HOME/.android/avd}"
+            AVD_CONFIG="$(find "$HOME/.android" -type f -path '*/test.avd/config.ini' -print -quit 2>/dev/null || true)"
+            if [ -z "$AVD_CONFIG" ]; then
+              echo "Could not locate generated test AVD config (AVD_HOME=$AVD_HOME)" >&2
+              exit 1
+            fi
+            set_avd_value() {
+              local key="$1" value="$2"
+              if grep -q "^$key=" "$AVD_CONFIG"; then
+                sed -i "s/^$key=.*/$key=$value/" "$AVD_CONFIG"
+              else
+                printf '\\n%s=%s\\n' "$key" "$value" >> "$AVD_CONFIG"
+              fi
+            }
+            # Constrain the Pixel 2 AVD to expose memory-sensitive UI/image/database paths.
+            set_avd_value hw.sensor.accelerometer no
+            set_avd_value hw.ramSize 1536
+            set_avd_value vm.heapSize 256
+            set_avd_value hw.gpu.enabled yes
+            set_avd_value hw.gpu.mode swiftshader_indirect
+            echo "Configured strict Pixel 2 AVD:"
+            grep -E '^(hw.sensor.accelerometer|hw.ramSize|vm.heapSize|hw.gpu.enabled|hw.gpu.mode)=' "$AVD_CONFIG"
 
 
       - name: Upload new DreamMemory app test reports and Room schema
