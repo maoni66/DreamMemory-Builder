@@ -19,6 +19,22 @@ on_exit() {
   status=$?
   trap - EXIT
   if [ "$status" -ne 0 ]; then
+    diag_suffix="${orientation:-startup}"
+    mkdir -p dm-app/build/diagnostics
+    adb logcat -d -t 10000 > "dm-app/build/diagnostics/short-screen-${diag_suffix}-logcat.txt" 2>&1 || true
+    adb shell screencap -p /sdcard/dm-short-screen-failure.png >/dev/null 2>&1 || true
+    adb pull /sdcard/dm-short-screen-failure.png "dm-app/build/diagnostics/short-screen-${diag_suffix}-failure.png" >/dev/null 2>&1 || true
+    {
+      adb devices -l || true
+      adb shell getprop ro.build.fingerprint || true
+      adb shell wm size || true
+      adb shell wm density || true
+      adb shell settings get system font_scale || true
+      adb shell settings get system user_rotation || true
+      adb shell dumpsys activity activities | tail -n 250 || true
+      adb shell dumpsys window | tail -n 200 || true
+      adb shell cat /data/anr/traces.txt 2>/dev/null | tail -n 300 || true
+    } > "dm-app/build/diagnostics/short-screen-${diag_suffix}-state.txt" 2>&1 || true
     echo "Short-screen matrix failed with exit code $status; emulator snapshot:"
     adb devices -l || true
     adb shell getprop ro.build.version.sdk || true
