@@ -1,4 +1,4 @@
-DreamMemory integration-line targeted validation — manual dispatch only
+DreamMemory canonical main targeted validation — manual dispatch only
 
 Source ref: main
 Source SHA: c88ae5775f84607c7ae978ef810dec0fdfbb210c
