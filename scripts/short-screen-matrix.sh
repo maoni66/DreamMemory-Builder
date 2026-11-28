@@ -2,8 +2,9 @@
 set -eu
 
 # Never let a dead ADB server hang failure collection or cleanup indefinitely.
+ADB_BIN="$(command -v adb)"
 adb() {
-  timeout --signal=TERM --kill-after=2s 10s command adb "$@"
+  timeout --signal=TERM --kill-after=2s 10s "$ADB_BIN" "$@"
 }
 
 restore_standard_baseline() {
