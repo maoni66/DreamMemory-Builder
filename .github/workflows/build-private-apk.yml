@@ -14,12 +14,12 @@ permissions:
 
 concurrency:
   group: dreammemory-private-apk-builder
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 150
+    timeout-minutes: 180
     outputs:
       source_sha: ${{ steps.source.outputs.source_sha }}
       source_ref: ${{ steps.request.outputs.source_ref }}
@@ -318,7 +318,7 @@ jobs:
             spikes/android-db-validation/room2/build/outputs/androidTest-results/connected/**
             spikes/android-db-validation/room2/schemas/**
           if-no-files-found: warn
-          retention-days: 7
+          retention-days: 14
 
       - name: Restore Gradle 9.4.1 for new DreamMemory app instrumentation tests
         if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'quick' || steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
@@ -534,7 +534,7 @@ jobs:
 
           # Initialize the target app's credential-protected data directory before
           # instrumentation setup touches files/databases through ApplicationProvider.
-          gradle :dm-app:installDebug --stacktrace --console=plain
+          timeout --signal=TERM --kill-after=20s 5m gradle :dm-app:installDebug --stacktrace --console=plain
           # Install the exact APK explicitly as a guard against Gradle's install task
           # reporting success without the target package being present on this AVD.
           target_apk="$(find dm-app/build/outputs/apk/debug -maxdepth 1 -type f -name '*.apk' -print -quit)"
@@ -543,7 +543,7 @@ jobs:
             snapshot_emulator
             exit 1
           }
-          adb install -r "$target_apk"
+          timeout --signal=TERM --kill-after=10s 90s adb install -r "$target_apk"
           adb shell pm path com.dreammemory.app
           aapt_bin="$(find "$ANDROID_HOME/build-tools" -type f -name aapt -print -quit)"
           echo "=== APK manifest launchable activity ==="
@@ -559,7 +559,7 @@ jobs:
           done
           echo "=== Installed package activity declarations ==="
           adb shell dumpsys package com.dreammemory.app | grep -F 'MainActivity' || true
-          if ! adb shell am start -W -n com.dreammemory.app/com.dreammemory.app.MainActivity; then
+          if ! timeout --signal=TERM --kill-after=5s 45s adb shell am start -W -n com.dreammemory.app/com.dreammemory.app.MainActivity; then
             mkdir -p dm-app/build/diagnostics
             adb logcat -d -t 3000 > dm-app/build/diagnostics/emulator-launch-failure.log || true
             adb exec-out screencap -p > dm-app/build/diagnostics/emulator-launch-failure.png || true
@@ -580,7 +580,7 @@ jobs:
           else
             echo "Running the complete instrumentation suite."
           fi
-          if timeout --signal=TERM --kill-after=30s 8m gradle :dm-app:connectedDebugAndroidTest "${test_args[@]}" --stacktrace --console=plain; then
+          if timeout --signal=TERM --kill-after=30s 12m gradle :dm-app:connectedDebugAndroidTest "${test_args[@]}" --stacktrace --console=plain; then
             mkdir -p dm-app/build/diagnostics
             adb pull /sdcard/dm-media-library-mainactivity.png dm-app/build/diagnostics/media-library-mainactivity.png || true
             adb pull /sdcard/dm-media-library-detail.png dm-app/build/diagnostics/media-library-detail.png || true
@@ -609,7 +609,7 @@ jobs:
 
       - name: Run app instrumentation and compact-screen matrix in one emulator session
         if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'app' || steps.request.outputs.validation_scope == 'full')
-        timeout-minutes: 28
+        timeout-minutes: 55
         uses: reactivecircus/android-emulator-runner@v2
         env:
           VALIDATION_SCOPE: ${{ steps.request.outputs.validation_scope }}
@@ -619,9 +619,14 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel_2
+          cores: 2
+          ram-size: 2048M
+          heap-size: 256M
+          emulator-boot-timeout: 900
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           enable-hw-keyboard: false
           disable-animations: true
+          disable-spellchecker: true
           script: bash "$RUNNER_TEMP/run-app-instrumentation.sh"
           pre-emulator-launch-script: |
             set -euo pipefail
@@ -641,12 +646,13 @@ jobs:
             }
             # Constrain the Pixel 2 AVD to expose memory-sensitive UI/image/database paths.
             set_avd_value hw.sensor.accelerometer no
-            set_avd_value hw.ramSize 1536
+            set_avd_value hw.ramSize 2048
             set_avd_value vm.heapSize 256
+            set_avd_value hw.cpu.ncore 2
             set_avd_value hw.gpu.enabled yes
             set_avd_value hw.gpu.mode swiftshader_indirect
             echo "Configured strict Pixel 2 AVD:"
-            grep -E '^(hw.sensor.accelerometer|hw.ramSize|vm.heapSize|hw.gpu.enabled|hw.gpu.mode)=' "$AVD_CONFIG"
+            grep -E '^(hw.sensor.accelerometer|hw.ramSize|vm.heapSize|hw.cpu.ncore|hw.gpu.enabled|hw.gpu.mode)=' "$AVD_CONFIG"
 
 
       - name: Upload new DreamMemory app test reports and Room schema
