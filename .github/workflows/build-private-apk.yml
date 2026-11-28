@@ -19,7 +19,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 180
+    timeout-minutes: 300
     outputs:
       source_sha: ${{ steps.source.outputs.source_sha }}
       source_ref: ${{ steps.request.outputs.source_ref }}
@@ -297,13 +297,14 @@ jobs:
 
       - name: Run Room 2.8.5 Android SQLite runtime validation
         if: steps.request.outputs.needs_build == 'true' && (steps.request.outputs.validation_scope == 'full' || steps.request.outputs.validation_scope == 'database')
-        timeout-minutes: 15
+        timeout-minutes: 25
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
           target: google_apis
           arch: x86_64
           profile: pixel_2
+          emulator-boot-timeout: 900
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           disable-animations: true
           working-directory: spikes/android-db-validation
