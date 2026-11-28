@@ -1,8 +1,8 @@
 DreamMemory fixed-profile emulator acceptance — manual dispatch only
 
 Source ref: main
-Source SHA: 301d0d938f74633f41a7c721484c0bccf3f41f84
-Expected source SHA at trigger: 301d0d938f74633f41a7c721484c0bccf3f41f84
+Source SHA: 730fc9919de52611a961c4c199b2be91686cd79a
+Expected source SHA at trigger: 730fc9919de52611a961c4c199b2be91686cd79a
 Validation scope: emulator
 Instrumentation class: com.dreammemory.app.data.images.ImageThumbnailRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleRepositoryTest,com.dreammemory.app.feature.schedule.ScheduleScreenTest
 JVM test classes:
