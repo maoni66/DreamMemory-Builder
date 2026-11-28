@@ -1,6 +1,11 @@
 #!/bin/sh
 set -eu
 
+# Never let a dead ADB server hang failure collection or cleanup indefinitely.
+adb() {
+  timeout --signal=TERM --kill-after=2s 10s command adb "$@"
+}
+
 restore_standard_baseline() {
   adb shell wm size 1080x1920 >/dev/null 2>&1 || true
   adb shell wm density 420 >/dev/null 2>&1 || true
@@ -40,7 +45,7 @@ on_exit() {
 trap on_exit EXIT
 
 # Every run starts from the same known API 35 Pixel 2 display baseline.
-adb wait-for-device
+timeout --signal=TERM --kill-after=3s 30s adb wait-for-device
 adb shell wm size 1080x1920
 adb shell wm density 420
 adb shell settings put system font_scale 1.0
@@ -51,7 +56,7 @@ adb shell settings put global transition_animation_scale 0
 adb shell settings put global animator_duration_scale 0
 
 # Stress matrix: Home/Inbox + Life/Schedule on compact dimensions, enlarged text, both orientations and contrasting themes.
-adb shell settings put system font_scale 1.3
+adb shell settings put system font_scale 1.5
 adb shell settings put system accelerometer_rotation 0
 adb shell wm density 320
 
@@ -59,19 +64,19 @@ test_selector="com.dreammemory.app.feature.inbox.HomeInboxScreenTest,com.dreamme
 for orientation in portrait landscape; do
   if [ "$orientation" = portrait ]; then
     adb shell settings put system user_rotation 0
-    adb shell wm size 720x1280
+    adb shell wm size 640x1136
     adb shell cmd uimode night no
   else
     adb shell settings put system user_rotation 1
-    adb shell wm size 1280x720
+    adb shell wm size 1136x640
     adb shell cmd uimode night yes
   fi
 
-  echo "Targeted Home/Inbox + Life/Schedule UI instrumentation — $orientation / fontScale 1.3 / density 320 / $([ "$orientation" = portrait ] && echo light || echo dark):"
+  echo "Targeted Home/Inbox + Life/Schedule UI instrumentation — $orientation / fontScale 1.5 / density 320 / $([ "$orientation" = portrait ] && echo light || echo dark):"
   adb shell settings get system font_scale
   adb shell settings get system accelerometer_rotation
   adb shell settings get system user_rotation
   adb shell wm size
   adb shell wm density
-  timeout --signal=TERM --kill-after=15s 4m gradle :dm-app:connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=$test_selector" --stacktrace --console=plain
+  timeout --signal=TERM --kill-after=30s 6m gradle :dm-app:connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=$test_selector" --stacktrace --console=plain
 done
