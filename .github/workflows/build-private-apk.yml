@@ -636,7 +636,7 @@ jobs:
               if grep -q "^$key=" "$AVD_CONFIG"; then
                 sed -i "s/^$key=.*/$key=$value/" "$AVD_CONFIG"
               else
-                printf '\\n%s=%s\\n' "$key" "$value" >> "$AVD_CONFIG"
+                printf '\n%s=%s\n' "$key" "$value" >> "$AVD_CONFIG"
               fi
             }
             # Constrain the Pixel 2 AVD to expose memory-sensitive UI/image/database paths.
